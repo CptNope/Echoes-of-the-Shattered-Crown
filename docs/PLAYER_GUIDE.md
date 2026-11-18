@@ -4,7 +4,7 @@
 
 ## The encounter
 
-Start at company camp and complete three linked contracts in the Veyr region. Each encounter asks the Lantern Company to defeat four Oathless enemies. Victory means no enemy has health remaining; defeat means no companion has health remaining. The shrine shard is narrative scenery, not a capture interaction. There is no turn limit or optional objective.
+Start at company camp and complete four linked contracts in the Veyr region. Each encounter asks the Lantern Company to defeat four Oathless enemies. Victory means no enemy has health remaining; defeat means no companion has health remaining. The shrine shard is narrative scenery, not a capture interaction. There is no turn limit or optional objective.
 
 After the star Avel fell, geography and memory fractured. Sera's company finds a crown shard that could restore what the world lost. The chronicle introduces the Oathless, Meridian Compact and Verdant Witness; branching faction consequences are future campaign work.
 

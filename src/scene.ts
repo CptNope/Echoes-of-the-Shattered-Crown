@@ -9,106 +9,13 @@ import {
   tileAt,
 } from "./engine";
 import { jobs, skills, type SkillId } from "./data";
+import { spriteCanvas, loadSpriteArt } from "./sprites";
 export type Mode = "inspect" | "move" | SkillId;
 const palette = {
   grass: [0x7d9161, 0x879b6c, 0x74895d, 0x8b9a6a],
   stone: [0xa1a58d, 0xabad96, 0x999e88],
   water: [0x548e91, 0x5e9899, 0x659da0],
 };
-export function spriteCanvas(
-  job: Unit["job"],
-  enemy = false,
-): HTMLCanvasElement {
-  const c = document.createElement("canvas");
-  c.width = 32;
-  c.height = 42;
-  const p = c.getContext("2d")!;
-  const rect = (x: number, y: number, w: number, h: number, color: string) => {
-    p.fillStyle = color;
-    p.fillRect(x, y, w, h);
-  };
-  const ink = "#29352f",
-    skin = "#e6bb8d",
-    shade = "#b47f5c",
-    cloth = enemy ? "#b26854" : jobs[job].color;
-  rect(10, 35, 5, 5, ink);
-  rect(19, 35, 5, 5, ink);
-  rect(10, 34, 5, 3, "#766953");
-  rect(19, 34, 5, 3, "#766953");
-  rect(9, 20, 16, 15, ink);
-  rect(10, 21, 14, 12, cloth);
-  rect(11, 27, 12, 4, enemy ? "#7d443e" : "#576d5b");
-  rect(11, 31, 5, 5, cloth);
-  rect(19, 31, 4, 5, cloth);
-  rect(6, 22, 5, 10, ink);
-  rect(7, 23, 4, 7, cloth);
-  rect(8, 30, 3, 3, skin);
-  rect(24, 22, 4, 9, ink);
-  rect(24, 23, 3, 6, cloth);
-  rect(24, 29, 3, 3, skin);
-  rect(10, 7, 14, 14, ink);
-  rect(11, 8, 12, 12, skin);
-  rect(11, 8, 12, 4, "#5d4939");
-  rect(10, 10, 3, 7, "#5d4939");
-  rect(21, 10, 3, 5, "#5d4939");
-  rect(14, 14, 2, 2, ink);
-  rect(20, 14, 2, 2, ink);
-  rect(17, 17, 3, 2, shade);
-  rect(14, 20, 7, 2, "#f1d7ae");
-  rect(13, 22, 2, 8, "#e1d2a1");
-  rect(21, 22, 2, 8, "#e1d2a1");
-  rect(11, 29, 12, 2, "#574b3b");
-  rect(16, 29, 3, 2, "#e6c66e");
-  if (job === "vanguard" || job === "runewarden") {
-    rect(9, 7, 16, 5, "#8a958b");
-    rect(11, 5, 12, 3, "#b2b9a5");
-    rect(10, 10, 3, 8, "#8a958b");
-    rect(23, 10, 2, 8, "#8a958b");
-    rect(15, 6, 3, 5, "#ece5cb");
-    rect(5, 23, 9, 12, "#4e6259");
-    rect(6, 24, 7, 9, cloth);
-    rect(9, 24, 1, 9, "#f6da8c");
-    rect(27, 15, 2, 15, "#d9e0cc");
-    rect(26, 28, 4, 2, "#b49c60");
-    rect(27, 30, 2, 4, "#786142");
-  } else if (
-    job === "arcanist" ||
-    job === "stormherald" ||
-    job === "chronoweaver"
-  ) {
-    rect(9, 19, 17, 4, cloth);
-    rect(10, 21, 3, 10, cloth);
-    rect(8, 7, 18, 3, ink);
-    rect(10, 5, 14, 3, cloth);
-    rect(12, 2, 9, 4, cloth);
-    rect(14, 0, 5, 3, cloth);
-    rect(11, 6, 11, 2, "#f0d49b");
-    rect(27, 13, 2, 23, "#75664d");
-    rect(25, 10, 6, 5, ink);
-    rect(26, 9, 4, 5, enemy ? "#e49466" : "#a9e4d2");
-    rect(27, 9, 2, 2, "#f5f3c9");
-    rect(12, 33, 12, 4, cloth);
-  } else if (job === "lifebinder") {
-    rect(10, 5, 14, 5, "#d1d2ad");
-    rect(8, 8, 4, 12, cloth);
-    rect(23, 8, 3, 12, cloth);
-    rect(10, 32, 15, 6, cloth);
-    rect(16, 23, 3, 6, "#f8e7ac");
-    rect(14, 25, 7, 2, "#f8e7ac");
-    rect(27, 13, 2, 23, "#8c7957");
-    rect(25, 12, 6, 3, "#d5dfae");
-    rect(27, 9, 2, 8, "#d5dfae");
-  } else {
-    rect(10, 6, 14, 5, cloth);
-    rect(9, 11, 3, 9, cloth);
-    rect(11, 17, 12, 3, cloth);
-    rect(23, 5, 4, 7, cloth);
-    rect(27, 23, 2, 9, "#d6dfcf");
-    rect(26, 31, 4, 2, "#a68a58");
-    rect(5, 26, 2, 7, "#d6dfcf");
-  }
-  return c;
-}
 function texture(c: HTMLCanvasElement) {
   const t = new THREE.CanvasTexture(c);
   t.magFilter = THREE.NearestFilter;
@@ -123,7 +30,16 @@ export class Battlefield {
   root = new THREE.Group();
   tiles: THREE.Mesh[] = [];
   markers = new THREE.Group();
-  actors = new Map<string, { sprite: THREE.Sprite; bar: THREE.Sprite }>();
+  actors = new Map<
+    string,
+    {
+      sprite: THREE.Sprite;
+      bar: THREE.Sprite;
+      base: THREE.Mesh;
+      hurtUntil: number;
+      attackUntil: number;
+    }
+  >();
   effects = new THREE.Group();
   angle = Math.PI / 4;
   targetAngle = Math.PI / 4;
@@ -187,6 +103,10 @@ export class Battlefield {
     this.scene.add(sun);
     this.buildTerrain();
     this.buildActors();
+    void loadSpriteArt().then((ready) => {
+      if (!ready || this.disposed) return;
+      for (const u of this.state.units) this.refreshSprite(u);
+    });
     this.update(state, "inspect", null);
     this.observer = new ResizeObserver(() => this.resize());
     this.observer.observe(host);
@@ -288,6 +208,30 @@ export class Battlefield {
     }
     this.box(3.3, 0.35, 0.7, 0xb6b79a, 2.65, 3.36, -4.55);
     this.box(1.1, 0.15, 0.86, 0xd0c9a6, 1.55, 3.61, -4.55);
+    if (this.state.encounter === "bellkeeper") {
+      const profile = [
+        [0.04, 0],
+        [0.43, 0],
+        [0.46, 0.1],
+        [0.32, 0.18],
+        [0.24, 0.55],
+        [0.12, 0.67],
+      ].map(([x, y]) => new THREE.Vector2(x, y));
+      const bell = new THREE.Mesh(
+        new THREE.LatheGeometry(profile, 20),
+        new THREE.MeshStandardMaterial({
+          color: 0x9c8854,
+          metalness: 0.55,
+          roughness: 0.6,
+          side: THREE.DoubleSide,
+        }),
+      );
+      bell.position.set(2.65, 2.38, -4.55);
+      bell.castShadow = true;
+      this.root.add(bell);
+      this.box(0.07, 0.32, 0.07, 0x574e3b, 2.65, 3.12, -4.55);
+      this.box(0.11, 0.23, 0.11, 0x574e3b, 2.65, 2.37, -4.55);
+    }
     for (let i = 0; i < 7; i++)
       this.box(
         0.24 + (i % 3) * 0.12,
@@ -353,6 +297,7 @@ export class Battlefield {
   private buildActors() {
     for (const u of this.state.units) {
       const t = texture(spriteCanvas(u.job, u.team === "enemy"));
+      t.minFilter = t.magFilter = THREE.LinearFilter;
       this.resources.push(t);
       const sprite = new THREE.Sprite(
         new THREE.SpriteMaterial({
@@ -361,7 +306,10 @@ export class Battlefield {
           depthTest: true,
         }),
       );
-      sprite.scale.set(0.83, 1.09, 1);
+      sprite.scale.set(1.15, 1.53, 1);
+      sprite.material.alphaTest = 0.08;
+      sprite.material.depthWrite = false;
+      sprite.material.toneMapped = false;
       sprite.center.set(0.5, 0);
       sprite.renderOrder = 2;
       const c = document.createElement("canvas");
@@ -374,9 +322,37 @@ export class Battlefield {
       );
       bar.scale.set(1.1, 0.31, 1);
       bar.renderOrder = 9;
-      this.scene.add(sprite, bar);
-      this.actors.set(u.id, { sprite, bar });
+      const base = new THREE.Mesh(
+        u.team === "ally"
+          ? new THREE.RingGeometry(0.21, 0.28, 32)
+          : new THREE.RingGeometry(0.23, 0.32, 4),
+        new THREE.MeshBasicMaterial({
+          color: u.team === "ally" ? 0x527a65 : 0xa95845,
+          transparent: true,
+          opacity: 0.8,
+          side: THREE.DoubleSide,
+          depthWrite: false,
+        }),
+      );
+      base.rotation.x = -Math.PI / 2;
+      this.scene.add(sprite, bar, base);
+      this.actors.set(u.id, {
+        sprite,
+        bar,
+        base,
+        hurtUntil: 0,
+        attackUntil: 0,
+      });
     }
+  }
+  private refreshSprite(u: Unit) {
+    const actor = this.actors.get(u.id)!;
+    const map = texture(spriteCanvas(u.job, u.team === "enemy"));
+    map.minFilter = map.magFilter = THREE.LinearFilter;
+    actor.sprite.material.map?.dispose();
+    this.resources.push(map);
+    actor.sprite.material.map = map;
+    actor.sprite.material.needsUpdate = true;
   }
   private clearMarkers() {
     for (const child of [...this.markers.children]) {
@@ -447,12 +423,12 @@ export class Battlefield {
     this.markers.add(ring);
     for (const v of state.units) {
       const actor = this.actors.get(v.id)!;
-      if (old.units.find((o) => o.id === v.id)?.job !== v.job) {
-        const map = texture(spriteCanvas(v.job, v.team === "enemy"));
-        this.resources.push(map);
-        actor.sprite.material.map = map;
-        actor.sprite.material.needsUpdate = true;
-      }
+      const previous = old.units.find((o) => o.id === v.id);
+      if (previous?.job !== v.job) this.refreshSprite(v);
+      if (previous && v.hp < previous.hp)
+        actor.hurtUntil = performance.now() + 260;
+      if (previous && !previous.acted && v.acted)
+        actor.attackUntil = performance.now() + 300;
       const ctx = (
         actor.bar.material.map!.image as HTMLCanvasElement
       ).getContext("2d")!;
@@ -562,8 +538,24 @@ export class Battlefield {
         ),
         this.reduced ? 1 : 0.13,
       );
-      a.sprite.material.rotation = u.hp > 0 ? 0 : Math.PI / 2;
-      a.bar.position.copy(a.sprite.position).add(new THREE.Vector3(0, 1.32, 0));
+      const attacking = !this.reduced && time < a.attackUntil,
+        hurting = !this.reduced && time < a.hurtUntil;
+      a.sprite.material.rotation =
+        u.hp > 0
+          ? attacking
+            ? Math.sin(((a.attackUntil - time) / 300) * Math.PI) *
+              0.14 *
+              (u.team === "ally" ? -1 : 1)
+            : 0
+          : Math.PI / 2;
+      a.sprite.material.color.set(hurting ? 0xffb9a6 : 0xffffff);
+      a.base.visible = u.hp > 0;
+      a.base.position.set(
+        a.sprite.position.x,
+        t.h * 0.43 + 0.075,
+        a.sprite.position.z,
+      );
+      a.bar.position.copy(a.sprite.position).add(new THREE.Vector3(0, 1.63, 0));
     }
     const gem = this.effects.children[0];
     if (gem) {

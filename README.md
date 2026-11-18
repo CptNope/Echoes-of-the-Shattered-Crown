@@ -8,7 +8,7 @@ An original isometric tactical RPG about a mercenary company, a fractured world,
 
 ![The Lantern Company at the shrine of Veyr](docs/assets/battlefield.jpg)
 
-> **Current edition: 0.2 — Company foundations.** Prepare a persistent roster at camp, complete three linked Veyr contracts, learn secondary skills with JP, and provision shared equipment. The full story campaign and remaining mastery systems are still future work.
+> **Current edition: 0.3 — The silent belfry.** Prepare a persistent roster at camp, complete four linked Veyr contracts, learn secondary skills with JP, and provision shared equipment. Challenge Orren in the fourth contract for a unique relic; all eight jobs now have detailed illustrated sprites. The full story campaign and remaining mastery systems are still future work.
 
 ## Contents
 
@@ -26,17 +26,19 @@ An original isometric tactical RPG about a mercenary company, a fractured world,
 
 ## What you can play
 
-| System       | Available now                                                                     | Current boundary                                                       |
-| ------------ | --------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| Expedition   | Company camp, three gated contracts, repeatable rewards                           | A Veyr contract route, not a world-map story campaign                  |
-| Company      | Persistent roster, lifetime/spent JP, permanent learned skills                    | No character level separate from jobs or mastery/passive slots         |
-| Loadouts     | Eight jobs, native primary skills, learned secondary skills                       | Advanced jobs initially locked; some skill definitions are shared      |
-| Equipment    | Nine items, three slots, proficiencies, shared inventory, gold purchases          | No crafting, selling, upgrades, rarity rolls or gear appearance models |
-| Tactics      | Elevation, facing, range, LOS, guard, critical hits, riposte, status and momentum | Grid-sampled LOS and no facing-selection command                       |
-| Environments | Three 9×9 Veyr map variants, ice and grass ignition                               | Shared regional art; no new biomes, weather or destructible scenery    |
-| Presentation | Original pixel sprites, lit 3D ruins and procedural score                         | Full action animation sets and orchestral music remain planned         |
-| Persistence  | Company + active battle, previous-save backup, v1 migration                       | Manual browser-local saves; no cloud sync, autosave or export          |
-| Input        | Pointer, touch, battle keyboard/gamepad mapping, reduced motion and text sizing   | Physical devices and full controller-driven camp navigation unverified |
+| System       | Available now                                                                              | Current boundary                                                       |
+| ------------ | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------- |
+| Expedition   | Company camp, four gated contracts, repeatable rewards                                     | A Veyr contract route, not a world-map story campaign                  |
+| Company      | Persistent roster, lifetime/spent JP, permanent learned skills                             | No character level separate from jobs or mastery/passive slots         |
+| Loadouts     | Eight jobs, native primary skills, learned secondary skills                                | Advanced jobs initially locked; some skill definitions are shared      |
+| Equipment    | Ten items (nine purchasable), three slots, proficiencies, shared inventory, gold purchases | No crafting, selling, upgrades, rarity rolls or gear appearance models |
+| Tactics      | Elevation, facing, range, LOS, guard, critical hits, riposte, status and momentum          | Grid-sampled LOS and no facing-selection command                       |
+| Environments | Four 9×9 Veyr map variants, ice and grass ignition                                         | Shared regional art; no new biomes, weather or destructible scenery    |
+| Presentation | Detailed eight-job atlas, close portraits, lit 3D ruins and procedural score               | Full action animation sets and orchestral music remain planned         |
+| Persistence  | Company + active battle, previous-save backup, v1 migration                                | Manual browser-local saves; no cloud sync, autosave or export          |
+| Input        | Pointer, touch, battle keyboard/gamepad mapping, reduced motion and text sizing            | Physical devices and full controller-driven camp navigation unverified |
+
+See [the belfry boss guide](docs/THE_SILENT_BELFRY.md) and [character art pipeline](docs/SPRITE_ART.md) for this expansion.
 
 See [company and progression](docs/COMPANY_AND_PROGRESSION.md) for the contract loop, JP economy and item reference.
 
@@ -57,7 +59,7 @@ Open the Local URL printed by Vite. If its default port is unavailable, use `npm
 | ----------------------------------------------- | --------------------------------------------------------- |
 | `npm ci`                                        | Install locked dependency versions                        |
 | `npm run dev`                                   | Start the local development server                        |
-| `npm test`                                      | Run 28 deterministic engine and battle-scenario tests     |
+| `npm test`                                      | Run 31 deterministic engine and battle-scenario tests     |
 | `npm run build`                                 | Strict TypeScript check for `src/`, then generate `dist/` |
 | `npx vite preview --host 127.0.0.1 --port 4187` | Preview a production build locally                        |
 | `node scripts/verify-pages.mjs`                 | Check a build produced with the Pages base path           |
@@ -105,16 +107,16 @@ Phone layouts have quick commands beside the board and on-screen camera buttons.
 
 ## Technology and architecture
 
-| Layer      | Technology                                | Responsibility                                                            |
-| ---------- | ----------------------------------------- | ------------------------------------------------------------------------- |
-| Simulation | Strict TypeScript                         | Legal commands, movement, damage, statuses, initiative, AI and outcomes   |
-| Content    | Typed records                             | Jobs, skills, stats, costs, prerequisites                                 |
-| Rendering  | Three.js                                  | Orthographic board, pixel billboards, lighting, highlights, interpolation |
-| Interface  | React                                     | HUD, dialogs, input adapters, targeting, settings, battle state           |
-| Saves      | IndexedDB through `idb`                   | Versioned manual snapshots and previous-save recovery                     |
-| Audio      | Web Audio                                 | Original synthesized sketch and command tones                             |
-| Tooling    | Vite, TypeScript, `tsx`, Node test runner | Development, build and deterministic checks                               |
-| Deployment | GitHub Actions + Pages                    | Validate, upload, publish and verify live assets                          |
+| Layer      | Technology                                | Responsibility                                                                  |
+| ---------- | ----------------------------------------- | ------------------------------------------------------------------------------- |
+| Simulation | Strict TypeScript                         | Legal commands, movement, damage, statuses, initiative, AI and outcomes         |
+| Content    | Typed records                             | Jobs, skills, stats, costs, prerequisites                                       |
+| Rendering  | Three.js                                  | Orthographic board, illustrated billboards, lighting, highlights, interpolation |
+| Interface  | React                                     | HUD, dialogs, input adapters, targeting, settings, battle state                 |
+| Saves      | IndexedDB through `idb`                   | Versioned manual snapshots and previous-save recovery                           |
+| Audio      | Web Audio                                 | Original synthesized sketch and command tones                                   |
+| Tooling    | Vite, TypeScript, `tsx`, Node test runner | Development, build and deterministic checks                                     |
+| Deployment | GitHub Actions + Pages                    | Validate, upload, publish and verify live assets                                |
 
 ```mermaid
 flowchart TB
@@ -142,14 +144,15 @@ The engine owns outcomes. The renderer cannot decide hits, damage or initiative.
 │   ├── Camp.tsx                # Contracts, training and outfitter UI
 │   ├── equipment.ts            # Catalog, proficiency and gear bonuses
 │   ├── encounters.ts           # Contract definitions and gates
-│   ├── campaign.test.ts        # Progression and three-map scenarios
+│   ├── campaign.test.ts        # Progression and four-map scenarios
 │   ├── Portrait.tsx            # Shared original sprite portrait
 │   ├── camp.css                # Responsive company camp
 │   ├── data.ts                 # Jobs, skills, JP, prerequisites
 │   ├── engine.ts               # Pure simulation and AI
 │   ├── engine.test.ts          # Rules and scenario tests
-│   ├── scene.ts                # Three.js terrain and pixel sprites
+│   ├── scene.ts                # Three.js terrain and character billboards
 │   ├── main.tsx                # React interface and inputs
+│   ├── sprites.ts              # Cached transparent atlas and fallback
 │   ├── storage.ts              # IndexedDB snapshots and recovery
 │   ├── audio.ts                # Procedural score and tones
 │   └── style.css               # Responsive interface
@@ -207,9 +210,9 @@ The [workflow](.github/workflows/pages.yml) builds for `/Echoes-of-the-Shattered
 
 ## Development status
 
-Version 0.2 completes the next company-management milestone: three linked contracts, permanent secondary-skill learning, equipment and carried progression. Phase 2 still needs full mastery/passive/reaction/movement slots and more distinct advanced skill boards. Phase 3's world map, branching story, recruitment and town systems remain planned.
+Version 0.3 extends the company-management milestone: four linked contracts, permanent secondary-skill learning, equipment and carried progression. Phase 2 still needs full mastery/passive/reaction/movement slots and more distinct advanced skill boards. Phase 3's world map, branching story, recruitment and town systems remain planned.
 
-The suite has **28 tests**, including full deterministic simulations of all three maps, economic and equipment invariants, rewards and v1 migration. Browser checks cover buying/equipping, manual save/load, migrated resource preservation, learning across a job change, result settlement and second-contract deployment. Result/learning checks use isolated local fixtures, not a claim of a full manual campaign playthrough. Physical mobile devices, Safari, gamepad hardware and 60 FPS remain uncertified. See [testing](docs/TESTING.md).
+The suite has **31 tests**, including full deterministic simulations of all four maps, economic and equipment invariants, rewards and v1 migration. Browser checks cover all eight job sprites, boss awakening, first-clear relic settlement, buying/equipping, manual save/load, migrated resource preservation, learning across a job change, result settlement and second-contract deployment. Result/learning checks use isolated local fixtures, not a claim of a full manual campaign playthrough. Physical mobile devices, Safari, gamepad hardware and 60 FPS remain uncertified. See [testing](docs/TESTING.md).
 
 ## Contributing and licensing
 

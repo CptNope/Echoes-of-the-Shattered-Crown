@@ -1,4 +1,5 @@
-export type EncounterId = "shrine" | "causeway" | "redoubt";
+import type { GearId } from "./equipment";
+export type EncounterId = "shrine" | "causeway" | "redoubt" | "bellkeeper";
 export interface Encounter {
   id: EncounterId;
   name: string;
@@ -7,6 +8,7 @@ export interface Encounter {
   reward: number;
   requires: EncounterId | null;
   objective: string;
+  firstClearRelic?: GearId;
 }
 export const encounters: Record<EncounterId, Encounter> = {
   shrine: {
@@ -38,5 +40,16 @@ export const encounters: Record<EncounterId, Encounter> = {
     reward: 110,
     requires: "causeway",
     objective: "Defeat the redoubt's defenders",
+  },
+  bellkeeper: {
+    id: "bellkeeper",
+    name: "The silent belfry",
+    subtitle: "Contract IV · The last bell",
+    description:
+      "Orren, the Bellkeeper, guards the crown seal in a raised courtyard. At half health he breaks his oath: cleansing burn and slow, restoring energy, gaining speed and advancing his next turn. Defeat him and his three retainers.",
+    reward: 140,
+    requires: "redoubt",
+    objective: "Defeat Orren and his retainers",
+    firstClearRelic: "crownseal",
   },
 };

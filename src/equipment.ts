@@ -9,7 +9,8 @@ export type GearId =
   | "lamellar"
   | "wayboots"
   | "copperfocus"
-  | "watchcharm";
+  | "watchcharm"
+  | "crownseal";
 export type GearSlot = "weapon" | "armor" | "relic";
 export type Loadout = Record<GearSlot, GearId | null>;
 export interface Bonuses {
@@ -25,6 +26,7 @@ export interface Gear {
   name: string;
   slot: GearSlot;
   price: number;
+  rewardOnly?: boolean;
   description: string;
   jobs?: JobId[];
   bonuses: Partial<Bonuses>;
@@ -38,6 +40,16 @@ const casters: JobId[] = [
   "runewarden",
 ];
 export const equipment: Record<GearId, Gear> = {
+  crownseal: {
+    id: "crownseal",
+    name: "Bellkeeper’s seal",
+    slot: "relic",
+    price: 0,
+    rewardOnly: true,
+    description:
+      "Awarded once for clearing The silent belfry. A broken oath still carries power.",
+    bonuses: { armor: 2, magic: 3 },
+  },
   ironblade: {
     id: "ironblade",
     name: "Oathsteel blade",

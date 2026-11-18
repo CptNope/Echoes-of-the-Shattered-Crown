@@ -2,7 +2,7 @@
 
 [Documentation index](README.md) · [Jobs and abilities](JOBS_AND_ABILITIES.md) · [Engine source](../src/engine.ts)
 
-This is the implementation reference for the three Veyr-region contracts, not the rules of every system proposed in the original brief.
+This is the implementation reference for the four Veyr-region contracts, not the rules of every system proposed in the original brief.
 
 ## Coordinates and movement
 
@@ -154,3 +154,7 @@ Every legal skill use grants 10 JP to the actor's primary job, even if it misses
 | Finish         | Use the chosen ability, then end if battle is still playing                                                                                 |
 
 The planner moves before acting, shares the same validation functions as players, and excludes Lantern concord. It does not yet score haste benefits, plan multiple turns, coordinate objectives, evaluate a full resistance table, or expose difficulty personalities. Animation delays do not alter the scored decision.
+
+## Orren’s awakening
+
+The fourth contract adds a one-time half-health response after a valid command resolves. See [The silent belfry](THE_SILENT_BELFRY.md) for the exact trigger, timing, speed/readiness changes and first-clear reward. It does not introduce a new damage formula.

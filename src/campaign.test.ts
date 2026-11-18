@@ -231,5 +231,71 @@ test("each contract has a distinct legal board and a deterministic complete batt
     }
     assert.deepEqual(simulate(), simulate());
   }
-  assert.equal(signatures.size, 3);
+  assert.equal(signatures.size, ids.length);
+});
+
+test("the belfry unlocks after the redoubt and grants its relic on the first clear only", () => {
+  let g = createExpedition();
+  assert.equal(depart(g, "bellkeeper"), g);
+  g.company.completed = ["shrine", "causeway", "redoubt"];
+  g = depart(g, "bellkeeper");
+  assert.equal(g.battle.units[4].name, "Orren, Bellkeeper");
+  g.battle.result = "victory";
+  const camp = returnToCamp(g);
+  assert.equal(camp.company.gold, 280);
+  assert.equal(camp.company.inventory.crownseal, 1);
+  assert.equal(purchase(camp, "crownseal"), camp);
+  const equipped = equip(camp, "sera", "relic", "crownseal");
+  assert.equal(unitStats(memberUnit(equipped.company.members[0])).magic, 3);
+  assert.equal(unitStats(memberUnit(equipped.company.members[0])).armor, 12);
+  assert(validateExpedition(equipped));
+  const again = depart(equipped, "bellkeeper");
+  again.battle.result = "victory";
+  const replay = returnToCamp(again);
+  assert.equal(replay.company.gold, 420);
+  assert.equal(replay.company.inventory.crownseal, 1);
+  assert.equal(returnToCamp(replay), replay);
+});
+
+test("Orren awakens once at half health, and the saved phase survives reload", () => {
+  let s = createBattle(17, "bellkeeper");
+  const boss = s.units[4];
+  boss.hp = 84;
+  boss.mp = 3;
+  boss.status.burn = 2;
+  boss.status.slow = 2;
+  const next = boss.next;
+  s = command(s, { type: "end" });
+  const awakened = s.units[4];
+  assert.equal(s.bossAwakened, true);
+  assert.equal(awakened.hp, 84);
+  assert.equal(awakened.mp, 48);
+  assert.equal(awakened.status.burn, 0);
+  assert.equal(awakened.status.slow, 0);
+  assert.equal(awakened.next, Math.max(0, next - 25));
+  assert.equal(awakened.equipment.relic, "watchcharm");
+  assert(validateSave(s));
+  const restored = JSON.parse(JSON.stringify(s));
+  restored.units[4].mp = 5;
+  const second = command(restored, { type: "end" });
+  assert.equal(second.units[4].mp, 5);
+  assert.equal(
+    second.log.filter((t) => t.startsWith("Orren breaks")).length,
+    1,
+  );
+  assert.equal(s.units[0].hp, 112);
+  const bad: any = structuredClone(s);
+  bad.bossAwakened = "yes";
+  assert(!validateSave(bad));
+});
+
+test("lethal damage does not awaken a fallen boss and older v2 saves remain accepted", () => {
+  let s = createBattle(18, "bellkeeper");
+  s.units[4].hp = 0;
+  s = command(s, { type: "end" });
+  assert(!s.bossAwakened);
+  const g = createExpedition();
+  delete g.battle.bossAwakened;
+  assert(validateExpedition(g));
+  assert.equal(decodeSave({ game: g })?.migrated, false);
 });

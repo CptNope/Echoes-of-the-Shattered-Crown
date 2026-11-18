@@ -4,7 +4,7 @@
 
 ## Automated rules coverage
 
-Run `npm test`. The script uses `tsx --test src/engine.test.ts src/campaign.test.ts` and Node's built-in test runner. The current suite has 28 tests; this count is an inventory, not a coverage percentage or balance certification.
+Run `npm test`. The script uses `tsx --test src/engine.test.ts src/campaign.test.ts` and Node's built-in test runner. The current suite has 31 tests; this count is an inventory, not a coverage percentage or balance certification.
 
 | Area             | Assertions represented                                                                                        |
 | ---------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -25,13 +25,13 @@ The integration test temporarily reverses team labels to apply the enemy planner
 
 ## Build and hosting checks
 
-| Check               | Entry point                                         | Boundary                                             |
-| ------------------- | --------------------------------------------------- | ---------------------------------------------------- |
-| Strict TypeScript   | `npm run build`                                     | `src/` file set; not a separate lint command         |
-| Production bundling | Vite in the same build command                      | Module/CSS compilation; not a frame-rate test        |
-| Local Pages assets  | `node scripts/verify-pages.mjs` after a Pages build | Paths and real nonempty files                        |
-| Live assets         | `PAGES_URL` plus verifier `--live`                  | HTTPS HTML/JS/CSS responses; no browser execution    |
-| CI                  | [Pages workflow](../.github/workflows/pages.yml)    | PR validation; main deployment and live verification |
+| Check               | Entry point                                         | Boundary                                                         |
+| ------------------- | --------------------------------------------------- | ---------------------------------------------------------------- |
+| Strict TypeScript   | `npm run build`                                     | `src/` file set; not a separate lint command                     |
+| Production bundling | Vite in the same build command                      | Module/CSS compilation; not a frame-rate test                    |
+| Local Pages assets  | `node scripts/verify-pages.mjs` after a Pages build | Paths and real nonempty files                                    |
+| Live assets         | `PAGES_URL` plus verifier `--live`                  | HTTPS HTML/JS/CSS and RGBA atlas responses; no browser execution |
+| CI                  | [Pages workflow](../.github/workflows/pages.yml)    | PR validation; main deployment and live verification             |
 
 Vite currently warns about a JavaScript chunk above its default 500 kB threshold. The initial compiled bundle was roughly 764 kB, about 212 kB gzip, dominated by the renderer and UI libraries. A warning is not an exception, but optimization and device profiling remain roadmap work; future builds may differ.
 
@@ -66,4 +66,10 @@ The separate automated visual inspector could not launch its Windows Chrome proc
 
 Eleven new campaign tests cover legal starter inventory/contract gates, permanent learning and preserved levels, unlearned secondary rejection, copy/proficiency restrictions, purchases, actual gear effects, one-time settlement, defeat/retry behavior, legacy migration, invalid progression data, and deterministic completed simulations for all three distinct boards.
 
-Browser checks on an isolated localhost origin verified buying Bronze lamellar, the resulting armor/movement/HP change, save/reset/load restoration, a migrated v1 snapshot retaining 87 HP and 19 energy, victory settlement from 140 to 200 gold, learning Sundering arc and using it as an Arcanist/Vanguard in the second contract. Legacy and completed-battle inputs were supplied through a disposable local fixture page, removed before commit; this is not a claim of a full manual three-contract playthrough. Phone overflow checks at 390 pixels found no document-level horizontal overflow. Physical-device and full controller/accessibility certification remain outstanding.
+Browser checks on an isolated localhost origin verified buying Bronze lamellar, the resulting armor/movement/HP change, save/reset/load restoration, a migrated v1 snapshot retaining 87 HP and 19 energy, victory settlement from 140 to 200 gold, learning Sundering arc and using it as an Arcanist/Vanguard in the second contract. Legacy and completed-battle inputs were supplied through a disposable local fixture page, removed before commit; this is not a claim of a full manual four-contract playthrough. Phone overflow checks at 390 pixels found no document-level horizontal overflow. Physical-device and full controller/accessibility certification remain outstanding.
+
+## Version 0.3 coverage
+
+Three new tests cover belfry gating and first-clear reward deduplication, the one-time half-health awakening and saved phase, and lethal-hit/older-v2-save compatibility. The deterministic complete-battle scenario now runs all four maps.
+
+Browser QA used a disposable localhost fixture to show all eight normalized characters, load a half-health Orren, trigger the real end-turn awakening, and perform the real finishing attack before returning to camp to inspect the relic. This is targeted state coverage, not a manual full-campaign playthrough. The fixture was removed. This pass inspected 1280px and 914px viewports. The requested phone override did not take effect in this browser session; earlier 0.2 phone checks remain historical evidence. Physical-device performance remains unverified.

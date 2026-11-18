@@ -81,3 +81,9 @@ The engine validates known jobs, skills, gear slots/proficiencies, JP spending, 
 | Site-data clearing/private-browsing policy | Persistence may be removed or restricted                          |
 
 Repository paths on the same `cptnope.github.io` host share an origin, though this project uses its own database name. A custom domain is another origin and does not automatically transfer existing snapshots. No autosave, cloud sync, encryption, checksums, portable recovery file or conflict resolution is implemented.
+
+## Version 0.3 compatibility
+
+The expedition format remains version 2. The new `bellkeeper` encounter and `crownseal` equipment ID are accepted by the current validators. Battle snapshots may carry an optional boolean `bossAwakened`; absence means the phase has not triggered, so prior 0.2 saves require no migration. Once triggered, the phase flag, enemy speed relic and changed readiness/resources serialize with the active battle. A malformed phase flag is rejected.
+
+The unique relic is awarded during the first successful belfry settlement, using completed contract IDs as the deduplication record. Retry does not settle rewards. Old application versions cannot read the new encounter/item IDs; do not downgrade a browser save after playing the belfry.

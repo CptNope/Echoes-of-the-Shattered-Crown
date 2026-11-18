@@ -226,8 +226,8 @@ export function Camp({
               {c.gold} <small>gold</small>
             </strong>
             <span>
-              {c.victories} victories · {c.completed.length} / 3 contracts
-              cleared
+              {c.victories} victories · {c.completed.length} /{" "}
+              {Object.keys(encounters).length} contracts cleared
             </span>
           </div>
           <h2>Companions</h2>
@@ -238,7 +238,7 @@ export function Camp({
                 className={m.id === member.id ? "active" : ""}
                 onClick={() => selectMember(member.id)}
               >
-                <Portrait u={memberUnit(member)} size={39} />
+                <Portrait u={memberUnit(member)} size={46} />
                 <span>
                   <b>{member.name}</b>
                   <small>
@@ -294,9 +294,9 @@ export function Camp({
                   <h2>Choose your next contract</h2>
                 </div>
                 <span>
-                  {c.completed.length === 3
-                    ? "All three contracts secured"
-                    : "Three battles. One company."}
+                  {c.completed.length === Object.keys(encounters).length
+                    ? "All contracts secured"
+                    : "Four battles. One company."}
                 </span>
               </div>
               <div className="contract-layout">
@@ -345,7 +345,12 @@ export function Camp({
                     </div>
                     <div>
                       <dt>Victory reward</dt>
-                      <dd>{mission.reward} gold + 60 JP each</dd>
+                      <dd>
+                        {mission.reward} gold + 60 JP each
+                        {mission.firstClearRelic
+                          ? " · First clear: Bellkeeper’s seal"
+                          : ""}
+                      </dd>
                     </div>
                   </dl>
                   <button
@@ -376,7 +381,7 @@ export function Camp({
                   <p className="camp-eyebrow">Companion dossier</p>
                   <h2>{m.name}</h2>
                 </div>
-                <Portrait u={u} size={55} />
+                <Portrait u={u} size={70} />
               </div>
               <div className="camp-statline">
                 {Object.entries({
@@ -666,14 +671,20 @@ export function Camp({
                     </div>
                     <button
                       disabled={
-                        c.gold < item.price || (c.inventory[item.id] ?? 0) >= 99
+                        item.rewardOnly ||
+                        c.gold < item.price ||
+                        (c.inventory[item.id] ?? 0) >= 99
                       }
                       onClick={() => {
                         setGame((g) => purchase(g, item.id));
                         setMessage(`${item.name} added to shared inventory.`);
                       }}
                     >
-                      Buy · {item.price} gold
+                      {item.rewardOnly
+                        ? c.inventory[item.id]
+                          ? "Reward claimed"
+                          : "Belfry first clear"
+                        : `Buy · ${item.price} gold`}
                     </button>
                   </article>
                 ))}
@@ -683,7 +694,7 @@ export function Camp({
         </main>
       </div>
       <footer className="camp-footer">
-        <span>Phase 2 · Company foundations</span>
+        <span>Phase 2 · The silent belfry</span>
         <span>
           Manual saves include the company, inventory, learned skills and active
           contract.

@@ -235,9 +235,38 @@ h1 {
   border-radius: 4px;
 }
 .portrait {
-  image-rendering: pixelated;
+  image-rendering: auto;
   display: block;
   flex-shrink: 0;
+}
+.boss-brief {
+  border-left: 2px solid #a1644c;
+  padding: 10px 12px;
+  margin: 0 0 20px;
+  background: #ede9dc;
+}
+.boss-brief > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 11px;
+}
+.boss-brief progress {
+  display: block;
+  width: 100%;
+  height: 6px;
+  margin: 9px 0;
+  accent-color: #995b46;
+}
+.boss-brief strong {
+  font-size: 11px;
+  color: #834b38;
+}
+.boss-brief p {
+  font-size: 11px;
+  line-height: 1.6;
+  margin: 7px 0 0;
+  color: #65715b;
 }
 .active-character h2 {
   font:

@@ -85,6 +85,10 @@ function App() {
   const [game, setGame] = useState(createExpedition);
   const battle = game.battle;
   const mission = encounters[battle.encounter];
+  const boss =
+    battle.encounter === "bellkeeper"
+      ? battle.units.find((u) => u.id === "sentinel")
+      : undefined;
   const [sceneRevision, setSceneRevision] = useState(0);
   const setBattle = (update: React.SetStateAction<Battle>) =>
     setGame((g) => ({
@@ -485,9 +489,42 @@ function App() {
           <div className="chapter">{mission.subtitle}</div>
           <h1>{mission.name}</h1>
           <p className="mission-copy">
-            A forgotten oath.
-            <br />A fragment that still remembers.
+            {boss ? (
+              "The last bell has no voice. Its keeper still answers."
+            ) : (
+              <>
+                A forgotten oath.
+                <br />A fragment that still remembers.
+              </>
+            )}
           </p>
+          {boss && (
+            <section className="boss-brief" aria-label="Bellkeeper encounter">
+              <div>
+                <b>Orren, Bellkeeper</b>
+                <span>
+                  {boss.hp} / {boss.maxHp} HP
+                </span>
+              </div>
+              <progress
+                aria-label="Orren health"
+                value={boss.hp}
+                max={boss.maxHp}
+              />
+              <strong>
+                {boss.hp === 0
+                  ? "The last oath is broken"
+                  : battle.bossAwakened
+                    ? "Oathbroken · +2 speed"
+                    : "Oathbound · awakens at 50% HP"}
+              </strong>
+              <p>
+                {battle.bossAwakened
+                  ? "His awakening has restored energy and advanced his next action. Keep the company together."
+                  : "At half health: cleanses burn and slow, restores energy, braces, and advances 25 ticks."}
+              </p>
+            </section>
+          )}
           <div className="objective">
             <span className="objective-mark">◇</span>
             <div>
@@ -514,7 +551,7 @@ function App() {
           </div>
           <div className="active-character">
             <div className="portrait-well">
-              <Portrait u={actor} size={54} />
+              <Portrait u={actor} size={66} />
             </div>
             <div>
               <h2>{actor.name}</h2>
@@ -686,7 +723,7 @@ function App() {
             <div className="map-caption">
               <span>The first crownfall</span>
               <b>
-                VEY R<span>SHRINE RUINS</span>
+                VEY R<span>{boss ? "THE SILENT BELFRY" : "SHRINE RUINS"}</span>
               </b>
             </div>
             <div className="momentum">
@@ -833,7 +870,7 @@ function App() {
                 </h2>
                 <p>
                   {battle.result === "victory"
-                    ? `The company has secured the contract. Each companion earned 60 JP. Return to camp to collect ${mission.reward} gold, train skills, and prepare the next deployment.`
+                    ? `The company has secured the contract. Each companion earned 60 JP. Return to camp to collect ${mission.reward} gold${mission.firstClearRelic && !game.company.completed.includes(battle.encounter) ? " and the Bellkeeper’s seal" : ""}, train skills, and prepare the next deployment.`
                     : "The Oathless reclaim the shrine. Reposition carefully, use Maelis to revive allies, and control the causeway."}
                 </p>
                 <button
@@ -1085,7 +1122,7 @@ function App() {
                   ))}
                 </ol>
                 <p className="modal-note">
-                  This expedition contains three linked contracts. Branching
+                  This expedition contains four linked contracts. Branching
                   quests, exploration, recruitment, and campaign endings are
                   planned for later milestones.
                 </p>

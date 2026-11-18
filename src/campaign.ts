@@ -140,8 +140,15 @@ export function returnToCamp(game: Expedition): Expedition {
   if (game.battle.result === "victory") {
     next.company.gold += encounters[game.battle.encounter].reward;
     next.company.victories++;
-    if (!next.company.completed.includes(game.battle.encounter))
+    if (!next.company.completed.includes(game.battle.encounter)) {
+      const relic = encounters[game.battle.encounter].firstClearRelic;
+      if (relic)
+        next.company.inventory[relic] = Math.min(
+          99,
+          (next.company.inventory[relic] ?? 0) + 1,
+        );
       next.company.completed.push(game.battle.encounter);
+    }
   }
   next.stage = "camp";
   return next;
@@ -222,6 +229,7 @@ export function equip(
 export function purchase(game: Expedition, item: GearId): Expedition {
   if (
     game.stage !== "camp" ||
+    equipment[item].rewardOnly ||
     game.company.gold < equipment[item].price ||
     (game.company.inventory[item] ?? 0) >= 99
   )

@@ -25,7 +25,7 @@
 
 ## Known scope limits
 
-There are three Veyr map variants and a company camp with inventory, purchases and learned secondary skills. Full story/world navigation, crafting, New Game Plus and mastery slots remain planned. Current animations cover idle, travel and falling rather than full combat sets. Terrain editing is limited to ice and ignition. Weather, destructible obstacles, resistance tables and configurable permadeath remain planned.
+There are four Veyr map variants and a company camp with inventory, purchases and learned secondary skills. Full story/world navigation, crafting, New Game Plus and mastery slots remain planned. Current animations cover idle, travel, attack lean, damage tint and falling rather than full multi-frame combat sets. Terrain editing is limited to ice and ignition. Weather, destructible obstacles, resistance tables and configurable permadeath remain planned.
 
 Saves have validation, atomic previous-slot recovery and v1 battle migration, but no portable import/export, general migration chain or conflict resolution. Settings are not saved. There is no service worker, offline cache or PWA installation manifest. Performance targets and full accessibility support require further work; viewport responsiveness is not physical-device certification.
 

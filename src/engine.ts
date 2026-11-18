@@ -59,6 +59,7 @@ export interface Battle {
   result: "playing" | "victory" | "defeat";
   log: string[];
   rewarded: boolean;
+  bossAwakened?: boolean;
 }
 export type Command =
   | { type: "move"; x: number; z: number }
@@ -215,6 +216,40 @@ export function createBattle(
       units[4].x = 6;
       units[4].z = 5;
     }
+  }
+  if (encounter === "bellkeeper") {
+    for (const t of tiles) {
+      t.terrain =
+        (t.x >= 3 && t.z >= 2 && t.z <= 6) || t.z === 4 ? "stone" : "grass";
+      t.h = t.x >= 5 ? 1 : 0;
+      t.blocked = [
+        [0, 1],
+        [0, 7],
+        [8, 0],
+        [8, 8],
+        [3, 2],
+        [3, 6],
+        [6, 1],
+        [6, 7],
+      ].some(([x, z]) => t.x === x && t.z === z);
+    }
+    units[4].name = "Orren, Bellkeeper";
+    units[4].job = "runewarden";
+    units[4].secondary = "chronoweaver";
+    units[4].learned = ["haste"];
+    units[4].hp = units[4].maxHp = units[4].baseHp = 168;
+    units[4].x = 7;
+    units[4].z = 4;
+    units[4].mp = units[4].maxMp = 48;
+    units[5].name = "Bellstorm adept";
+    units[5].x = 6;
+    units[5].z = 2;
+    units[6].name = "Silent blade";
+    units[6].x = 5;
+    units[6].z = 5;
+    units[7].name = "Keeper of hours";
+    units[7].x = 7;
+    units[7].z = 6;
   }
   return {
     version: 2,
@@ -383,6 +418,29 @@ function note(s: Battle, t: string) {
   s.log = [...s.log.slice(-39), t];
 }
 function result(s: Battle) {
+  const boss =
+    s.encounter === "bellkeeper"
+      ? s.units.find((u) => u.id === "sentinel")
+      : undefined;
+  if (
+    boss &&
+    boss.hp > 0 &&
+    boss.hp <= boss.maxHp / 2 &&
+    !s.bossAwakened &&
+    living(s).some((u) => u.team === "ally")
+  ) {
+    s.bossAwakened = true;
+    boss.status.burn = 0;
+    boss.status.slow = 0;
+    boss.mp = boss.maxMp;
+    boss.next = Math.max(0, boss.next - 25);
+    boss.guard = true;
+    boss.equipment.relic = "watchcharm";
+    note(
+      s,
+      "Orren breaks his last oath: burn and slow cleansed, energy restored, +2 speed, next action advanced by 25 ticks. Guard lasts until his next activation.",
+    );
+  }
   if (!living(s).some((u) => u.team === "enemy")) s.result = "victory";
   else if (!living(s).some((u) => u.team === "ally")) s.result = "defeat";
   if (s.result === "victory" && !s.rewarded) {
@@ -600,6 +658,7 @@ function validBattle(raw: unknown): raw is Battle {
   if (
     s.version !== 2 ||
     !Object.hasOwn(encounters, s.encounter) ||
+    (s.bossAwakened !== undefined && typeof s.bossAwakened !== "boolean") ||
     !Number.isInteger(s.seed) ||
     !Number.isInteger(s.turn) ||
     s.turn < 1 ||

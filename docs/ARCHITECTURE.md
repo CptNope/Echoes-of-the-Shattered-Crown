@@ -131,3 +131,9 @@ The engine is separate from rendering, but content loading is not yet generalize
 | `validateExpedition`, `decodeSave`, `migrateLegacyBattle` | Current format compatibility, wrapper decoding and supported v1 migration           |
 
 `createBattle(seed, encounterId)` still returns an independent bare combat fixture with no equipped items; company deployment overlays the roster and derived maximum HP. This keeps engine tests independent from inventory. Enemy jobs do not require player unlock progression.
+
+## Character art and belfry extension
+
+`sprites.ts` owns async atlas loading, alpha-bound normalization, per-job/team canvas caching and procedural fallback. `Portrait.tsx` renders closer square crops and redraws after load. `scene.ts` refreshes live textures after load, uses faction ground markers and displays attack/damage feedback without altering rules. The approximately 2.7 MB atlas is served under the same base path as the app.
+
+The optional `Battle.bossAwakened` flag belongs to encounter state. Rule resolution triggers Orren’s awakening once; it does not depend on animation or elapsed wall time. First-clear relic settlement belongs to the company layer.

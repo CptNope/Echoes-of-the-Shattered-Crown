@@ -89,3 +89,7 @@ These checks do **not** execute WebGL, verify sprites visually, exercise Indexed
 Prefer fixing or reverting the source commit through normal history. Do not force-push or hand-edit `dist/` as a parallel production source. A subsequent successful push to `main` rebuilds and publishes its artifact.
 
 Saves on the private Site and Pages use different origins. A successful deployment does not migrate browser saves. See [storage boundaries](DATA_AND_SAVES.md#storage-limitations).
+
+## Character atlas
+
+The production artifact includes `public/art/company-atlas.png` at `art/company-atlas.png` beneath the Pages base path. The verifier checks both local and published PNG signatures, 1536×1024 dimensions and RGBA format. A passing asset check establishes delivery, not visual quality or WebGL behavior.

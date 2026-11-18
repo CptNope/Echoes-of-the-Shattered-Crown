@@ -6,6 +6,22 @@ Changes are grouped by player/developer impact. Dates below use **America/New_Yo
 
 Further milestones are tracked in [the roadmap](docs/ROADMAP.md).
 
+## 0.3.0 — 2026-11-18
+
+### Added
+
+- Detailed, original AI-generated artwork for all eight jobs, shared between battlefield sprites and closer roster/turn-order portraits. Transparent atlas, cached loading, procedural fallback, enemy mirroring/tint and faction ground markers.
+- The silent belfry: a fourth gated 9×9 contract with a raised courtyard, bell scenery, named boss Orren and three advanced-job retainers.
+- One-time half-health awakening: cleanses burn/slow, restores energy, adds two speed, advances readiness by 25 ticks and braces until the next activation. The phase persists in saves.
+- Bellkeeper’s seal: first-clear relic (+2 armor, +3 magic); replay gold/JP remain repeatable while the relic cannot be purchased or duplicated by settlement.
+- Attack lean and damage tint with reduced-motion handling, boss health/phase information, and atlas checks in local/live Pages verification.
+- Three new tests (31 total), deterministic battles on all four maps, boss/reward docs and recorded generation provenance/prompt.
+
+### Compatibility
+
+- Keeps expedition format v2; 0.2 saves load without migration. Older builds do not recognize the new encounter or item IDs.
+- Artwork currently has one ready pose per job. Full directional/action frame sets, unique personal costumes and gear appearance remain future work.
+
 ## 0.2.0 — 2026-11-17
 
 ### Added

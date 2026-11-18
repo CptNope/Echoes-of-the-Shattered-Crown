@@ -2,7 +2,7 @@
 
 [Documentation index](README.md) · [Jobs](JOBS_AND_ABILITIES.md) · [Saves](DATA_AND_SAVES.md)
 
-Version 0.2 adds an expedition loop around the tactical engine. The company camp is a functional management screen, not a 3D town or the full campaign promised in the original brief.
+Version 0.3 extends an expedition loop around the tactical engine. The company camp is a functional management screen, not a 3D town or the full campaign promised in the original brief.
 
 ```mermaid
 flowchart LR
@@ -26,10 +26,11 @@ flowchart LR
 | The shrine of Veyr   | Initially available |               60 | Original two-tile stone crossing and foundational enemy roles                         |
 | The drowned causeway | Clear shrine        |               85 | Flooded former crossing, a northern bridge and two mobile outriders                   |
 | The Oathless redoubt | Clear causeway      |              110 | Southern approach; Runewarden, Storm Herald, Shadowrunner and Chronoweaver opposition |
+| The silent belfry    | Clear redoubt       |              140 | Raised courtyard, Orren’s half-health awakening; first clear awards Bellkeeper’s seal |
 
-These are three variants within the Veyr region, each 9×9 with four allies and four enemies. They share the region's stone/forest art, not three different biomes. Map geometry, spawn positions and enemy roles differ. Cleared contracts can be replayed for JP and another bounty. All current objectives require defeating the enemy force; branching quests and exploration remain future work.
+These are four variants within the Veyr region, each 9×9 with four allies and four enemies. They share the region's stone/forest art, not four different biomes. Map geometry, spawn positions and enemy roles differ. Cleared contracts can be replayed for JP and another bounty. All current objectives require defeating the enemy force; branching quests and exploration remain future work.
 
-Return to camp from the result screen to settle the contract. The engine has already granted victory JP; settlement copies field progress to the persistent roster, pays the bounty, increments victories and records a unique completed-contract ID. Calling settlement again on the resulting camp state does nothing, preventing duplicate reward collection.
+Return to camp from the result screen to settle the contract. The engine has already granted victory JP; settlement copies field progress to the persistent roster, pays the bounty, increments victories and records a unique completed-contract ID. The Bellkeeper’s seal is granted only when the belfry is first added to completed contracts. It cannot be purchased; replaying the belfry still pays gold and JP. See [the boss guide](THE_SILENT_BELFRY.md). Calling settlement again on the resulting camp state does nothing, preventing duplicate reward collection.
 
 Defeat settlement retains the JP earned in that attempt, but grants no bounty or completion. A confirmed retry restores the company's **pre-deployment** profile instead: attempt JP is discarded, loadouts are restored, and a new deterministic deployment seed is selected. A new company resets everything in memory after confirmation, while the manual save stays untouched.
 
@@ -52,19 +53,20 @@ Each valid ability use earns 10 lifetime primary-job JP; a victory grants 60 to 
 
 ## Equipment and shared inventory
 
-Every member has weapon, armor and relic slots. The inventory counts **all owned copies**, including equipped ones. Reserving a copy for one companion makes it unavailable to others until unequipped or another copy is purchased. There are no loot drops, selling, crafting, upgrades or rarity rolls yet.
+Every member has weapon, armor and relic slots. The inventory counts **all owned copies**, including equipped ones. Reserving a copy for one companion makes it unavailable to others until unequipped or another copy is purchased. The belfry awards a named first-clear relic; random loot, selling, crafting, upgrades and rarity rolls remain future work.
 
-| Item                | Slot   | Price | Bonuses                           | Proficiency                                                  |
-| ------------------- | ------ | ----: | --------------------------------- | ------------------------------------------------------------ |
-| Oathsteel blade     | Weapon |    60 | Attack +4                         | Vanguard, Blade Dancer, Shadowrunner, Runewarden             |
-| Ashen twinblades    | Weapon |    75 | Attack +3, speed +1               | Same blade jobs                                              |
-| Glass-tipped rod    | Weapon |    65 | Magic +4                          | Arcanist, Lifebinder, Storm Herald, Chronoweaver, Runewarden |
-| Living willow staff | Weapon |    65 | Magic +2, maximum HP +8           | Same caster jobs                                             |
-| Company leathers    | Armor  |    35 | Armor +1, maximum HP +4           | Any                                                          |
-| Bronze lamellar     | Armor  |    95 | Armor +4, maximum HP +15, move −1 | Vanguard, Runewarden                                         |
-| Wayfarer's boots    | Relic  |    80 | Move +1                           | Any                                                          |
-| Copper focus        | Relic  |    80 | Magic +3                          | Any                                                          |
-| Dawnwatch charm     | Relic  |    90 | Speed +2                          | Any                                                          |
+| Item                | Slot   |       Price | Bonuses                           | Proficiency                                                  |
+| ------------------- | ------ | ----------: | --------------------------------- | ------------------------------------------------------------ |
+| Oathsteel blade     | Weapon |          60 | Attack +4                         | Vanguard, Blade Dancer, Shadowrunner, Runewarden             |
+| Ashen twinblades    | Weapon |          75 | Attack +3, speed +1               | Same blade jobs                                              |
+| Glass-tipped rod    | Weapon |          65 | Magic +4                          | Arcanist, Lifebinder, Storm Herald, Chronoweaver, Runewarden |
+| Living willow staff | Weapon |          65 | Magic +2, maximum HP +8           | Same caster jobs                                             |
+| Company leathers    | Armor  |          35 | Armor +1, maximum HP +4           | Any                                                          |
+| Bronze lamellar     | Armor  |          95 | Armor +4, maximum HP +15, move −1 | Vanguard, Runewarden                                         |
+| Wayfarer's boots    | Relic  |          80 | Move +1                           | Any                                                          |
+| Copper focus        | Relic  |          80 | Magic +3                          | Any                                                          |
+| Dawnwatch charm     | Relic  |          90 | Speed +2                          | Any                                                          |
+| Bellkeeper’s seal   | Relic  | Reward only | Armor +2, magic +3                | Any                                                          |
 
 The company begins with 140 gold, one of each weapon, four leathers, one pair of boots and one copper focus. Each companion starts with a suitable weapon and leathers; the two relics begin unequipped. Purchases are capped at 99 owned copies per item and cannot overdraw gold. Equipment/job changes happen at camp, with the existing first-activation job adjustment still available inside a battle.
 
