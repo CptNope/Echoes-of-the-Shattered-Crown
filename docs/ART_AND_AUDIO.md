@@ -8,21 +8,21 @@ Veyr is a fragment of moss-covered limestone: a stream splits the battlefield, a
 
 | Asset or system       | Current construction                                                                 | Extension boundary                                      |
 | --------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------- |
-| Characters            | Generated eight-job RGBA atlas, normalized to 192×256 canvases                       | [Art contract and provenance](SPRITE_ART.md)            |
+| Characters            | Eight 32-frame job sheets, plus the original atlas for portraits/fallback                       | [Animation contract](ANIMATION_PIPELINE.md), [portraits](SPRITE_ART.md)            |
 | Props and silhouettes | Distinct armor, robes, faces and weapons for all eight jobs                          | Characters sharing a primary job share the artwork      |
 | Team treatment        | Allied original palette, mirrored rust-tinted enemies, circle/diamond ground markers | Keep both shape and color cues                          |
 | Texture sampling      | Linear filtering for character art; nearest for health bars                          | Preserve transparent edges and small-scale readability  |
 | Camera readability    | Camera-facing billboards                                                             | No directional animation atlas yet                      |
 | Terrain               | Original boxes, angular foliage, engraved paving, columns and plinths                | Decoration does not replace authoritative blocked tiles |
 | Lighting              | Hemisphere light, sunlight, shadows, filmic tone mapping                             | Profile before expanding expensive effects              |
-| Motion                | Idle bob, interpolated travel, attack lean, damage tint, fallen pose, rotating shard | Full multi-frame animation sets remain planned          |
+| Motion                | Eight animation states, interpolated travel and rotating shard | Four frames per state; longer cycles remain planned          |
 | Foreground visibility | Fade tall scenery from near camera orientations                                      | View-based approximation, not per-character occlusion   |
 
 The screenshot in [the README](../README.md) shows the current Veyr implementation. It is a development capture, not evidence of the planned campaign environments.
 
-## Future sprite-atlas contract
+## Animation contract
 
-The current ready-pose atlas is documented in [the sprite pipeline](SPRITE_ART.md). A future multi-frame animation pipeline should record job/character identity, team palette, frame dimensions, animation state, facing convention, frame index and duration. Planned states include idle, walk, run, attack, cast, damage, defend, item, victory and incapacitated. These are asset requirements, not a currently implemented loader schema.
+The current 256-frame animation set is documented in [the animation pipeline](ANIMATION_PIPELINE.md). The original ready-pose atlas remains in [the portrait pipeline](SPRITE_ART.md). Dedicated run, item and directional views remain planned.
 
 Animation must follow simulation outcomes. It must not decide when a hit succeeds, consume random rolls, or change turn order. Retain reduced-motion behavior, camera readability, transparent backgrounds and graphics-resource disposal.
 
@@ -34,6 +34,6 @@ Sound and volume settings are session-only. The sketch does not yet implement or
 
 ## Ownership and licenses
 
-The new character atlas was generated for this project with the built-in image-generation tool. The exact prompt and production dimensions are recorded in [SPRITE_ART.md](SPRITE_ART.md). Original procedural character drawing remains a loading-failure fallback. Terrain composition and synthesized music were authored for the project. No commercial game artwork was supplied as a reference. Third-party packages retain their respective licenses. Cormorant Garamond and DM Sans are optional external Google Fonts assets with local serif/sans fallbacks and their own font licenses.
+The new character atlas was generated for this project with the built-in image-generation tool. Original portrait provenance is recorded in [SPRITE_ART.md](SPRITE_ART.md); all eight animation prompts and delivered source dimensions are recorded in [the animation pipeline](ANIMATION_PIPELINE.md). Original procedural character drawing remains a loading-failure fallback. Terrain composition and synthesized music were authored for the project. No commercial game artwork was supplied as a reference. Third-party packages retain their respective licenses. Cormorant Garamond and DM Sans are optional external Google Fonts assets with local serif/sans fallbacks and their own font licenses.
 
 There is no repository-level project license file. Do not describe the repository as MIT-licensed simply because a dependency is MIT-licensed. Before adding external assets, record the source, author, license, required attribution and commercial-usage conditions. The repository does not yet contain a formal third-party asset inventory; do not invent provenance or licensing assurances for future files.

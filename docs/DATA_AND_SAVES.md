@@ -99,3 +99,7 @@ The four added skill IDs (`gloam`, `aegis`, `raincall`, `delay`) use existing gu
 ## Version 0.6 recovery records
 
 Automatic writes use separate recovery/current-previous slots in the existing store, preserving manual checkpoints. Writes are serialized within a page and rotate the previous decodable snapshot in one transaction. Startup reads recovery before enabling fresh autosave or enemy turns; a valid candidate requires Resume or Start new. Portable envelope version 1 wraps the unchanged expedition v2. See [the complete format and player flow](BACKUPS_AND_RECOVERY.md).
+
+## Cosmetic animation cue (0.7)
+
+Battle.lastAction optionally stores unit, skill and turn for renderer feedback. Existing v2 saves may omit it. The validator rejects unknown actors/skills and invalid turn numbers. Loading a snapshot does not replay its old action. Animation timing never gates combat or save restoration.

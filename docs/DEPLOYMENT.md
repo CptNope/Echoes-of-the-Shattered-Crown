@@ -31,7 +31,7 @@ flowchart TD
     Upload --> Main{Running on main?}
     Main -->|Yes| Configure[Configure Pages]
     Configure --> Deploy[Deploy artifact to github-pages]
-    Deploy --> Live[Verify live HTML, JavaScript and CSS]
+    Deploy --> Live[Verify live HTML, code and animation assets]
     Main -->|No| Skip[Deployment skipped]
 ```
 
@@ -93,3 +93,7 @@ Saves on the private Site and Pages use different origins. A successful deployme
 ## Character atlas
 
 The production artifact includes `public/art/company-atlas.png` at `art/company-atlas.png` beneath the Pages base path. The verifier checks both local and published PNG signatures, 1536×1024 dimensions and RGBA format. A passing asset check establishes delivery, not visual quality or WebGL behavior.
+
+## Animation assets
+
+The build includes animation-review.html and all eight WebP sheets. The Pages verifier imports verify-animation-art.mjs: local builds decode frames with Sharp; the live job uses Node built-ins to check the published manifest, file sizes, WebP signatures and SHA-256 checksums. The verification job does not require npm install.

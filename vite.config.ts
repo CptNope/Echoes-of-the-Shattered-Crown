@@ -4,4 +4,9 @@ import { defineConfig } from "vite";
 // and local development keep the default root path.
 export default defineConfig({
   base: process.env.BASE_PATH || "/",
+  build: {
+    rollupOptions: {
+      input: { game: "index.html", animations: "animation-review.html" },
+    },
+  },
 });

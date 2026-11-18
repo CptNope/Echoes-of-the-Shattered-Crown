@@ -10,6 +10,15 @@ import {
 } from "./engine";
 import { jobs, skills, type SkillId } from "./data";
 import { spriteCanvas, loadSpriteArt } from "./sprites";
+import {
+  animationFrame,
+  chooseAnimation,
+  clipDuration,
+  actionClip,
+  actionCueChanged,
+  type AnimationState,
+} from "./animation";
+import { loadAnimationSheet, type LoadedAnimationSheet } from "./animation-art";
 export type Mode = "inspect" | "move" | SkillId;
 const palette = {
   grass: [0x7d9161, 0x879b6c, 0x74895d, 0x8b9a6a],
@@ -38,6 +47,14 @@ export class Battlefield {
       base: THREE.Mesh;
       hurtUntil: number;
       attackUntil: number;
+      sheet: LoadedAnimationSheet | null;
+      artJob: Unit["job"];
+      artFrame: number;
+      action: { clip: "attack" | "cast"; start: number | null } | null;
+      idleStart: number;
+      walkStart: number;
+      downStart: number | null;
+      outcomeStart: number;
     }
   >();
   effects = new THREE.Group();
@@ -59,6 +76,7 @@ export class Battlefield {
   onSelect: (x: number, z: number) => void;
   private last = 0;
   private resources: THREE.Texture[] = [];
+  private animationSources = new Map<Unit["job"], THREE.Texture>();
   constructor(
     public host: HTMLElement,
     state: Battle,
@@ -103,9 +121,11 @@ export class Battlefield {
     this.scene.add(sun);
     this.buildTerrain();
     this.buildActors();
+    for (const u of state.units) this.requestAnimationArt(u);
     void loadSpriteArt().then((ready) => {
       if (!ready || this.disposed) return;
-      for (const u of this.state.units) this.refreshSprite(u);
+      for (const u of this.state.units)
+        if (!this.actors.get(u.id)?.sheet) this.refreshSprite(u);
     });
     this.update(state, "inspect", null);
     this.observer = new ResizeObserver(() => this.resize());
@@ -342,17 +362,63 @@ export class Battlefield {
         base,
         hurtUntil: 0,
         attackUntil: 0,
+        sheet: null,
+        artJob: u.job,
+        artFrame: -1,
+        action: null,
+        idleStart: performance.now(),
+        walkStart: performance.now(),
+        downStart:
+          u.hp <= 0 ? performance.now() - clipDuration("downed") : null,
+        outcomeStart: performance.now(),
       });
     }
   }
   private refreshSprite(u: Unit) {
     const actor = this.actors.get(u.id)!;
+    actor.sheet = null;
+    actor.artJob = u.job;
+    actor.artFrame = -1;
+    actor.sprite.scale.set(1.15, 1.53, 1);
+    actor.sprite.center.set(0.5, 0);
     const map = texture(spriteCanvas(u.job, u.team === "enemy"));
     map.minFilter = map.magFilter = THREE.LinearFilter;
     actor.sprite.material.map?.dispose();
     this.resources.push(map);
     actor.sprite.material.map = map;
     actor.sprite.material.needsUpdate = true;
+    this.requestAnimationArt(u);
+  }
+  private requestAnimationArt(u: Unit) {
+    void loadAnimationSheet(u.job).then((sheet) => {
+      if (!sheet || this.disposed) return;
+      const current = this.state.units.find((v) => v.id === u.id),
+        actor = this.actors.get(u.id);
+      if (
+        !actor ||
+        current?.job !== u.job ||
+        actor.artJob !== u.job ||
+        actor.sheet
+      )
+        return;
+      let source = this.animationSources.get(u.job);
+      if (!source) {
+        source = new THREE.Texture(sheet.image);
+        source.colorSpace = THREE.SRGBColorSpace;
+        source.minFilter = source.magFilter = THREE.LinearFilter;
+        source.generateMipmaps = false;
+        this.animationSources.set(u.job, source);
+        this.resources.push(source);
+      }
+      const map = source.clone();
+      map.needsUpdate = true;
+      actor.sprite.material.map?.dispose();
+      this.resources.push(map);
+      actor.sprite.material.map = map;
+      actor.sprite.material.needsUpdate = true;
+      actor.sheet = sheet;
+      actor.artFrame = -1;
+    });
   }
   private clearMarkers() {
     for (const child of [...this.markers.children]) {
@@ -425,10 +491,27 @@ export class Battlefield {
       const actor = this.actors.get(v.id)!;
       const previous = old.units.find((o) => o.id === v.id);
       if (previous?.job !== v.job) this.refreshSprite(v);
+      const now = performance.now();
+      if (previous && (v.x !== previous.x || v.z !== previous.z))
+        actor.walkStart = now;
       if (previous && v.hp < previous.hp)
-        actor.hurtUntil = performance.now() + 260;
-      if (previous && !previous.acted && v.acted)
-        actor.attackUntil = performance.now() + 300;
+        actor.hurtUntil = now + clipDuration("hurt");
+      if (previous && previous.hp > 0 && v.hp <= 0) {
+        actor.downStart = now;
+        actor.action = null;
+      }
+      if (previous && previous.hp <= 0 && v.hp > 0) {
+        actor.downStart = null;
+        actor.action = null;
+      }
+      if (old.result !== state.result) actor.outcomeStart = now;
+      const event = state.lastAction,
+        oldEvent = old.lastAction;
+      if (event && event.unit === v.id && actionCueChanged(oldEvent, event)) {
+        const clip = actionClip(event.skill);
+        actor.action = { clip, start: null };
+        actor.attackUntil = now + clipDuration(clip);
+      }
       const ctx = (
         actor.bar.material.map!.image as HTMLCanvasElement
       ).getContext("2d")!;
@@ -446,7 +529,7 @@ export class Battlefield {
         14,
       );
       actor.bar.material.map!.needsUpdate = true;
-      actor.sprite.material.opacity = v.hp > 0 ? 1 : 0.26;
+      actor.sprite.material.opacity = v.hp > 0 ? 1 : 0.6;
       actor.bar.visible = v.hp > 0;
       if (this.last === 0) {
         actor.sprite.position.set(
@@ -528,27 +611,82 @@ export class Battlefield {
     for (const u of this.state.units) {
       const a = this.actors.get(u.id)!,
         t = tileAt(this.state, u.x, u.z)!;
+      const walking =
+        Math.hypot(
+          a.sprite.position.x - (u.x - 4),
+          a.sprite.position.z - (u.z - 4),
+        ) > 0.04;
       a.sprite.position.lerp(
         new THREE.Vector3(
           u.x - 4,
           t.h * 0.43 +
             0.08 +
-            (this.reduced ? 0 : Math.sin(time * 0.002 + u.x) * 0.018),
+            (this.reduced || a.sheet
+              ? 0
+              : Math.sin(time * 0.002 + u.x) * 0.018),
           u.z - 4,
         ),
-        this.reduced ? 1 : 0.13,
+        this.reduced ? 1 : 1 - Math.exp(-delta / 100),
       );
-      const attacking = !this.reduced && time < a.attackUntil,
-        hurting = !this.reduced && time < a.hurtUntil;
-      a.sprite.material.rotation =
-        u.hp > 0
-          ? attacking
-            ? Math.sin(((a.attackUntil - time) / 300) * Math.PI) *
-              0.14 *
-              (u.team === "ally" ? -1 : 1)
-            : 0
-          : Math.PI / 2;
-      a.sprite.material.color.set(hurting ? 0xffb9a6 : 0xffffff);
+      if (a.action && !walking) {
+        if (a.action.start === null) a.action.start = time;
+        if (time - a.action.start >= clipDuration(a.action.clip))
+          a.action = null;
+      }
+      if (a.sheet) {
+        const state = chooseAnimation({
+          hp: u.hp,
+          walking: walking && !this.reduced,
+          hurt: time < a.hurtUntil,
+          action: a.action?.clip ?? null,
+          result: this.state.result,
+          team: u.team,
+          guard: u.guard,
+        });
+        const starts: Record<AnimationState, number> = {
+          idle: a.idleStart,
+          walk: a.walkStart,
+          attack: a.action?.start ?? time,
+          cast: a.action?.start ?? time,
+          hurt: a.hurtUntil - clipDuration("hurt"),
+          guard: a.idleStart,
+          victory: a.outcomeStart,
+          downed: a.downStart ?? time,
+        };
+        const frame = animationFrame(state, time - starts[state], this.reduced);
+        if (frame !== a.artFrame) {
+          const map = a.sprite.material.map!,
+            col = frame % 4,
+            row = Math.floor(frame / 4);
+          map.repeat.set(u.team === "enemy" ? -0.25 : 0.25, 0.125);
+          map.offset.set(
+            (col + (u.team === "enemy" ? 1 : 0)) / 4,
+            1 - (row + 1) / 8,
+          );
+          a.sprite.center.set(
+            0.5,
+            1 - Math.max(0, Math.min(1, a.sheet.metadata.ground[frame])),
+          );
+          a.artFrame = frame;
+        }
+        const h = 1.46 / a.sheet.metadata.idleHeight,
+          ratio = a.sheet.metadata.width / 4 / (a.sheet.metadata.height / 8);
+        a.sprite.scale.set(h * ratio, h, 1);
+        a.sprite.material.rotation = 0;
+        a.sprite.material.color.set(u.team === "enemy" ? 0xdab7a8 : 0xffffff);
+      } else {
+        const attacking = !this.reduced && time < a.attackUntil,
+          hurting = !this.reduced && time < a.hurtUntil;
+        a.sprite.material.rotation =
+          u.hp > 0
+            ? attacking
+              ? Math.sin(((a.attackUntil - time) / 300) * Math.PI) *
+                0.14 *
+                (u.team === "ally" ? -1 : 1)
+              : 0
+            : Math.PI / 2;
+        a.sprite.material.color.set(hurting ? 0xffb9a6 : 0xffffff);
+      }
       a.base.visible = u.hp > 0;
       a.base.position.set(
         a.sprite.position.x,

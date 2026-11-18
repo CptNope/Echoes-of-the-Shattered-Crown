@@ -464,3 +464,4 @@ At every implementation milestone:
 **The most important priorities are tactical depth, a genuinely flexible job system, satisfying combat, smooth camera controls, distinctive original pixel art, and a foundation capable of supporting a complete RPG.**
 
 Build a game that feels rewarding to master and offers meaningful strategic freedom.
+

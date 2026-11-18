@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>Animation studio · Echoes of the Shattered Crown</title>
+  <style>
+    :root {
+      font-family: system-ui, sans-serif;
+      color: #263b32;
+      background: #f2f1e7;
+    }
+    body {
+      max-width: 1120px;
+      margin: auto;
+      padding: 28px;
+    }
+    a {
+      color: #385c49;
+    }
+    h1,
+    h2 {
+      font-family: Georgia, serif;
+      font-weight: 400;
+    }
+    h1 {
+      font-size: 42px;
+      margin-bottom: 8px;
+    }
+    header {
+      border-bottom: 1px solid #bdc9b8;
+      padding-bottom: 20px;
+    }
+    button,
+    select {
+      font: inherit;
+      background: #fcfbf5;
+      border: 1px solid #9eaf9c;
+      border-radius: 4px;
+      padding: 9px 13px;
+      color: inherit;
+    }
+    button {
+      cursor: pointer;
+    }
+    button:focus-visible,
+    select:focus-visible {
+      outline: 3px solid #b58345;
+    }
+    nav,
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin: 20px 0;
+    }
+    #clips {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    figure {
+      margin: 0;
+      background: #e3e8d9;
+      border: 1px solid #c2cdbb;
+    }
+    figure canvas {
+      width: 100%;
+      display: block;
+    }
+    figcaption {
+      padding: 10px;
+      text-transform: capitalize;
+      border-top: 1px solid #c2cdbb;
+    }
+    #showcase {
+      width: 100%;
+      height: auto;
+      background: #e3e8d9;
+    }
+    #field {
+      height: 500px;
+    }
+    output {
+      display: block;
+      font-family: monospace;
+      margin: 12px 0;
+    }
+    small {
+      line-height: 1.6;
+    }
+    @media (max-width: 650px) {
+      body {
+        padding: 16px;
+      }
+      h1 {
+        font-size: 32px;
+      }
+      #clips {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      #field {
+        height: 380px;
+      }
+    }
+  </style>
+  <header>
+    <a href="./">← Return to the game</a>
+    <p>THE LANTERN COMPANY / ART WORKBENCH</p>
+    <h1>Eight jobs. Eight moments.</h1>
+    <p>
+      256 painted frames for the current company. Inspect the loops, step
+      through contact poses, or record a twelve-second company reel.
+    </p>
+    <small
+      >This review tool uses isolated fixtures. It does not read or write
+      company saves. Artwork follows primary job; all sheets share a single
+      three-quarter view.</small
+    >
+  </header>
+  <main>
+    <div class="controls">
+      <label
+        >Character
+        <select id="job"></select></label
+      ><button id="play">Pause clips</button
+      ><button id="step">Step one frame</button
+      ><label><input type="checkbox" id="reduced" /> Reduced motion</label>
+    </div>
+    <output id="status" aria-live="polite">Loading character sheets…</output>
+    <section id="clips" aria-label="Eight animation clips"></section>
+    <h2>The company in motion</h2>
+    <canvas
+      id="showcase"
+      width="1024"
+      height="768"
+      aria-label="All eight job animations"
+    ></canvas>
+    <div class="controls">
+      <button id="record">Record 12-second preview</button
+      ><a id="download" hidden>Download animation reel</a
+      ><output id="record-status"></output>
+    </div>
+    <h2>Battlefield integration</h2>
+    <p>
+      These fixtures exercise the production Three.js renderer, including enemy
+      mirroring, movement and final downed poses.
+    </p>
+    <nav id="fixtures" aria-label="Battlefield fixtures"></nav>
+    <div id="field"></div>
+    <output id="field-status"></output>
+  </main>
+  <script type="module" src="/src/animation-review.ts"></script>
+</html>

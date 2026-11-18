@@ -23,7 +23,7 @@ Version 0.3 replaces the visible placeholder characters with an original, AI-gen
 
 The atlas loads once per page and caches normalized canvases per job/team. Camp portraits redraw when loading completes; active battle textures refresh without rebuilding the simulation. The URL uses Vite's base URL, including the GitHub Pages repository subpath. No CDN or runtime image-generation service is required.
 
-The current art supplies one ready pose per job. Idle bob, travel interpolation, attack lean, damage tint and fallen rotation are renderer feedback. They are not a multi-frame walk or attack atlas. Reduced-motion mode suppresses animated feedback. Appearance follows the primary job; gear and secondary jobs do not change the costume. Characters sharing a job share artwork.
+The original atlas supplies one ready pose per job for portraits and fallback. Version 0.7 adds [eight multi-frame animation sheets](ANIMATION_PIPELINE.md) for battlefield motion. In the original fallback, Idle bob, travel interpolation, attack lean, damage tint and fallen rotation are renderer feedback. Those fallback transforms are separate from the current battlefield animation sheets. Reduced-motion mode suppresses animated feedback. Appearance follows the primary job; gear and secondary jobs do not change the costume. Characters sharing a job share artwork.
 
 ## Replacement checklist
 

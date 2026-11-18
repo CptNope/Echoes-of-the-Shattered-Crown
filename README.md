@@ -8,7 +8,7 @@ An original isometric tactical RPG about a mercenary company, a fractured world,
 
 ![The Lantern Company at the shrine of Veyr](docs/assets/battlefield.jpg)
 
-> **Current edition: 0.6 — Company recovery.** Lead four companions through four linked contracts, build eight-job loadouts with thirteen active abilities and permanent supports, and challenge the Bellkeeper. Automatic recovery and portable JSON backups keep company and battle progress between sessions. The full story campaign remains future work.
+> **Current edition: 0.7 — The company in motion.** Lead four companions through four linked contracts, build eight-job loadouts with thirteen active abilities and permanent supports, and challenge the Bellkeeper. Automatic recovery and portable JSON backups keep company and battle progress between sessions. Eight job sheets now provide 256 frames for idle, walk, attack, cast, hurt, guard, victory and downed states. The full story campaign remains future work.
 
 ## Contents
 
@@ -24,6 +24,8 @@ An original isometric tactical RPG about a mercenary company, a fractured world,
 - [Development status](#development-status)
 - [Contributing and licensing](#contributing-and-licensing)
 
+Explore the [animation workbench](https://cptnope.github.io/Echoes-of-the-Shattered-Crown/animation-review.html) or read the [animation pipeline](docs/ANIMATION_PIPELINE.md).
+
 ## What you can play
 
 | System       | Available now                                                                              | Current boundary                                                          |
@@ -34,7 +36,7 @@ An original isometric tactical RPG about a mercenary company, a fractured world,
 | Equipment    | Ten items (nine purchasable), three slots, proficiencies, shared inventory, gold purchases | No crafting, selling, upgrades, rarity rolls or gear appearance models    |
 | Tactics      | Elevation, facing, range, LOS, guard, critical hits, riposte, status and momentum          | Grid-sampled LOS and no facing-selection command                          |
 | Environments | Four 9×9 Veyr map variants, ice and grass ignition                                         | Shared regional art; no new biomes, weather or destructible scenery       |
-| Presentation | Detailed eight-job atlas, close portraits, lit 3D ruins and procedural score               | Full action animation sets and orchestral music remain planned            |
+| Presentation | 256 action frames across eight jobs, close portraits, lit 3D ruins and procedural score               | Directional art, longer cycles and orchestral music remain planned            |
 | Persistence  | Company + active battle, previous-save backup, v1 migration                                | Manual + automatic browser recovery and JSON export/import; no cloud sync |
 | Input        | Pointer, touch, battle keyboard/gamepad mapping, reduced motion and text sizing            | Physical devices and full controller-driven camp navigation unverified    |
 
@@ -65,7 +67,7 @@ Open the Local URL printed by Vite. If its default port is unavailable, use `npm
 | ----------------------------------------------- | --------------------------------------------------------- |
 | `npm ci`                                        | Install locked dependency versions                        |
 | `npm run dev`                                   | Start the local development server                        |
-| `npm test`                                      | Run 49 deterministic engine and battle-scenario tests     |
+| `npm test`                                      | Run 55 deterministic combat, save and animation tests     |
 | `npm run build`                                 | Strict TypeScript check for `src/`, then generate `dist/` |
 | `npx vite preview --host 127.0.0.1 --port 4187` | Preview a production build locally                        |
 | `node scripts/verify-pages.mjs`                 | Check a build produced with the Pages base path           |
@@ -216,9 +218,9 @@ The [workflow](.github/workflows/pages.yml) builds for `/Echoes-of-the-Shattered
 
 ## Development status
 
-Version 0.6 extends the company-management milestone: four linked contracts, permanent secondary-skill learning, equipment and carried progression. Phase 2 now includes mastery and three support slots for the existing eight jobs; each advanced job now has an additional distinct active ability; the remaining job roster and further skill-board depth are still planned. Phase 3's world map, branching story, recruitment and town systems remain planned.
+Version 0.7 extends the company-management milestone: four linked contracts, permanent secondary-skill learning, equipment and carried progression. Phase 2 now includes mastery and three support slots for the existing eight jobs; each advanced job now has an additional distinct active ability; the remaining job roster and further skill-board depth are still planned. Phase 3's world map, branching story, recruitment and town systems remain planned.
 
-The suite has **49 tests**, including full deterministic simulations of all four maps, economic and equipment invariants, rewards and v1 migration. Browser checks cover file export/import, closed-tab recovery, all eight job sprites, boss awakening, first-clear relic settlement, buying/equipping, manual save/load, migrated resource preservation, learning across a job change, result settlement and second-contract deployment. Result/learning checks use isolated local fixtures, not a claim of a full manual campaign playthrough. Physical mobile devices, Safari, gamepad hardware and 60 FPS remain uncertified. See [testing](docs/TESTING.md).
+The suite has **55 tests**, including full deterministic simulations of all four maps, economic and equipment invariants, rewards and v1 migration. Browser checks cover file export/import, closed-tab recovery, all eight job sprites, boss awakening, first-clear relic settlement, buying/equipping, manual save/load, migrated resource preservation, learning across a job change, result settlement and second-contract deployment. Result/learning checks use isolated local fixtures, not a claim of a full manual campaign playthrough. Physical mobile devices, Safari, gamepad hardware and 60 FPS remain uncertified. See [testing](docs/TESTING.md).
 
 ## Contributing and licensing
 

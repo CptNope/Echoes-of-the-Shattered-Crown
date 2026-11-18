@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile, stat } from "node:fs/promises";
 import { resolve, sep } from "node:path";
+import { verifyAnimationArt } from "./verify-animation-art.mjs";
 
 const base = process.env.BASE_PATH || "/Echoes-of-the-Shattered-Crown/";
 const artPath = "art/company-atlas.png";
@@ -19,17 +20,18 @@ assert(
   "BASE_PATH must start and end with /",
 );
 
-function assets(html) {
+function assets(html, review = false) {
   assert(html.includes("Echoes of the Shattered Crown"), "Game title missing");
-  assert(html.includes('id="root"'), "React mount point missing");
+  if(!review) assert(html.includes('id="root"'), "React mount point missing");
   const paths = [...html.matchAll(/(?:src|href)=["']([^"']+)["']/g)]
     .map((match) => match[1])
+    .filter((path) => !review || path.includes("/assets/"))
     .filter((path) => !/^(?:https?:|data:|#)/.test(path));
   assert(
     paths.some((path) => path.endsWith(".js")),
     "JavaScript entry missing",
   );
-  assert(
+  if(!review) assert(
     paths.some((path) => path.endsWith(".css")),
     "Stylesheet missing",
   );
@@ -43,7 +45,7 @@ function assets(html) {
 }
 
 async function checkLocal() {
-  const paths = assets(await readFile("dist/index.html", "utf8"));
+  const paths = [...new Set([...assets(await readFile("dist/index.html", "utf8")),...assets(await readFile("dist/animation-review.html","utf8"),true)])];
   const root = resolve("dist");
   for (const path of paths) {
     const file = resolve(root, path.slice(base.length));
@@ -53,6 +55,7 @@ async function checkLocal() {
   console.log(`Verified ${paths.length} built assets under ${base}`);
   verifyAtlas(await readFile(resolve(root, artPath)));
   console.log("Verified transparent character atlas");
+  await verifyAnimationArt(false, true);
 }
 
 async function checkLive() {
@@ -68,7 +71,9 @@ async function checkLive() {
     htmlResponse.headers.get("content-type")?.includes("text/html"),
     "Expected game HTML",
   );
-  const paths = assets(await htmlResponse.text());
+  const reviewResponse = await fetch(new URL("animation-review.html",site),{signal:AbortSignal.timeout(20000),cache:"no-store"});
+  assert(reviewResponse.ok,"Animation workbench unavailable");
+  const paths = [...new Set([...assets(await htmlResponse.text()),...assets(await reviewResponse.text(),true)])];
   for (const path of paths) {
     const response = await fetch(new URL(path, site), {
       signal: AbortSignal.timeout(20000),
@@ -94,6 +99,7 @@ async function checkLive() {
   );
   verifyAtlas(await artResponse.arrayBuffer());
   console.log("Verified live character atlas");
+  await verifyAnimationArt(true);
 }
 
 if (process.argv.includes("--live")) {

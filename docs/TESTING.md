@@ -4,7 +4,7 @@
 
 ## Automated rules coverage
 
-Run `npm test`. The script uses `tsx --test src/engine.test.ts src/campaign.test.ts src/supports.test.ts src/advanced.test.ts src/portable.test.ts` and Node's built-in test runner. The current suite has 49 tests; this count is an inventory, not a coverage percentage or balance certification.
+Run `npm test`. The script uses `tsx --test src/engine.test.ts src/campaign.test.ts src/supports.test.ts src/advanced.test.ts src/portable.test.ts src/animation.test.ts` and Node's built-in test runner. The current suite has 55 tests; this count is an inventory, not a coverage percentage or balance certification.
 
 | Area             | Assertions represented                                                                                        |
 | ---------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -85,3 +85,7 @@ Six new cases bring the suite to 43 tests: Gloam preview/hit/miss consumption, O
 ## Version 0.6 validation
 
 Six new pure backup cases bring the suite to 49 tests: complete-company and active-battle round trips, legacy/native imports, malformed/unsupported data, UTF-8 limits, safe download names and timestamp handling. Actual browser/IndexedDB checks downloaded a JSON file, rejected an invalid file without changing gold, reviewed and restored the download, and then loaded the unchanged manual checkpoint. A real turn-two battle was closed and resumed. A disposable local harness verified queued writes (latest 72 gold), corrupt-current fallback (previous 71), manual isolation (45), and an enemy-turn recovery that remained unchanged across a second close before Resume. Separate 390px and 768px nested viewport checks showed no horizontal overflow in backup access/header layouts; the phone recovery dialog was visually inspected. The harnesses were removed; these storage/browser checks are not part of the Node suite or physical-device certification.
+
+## Version 0.7 validation
+
+Six animation cases bring the suite to 55 tests: loop boundaries, one-shot final holds, reduced-motion poses, state precedence, valid command/save cues and snapshot replay protection. The art verifier decodes all 256 cells and checks hashes and opacity. Browser fixtures exercised the production renderer with all jobs, walking, attack, cast, hurt, guard, down/revive and victory. Reduced-motion poses remained stable; the company reel rendered all eight states. Eight distinct job sheets used 17 GPU textures including bars and other scene assets; the normal four-job board used 13. These are local observations, not memory or frame-rate certification across devices.

@@ -1,5 +1,20 @@
 # Changelog
 
+
+## [0.7.0] — 2026-11-18
+
+### Added
+
+- Eight generated RGBA character sheets: 256 frames across idle, walk, attack, cast, hurt, guard, victory and downed clips.
+- Production WebP assets, registration manifest, source hashes, full generation prompts and reproducible art build/verification scripts.
+- Lazy animation loading, independent UV playback, shared job textures, final downed holds and reduced-motion poses.
+- Isolated animation workbench with clip stepping, battlefield fixtures and twelve-second WebM recording.
+- Six animation tests; 55 total tests. Pages checks all deployed animation assets by checksum.
+
+### Changed
+
+- Valid combat actions record an optional cosmetic cue; older v2 saves remain supported. Original portrait atlas and loading fallback remain available.
+
 Changes are grouped by player/developer impact. Dates below use **America/New_York**; GitHub commit timestamps may show the following UTC date. Package version `0.1.0` identifies the initial development baseline; this changelog does not imply a published package, GitHub release or version tag.
 
 ## Unreleased

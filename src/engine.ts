@@ -69,6 +69,7 @@ export interface Battle {
   log: string[];
   rewarded: boolean;
   bossAwakened?: boolean;
+  lastAction?: { unit: string; skill: SkillId; turn: number };
 }
 export type Command =
   | { type: "move"; x: number; z: number }
@@ -495,6 +496,7 @@ export function command(state: Battle, c: Command): Battle {
     if (!availableSkills(u).includes(c.skill) || !canTarget(s, u, sk, c.x, c.z))
       return state;
     u.mp -= sk.cost;
+    s.lastAction = { unit: u.id, skill: sk.id, turn: s.turn };
     u.acted = true;
     if (c.skill === "rally") s.momentum -= 3;
     u.facing =
@@ -737,6 +739,13 @@ function validBattle(raw: unknown): raw is Battle {
   if (
     s.version !== 2 ||
     !Object.hasOwn(encounters, s.encounter) ||
+    (s.lastAction !== undefined &&
+      (!s.lastAction ||
+        !Object.hasOwn(skills, s.lastAction.skill) ||
+        !Number.isInteger(s.lastAction.turn) ||
+        s.lastAction.turn < 1 ||
+        s.lastAction.turn > s.turn ||
+        !s.units?.some((u) => u.id === s.lastAction!.unit))) ||
     (s.bossAwakened !== undefined && typeof s.bossAwakened !== "boolean") ||
     !Number.isInteger(s.seed) ||
     !Number.isInteger(s.turn) ||

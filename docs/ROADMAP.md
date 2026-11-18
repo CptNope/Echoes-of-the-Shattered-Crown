@@ -20,7 +20,7 @@ flowchart LR
 | 2 — Jobs and character systems | Company loop implemented; Phase 2 remains partial         | Further skill-board depth and the remaining job roster; 0.5 adds four distinct advanced active abilities; 0.4 supplies mastery and eight support lessons across passive/reaction/movement slots, alongside learning, equipment and carried progression         |
 | 3 — Campaign foundation        | Not implemented as a campaign                             | World map, 3D town/hub, recruitment, branching quests/dialogue and authored music; the four-contract camp/outfitter loop is already present                                                                                                                    |
 | 4 — Advanced gameplay          | Ice, ignition, momentum and a lightning combination exist | Broader terrain manipulation, destructible objects, summons, factions, crafting and optional encounters; 0.3 supplies a named boss with a persistent phase                                                                                                     |
-| 5 — Release                    | Not release-certified                                     | Full directional/action sprite sets beyond the current eight-job ready poses, PWA/offline, broader migration coverage beyond existing v1 import/v2 JSON export, input remapping, accessibility review, mobile profiling, compatibility matrix and balance work |
+| 5 — Release                    | Not release-certified                                     | Directional views and longer cycles beyond the current 256-frame, eight-job action set, PWA/offline, broader migration coverage beyond existing v1 import/v2 JSON export, input remapping, accessibility review, mobile profiling, compatibility matrix and balance work |
 
 Each milestone should have a working player path, an explicit state/data model, appropriate tests, browser validation and updated limitations. Additional menu mockups do not satisfy a gameplay milestone.
 
@@ -60,7 +60,7 @@ The first eight have typed definitions today; four are starter jobs and four beg
 | Purchased skills/mastery  | Define ability ownership, spendable versus cumulative JP, slots and respecialization        |
 | Inventory                 | Define equipment restrictions, stat derivation and save compatibility                       |
 | More complex AI           | Establish encounter objectives and useful scenario tests before adding scoring dimensions   |
-| Full animation production | Define an atlas/event contract without coupling animation timing to damage                  |
+| Full animation production | Extend the implemented atlas/event contract with directional views and longer cycles                  |
 | Offline/PWA               | Define cache update policy and safe behavior around saved-state versions                    |
 | Release                   | Profile actual devices and complete the compatibility/accessibility matrix                  |
 
