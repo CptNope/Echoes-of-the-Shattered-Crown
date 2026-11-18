@@ -1,0 +1,63 @@
+# Testing and verification
+
+[Documentation index](README.md) · [Test source](../src/engine.test.ts) · [Deployment](DEPLOYMENT.md)
+
+## Automated rules coverage
+
+Run `npm test`. The script uses `tsx --test src/engine.test.ts` and Node's built-in test runner. The current suite has 17 tests; this count is an inventory, not a coverage percentage or balance certification.
+
+| Area             | Assertions represented                                                                                        |
+| ---------------- | ------------------------------------------------------------------------------------------------------------- |
+| Movement         | Water, obstacles, occupancy, climb costs, once-per-turn move, illegal action identity                         |
+| Resolution       | Deterministic replay, source immutability, basic damage, spent action                                         |
+| Positioning      | Facing/flank, guard and elevation preview; formation reduction is implemented but lacks an isolated assertion |
+| Targeting        | Range, blocked LOS and unavailable energy                                                                     |
+| Terrain          | Water-to-ice and grass ignition                                                                               |
+| Healing          | Revival amount, health cap, burn clearing                                                                     |
+| Status/timeline  | Burn damage, counter decrement, slow readiness penalty, next actor                                            |
+| Progression      | JP level calculation, combined prerequisites, retained progress, initial-turn job gate                        |
+| Momentum/outcome | Concord gate, victory reward once, burn-triggered defeat, terminal rejection                                  |
+| Save validation  | Versions, finite values, record counts, known jobs, null entries, missing counters                            |
+| Integration      | Repeated scored-AI battle reaches an outcome within 400 activations and replays identically                   |
+| Regressions      | Soaked lightning, lethal riposte turn advancement, allied area immunity, fallen tile occupancy                |
+
+The integration test temporarily reverses team labels to apply the enemy planner as a symmetric player policy. It checks a legal deterministic simulation outcome, not a human strategy, a balanced encounter or real UI interaction.
+
+## Build and hosting checks
+
+| Check               | Entry point                                         | Boundary                                             |
+| ------------------- | --------------------------------------------------- | ---------------------------------------------------- |
+| Strict TypeScript   | `npm run build`                                     | `src/` file set; not a separate lint command         |
+| Production bundling | Vite in the same build command                      | Module/CSS compilation; not a frame-rate test        |
+| Local Pages assets  | `node scripts/verify-pages.mjs` after a Pages build | Paths and real nonempty files                        |
+| Live assets         | `PAGES_URL` plus verifier `--live`                  | HTTPS HTML/JS/CSS responses; no browser execution    |
+| CI                  | [Pages workflow](../.github/workflows/pages.yml)    | PR validation; main deployment and live verification |
+
+Vite currently warns about a JavaScript chunk above its default 500 kB threshold. The initial compiled bundle was roughly 764 kB, about 212 kB gzip, dominated by the renderer and UI libraries. A warning is not an exception, but optimization and device profiling remain roadmap work; future builds may differ.
+
+## Browser smoke checklist
+
+Use a clean, disposable in-memory battle and avoid overwriting a save you want to keep.
+
+| Step                     | Expected observation                                                                      |
+| ------------------------ | ----------------------------------------------------------------------------------------- |
+| Load game                | Board, original sprites, HUD and timeline render; no WebGL failure notice                 |
+| Rotate and zoom          | Camera changes; actors remain readable; grid selection still matches                      |
+| Move then confirm        | Preview cost matches; destination updates; Move becomes unavailable                       |
+| Select/cancel ability    | Legal range appears; cancellation spends no resources                                     |
+| Cast Stillwater on water | Energy decreases, action is spent and water becomes ice                                   |
+| End allied turns         | AI runs automatically, then returns control to an allied activation                       |
+| Heal/revive              | Health is capped; a fallen companion returns to the timeline                              |
+| Change a starter loadout | Job label, sprite and skills update while activation count is 1                           |
+| Save/change/load         | Saved resources, seed, terrain and turn are restored                                      |
+| Win/lose                 | Result overlay appears and ordinary commands stop                                         |
+| Resize                   | No document-level horizontal overflow; internal command/timeline scrolling remains usable |
+| Settings                 | Text changes size; reduced motion removes easing; sound follows user activation           |
+
+A complete manual victory/defeat playthrough has not been recorded as certified browser coverage; those terminal rules have automated engine tests. Keep that distinction in review notes.
+
+## Evidence and gaps
+
+Historical Phase 1 checks are in [VALIDATION.md](../VALIDATION.md). Browser layout review used 1440×900, 768×1024 and 390×844 viewports. Live Pages movement, turn advancement and a console warning/error check passed. Physical Android/iOS devices, Safari, gamepad hardware, installed PWA behavior, accessibility certification and desktop 60 FPS performance remain unverified.
+
+The separate automated visual inspector could not launch its Windows Chrome process; manual screenshot review supplied layout QA. There is no configured visual regression suite, browser E2E suite, measured code coverage or storage integration-test suite. Add these intentionally when their maintenance cost serves a concrete risk.

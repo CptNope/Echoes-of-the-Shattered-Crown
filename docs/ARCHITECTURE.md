@@ -1,0 +1,112 @@
+# Architecture
+
+[Documentation index](README.md) · [Development](DEVELOPMENT.md) · [Data and saves](DATA_AND_SAVES.md)
+
+## Boundaries
+
+React owns the current battle snapshot and interface state. The pure engine validates gameplay commands and computes a next snapshot. Three.js renders that state and sends tile-selection callbacks upward. Camera movement, animation frames and audio never decide a combat outcome.
+
+```mermaid
+flowchart TB
+    subgraph Interface
+        Controls[Input adapters]
+        HUD[React state and HUD]
+        Controls --> HUD
+    end
+    subgraph Simulation
+        Content[data.ts]
+        Rules[engine.ts]
+        Content --> Rules
+        AI[Scored AI planner] --> Rules
+    end
+    HUD -->|Command| Rules
+    Rules -->|Battle snapshot| HUD
+    HUD -->|State / mode / selection| View[scene.ts]
+    View -->|Tile callbacks| HUD
+    HUD --> Storage[storage.ts]
+    Storage -->|Validated snapshot| HUD
+    HUD --> Audio[audio.ts]
+    Tests[engine.test.ts] --> Rules
+```
+
+| Module       | Owns                                                                        | Must not own                                        |
+| ------------ | --------------------------------------------------------------------------- | --------------------------------------------------- |
+| `data.ts`    | Typed job/skill records, JP levels, unlock checks                           | Browser state or mutable battle outcomes            |
+| `engine.ts`  | Map/roster creation, legal actions, rules, seeded rolls, AI, validation     | DOM, React, WebGL, real-time animation              |
+| `main.tsx`   | HUD, dialogs, input mapping, notices, targeting, UI settings, scheduling    | Independent damage or movement formulas             |
+| `scene.ts`   | Terrain geometry, sprite textures, camera, visual interpolation, highlights | Hits, damage, resource spending or turn advancement |
+| `storage.ts` | IndexedDB opening, manual/backup records, fallback load                     | Campaign progression or schema migrations           |
+| `audio.ts`   | AudioContext, synthesized notes and playback timer                          | Gameplay time or random combat rolls                |
+
+## Command lifecycle
+
+```mermaid
+sequenceDiagram
+    actor Player
+    participant UI as React HUD
+    participant Engine as Simulation
+    participant View as Three.js scene
+    Player->>UI: Choose Move or a skill
+    UI->>Engine: Query reachable or canTarget and preview
+    Engine-->>UI: Costs, legal centers and predicted outcome
+    UI->>View: Update targeting highlights
+    Player->>UI: Select a tile and confirm
+    UI->>Engine: command(currentBattle, request)
+    alt Illegal or battle resolved
+        Engine-->>UI: Original object
+        UI-->>Player: Unavailable action notice
+    else Legal
+        Engine-->>UI: Cloned next battle
+        UI->>View: Render new snapshot
+        UI-->>Player: Updated HUD and combat log
+    end
+```
+
+The application uses original-object identity as the rejected-command signal. Never mutate the input snapshot inside a new rule: it would undermine both that signal and deterministic tests. `structuredClone()` supplies a small, simple immutable transition boundary; this implementation has no event bus, replay file format or ECS framework.
+
+## Engine surface
+
+| Export                                              | Purpose                                                             |
+| --------------------------------------------------- | ------------------------------------------------------------------- |
+| `createBattle(seed?)`                               | Construct the Veyr map and eight-unit roster; default seed 74319    |
+| `command(state, request)`                           | Apply a move, skill or turn ending                                  |
+| `aiTurn(state)`                                     | Compute one enemy activation using the same rules                   |
+| `reachable(state, unit)`                            | Map reachable coordinates to movement costs                         |
+| `canTarget(state, unit, skill, x, z)`               | Validate a target center and resources                              |
+| `preview(state, attacker, defender, skill)`         | Predicted amount, accuracy, flank, height and lightning combination |
+| `lineOfSight(state, from, to)`                      | Discrete obstacle/height sampling                                   |
+| `availableSkills(unit)`                             | Merge primary, secondary and shared skills                          |
+| `changeJob(state, id, primary, secondary)`          | Preserve JP and enforce the initial-turn loadout gate               |
+| `validateSave(raw)`                                 | Safely reject incompatible or malformed snapshots                   |
+| `activeUnit`, `living`, `tileAt`, `distance`, `key` | Small queries and coordinate helpers                                |
+
+These are application functions, not a stable public package API. Types are exported for composition and testing; a future change can refine their contracts along with tests and documentation.
+
+## Determinism
+
+The seed is part of `Battle`. Accuracy and critical checks advance it inside the engine. Neither `Math.random()` nor wall-clock time participates in simulation. Given identical content definitions, initial state and ordered commands, repeated simulation should produce identical snapshots.
+
+Rendering uses time for bobbing, camera easing and shard rotation; audio uses a timer; enemy turns use a cancellable delay. Those affect presentation only. The save wrapper's timestamp is metadata outside the deterministic battle. Tie-breaking currently uses string `localeCompare()`; cross-runtime lockstep certification has not been performed.
+
+## Enemy scheduling and menus
+
+React schedules the next enemy activation only while the result is `playing`, the active team is enemy and no dialog is open. Its effect cleanup cancels stale timeouts. The planner computes position and ability choices synchronously over the small board. Menus pause the delay rather than running AI in the background. There is no worker-thread AI or multi-turn search.
+
+## Rendering lifecycle
+
+`Battlefield` creates one WebGL renderer, an orthographic camera, terrain/marker groups and actor sprites. `ResizeObserver` adjusts the frustum to the host aspect ratio. A requestAnimationFrame loop interpolates the camera and unit positions. `update()` refreshes highlights, sprite classes, health labels and relevant tile colors from state. `dispose()` cancels the loop, removes observers/listeners, disposes graphics resources and clears the host.
+
+Original sprites are camera-facing billboards backed by CanvasTextures. Grid interaction raycasts the tile meshes; visual scenery does not replace rule-level LOS. Foreground fading is view-based rather than exact character occlusion.
+
+## Decisions and extension pressure
+
+| Decision                  | Why it fits this slice                                      | Revisit when                                                                     |
+| ------------------------- | ----------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| React local state         | One battle and a few dialogs need no extra store dependency | Campaign, inventory and cross-screen state grow                                  |
+| Cloned snapshots          | Clear validation and tests on eight units                   | Profiling shows cloning dominates large encounters                               |
+| Typed content records     | Simple additions and compile-time IDs                       | Modding or external content validation becomes a requirement                     |
+| 9×9 fixed encounter       | Keeps one authored battlefield coherent                     | Adding maps; coordinate dimensions must reach renderer, validator and input code |
+| Procedural art/audio      | Original, reproducible assets without extracted material    | Full animation and authored music production                                     |
+| Versioned manual snapshot | Captures all current rules and RNG state                    | Save migrations, export or persistent campaign progression                       |
+
+The engine is separate from rendering, but content loading is not yet generalized. New maps, jobs or statuses require coordinated edits; they are not arbitrary drop-in JSON plugins. See [development recipes](DEVELOPMENT.md).
