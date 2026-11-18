@@ -1,96 +1,83 @@
 # Data and saves
 
-[Documentation index](README.md) · [Engine types](../src/engine.ts) · [Storage implementation](../src/storage.ts)
+[Documentation index](README.md) · [Company progression](COMPANY_AND_PROGRESSION.md) · [Storage source](../src/storage.ts)
 
-## Runtime records
+## Current records
 
-| Record                    | Fields                                                                                         | Notes                                                |
-| ------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
-| `Battle`                  | `version`, `seed`, `tiles`, `units`, `active`, `turn`, `momentum`, `result`, `log`, `rewarded` | Authoritative simulation snapshot                    |
-| `Tile`                    | `x`, `z`, `h`, `terrain`, `blocked`, `burn`                                                    | Terrain is grass, stone, water or ice                |
-| `Unit` identity           | `id`, `name`, `job`, `secondary`, `team`                                                       | Team is ally or enemy                                |
-| `Unit` position/resources | `x`, `z`, `hp`, `maxHp`, `mp`, `maxMp`, `next`, `facing`                                       | Energy appears as EN in the HUD; readiness is `next` |
-| `Unit` turn state         | `guard`, `moved`, `acted`                                                                      | Reset selectively on activation                      |
-| `Unit` progression        | `jp`                                                                                           | Partial map from `JobId` to nonnegative JP           |
-| `Unit` status             | `burn`, `slow`, `exposed`, `soaked` inside `status`                                            | Counters decrement on that unit's turn ending        |
+| Record       | Important fields                                                                              | Responsibility                                       |
+| ------------ | --------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| `Expedition` | `version: 2`, `stage`, `company`, `battle`                                                    | Whole saved game; stage is camp or battle            |
+| `Company`    | `members`, `gold`, `inventory`, `completed`, `victories`, `deployments`                       | Persistent roster, shared economy and route progress |
+| `Member`     | Identity, job/secondary, `baseHp`, `maxMp`, `jp`, `jpSpent`, `learned`, `equipment`           | Profile projected into each new encounter            |
+| `Battle`     | `version: 2`, `encounter`, seed, tiles, units, active, turn, momentum, result, log, rewarded  | Deterministic active/resolved combat                 |
+| `Unit`       | Member fields plus position, HP/MP, readiness, facing, guard, moved/acted and status counters | Encounter-specific combat state                      |
+| `Tile`       | x, z, height, terrain, blocked, burn                                                          | Board rules and terrain state                        |
 
-There are 81 tiles and eight units in a current valid save. The unit array is also significant for deterministic target iteration; changing its order can change which target consumes which random roll. The log keeps at most 40 recent entries.
+Current battles still have 81 tiles and eight units. The persistent company has exactly the four known companion IDs. Unit order matters to random-roll consumption. The combat log retains up to 40 recent entries.
 
 ## IndexedDB contract
 
-| Setting                 | Value                                        |
-| ----------------------- | -------------------------------------------- |
-| Database                | `echoes-crown`                               |
-| Database schema version | `1`                                          |
-| Store                   | `saves`                                      |
-| Primary key             | String `manual`                              |
-| Backup key              | String `backup`                              |
-| Stored wrapper          | `{ battle: Battle, savedAt: ISODateString }` |
-| Battle format version   | `battle.version === 1`                       |
+| Setting                      | Value                                                |
+| ---------------------------- | ---------------------------------------------------- |
+| Database / schema version    | `echoes-crown` / `1`                                 |
+| Object store                 | `saves`                                              |
+| Slots                        | `manual`, `backup`                                   |
+| Current wrapper              | `{ game: Expedition, savedAt: ISODateString }`       |
+| Current game / battle format | Both version `2`                                     |
+| Legacy wrapper supported     | `{ battle: Version1Battle, savedAt: ISODateString }` |
 
-Database version and battle format version are distinct even though both currently equal 1. IndexedDB's upgrade callback creates the store; it does not migrate older battle formats.
+Database schema version remains 1 because the store layout did not change. It is separate from the serialized game's format version. Presentation settings, selected camp tab, camera and audio context are not serialized.
 
-Illustrative wrapper, **not a complete loadable save**:
-
-```json
-{
-  "savedAt": "2026-11-18T03:43:00.000Z",
-  "battle": {
-    "version": 1,
-    "seed": 74319,
-    "active": "sera",
-    "turn": 1,
-    "momentum": 0,
-    "result": "playing",
-    "rewarded": false,
-    "tiles": [],
-    "units": [],
-    "log": []
-  }
-}
-```
-
-The empty arrays above are shorthand for documentation. Loading that example would be rejected.
-
-## Save and recovery flow
+## Save, load and migration
 
 ```mermaid
 flowchart TD
-    Save[Manual Save battle] --> Old[Read previous manual slot]
-    Old --> Valid{Previous battle valid?}
-    Valid -->|Yes| Backup[Copy previous wrapper to backup]
-    Valid -->|No| Write[Write current snapshot to manual]
-    Backup --> Write
-    Load[Load save] --> Read[Read manual slot]
-    Read --> Check{Battle validates?}
-    Check -->|Yes| Restore[Restore battle]
-    Check -->|No| ReadBackup[Read backup slot]
-    ReadBackup --> CheckBackup{Battle validates?}
-    CheckBackup -->|Yes| Recover[Restore backup and show recovery notice]
-    CheckBackup -->|No| Error[Show no valid save notice]
+    Save[Manual save request] --> Tx[Open one readwrite transaction]
+    Tx --> Old[Decode previous manual record]
+    Old --> Backup[If valid: copy wrapper into backup]
+    Backup --> Write[Write current game into manual and commit]
+    Load[Load request] --> Manual[Decode manual slot]
+    Manual --> Valid{Current game valid?}
+    Valid -->|Yes| Restore[Restore game and stage]
+    Valid -->|No| Legacy{Legacy v1 battle valid after migration?}
+    Legacy -->|Yes| Migrate[Wrap battle with company and notify]
+    Legacy -->|No| Retry[Repeat decoding for backup]
+    Retry --> Result{Usable record?}
+    Result -->|Yes| Restore
+    Result -->|No| Error[Show no valid save notice]
 ```
 
-Saving reads the old manual record and copies it to backup only if its battle validates, then writes the new manual record. These are separate database operations; do not describe the pair as an atomic transaction. A successful UI notice means the awaited save operation completed, not that a portable backup was exported.
+`saveGame()` copies a decodable previous manual record to backup and writes the new wrapper within a single IndexedDB readwrite transaction. It awaits transaction completion before reporting success and closes the connection in `finally`. It does not overwrite a valid backup with a malformed previous manual record.
 
-Loading tries both slots in order and closes the database in a `finally` block. It returns the restored battle plus a `recovered` flag. Load restores RNG, readiness, resources, class JP, terrain changes and terminal outcomes along with positions. It clears targeting state in the interface. It does not restore camera, sound, text size or other presentation settings.
+`loadGame()` tries manual first, then backup, using the same pure `decodeSave()` routine. It returns the game and flags indicating backup recovery and/or legacy migration. It restores the active battle or camp exactly as saved; it does not automatically settle a stored victory until the player returns to camp.
 
-## Validation boundaries
+### Legacy v1 migration
 
-`validateSave()` catches malformed-record errors and returns false. It checks the format version, board/unit counts, coordinate ranges, unique tile and unit identities, known jobs and terrain, finite resource values, status counters, and presence of a suitable active unit. The engine's exact checks are authoritative; this is not a full schema validator for every possible invariant or a security boundary for untrusted uploaded files.
+Migration clones the old battle, adds the shrine encounter ID, sets battle version 2, records each unit's old maximum HP as base HP, adds empty equipment and JP spending, and marks the previous secondary job's skills learned. It then validates the resulting battle and expedition.
 
-There is no migration, save import, checksum, encryption, campaign schema or automatic repair. The previous valid slot is the only recovery mechanism. Before changing `JobId`, status counters, dimensions or required record fields, decide how existing snapshots will remain readable or be explicitly rejected.
+Positions, HP/MP, turn flags, statuses, readiness, JP, RNG seed and outcome are preserved. Empty equipment prevents new bonuses from silently changing a battle already in progress. The migrated company receives the new starting treasury/inventory, with its roster taken from the old battle; equipment can be assigned at camp later. Since the old format had no pre-deployment profile, its migrated current roster becomes the retry baseline. Old malformed or incompatible records are rejected rather than guessed into a playable state.
+
+Loading a legacy record does not rewrite it immediately. A subsequent manual save stores the current v2 wrapper and retains the old decodable record as backup. There is still no portable save export/import or general migration chain beyond this one supported transition.
+
+## Profile versus field state
+
+During a battle, the company profile is the pre-deployment baseline; the battle's allied units hold new JP and any first-turn job adjustments. Save includes both. Terminal settlement copies field progression back, then adds contract gold and unique completion. Retry uses the profile instead, discarding that attempt's gains. Camp settlement is gated by stage and outcome to prevent duplicate rewards.
+
+## Validation and limitations
+
+The engine validates known jobs, skills, gear slots/proficiencies, JP spending, status counters, coordinates, resources and fixed board/roster counts. Expedition validation additionally checks companion identities, gold/count bounds, completion IDs, and that profile/field equipment allocations do not exceed owned quantities. Malformed shapes are caught and rejected. These are application compatibility checks, not a public upload-security schema.
 
 ## Storage limitations
 
-| Scenario                             | Expected behavior                                                                                  |
-| ------------------------------------ | -------------------------------------------------------------------------------------------------- |
-| Refresh or reopen                    | New in-memory battle; use Load save to restore the manual snapshot                                 |
-| Restart battle                       | Reset roster and JP; existing manual save stays unchanged                                          |
-| Clear browser/site data              | Both stored slots may be removed                                                                   |
-| Another browser/profile/device       | Separate storage; no cloud synchronization                                                         |
-| Private Site versus GitHub Pages     | Different origins and separate saves                                                               |
-| Private browsing or disabled storage | Browser-dependent persistence; errors are shown as notices                                         |
-| Multiple game tabs                   | Shared origin slots; later saves can overwrite earlier ones without conflict detection             |
-| Package version changes              | Does not automatically migrate or invalidate saves; `battle.version` and validation govern loading |
+| Scenario                                   | Behavior                                                          |
+| ------------------------------------------ | ----------------------------------------------------------------- |
+| Refresh or reopen                          | Fresh company appears; use Load save to restore the manual slot   |
+| New company                                | In-memory progress resets after confirmation; manual save remains |
+| Retry contract                             | Pre-deployment roster restored; attempt gains discarded           |
+| Return after defeat                        | Attempt JP kept; no bounty or contract unlock                     |
+| Another profile/device/origin              | Separate storage; no synchronization                              |
+| Private Site versus Pages                  | Different origins and different saves                             |
+| Multiple tabs on one origin                | Shared slots; later saves can overwrite earlier ones              |
+| Site-data clearing/private-browsing policy | Persistence may be removed or restricted                          |
 
-All projects on the same `cptnope.github.io` origin share browser-origin storage space. The database name is project-specific, but the repository path is not a separate storage origin. A custom domain introduces another origin and does not automatically transfer existing saves.
+Repository paths on the same `cptnope.github.io` host share an origin, though this project uses its own database name. A custom domain is another origin and does not automatically transfer existing snapshots. No autosave, cloud sync, encryption, checksums, portable recovery file or conflict resolution is implemented.

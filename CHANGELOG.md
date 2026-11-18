@@ -4,14 +4,29 @@ Changes are grouped by player/developer impact. Dates below use **America/New_Yo
 
 ## Unreleased
 
-### Documentation
+Further milestones are tracked in [the roadmap](docs/ROADMAP.md).
 
-- Expanded the README with a playable link, workflow badge, original battlefield capture, setup commands, feature boundaries, module map and documentation navigation.
-- Added player, exact combat, job/ability, architecture, save-format, development, testing, deployment, art/audio, roadmap and troubleshooting guides.
-- Added Mermaid state/flow/sequence diagrams, numeric reference tables and contribution guidance.
-- Recorded starter-secondary exceptions, primary-only stat rules, manual-save/origin limits, session-only settings, current test boundaries and licensing status.
+## 0.2.0 — 2026-11-17
 
-No combat rules, dependencies or deployment permissions are changed by this documentation update.
+### Added
+
+- Functional company camp with contracts, roster/job loadouts, permanent skill training, outfitter and shared treasury.
+- Three sequential, replayable Veyr contracts with distinct crossing/cover arrangements and enemy compositions, including advanced-job opposition.
+- Lifetime versus spent JP, 60-JP permanent learning, learned-only secondary skills and preserved starter ability sets.
+- Nine pieces of equipment, three slots, proficiency rules, copy reservation and derived stats used by movement, damage and initiative.
+- Carried progression, one-time result settlement, repeatable bounties, defeat recovery and an explicit pre-deployment retry baseline.
+- Version 2 expedition snapshots, lossless active-combat migration from supported v1 saves and atomic manual/backup writes.
+- Eleven new progression tests (28 total), including full deterministic battles on all three boards.
+
+### Changed
+
+- New sessions begin at camp; victory/defeat results return to camp instead of resetting progression.
+- Secondary skill sets require permanent learning. Primary skills remain native; starter secondaries stay learned for compatibility.
+- Updated documentation to distinguish the new company loop from the still-planned world-map/story campaign and mastery systems.
+
+## Documentation expansion — 2026-11-17
+
+- Added twelve implementation guides, nine Mermaid diagrams, 43 tables, contribution guidance and history-based release notes. All 130 local links/anchors and reference numbers were checked; all diagrams rendered on GitHub.
 
 ## 0.1.0 baseline — 2026-11-17
 

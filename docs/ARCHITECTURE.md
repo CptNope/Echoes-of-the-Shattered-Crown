@@ -4,7 +4,7 @@
 
 ## Boundaries
 
-React owns the current battle snapshot and interface state. The pure engine validates gameplay commands and computes a next snapshot. Three.js renders that state and sends tile-selection callbacks upward. Camera movement, animation frames and audio never decide a combat outcome.
+React owns an Expedition containing a Company profile, a battle snapshot and camp/battle stage, plus presentation state. The pure engine validates gameplay commands and computes a next snapshot. Three.js renders that state and sends tile-selection callbacks upward. Camera movement, animation frames and audio never decide a combat outcome.
 
 ```mermaid
 flowchart TB
@@ -29,14 +29,17 @@ flowchart TB
     Tests[engine.test.ts] --> Rules
 ```
 
-| Module       | Owns                                                                        | Must not own                                        |
-| ------------ | --------------------------------------------------------------------------- | --------------------------------------------------- |
-| `data.ts`    | Typed job/skill records, JP levels, unlock checks                           | Browser state or mutable battle outcomes            |
-| `engine.ts`  | Map/roster creation, legal actions, rules, seeded rolls, AI, validation     | DOM, React, WebGL, real-time animation              |
-| `main.tsx`   | HUD, dialogs, input mapping, notices, targeting, UI settings, scheduling    | Independent damage or movement formulas             |
-| `scene.ts`   | Terrain geometry, sprite textures, camera, visual interpolation, highlights | Hits, damage, resource spending or turn advancement |
-| `storage.ts` | IndexedDB opening, manual/backup records, fallback load                     | Campaign progression or schema migrations           |
-| `audio.ts`   | AudioContext, synthesized notes and playback timer                          | Gameplay time or random combat rolls                |
+| Module                           | Owns                                                                        | Must not own                                                    |
+| -------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| `campaign.ts`                    | Profile projection, settlement, training, purchases and v1 migration        | DOM or renderer-owned outcomes                                  |
+| `Camp.tsx`                       | Contract selection, roster, learning and outfitter controls                 | Independent economic or combat formulas                         |
+| `equipment.ts` / `encounters.ts` | Gear, proficiency, bonuses, mission metadata and gates                      | Mutable progression                                             |
+| `data.ts`                        | Typed job/skill records, JP levels, unlock checks                           | Browser state or mutable battle outcomes                        |
+| `engine.ts`                      | Map/roster creation, legal actions, rules, seeded rolls, AI, validation     | DOM, React, WebGL, real-time animation                          |
+| `main.tsx`                       | HUD, dialogs, input mapping, notices, targeting, UI settings, scheduling    | Independent damage or movement formulas                         |
+| `scene.ts`                       | Terrain geometry, sprite textures, camera, visual interpolation, highlights | Hits, damage, resource spending or turn advancement             |
+| `storage.ts`                     | Atomic manual/backup records and decoded fallback load                      | Combat resolution (migration is delegated to campaign decoding) |
+| `audio.ts`                       | AudioContext, synthesized notes and playback timer                          | Gameplay time or random combat rolls                            |
 
 ## Command lifecycle
 
@@ -100,13 +103,31 @@ Original sprites are camera-facing billboards backed by CanvasTextures. Grid int
 
 ## Decisions and extension pressure
 
-| Decision                  | Why it fits this slice                                      | Revisit when                                                                     |
-| ------------------------- | ----------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| React local state         | One battle and a few dialogs need no extra store dependency | Campaign, inventory and cross-screen state grow                                  |
-| Cloned snapshots          | Clear validation and tests on eight units                   | Profiling shows cloning dominates large encounters                               |
-| Typed content records     | Simple additions and compile-time IDs                       | Modding or external content validation becomes a requirement                     |
-| 9×9 fixed encounter       | Keeps one authored battlefield coherent                     | Adding maps; coordinate dimensions must reach renderer, validator and input code |
-| Procedural art/audio      | Original, reproducible assets without extracted material    | Full animation and authored music production                                     |
-| Versioned manual snapshot | Captures all current rules and RNG state                    | Save migrations, export or persistent campaign progression                       |
+| Decision                      | Why it fits this slice                                      | Revisit when                                                                     |
+| ----------------------------- | ----------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| React local state             | One battle and a few dialogs need no extra store dependency | Campaign, inventory and cross-screen state grow                                  |
+| Cloned snapshots              | Clear validation and tests on eight units                   | Profiling shows cloning dominates large encounters                               |
+| Typed content records         | Simple additions and compile-time IDs                       | Modding or external content validation becomes a requirement                     |
+| 9×9 fixed encounter           | Keeps one authored battlefield coherent                     | Adding maps; coordinate dimensions must reach renderer, validator and input code |
+| Procedural art/audio          | Original, reproducible assets without extracted material    | Full animation and authored music production                                     |
+| Versioned expedition snapshot | Captures company, deployment baseline, active rules and RNG | More migration versions, export or a branching story campaign                    |
 
 The engine is separate from rendering, but content loading is not yet generalized. New maps, jobs or statuses require coordinated edits; they are not arbitrary drop-in JSON plugins. See [development recipes](DEVELOPMENT.md).
+
+## Company boundary in 0.2
+
+`campaign.ts` keeps pre-deployment profiles separate from field units. Departure restores resources and projects owned gear/learned skills into a fresh encounter. Settlement copies earned field progress back and pays a contract once; retry projects the original profile again. `unitStats()` derives gear-adjusted values for both UI and engine queries. Save includes both layers and supports the legacy v1 battle wrapper. See [company progression](COMPANY_AND_PROGRESSION.md) and [data and saves](DATA_AND_SAVES.md).
+
+| Campaign export                                           | Contract                                                                            |
+| --------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `createExpedition()`                                      | Starter company, inventory and camp stage                                           |
+| `depart(game, encounterId)`                               | Check route gate, project roster and increment deployment serial                    |
+| `returnToCamp(game)`                                      | Settle a terminal battle exactly once, retain field progress and pay victory bounty |
+| `retryContract(game)`                                     | Restore the saved deployment profile and start another attempt                      |
+| `setMemberJob(game, id, primary, secondary)`              | Camp-only job selection with prerequisite checks and incompatible-gear removal      |
+| `train(game, id, job, skill)`                             | Spend that job's unspent JP once to permanently learn an ability                    |
+| `equip(game, id, slot, item)`                             | Camp-only proficiency and shared-copy reservation                                   |
+| `purchase(game, item)`                                    | Camp-only purchase without overdrawing gold or exceeding item caps                  |
+| `validateExpedition`, `decodeSave`, `migrateLegacyBattle` | Current format compatibility, wrapper decoding and supported v1 migration           |
+
+`createBattle(seed, encounterId)` still returns an independent bare combat fixture with no equipped items; company deployment overlays the roster and derived maximum HP. This keeps engine tests independent from inventory. Enemy jobs do not require player unlock progression.

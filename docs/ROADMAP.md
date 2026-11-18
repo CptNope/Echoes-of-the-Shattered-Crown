@@ -14,13 +14,13 @@ flowchart LR
 
 ## Milestone acceptance
 
-| Phase                          | Status                                                    | Remaining acceptance work                                                                                                                            |
-| ------------------------------ | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1 — Functional vertical slice  | Playable, with documented presentation/input limits       | Continue validating the single battle and regressions; expand browser scenario coverage                                                              |
-| 2 — Jobs and character systems | Foundations present                                       | 8–12 fully distinct jobs, learned/purchased skills, mastery, passive/reaction/movement slots, equipment, inventory and progression across encounters |
-| 3 — Campaign foundation        | Not implemented as a campaign                             | World map, hub, recruitment, shops, quests, multiple battle maps, branching dialogue/state and authored music                                        |
-| 4 — Advanced gameplay          | Ice, ignition, momentum and a lightning combination exist | Broader terrain manipulation, destructible objects, summons, boss mechanics, factions, crafting and optional encounters                              |
-| 5 — Release                    | Not release-certified                                     | Full sprite sets, PWA/offline, save migration/export, input remapping, accessibility review, mobile profiling, compatibility matrix and balance work |
+| Phase                          | Status                                                    | Remaining acceptance work                                                                                                                                                            |
+| ------------------------------ | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1 — Functional vertical slice  | Playable, with documented presentation/input limits       | Continue validating the single battle and regressions; expand browser scenario coverage                                                                                              |
+| 2 — Jobs and character systems | Company loop implemented; Phase 2 remains partial         | More distinct advanced job boards, mastery and passive/reaction/movement slots; 0.2 already supplies learned secondary skills, equipment, inventory and carried contract progression |
+| 3 — Campaign foundation        | Not implemented as a campaign                             | World map, 3D town/hub, recruitment, branching quests/dialogue and authored music; the three-contract camp/outfitter loop is already present                                         |
+| 4 — Advanced gameplay          | Ice, ignition, momentum and a lightning combination exist | Broader terrain manipulation, destructible objects, summons, boss mechanics, factions, crafting and optional encounters                                                              |
+| 5 — Release                    | Not release-certified                                     | Full sprite sets, PWA/offline, save migration/export, input remapping, accessibility review, mobile profiling, compatibility matrix and balance work                                 |
 
 Each milestone should have a working player path, an explicit state/data model, appropriate tests, browser validation and updated limitations. Additional menu mockups do not satisfy a gameplay milestone.
 

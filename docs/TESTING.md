@@ -4,7 +4,7 @@
 
 ## Automated rules coverage
 
-Run `npm test`. The script uses `tsx --test src/engine.test.ts` and Node's built-in test runner. The current suite has 17 tests; this count is an inventory, not a coverage percentage or balance certification.
+Run `npm test`. The script uses `tsx --test src/engine.test.ts src/campaign.test.ts` and Node's built-in test runner. The current suite has 28 tests; this count is an inventory, not a coverage percentage or balance certification.
 
 | Area             | Assertions represented                                                                                        |
 | ---------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -61,3 +61,9 @@ A complete manual victory/defeat playthrough has not been recorded as certified 
 Historical Phase 1 checks are in [VALIDATION.md](../VALIDATION.md). Browser layout review used 1440×900, 768×1024 and 390×844 viewports. Live Pages movement, turn advancement and a console warning/error check passed. Physical Android/iOS devices, Safari, gamepad hardware, installed PWA behavior, accessibility certification and desktop 60 FPS performance remain unverified.
 
 The separate automated visual inspector could not launch its Windows Chrome process; manual screenshot review supplied layout QA. There is no configured visual regression suite, browser E2E suite, measured code coverage or storage integration-test suite. Add these intentionally when their maintenance cost serves a concrete risk.
+
+## Version 0.2 validation
+
+Eleven new campaign tests cover legal starter inventory/contract gates, permanent learning and preserved levels, unlearned secondary rejection, copy/proficiency restrictions, purchases, actual gear effects, one-time settlement, defeat/retry behavior, legacy migration, invalid progression data, and deterministic completed simulations for all three distinct boards.
+
+Browser checks on an isolated localhost origin verified buying Bronze lamellar, the resulting armor/movement/HP change, save/reset/load restoration, a migrated v1 snapshot retaining 87 HP and 19 energy, victory settlement from 140 to 200 gold, learning Sundering arc and using it as an Arcanist/Vanguard in the second contract. Legacy and completed-battle inputs were supplied through a disposable local fixture page, removed before commit; this is not a claim of a full manual three-contract playthrough. Phone overflow checks at 390 pixels found no document-level horizontal overflow. Physical-device and full controller/accessibility certification remain outstanding.

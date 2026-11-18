@@ -4,20 +4,22 @@
 
 ## The encounter
 
-Lead the Lantern Company to Veyr and defeat four Oathless enemies. Victory means no enemy has health remaining; defeat means no companion has health remaining. The shrine shard is narrative scenery, not a capture interaction. There is no turn limit or optional objective.
+Start at company camp and complete three linked contracts in the Veyr region. Each encounter asks the Lantern Company to defeat four Oathless enemies. Victory means no enemy has health remaining; defeat means no companion has health remaining. The shrine shard is narrative scenery, not a capture interaction. There is no turn limit or optional objective.
 
 After the star Avel fell, geography and memory fractured. Sera's company finds a crown shard that could restore what the world lost. The chronicle introduces the Oathless, Meridian Compact and Verdant Witness; branching faction consequences are future campaign work.
 
 ## Starting company
 
-| Companion   | Primary      | Starter secondary |  HP | Energy | Role                                              |
-| ----------- | ------------ | ----------------- | --: | -----: | ------------------------------------------------- |
-| Sera Vale   | Vanguard     | Lifebinder        | 112 |     32 | Protect nearby allies and heal in an emergency    |
-| Ilya Wren   | Arcanist     | Storm Herald      |  78 |     32 | Area magic, frozen routes, lightning combinations |
-| Corin Ash   | Blade Dancer | Vanguard          |  88 |     32 | Flank, expose targets or cleave a group           |
-| Maelis Reed | Lifebinder   | Arcanist          |  84 |     32 | Heal and revive with elemental options            |
+| Companion   | Primary      | Starter secondary | Base HP | Starting geared HP | Weapon              |
+| ----------- | ------------ | ----------------- | ------: | -----------------: | ------------------- |
+| Sera Vale   | Vanguard     | Lifebinder        |     112 |                116 | Oathsteel blade     |
+| Ilya Wren   | Arcanist     | Storm Herald      |      78 |                 82 | Glass-tipped rod    |
+| Corin Ash   | Blade Dancer | Vanguard          |      88 |                 92 | Ashen twinblades    |
+| Maelis Reed | Lifebinder   | Arcanist          |      84 |                 96 | Living willow staff |
 
-Ilya's Storm Herald secondary is a starter exception, not a general unlock. A new secondary assignment must meet prerequisites. Changing primary jobs does not change stored maximum HP or energy in this version.
+Everyone starts with 32 energy and company leathers. One pair of Wayfarer's boots and one Copper focus begin unequipped in shared inventory. Ilya's Storm Herald secondary is a starter exception; its skills are permanently learned, but the job is not generally unlocked for reassignment.
+
+Choose jobs/equipment and train skills at camp, then deploy from Contracts. Primary skills are native; the secondary supplies only learned skills. Job changes return incompatible equipment to shared stock. See [company and progression](COMPANY_AND_PROGRESSION.md).
 
 ## Taking a turn
 
@@ -71,7 +73,7 @@ Fire ignites grass even with an empty target center. Terrain damage triggers at 
 | Sound                          | Start/stop the procedural sketch                                   |
 | Save battle / Load save        | Manual snapshot persistence                                        |
 
-Job changes are accepted while `battle.turn === 1`, until the first turn ends. They preserve JP and do not reset spent moves or actions. Afterwards loadouts are fixed for the encounter. A valid skill use grants 10 primary-job JP; victory grants each companion 60. Fresh replays reset progress. A saved snapshot retains its recorded JP.
+Camp permits job, equipment and training changes between contracts. Inside a battle, the existing job-change exception remains while `battle.turn === 1`, until the first turn ends. They preserve JP and do not reset spent moves or actions. Afterwards loadouts are fixed for the encounter. A valid skill use grants 10 primary-job JP; victory grants each companion 60. Return to camp after an outcome to carry field JP forward; victory also pays gold and unlocks the next contract. Retry discards that attempt's gains, while New company resets the expedition. A saved snapshot retains all recorded progression.
 
 Dialogs pause the enemy delay. Chronicle retains up to 40 recent log entries rather than a full battle transcript.
 
@@ -90,4 +92,4 @@ Focus outlines, dialog focus trapping, keyboard shortcuts and shape-based team m
 
 ## Saving before leaving
 
-Wait for a save confirmation. Refresh or reopen starts a fresh battle until you use Load save. Clearing site data, private-browsing storage policies or another browser profile/origin can make snapshots unavailable. See [data and saves](DATA_AND_SAVES.md) before diagnosing a missing save.
+Wait for a save confirmation. Refresh or reopen starts a fresh camp until you use Load save. Clearing site data, private-browsing storage policies or another browser profile/origin can make snapshots unavailable. See [data and saves](DATA_AND_SAVES.md) before diagnosing a missing save.

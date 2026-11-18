@@ -2,7 +2,9 @@
 
 [Project home](../README.md) · [Play](https://cptnope.github.io/Echoes-of-the-Shattered-Crown/) · [Changelog](../CHANGELOG.md)
 
-These guides describe the current Phase 1 implementation. Future work is explicitly labeled. Package version `0.1.0` is a development baseline, not a claim that the full-game brief is complete.
+These guides describe the current company-foundations implementation. Future work is explicitly labeled. Package version `0.2.0` is a development baseline, not a claim that the full-game brief is complete.
+
+See [company and progression](COMPANY_AND_PROGRESSION.md) for the new 0.2 contract loop, permanent learning and equipment.
 
 ## Reading paths
 

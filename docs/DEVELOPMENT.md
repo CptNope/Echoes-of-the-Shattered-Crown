@@ -66,7 +66,7 @@ Adding only a data row does not create a new animation, UI icon, purchase tree, 
 
 ### Expanding encounters
 
-`createBattle()` owns Veyr's map and roster. The renderer, cursor clamps and save validator also assume dimensions 9×9, and save validation expects eight units. Generalize those together before accepting arbitrary maps. Keep decorative scenery separate from authoritative terrain, and update tests for the new movement and LOS geometry.
+`createBattle(seed, encounterId)` owns the three Veyr map variants and rosters; `encounters.ts` supplies contract metadata and gates. The renderer, cursor clamps and save validator also assume dimensions 9×9, and save validation expects eight units. Generalize those together before accepting arbitrary maps. Keep decorative scenery separate from authoritative terrain, and update tests for the new movement and LOS geometry.
 
 ## Code conventions
 
@@ -74,10 +74,14 @@ Keep authoritative rules in the engine, content values in `data.ts`, and browser
 
 Favor a regression case that can fail for a real reason: a blocked climb, a lethal counter, a revived unit re-entering the timeline, a status expiring at the correct ending. Do not replace assertions with snapshots of the implementation's own intermediate calculations.
 
-Class and skill IDs are persistence keys. Renames need a compatibility decision, not just a UI label change. The current project is small and modular, but not a plugin framework; discuss larger content-system or campaign changes against the [roadmap](ROADMAP.md).
+Class, skill, gear and encounter IDs are persistence keys. Renames need a compatibility decision, not just a UI label change. The current project is small and modular, but not a plugin framework; discuss larger content-system or campaign changes against the [roadmap](ROADMAP.md).
 
 ## Documentation maintenance
 
 Use relative Markdown links, descriptive headings, valid table separators, and simple fenced Mermaid. Keep requirements in `PROJECT_BRIEF.md` preserved; update current guides when behavior changes. Historical `DESIGN.md` and `VALIDATION.md` should retain their original context or receive clearly labeled addenda. Do not add planned mechanics to the implemented-feature table until a functional, validated path exists.
 
 Pages deploys the game artifact, not this documentation directory. GitHub renders the README, Markdown tables and Mermaid diagrams directly in the repository.
+
+## Progression work
+
+Use the pure `campaign.ts` transitions for camp changes. Keep lifetime JP separate from spending; preserve shared-copy reservation and proficiency checks. Battle units carry field gains while the Company record stays the retry baseline until settlement. Schema changes must cover both current game validation and the supported v1 migration. `npm test` runs `engine.test.ts` and `campaign.test.ts`.

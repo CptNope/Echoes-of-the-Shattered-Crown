@@ -165,7 +165,7 @@ test("defeat occurs when last companion falls to burn", () => {
 test("versioned save validation rejects malformed and incompatible data", () => {
   const s = createBattle();
   assert.equal(validateSave(s), true);
-  assert.equal(validateSave({ ...s, version: 2 }), false);
+  assert.equal(validateSave({ ...s, version: 3 }), false);
   assert.equal(validateSave({ ...s, seed: NaN }), false);
   assert.equal(validateSave({ ...s, units: [] }), false);
   s.units[0].job = "nonsense" as never;

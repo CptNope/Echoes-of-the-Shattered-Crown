@@ -4,11 +4,15 @@
 
 ## Loadout contract
 
-A unit has one primary job, one secondary skill set and a JP record keyed by job ID. Available skills are the de-duplicated union of Weapon strike, primary skills, secondary skills and Lantern concord. Primary job stats supply movement, speed, attack, armor and magic. The secondary contributes only its skills, not stats, counters or formation effects.
+A unit has a primary job, a secondary set, permanent learned skill IDs, lifetime JP, per-job spending and three equipment slots. Available skills are Weapon strike, all native primary skills, the secondary job's **learned** skills, and Lantern concord. Primary stats plus gear determine combat; the secondary supplies skills only.
 
-HP and energy maxima are stored on the unit and do not change with a job swap. Learned/purchased abilities, passive/reaction/movement slots, equipment proficiencies, character levels distinct from job levels, and true mastery rewards are not implemented.
+Camp training costs 60 spendable JP from the selected unlocked teaching job. Lifetime JP determines levels and prerequisites and is never reduced by spending. Starter secondary skills are already learned. A shared skill needs to be learned only once. Base maximum HP remains character-specific; equipped HP bonuses and proficiency changes can change derived maximum HP.
+
+Mastery rewards, passive/reaction/movement slots and a separate overall character level are still planned. See [company progression](COMPANY_AND_PROGRESSION.md).
 
 ## Job statistics
+
+These are **base job stats**. Actual battle stats include equipped bonuses; the camp dossier shows the derived values.
 
 | ID             | Name         | Move | Speed | Attack | Armor | Magic | Granted skills                |
 | -------------- | ------------ | ---: | ----: | -----: | ----: | ----: | ----------------------------- |
@@ -56,7 +60,7 @@ flowchart LR
 | Storm Herald                                    | Arcanist 3                  | Locked for new assignments |
 | Chronoweaver                                    | Arcanist 2 and Lifebinder 3 | Locked                     |
 
-Ilya starts with a Storm Herald secondary despite the general prerequisite. `changeJob()` permits retaining an existing secondary, but a new selection must be unlocked. Replacing that starter set can therefore make it unavailable to reselect. The UI gate for all swaps is `battle.turn === 1`; JP persists when swapping but resets on a new battle. The current one-battle loop does not provide campaign-wide progression or a post-victory reconfiguration phase.
+Ilya starts with a Storm Herald secondary despite the general prerequisite. `changeJob()` permits retaining an existing secondary, but a new selection must be unlocked. Replacing that starter set can therefore make it unavailable to reselect. The UI gate for all swaps is `battle.turn === 1`; JP persists when swapping and carries between contracts after settlement at camp. A new company resets progress; retrying restores the pre-deployment profile. Primary/secondary selection is unrestricted by turn count while at camp, with the old initial-turn exception still available in combat.
 
 ## Ability definitions
 

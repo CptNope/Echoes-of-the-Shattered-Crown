@@ -8,7 +8,7 @@ An original isometric tactical RPG about a mercenary company, a fractured world,
 
 ![The Lantern Company at the shrine of Veyr](docs/assets/battlefield.jpg)
 
-> **Current edition: Phase 1 — Veyr.** One playable battle with four companions, four AI enemies, four starting jobs, and foundations for cross-class builds. The full campaign and the rest of the original brief remain future development.
+> **Current edition: 0.2 — Company foundations.** Prepare a persistent roster at camp, complete three linked Veyr contracts, learn secondary skills with JP, and provision shared equipment. The full story campaign and remaining mastery systems are still future work.
 
 ## Contents
 
@@ -26,19 +26,19 @@ An original isometric tactical RPG about a mercenary company, a fractured world,
 
 ## What you can play
 
-Command the Lantern Company at Veyr, where an Oathless patrol guards a crown shard. Cross the stream, contest the terrace, freeze a route or ignite grass to punish a position.
+| System       | Available now                                                                     | Current boundary                                                       |
+| ------------ | --------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| Expedition   | Company camp, three gated contracts, repeatable rewards                           | A Veyr contract route, not a world-map story campaign                  |
+| Company      | Persistent roster, lifetime/spent JP, permanent learned skills                    | No character level separate from jobs or mastery/passive slots         |
+| Loadouts     | Eight jobs, native primary skills, learned secondary skills                       | Advanced jobs initially locked; some skill definitions are shared      |
+| Equipment    | Nine items, three slots, proficiencies, shared inventory, gold purchases          | No crafting, selling, upgrades, rarity rolls or gear appearance models |
+| Tactics      | Elevation, facing, range, LOS, guard, critical hits, riposte, status and momentum | Grid-sampled LOS and no facing-selection command                       |
+| Environments | Three 9×9 Veyr map variants, ice and grass ignition                               | Shared regional art; no new biomes, weather or destructible scenery    |
+| Presentation | Original pixel sprites, lit 3D ruins and procedural score                         | Full action animation sets and orchestral music remain planned         |
+| Persistence  | Company + active battle, previous-save backup, v1 migration                       | Manual browser-local saves; no cloud sync, autosave or export          |
+| Input        | Pointer, touch, battle keyboard/gamepad mapping, reduced motion and text sizing   | Physical devices and full controller-driven camp navigation unverified |
 
-| System             | Available now                                                                         | Current boundary                                                    |
-| ------------------ | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| Encounter          | Complete 4-versus-4 battle, victory, defeat and replay                                | One map; no campaign loop                                           |
-| Battlefield        | Orthographic terrain, elevations, quarter-turn camera rotation, zoom                  | No free pan or continuous rotation control                          |
-| Tactics            | Movement costs, facing, range, line of sight, previews, guard, critical hits, riposte | Tile-sampled line of sight; no facing-selection command             |
-| Abilities          | Nine definitions, healing, revival, area magic and timeline support                   | Availability depends on loadout; no purchased skill boards          |
-| Terrain            | Frozen water, burning grass, damage hazards                                           | No destructible obstacles, raised terrain or weather                |
-| Jobs               | Eight definitions, four starting jobs, primary/secondary loadouts, JP, prerequisites  | No equipment or mastery-slot system; advanced jobs initially locked |
-| Presentation       | Original pixel sprites, lit 3D ruins, procedural music sketch                         | Full action animation sets and orchestral score remain planned      |
-| Persistence        | Manual IndexedDB save/load and previous-save backup                                   | No autosave, cloud sync or save export                              |
-| Input and settings | Pointer, touch, keyboard, standard gamepad mapping, text sizing, reduced motion       | Real mobile devices and physical gamepads are not certified         |
+See [company and progression](docs/COMPANY_AND_PROGRESSION.md) for the contract loop, JP economy and item reference.
 
 ## Quick start
 
@@ -57,7 +57,7 @@ Open the Local URL printed by Vite. If its default port is unavailable, use `npm
 | ----------------------------------------------- | --------------------------------------------------------- |
 | `npm ci`                                        | Install locked dependency versions                        |
 | `npm run dev`                                   | Start the local development server                        |
-| `npm test`                                      | Run 17 deterministic engine and battle-scenario tests     |
+| `npm test`                                      | Run 28 deterministic engine and battle-scenario tests     |
 | `npm run build`                                 | Strict TypeScript check for `src/`, then generate `dist/` |
 | `npx vite preview --host 127.0.0.1 --port 4187` | Preview a production build locally                        |
 | `node scripts/verify-pages.mjs`                 | Check a build produced with the Pages base path           |
@@ -66,24 +66,24 @@ Serve the game over HTTP or HTTPS. Opening `index.html` with `file://` is unsupp
 
 ## Your first battle
 
-1. Open **Company** to choose primary and secondary jobs while the activation counter is still 1.
-2. Choose **Move**, select a highlighted tile, inspect its cost and confirm.
-3. Choose an ability, select its target tile, inspect the preview and confirm. Move and act can happen in either order.
-4. End the turn. Ending without an ability grants guard.
-5. Watch the timeline, keep Maelis in healing range, and defeat all four Oathless.
+1. At camp, open **Company** to select primary/secondary jobs and equipment. Unassigned boots and a copper focus are in shared inventory.
+2. Choose **Contracts → The shrine of Veyr → Deploy company**. Everyone enters at full health and energy.
+3. Move once and use an ability once, in either order. Select a highlighted tile, inspect the preview and confirm.
+4. End the turn; ending without an ability grants guard. Defeat all four enemies.
+5. **Return to company camp** to retain JP, collect 60 gold and unlock the drowned causeway. Train a skill for 60 spendable JP or purchase equipment, then deploy again.
 
 ```mermaid
 flowchart LR
-    Inspect[Inspect timeline and terrain] --> Choose[Move or choose an ability]
-    Choose --> Preview[Select a tile and read the preview]
-    Preview --> Confirm[Confirm the action]
-    Confirm --> More{Move or action remaining?}
-    More -->|Yes| Choose
-    More -->|End turn| Advance[Resolve effects and advance timeline]
-    Advance --> Inspect
+    Camp[Prepare jobs and equipment] --> Deploy[Choose an unlocked contract]
+    Deploy --> Battle[Move / preview / confirm / end turn]
+    Battle --> Result{Outcome}
+    Result -->|Victory| Reward[Keep JP / collect gold / unlock next road]
+    Result -->|Defeat| Recover[Keep field JP / no bounty]
+    Reward --> Camp
+    Recover --> Camp
 ```
 
-**Save manually before leaving.** A fresh replay resets the roster and JP but does not overwrite your saved snapshot. Empty tiles are legal damage targets; confirming one can spend an action without hitting a unit.
+**Save manually before leaving.** Save company/Save battle includes the whole expedition. A new company resets unsaved progress; retrying a contract discards that attempt's gains and restores the pre-deployment roster. Empty damage centers can spend an action without hitting anyone.
 
 ## Controls
 
@@ -98,6 +98,8 @@ flowchart LR
 | `Space`            | End turn; defend if no ability was used                                  |
 | `Escape`           | Cancel targeting or close a dialog                                       |
 | Standard gamepad   | D-pad/stick: tile; X: Move; A: confirm; B: cancel; Y: end; LB/RB: rotate |
+
+Battle keyboard shortcuts apply on the battlefield; camp uses normal focusable buttons and form controls. Phone camp layouts include a fixed deployment action.
 
 Phone layouts have quick commands beside the board and on-screen camera buttons. The adapter reads the first gamepad using standard button indices. Keyboard directions remain map-relative after camera rotation. See [the player guide](docs/PLAYER_GUIDE.md).
 
@@ -136,6 +138,13 @@ The engine owns outcomes. The renderer cannot decide hits, damage or initiative.
 ├── docs/                       # Guides, diagrams, references, screenshot
 ├── scripts/verify-pages.mjs     # Local and live asset checks
 ├── src/
+│   ├── campaign.ts             # Company progression, rewards and migration
+│   ├── Camp.tsx                # Contracts, training and outfitter UI
+│   ├── equipment.ts            # Catalog, proficiency and gear bonuses
+│   ├── encounters.ts           # Contract definitions and gates
+│   ├── campaign.test.ts        # Progression and three-map scenarios
+│   ├── Portrait.tsx            # Shared original sprite portrait
+│   ├── camp.css                # Responsive company camp
 │   ├── data.ts                 # Jobs, skills, JP, prerequisites
 │   ├── engine.ts               # Pure simulation and AI
 │   ├── engine.test.ts          # Rules and scenario tests
@@ -160,9 +169,9 @@ The engine owns outcomes. The renderer cannot decide hits, damage or initiative.
 
 ## Saves and privacy
 
-Battle snapshots live in the browser profile's `echoes-crown` IndexedDB database. Save keeps a previous valid manual snapshot as backup; load tries manual first, then backup. Neither is an autosave.
+Manual snapshots contain company profiles, learned skills, JP spending, inventory, gold, completed contracts, the current stage and active battle. The browser stores them in the echoes-crown IndexedDB database. Saving atomically retains a previous valid manual snapshot as backup. Old v1 battle saves migrate to the new v2 expedition format without changing their active combat resources or RNG state.
 
-Saves do not synchronize across devices, profiles or origins. The private Site and `cptnope.github.io` have separate saves. Clearing site data removes them. Interface settings are session-only. Google Fonts requests are external and optional; combat and storage do not need a backend. PWA installation and offline caching are not implemented. See [data and saves](docs/DATA_AND_SAVES.md).
+Saves do not synchronize across devices, profiles or origins. The private Site and cptnope.github.io have separate saves. Clearing site data removes them. Settings remain session-only. Google Fonts are optional external requests; gameplay and storage require no backend. Offline/PWA and portable save export remain planned. See [data and saves](docs/DATA_AND_SAVES.md).
 
 ## GitHub Pages and Actions
 
@@ -178,28 +187,29 @@ The [workflow](.github/workflows/pages.yml) builds for `/Echoes-of-the-Shattered
 
 ## Documentation
 
-| Read this                                        | To understand                                       |
-| ------------------------------------------------ | --------------------------------------------------- |
-| [Documentation index](docs/README.md)            | Reading paths and source-of-truth map               |
-| [Player guide](docs/PLAYER_GUIDE.md)             | Roster, first battle, menus, controls and tactics   |
-| [Combat rules](docs/COMBAT.md)                   | Exact movement, damage, initiative, statuses and AI |
-| [Jobs and abilities](docs/JOBS_AND_ABILITIES.md) | Eight jobs, nine abilities, unlocks and loadouts    |
-| [Architecture](docs/ARCHITECTURE.md)             | Module boundaries, state flow and engine contracts  |
-| [Data and saves](docs/DATA_AND_SAVES.md)         | Records, IndexedDB, validation and recovery         |
-| [Development](docs/DEVELOPMENT.md)               | Setup, conventions and extension recipes            |
-| [Testing](docs/TESTING.md)                       | Coverage, browser checks, CI and verification gaps  |
-| [Deployment](docs/DEPLOYMENT.md)                 | Pages pipeline, permissions and troubleshooting     |
-| [Art and audio](docs/ART_AND_AUDIO.md)           | Original assets and presentation pipeline           |
-| [Roadmap](docs/ROADMAP.md)                       | Milestones and 20-job development roster            |
-| [Troubleshooting](docs/TROUBLESHOOTING.md)       | Runtime, saves, input and hosting issues            |
-| [Changelog](CHANGELOG.md)                        | Changes linked to actual repository history         |
-| [Contributing](CONTRIBUTING.md)                  | Contribution scope and review expectations          |
+| Read this                                                  | To understand                                                   |
+| ---------------------------------------------------------- | --------------------------------------------------------------- |
+| [Documentation index](docs/README.md)                      | Reading paths and source-of-truth map                           |
+| [Company and progression](docs/COMPANY_AND_PROGRESSION.md) | Contract loop, JP spending, shared inventory and all nine items |
+| [Player guide](docs/PLAYER_GUIDE.md)                       | Roster, first battle, menus, controls and tactics               |
+| [Combat rules](docs/COMBAT.md)                             | Exact movement, damage, initiative, statuses and AI             |
+| [Jobs and abilities](docs/JOBS_AND_ABILITIES.md)           | Eight jobs, nine abilities, unlocks and loadouts                |
+| [Architecture](docs/ARCHITECTURE.md)                       | Module boundaries, state flow and engine contracts              |
+| [Data and saves](docs/DATA_AND_SAVES.md)                   | Records, IndexedDB, validation and recovery                     |
+| [Development](docs/DEVELOPMENT.md)                         | Setup, conventions and extension recipes                        |
+| [Testing](docs/TESTING.md)                                 | Coverage, browser checks, CI and verification gaps              |
+| [Deployment](docs/DEPLOYMENT.md)                           | Pages pipeline, permissions and troubleshooting                 |
+| [Art and audio](docs/ART_AND_AUDIO.md)                     | Original assets and presentation pipeline                       |
+| [Roadmap](docs/ROADMAP.md)                                 | Milestones and 20-job development roster                        |
+| [Troubleshooting](docs/TROUBLESHOOTING.md)                 | Runtime, saves, input and hosting issues                        |
+| [Changelog](CHANGELOG.md)                                  | Changes linked to actual repository history                     |
+| [Contributing](CONTRIBUTING.md)                            | Contribution scope and review expectations                      |
 
 ## Development status
 
-Phase 1 is playable. Parts of Phase 2 and advanced combat are foundations, not completed milestones. Remaining work includes equipment, permanent learned skills and mastery slots, progression across encounters, campaign content, full animations, PWA/offline, save migrations/export, accessibility completion and real-device profiling.
+Version 0.2 completes the next company-management milestone: three linked contracts, permanent secondary-skill learning, equipment and carried progression. Phase 2 still needs full mastery/passive/reaction/movement slots and more distinct advanced skill boards. Phase 3's world map, branching story, recruitment and town systems remain planned.
 
-The suite contains **17 tests**, including a complete deterministic simulated battle. Browser checks covered desktop, tablet and phone viewport sizes, then movement and turn advancement on Pages. Physical mobile devices, Safari, a physical gamepad and a 60 FPS target have not been certified. See [testing](docs/TESTING.md).
+The suite has **28 tests**, including full deterministic simulations of all three maps, economic and equipment invariants, rewards and v1 migration. Browser checks cover buying/equipping, manual save/load, migrated resource preservation, learning across a job change, result settlement and second-contract deployment. Result/learning checks use isolated local fixtures, not a claim of a full manual campaign playthrough. Physical mobile devices, Safari, gamepad hardware and 60 FPS remain uncertified. See [testing](docs/TESTING.md).
 
 ## Contributing and licensing
 

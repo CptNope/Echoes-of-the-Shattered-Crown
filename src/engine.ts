@@ -7,6 +7,14 @@ import {
   jobLevel,
   unlocked,
 } from "./data";
+import {
+  equipment,
+  emptyLoadout,
+  gearBonuses,
+  canEquip,
+  type Loadout,
+} from "./equipment";
+import { encounters, type EncounterId } from "./encounters";
 export interface Tile {
   x: number;
   z: number;
@@ -25,6 +33,10 @@ export interface Unit {
   z: number;
   hp: number;
   maxHp: number;
+  baseHp: number;
+  equipment: Loadout;
+  learned: SkillId[];
+  jpSpent: Partial<Record<JobId, number>>;
   mp: number;
   maxMp: number;
   next: number;
@@ -36,7 +48,8 @@ export interface Unit {
   jp: Partial<Record<JobId, number>>;
 }
 export interface Battle {
-  version: 1;
+  version: 2;
+  encounter: EncounterId;
   seed: number;
   tiles: Tile[];
   units: Unit[];
@@ -61,7 +74,22 @@ export const tileAt = (s: Battle, x: number, z: number) =>
 export const activeUnit = (s: Battle) =>
   s.units.find((u) => u.id === s.active)!;
 export const living = (s: Battle) => s.units.filter((u) => u.hp > 0);
-export function createBattle(seed = 74319): Battle {
+export function unitStats(u: Unit) {
+  const j = jobs[u.job],
+    b = gearBonuses(u.equipment);
+  return {
+    move: Math.max(1, j.move + b.move),
+    speed: Math.max(1, j.speed + b.speed),
+    attack: Math.max(0, j.attack + b.attack),
+    armor: Math.max(0, j.armor + b.armor),
+    magic: Math.max(0, j.magic + b.magic),
+    hp: u.baseHp + b.hp,
+  };
+}
+export function createBattle(
+  seed = 74319,
+  encounter: EncounterId = "shrine",
+): Battle {
   const tiles: Tile[] = [];
   for (let z = 0; z < 9; z++)
     for (let x = 0; x < 9; x++) {
@@ -115,6 +143,20 @@ export function createBattle(seed = 74319): Battle {
     z,
     hp,
     maxHp: hp,
+    baseHp: hp,
+    equipment: emptyLoadout(),
+    learned: [
+      ...jobs[
+        job === "vanguard"
+          ? "lifebinder"
+          : job === "arcanist"
+            ? "stormherald"
+            : job === "dancer"
+              ? "vanguard"
+              : "arcanist"
+      ].skills,
+    ],
+    jpSpent: {},
     mp: 32,
     maxMp: 32,
     next,
@@ -135,8 +177,48 @@ export function createBattle(seed = 74319): Battle {
     make("wraith", "Hollow outrider", "dancer", "enemy", 6, 6, 74, 24),
     make("cantor", "Ash cantor", "lifebinder", "enemy", 7, 4, 72, 28),
   ];
+  if (encounter !== "shrine") {
+    // Keep the 9x9 region readable while changing routes, cover and opposition.
+    for (const t of tiles) {
+      if (t.x === 4) {
+        t.terrain =
+          t.z === (encounter === "causeway" ? 3 : 5) ? "stone" : "water";
+        t.h = 0;
+      }
+      if (t.x === 5 && t.z >= 2 && t.z <= 6) {
+        t.h = 1;
+        t.terrain = "stone";
+      }
+      if (t.x === 2 && t.z === 2) t.blocked = false;
+    }
+    if (encounter === "causeway") {
+      units[4].job = "dancer";
+      units[4].secondary = "vanguard";
+      units[4].learned = ["cleave"];
+      units[4].name = "River outrider";
+      units[4].x = 6;
+      units[4].z = 3;
+      units[6].x = 5;
+      units[6].z = 6;
+    } else {
+      const roles: JobId[] = [
+        "runewarden",
+        "stormherald",
+        "shadowrunner",
+        "chronoweaver",
+      ];
+      units.slice(4).forEach((u, i) => {
+        u.job = roles[i];
+        u.hp = u.maxHp = u.baseHp += i === 0 ? 24 : 6;
+      });
+      units[4].name = "Warden of the broken oath";
+      units[4].x = 6;
+      units[4].z = 5;
+    }
+  }
   return {
-    version: 1,
+    version: 2,
+    encounter,
     seed,
     tiles,
     units,
@@ -145,7 +227,7 @@ export function createBattle(seed = 74319): Battle {
     momentum: 0,
     result: "playing",
     log: [
-      "The Lantern Company reaches Veyr. Defeat the four Oathless to secure the shard.",
+      `${encounters[encounter].name}: ${encounters[encounter].objective}.`,
       "Sera: “A crown is only a promise. Let’s see who it was made to.”",
     ],
     rewarded: false,
@@ -175,7 +257,10 @@ export function reachable(s: Battle, u: Unit): Map<string, number> {
       )
         continue;
       const c = costs.get(key(p.x, p.z))! + 1 + (t.h > from.h ? 1 : 0);
-      if (c <= jobs[u.job].move && (costs.get(key(t.x, t.z)) ?? Infinity) > c) {
+      if (
+        c <= unitStats(u).move &&
+        (costs.get(key(t.x, t.z)) ?? Infinity) > c
+      ) {
         costs.set(key(t.x, t.z), c);
         open.push(t);
       }
@@ -207,7 +292,7 @@ export function availableSkills(u: Unit): SkillId[] {
     ...new Set<SkillId>([
       "strike",
       ...jobs[u.job].skills,
-      ...jobs[u.secondary].skills,
+      ...jobs[u.secondary].skills.filter((id) => u.learned.includes(id)),
       "rally",
     ]),
   ];
@@ -269,8 +354,8 @@ export function preview(
   const physical = sk.element === "physical";
   let amount =
     sk.power +
-    (physical ? jobs[a.job].attack : jobs[a.job].magic) -
-    jobs[b.job].armor -
+    (physical ? unitStats(a).attack : unitStats(a).magic) -
+    unitStats(b).armor -
     formation +
     Math.max(-6, Math.min(8, height * 4)) +
     (flank ? 6 : 0) +
@@ -410,7 +495,7 @@ export function command(state: Battle, c: Command): Battle {
       const st = k as keyof Unit["status"];
       u.status[st] = Math.max(0, u.status[st] - 1);
     });
-    u.next += Math.round(1000 / jobs[u.job].speed) + (u.status.slow ? 30 : 0);
+    u.next += Math.round(1000 / unitStats(u).speed) + (u.status.slow ? 30 : 0);
     result(s);
     if (s.result === "playing") {
       const next = living(s).sort(
@@ -494,6 +579,12 @@ export function changeJob(
     return state;
   u.job = job;
   u.secondary = secondary;
+  for (const slot of ["weapon", "armor", "relic"] as const) {
+    const item = u.equipment[slot];
+    if (item && !canEquip(job, item)) u.equipment[slot] = null;
+  }
+  u.maxHp = unitStats(u).hp;
+  u.hp = Math.min(u.hp, u.maxHp);
   return s;
 }
 export function validateSave(raw: unknown): raw is Battle {
@@ -507,7 +598,8 @@ function validBattle(raw: unknown): raw is Battle {
   if (!raw || typeof raw !== "object") return false;
   const s = raw as Battle;
   if (
-    s.version !== 1 ||
+    s.version !== 2 ||
+    !Object.hasOwn(encounters, s.encounter) ||
     !Number.isInteger(s.seed) ||
     !Number.isInteger(s.turn) ||
     s.turn < 1 ||
@@ -547,9 +639,34 @@ function validBattle(raw: unknown): raw is Battle {
     ) &&
     s.units.every(
       (u) =>
+        typeof u.id === "string" &&
+        u.id.length > 0 &&
         typeof u.name === "string" &&
-        u.job in jobs &&
-        u.secondary in jobs &&
+        Object.hasOwn(jobs, u.job) &&
+        Object.hasOwn(jobs, u.secondary) &&
+        Number.isFinite(u.baseHp) &&
+        u.baseHp > 0 &&
+        Array.isArray(u.learned) &&
+        u.learned.every((id) => Object.hasOwn(skills, id)) &&
+        new Set(u.learned).size === u.learned.length &&
+        u.jpSpent &&
+        Object.entries(u.jpSpent).every(
+          ([j, n]) =>
+            Object.hasOwn(jobs, j) &&
+            Number.isFinite(n) &&
+            n! >= 0 &&
+            n! <= (u.jp[j as JobId] ?? 0),
+        ) &&
+        u.equipment &&
+        (["weapon", "armor", "relic"] as const).every((slot) => {
+          const id = u.equipment[slot];
+          return (
+            id === null ||
+            (Object.hasOwn(equipment, id) &&
+              equipment[id].slot === slot &&
+              canEquip(u.job, id))
+          );
+        }) &&
         ["ally", "enemy"].includes(u.team) &&
         Number.isInteger(u.x) &&
         u.x >= 0 &&
@@ -579,7 +696,7 @@ function validBattle(raw: unknown): raw is Battle {
         ) &&
         u.jp &&
         Object.entries(u.jp).every(
-          ([k, v]) => k in jobs && Number.isFinite(v) && v! >= 0,
+          ([k, v]) => Object.hasOwn(jobs, k) && Number.isFinite(v) && v! >= 0,
         ),
     )
   );

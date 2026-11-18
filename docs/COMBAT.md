@@ -2,7 +2,7 @@
 
 [Documentation index](README.md) · [Jobs and abilities](JOBS_AND_ABILITIES.md) · [Engine source](../src/engine.ts)
 
-This is the implementation reference for the Veyr battle, not the rules of every system proposed in the original brief.
+This is the implementation reference for the three Veyr-region contracts, not the rules of every system proposed in the original brief.
 
 ## Coordinates and movement
 
@@ -17,7 +17,7 @@ This is the implementation reference for the Veyr battle, not the rules of every
 | Cost       | 1 per step; climbing adds 1, descending adds none        |
 | Blockers   | Obstacles, water and other units, including fallen units |
 | Ice        | Walkable using normal movement rules                     |
-| Budget     | Current primary job's `move` stat                        |
+| Budget     | Derived primary-job plus equipment `move` stat           |
 
 `reachable()` performs a priority-ordered cost search and returns a map from `"x,z"` to cumulative cost. It includes the starting tile at cost 0; moving to the current tile is rejected. Rendering interpolates to a confirmed destination; the simulation commits the entire move atomically. There are no opportunity attacks or path-entry hazard triggers.
 
@@ -59,7 +59,7 @@ On ending an activation:
 1. Set guard if the actor did not use an ability.
 2. Apply burn and standing terrain damage.
 3. Decrease the actor's burn, slow, exposed and soaked counters toward zero.
-4. Add `round(1000 / primaryJob.speed)` to the actor's existing `next` value, plus 30 if slow remains after decrement.
+4. Add `round(1000 / derivedSpeed)` to the actor's existing `next` value, plus 30 if slow remains after decrement.
 5. Resolve victory or defeat.
 6. If still playing, choose the living unit with the smallest `next`; ties use `id.localeCompare()`.
 7. Clear that unit's moved, acted and guard flags; restore 3 energy up to its maximum; increment `battle.turn`.
@@ -81,8 +81,8 @@ Let `H = attacker elevation - defender elevation` and `B` be the base amount:
 
 ```text
 B = skill.power
-  + (physical ? attackerJob.attack : attackerJob.magic)
-  - defenderJob.armor
+  + (physical ? attackerStats.attack : attackerStats.magic)
+  - defenderStats.armor
   - formationDefense
   + max(-6, min(8, 4 * H))
   + (flanking ? 6 : 0)
@@ -104,7 +104,7 @@ critical damage = round(preview damage * 1.5)
 | Critical              | 10% chance after a successful accuracy check; damage abilities only                                                             |
 | Armor                 | Applies to all damaging elements in the current formula                                                                         |
 
-The UI shows non-critical damage. Healing bypasses this formula: restore up to skill power, capped by missing HP; revival restores 24. Heal and buff hit chance is 100. No elemental resistance table is implemented.
+Equipment contributes to the attack, magic, armor, speed, movement and maximum-HP values used by actual simulation. The UI shows non-critical damage. Healing bypasses this formula: restore up to skill power, capped by missing HP; revival restores 24. Heal and buff hit chance is 100. No elemental resistance table is implemented.
 
 Randomness uses a state-owned unsigned 32-bit linear congruential generator:
 
@@ -141,7 +141,7 @@ Units at 0 HP retain their tile, leave the timeline and can be revived by Thread
 
 Successful allied damaging hits add 1 momentum per target, capped at 5. Terrain changes, misses, healing and enemy hits do not generate allied momentum. Lantern concord spends 3 before resolving; its successful hits can generate new momentum normally.
 
-Every legal skill use grants 10 JP to the actor's primary job, even if it misses, heals zero HP or targets empty terrain. Movement and ending a turn grant none. This is a prototype progression economy, not a final anti-farming balance.
+Every legal skill use grants 10 JP to the actor's primary job, even if it misses, heals zero HP or targets empty terrain. Movement and ending a turn grant none. This is a prototype progression economy, not a final anti-farming balance. Lifetime and spendable JP are tracked separately; training does not lower levels. Contract gold is collected at camp after the result; see [company progression](COMPANY_AND_PROGRESSION.md).
 
 ## Enemy planner
 

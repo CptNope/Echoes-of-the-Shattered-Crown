@@ -9,7 +9,7 @@ import {
   type SkillId,
 } from "./data";
 import {
-  createBattle,
+  unitStats,
   activeUnit,
   living,
   reachable,
@@ -25,8 +25,12 @@ import {
   type Battle,
   type Unit,
 } from "./engine";
-import { Battlefield, spriteCanvas, type Mode } from "./scene";
-import { saveBattle, loadBattle } from "./storage";
+import { Battlefield, type Mode } from "./scene";
+import { saveGame, loadGame } from "./storage";
+import { Camp } from "./Camp";
+import { Portrait } from "./Portrait";
+import { createExpedition, returnToCamp, retryContract } from "./campaign";
+import { encounters } from "./encounters";
 import { AudioScore } from "./audio";
 import "./style.css";
 const Mark = () => (
@@ -77,27 +81,16 @@ const Glyph = ({ kind }: { kind: "settings" | "sound" | "magic" }) => (
     )}
   </svg>
 );
-function Portrait({ u, size = 48 }: { u: Unit; size?: number }) {
-  const ref = useRef<HTMLCanvasElement>(null);
-  useEffect(() => {
-    const c = ref.current!,
-      p = c.getContext("2d")!;
-    p.clearRect(0, 0, 32, 42);
-    p.drawImage(spriteCanvas(u.job, u.team === "enemy"), 0, 0);
-  }, [u.job, u.team]);
-  return (
-    <canvas
-      ref={ref}
-      width="32"
-      height="42"
-      style={{ width: size, height: (size * 42) / 32 }}
-      className="portrait"
-      aria-label={jobs[u.job].name}
-    />
-  );
-}
 function App() {
-  const [battle, setBattle] = useState<Battle>(() => createBattle());
+  const [game, setGame] = useState(createExpedition);
+  const battle = game.battle;
+  const mission = encounters[battle.encounter];
+  const [sceneRevision, setSceneRevision] = useState(0);
+  const setBattle = (update: React.SetStateAction<Battle>) =>
+    setGame((g) => ({
+      ...g,
+      battle: typeof update === "function" ? update(g.battle) : update,
+    }));
   const [mode, setMode] = useState<Mode>("inspect");
   const [selected, setSelected] = useState<{ x: number; z: number } | null>(
     null,
@@ -107,9 +100,7 @@ function App() {
     "company" | "journal" | "settings" | "help" | "restart" | null
   >(null);
   const [member, setMember] = useState("sera");
-  const [notice, setNotice] = useState(
-    "Select Move to find a position, or choose a skill.",
-  );
+  const [notice, setNotice] = useState("");
   const [sound, setSound] = useState(false);
   const [reduced, setReduced] = useState(
     () => matchMedia("(prefers-reduced-motion: reduce)").matches,
@@ -117,14 +108,20 @@ function App() {
   const [fast, setFast] = useState(false);
   const [uiScale, setUiScale] = useState(100);
   const [busy, setBusy] = useState(false);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [game.stage]);
   const host = useRef<HTMLDivElement>(null),
     view = useRef<Battlefield | null>(null),
     score = useRef<AudioScore | null>(null),
-    latest = useRef({ battle, mode, modal });
-  latest.current = { battle, mode, modal };
+    latest = useRef({ battle, mode, modal, stage: game.stage });
+  latest.current = { battle, mode, modal, stage: game.stage };
   const selectRef = useRef<(x: number, z: number) => void>(() => {});
   const actor = activeUnit(battle),
-    isPlayer = actor.team === "ally" && battle.result === "playing",
+    isPlayer =
+      game.stage === "battle" &&
+      actor.team === "ally" &&
+      battle.result === "playing",
     target = selected
       ? battle.units.find((u) => u.x === selected.x && u.z === selected.z)
       : undefined;
@@ -149,6 +146,7 @@ function App() {
     setHover({ x, z });
   };
   useEffect(() => {
+    if (game.stage !== "battle" || !host.current) return;
     score.current = new AudioScore();
     try {
       view.current = new Battlefield(
@@ -165,8 +163,11 @@ function App() {
     return () => {
       view.current?.dispose();
       score.current?.dispose();
+      view.current = null;
+      score.current = null;
+      setSound(false);
     };
-  }, []);
+  }, [game.stage, game.company.deployments, battle.encounter, sceneRevision]);
   useEffect(() => {
     view.current?.update(battle, mode, selected);
   }, [battle, mode, selected]);
@@ -174,7 +175,13 @@ function App() {
     if (view.current) view.current.reduced = reduced;
   }, [reduced]);
   useEffect(() => {
-    if (battle.result !== "playing" || actor.team !== "enemy" || modal) return;
+    if (
+      game.stage !== "battle" ||
+      battle.result !== "playing" ||
+      actor.team !== "enemy" ||
+      modal
+    )
+      return;
     const timer = setTimeout(
       () => {
         setBattle((b) => aiTurn(b));
@@ -184,9 +191,10 @@ function App() {
       fast ? 250 : 1000,
     );
     return () => clearTimeout(timer);
-  }, [battle, modal, fast]);
+  }, [battle, modal, fast, game.stage]);
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
+      if (game.stage !== "battle") return;
       if (
         e.target instanceof HTMLInputElement ||
         e.target instanceof HTMLSelectElement ||
@@ -249,7 +257,12 @@ function App() {
       last = 0;
     const loop = (time: number) => {
       const g = navigator.getGamepads?.()[0];
-      if (g && time - last > 210 && !latest.current.modal) {
+      if (
+        g &&
+        time - last > 210 &&
+        !latest.current.modal &&
+        latest.current.stage === "battle"
+      ) {
         if (g.buttons[4]?.pressed) view.current?.rotate(-1);
         if (g.buttons[5]?.pressed) view.current?.rotate(1);
         const dx =
@@ -365,19 +378,22 @@ function App() {
     setBusy(true);
     try {
       if (load) {
-        const v = await loadBattle();
-        setBattle(v.battle);
+        const v = await loadGame();
+        setGame(v.game);
+        setSceneRevision((n) => n + 1);
         setMode("inspect");
         setSelected(null);
         setNotice(
           v.recovered
             ? "Recovered the previous valid save."
-            : "Battle restored.",
+            : v.migrated
+              ? "Legacy battle migrated. Your company and battle are ready."
+              : "Company and contract restored.",
         );
       } else {
-        await saveBattle(battle);
+        await saveGame(game);
         setNotice(
-          "Battle saved on this device. The previous save is kept as a backup.",
+          "Company and contract saved on this device. The previous save is kept as a backup.",
         );
       }
     } catch (e) {
@@ -390,6 +406,18 @@ function App() {
       setBusy(false);
     }
   }
+  if (game.stage === "camp")
+    return (
+      <Camp
+        game={game}
+        setGame={setGame}
+        onSave={() => void persist()}
+        onLoad={() => void persist(true)}
+        busy={busy}
+        notice={notice}
+        dismiss={() => setNotice("")}
+      />
+    );
   return (
     <div
       className="app"
@@ -454,8 +482,8 @@ function App() {
       </header>
       <main className="game-layout">
         <aside className="command-rail">
-          <div className="chapter">Chapter I · The broken promise</div>
-          <h1>The shrine of Veyr</h1>
+          <div className="chapter">{mission.subtitle}</div>
+          <h1>{mission.name}</h1>
           <p className="mission-copy">
             A forgotten oath.
             <br />A fragment that still remembers.
@@ -463,7 +491,7 @@ function App() {
           <div className="objective">
             <span className="objective-mark">◇</span>
             <div>
-              <b>Secure the crown shard</b>
+              <b>{mission.objective}</b>
               <span>
                 Defeat all Oathless ·{" "}
                 {
@@ -524,7 +552,7 @@ function App() {
             >
               <span className="command-symbol">↗</span>
               <span>
-                Move<small>{jobs[actor.job].move} movement · climb 1</small>
+                Move<small>{unitStats(actor).move} movement · climb 1</small>
               </span>
               <kbd>M</kbd>
             </button>
@@ -800,16 +828,24 @@ function App() {
                 </span>
                 <h2>
                   {battle.result === "victory"
-                    ? "Veyr is secure."
+                    ? `${mission.name} is secure.`
                     : "Company defeated."}
                 </h2>
                 <p>
                   {battle.result === "victory"
-                    ? "The shard falls silent in Sera’s hand. For a moment, every broken stone casts the shadow of a whole city. Each companion earned 60 JP."
+                    ? `The company has secured the contract. Each companion earned 60 JP. Return to camp to collect ${mission.reward} gold, train skills, and prepare the next deployment.`
                     : "The Oathless reclaim the shrine. Reposition carefully, use Maelis to revive allies, and control the causeway."}
                 </p>
-                <button className="confirm" onClick={() => setModal("restart")}>
-                  Play the battle again
+                <button
+                  className="confirm"
+                  onClick={() => {
+                    setGame((g) => returnToCamp(g));
+                    setMode("inspect");
+                    setSelected(null);
+                    setModal(null);
+                  }}
+                >
+                  Return to company camp
                 </button>
                 <button
                   className="text-button"
@@ -857,7 +893,7 @@ function App() {
       </main>
       <footer className="footer">
         <span>
-          ◆ <b>Veyr</b> · Phase 1 playable edition
+          ◆ <b>Veyr</b> · Company foundations
         </span>
         <span className="control-hint">
           Click a tile to inspect · Q E rotate · Scroll to zoom · Space end turn
@@ -895,7 +931,7 @@ function App() {
                     journal: "The chronicle of Veyr",
                     settings: "Settings",
                     help: "Field guide",
-                    restart: "Return to the shrine?",
+                    restart: "Retry this contract?",
                   }[modal]
                 }
               </h2>
@@ -911,8 +947,9 @@ function App() {
               <>
                 <p>
                   Jobs preserve their own JP. Choose a primary role and a
-                  secondary ability set before the first action. Advanced jobs
-                  unlock through mastery.
+                  secondary set until the first turn ends. Only permanently
+                  learned skills are available through the secondary set. Train
+                  at camp; lifetime job levels unlock advanced jobs.
                 </p>
                 <div className="member-tabs">
                   {company.map((u) => (
@@ -1000,7 +1037,7 @@ function App() {
                 <p className="modal-note">
                   {battle.turn === 1
                     ? "Loadouts can be changed until the first turn ends."
-                    : "Loadouts are fixed for this battle. Start a new battle to experiment."}{" "}
+                    : "Loadouts are fixed until the company returns to camp."}{" "}
                   Skills earn 10 JP per use; victory awards 60 JP. Every 60 JP
                   grants one job level. Progress is stored with a manual battle
                   save.
@@ -1048,9 +1085,9 @@ function App() {
                   ))}
                 </ol>
                 <p className="modal-note">
-                  This edition contains one battle. Branching quests,
-                  exploration, recruitment, and campaign endings are planned for
-                  later milestones.
+                  This expedition contains three linked contracts. Branching
+                  quests, exploration, recruitment, and campaign endings are
+                  planned for later milestones.
                 </p>
               </>
             )}
@@ -1164,20 +1201,23 @@ function App() {
             {modal === "restart" && (
               <>
                 <p>
-                  Start a fresh battle with full health and energy. Unsaved
-                  progress will be replaced. Your manual save remains available.
+                  Retry with the company loadout from deployment. JP earned
+                  during this attempt will be discarded. Your manual save
+                  remains available.
                 </p>
                 <button
                   className="confirm"
                   onClick={() => {
-                    setBattle(createBattle());
+                    setGame((g) => retryContract(g));
                     setMode("inspect");
                     setSelected(null);
                     setModal(null);
-                    setNotice("A new dawn at Veyr. The company is ready.");
+                    setNotice(
+                      "The company returns to its deployment position.",
+                    );
                   }}
                 >
-                  Start fresh battle
+                  Retry contract
                 </button>
                 <button className="text-button" onClick={() => setModal(null)}>
                   Keep playing
