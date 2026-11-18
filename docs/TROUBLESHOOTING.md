@@ -25,10 +25,14 @@
 
 ## Known scope limits
 
-There are four Veyr map variants and a company camp with inventory, purchases and learned secondary skills. Full story/world navigation, crafting, New Game Plus and mastery slots remain planned. Current animations cover idle, travel, attack lean, damage tint and falling rather than full multi-frame combat sets. Terrain editing is limited to ice and ignition. Weather, destructible obstacles, resistance tables and configurable permadeath remain planned.
+There are four Veyr map variants and a company camp with inventory, purchases and learned secondary skills. Full story/world navigation, crafting, New Game Plus and the remaining job roster remain planned. Mastery/support slots are available in Training. Current animations cover idle, travel, attack lean, damage tint and falling rather than full multi-frame combat sets. Terrain editing is limited to ice and ignition. Weather, destructible obstacles, resistance tables and configurable permadeath remain planned.
 
 Saves have validation, atomic previous-slot recovery and v1 battle migration, but no portable import/export, general migration chain or conflict resolution. Settings are not saved. There is no service worker, offline cache or PWA installation manifest. Performance targets and full accessibility support require further work; viewport responsiveness is not physical-device certification.
 
 ## Reporting a problem
 
 Provide the URL/origin, browser and OS, steps from a fresh battle, active unit, chosen ability, target coordinate, expected result and observed result. Include console errors or failed network status codes if available, with private information removed. For rules bugs, a seed and command sequence make a deterministic regression case. Do not clear site data or overwrite a wanted save merely to produce a report.
+
+## A mastery lesson is disabled
+
+The job must be unlocked, have 240 lifetime JP and have all native skills permanently learned. Native primary access is not permanent learning. The support costs another 120 spendable JP from that job. After learning, equip it in its matching Training slot; learning alone does not apply the effect.

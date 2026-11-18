@@ -1,4 +1,11 @@
 import {
+  supportBonuses,
+  hasSupport,
+  validSupports,
+  type SupportId,
+  type SupportSlots,
+} from "./supports";
+import {
   jobs,
   skills,
   type JobId,
@@ -37,6 +44,8 @@ export interface Unit {
   equipment: Loadout;
   learned: SkillId[];
   jpSpent: Partial<Record<JobId, number>>;
+  learnedSupport?: SupportId[];
+  supportSlots?: SupportSlots;
   mp: number;
   maxMp: number;
   next: number;
@@ -77,14 +86,15 @@ export const activeUnit = (s: Battle) =>
 export const living = (s: Battle) => s.units.filter((u) => u.hp > 0);
 export function unitStats(u: Unit) {
   const j = jobs[u.job],
-    b = gearBonuses(u.equipment);
+    b = gearBonuses(u.equipment),
+    p = supportBonuses(u);
   return {
-    move: Math.max(1, j.move + b.move),
-    speed: Math.max(1, j.speed + b.speed),
-    attack: Math.max(0, j.attack + b.attack),
-    armor: Math.max(0, j.armor + b.armor),
-    magic: Math.max(0, j.magic + b.magic),
-    hp: u.baseHp + b.hp,
+    move: Math.max(1, j.move + b.move + p.move),
+    speed: Math.max(1, j.speed + b.speed + p.speed),
+    attack: Math.max(0, j.attack + b.attack + p.attack),
+    armor: Math.max(0, j.armor + b.armor + p.armor),
+    magic: Math.max(0, j.magic + b.magic + p.magic),
+    hp: u.baseHp + b.hp + p.hp,
   };
 }
 export function createBattle(
@@ -518,9 +528,29 @@ export function command(state: Battle, c: Command): Battle {
           s,
           `${u.name} → ${v.name}: ${damage}${crit ? " critical" : ""} damage${v.hp === 0 ? " · fallen" : ""}.`,
         );
+        if (v.hp > 0 && hasSupport(v, "secondwind") && v.mp >= 2) {
+          v.mp -= 2;
+          const recovered = Math.min(4, v.maxHp - v.hp);
+          v.hp += recovered;
+          note(
+            s,
+            v.name + " uses Second wind: +" + recovered + " health, -2 energy.",
+          );
+        }
+        if (
+          v.hp > 0 &&
+          u.hp > 0 &&
+          sk.id === "strike" &&
+          distance(u, v) <= 1 &&
+          hasSupport(v, "reprisal")
+        ) {
+          u.hp = Math.max(0, u.hp - 5);
+          note(s, v.name + " retaliates with Close reprisal for 5 damage.");
+        }
         if (u.team === "ally") s.momentum = Math.min(5, s.momentum + 1);
         if (
           sk.id === "strike" &&
+          u.hp > 0 &&
           v.hp > 0 &&
           v.job === "dancer" &&
           distance(u, v) <= 1
@@ -703,6 +733,7 @@ function validBattle(raw: unknown): raw is Battle {
         typeof u.name === "string" &&
         Object.hasOwn(jobs, u.job) &&
         Object.hasOwn(jobs, u.secondary) &&
+        validSupports(u) &&
         Number.isFinite(u.baseHp) &&
         u.baseHp > 0 &&
         Array.isArray(u.learned) &&

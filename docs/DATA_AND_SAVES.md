@@ -87,3 +87,7 @@ Repository paths on the same `cptnope.github.io` host share an origin, though th
 The expedition format remains version 2. The new `bellkeeper` encounter and `crownseal` equipment ID are accepted by the current validators. Battle snapshots may carry an optional boolean `bossAwakened`; absence means the phase has not triggered, so prior 0.2 saves require no migration. Once triggered, the phase flag, enemy speed relic and changed readiness/resources serialize with the active battle. A malformed phase flag is rejected.
 
 The unique relic is awarded during the first successful belfry settlement, using completed contract IDs as the deduplication record. Retry does not settle rewards. Old application versions cannot read the new encounter/item IDs; do not downgrade a browser save after playing the belfry.
+
+## Version 0.4 compatibility
+
+Expedition version 2 is retained. Member profiles and units may include optional `learnedSupport` and `supportSlots` fields. If both are absent, the unit has no supports. Present data requires unique known lesson IDs, exactly the passive/reaction/movement slots, owned equipped IDs and correct slot types. Deployment and settlement copy these fields; manual snapshots retain the loadout. Older app versions ignore support effects and can discard support fields on settlement, so downgrading is unsupported.

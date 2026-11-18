@@ -1198,3 +1198,41 @@
     font-size: 11px;
   }
 }
+
+.mastery-board {
+  border-top: 1px solid #ccd4bf;
+  margin-top: 24px;
+  padding-top: 20px;
+}
+.mastery-board > h4 {
+  font:
+    600 21px "Cormorant Garamond",
+    Georgia,
+    serif;
+  margin: 12px 0;
+}
+.mastery-board p {
+  font-size: 12px;
+  line-height: 1.7;
+  color: #627159;
+}
+.support-slot {
+  display: grid;
+  gap: 7px;
+  margin: 16px 0;
+  text-transform: capitalize;
+  font-size: 12px;
+}
+.support-slot select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #bdc8b0;
+  background: #f9f9f0;
+  color: #344832;
+  border-radius: 3px;
+}
+.support-slot small {
+  text-transform: none;
+  line-height: 1.6;
+  color: #65765d;
+}

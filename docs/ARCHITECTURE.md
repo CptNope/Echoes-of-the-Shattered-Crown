@@ -137,3 +137,7 @@ The engine is separate from rendering, but content loading is not yet generalize
 `sprites.ts` owns async atlas loading, alpha-bound normalization, per-job/team canvas caching and procedural fallback. `Portrait.tsx` renders closer square crops and redraws after load. `scene.ts` refreshes live textures after load, uses faction ground markers and displays attack/damage feedback without altering rules. The approximately 2.7 MB atlas is served under the same base path as the app.
 
 The optional `Battle.bossAwakened` flag belongs to encounter state. Rule resolution triggers Orren’s awakening once; it does not depend on animation or elapsed wall time. First-clear relic settlement belongs to the company layer.
+
+## Mastery and supports
+
+`supports.ts` defines eight lessons, mastery requirements, support-derived bonuses and validation. `campaign.ts` owns JP purchases and camp-only slot changes; `engine.ts` consumes bonuses and resolves nonrecursive reactions after damage. Optional profile/unit fields preserve v2 compatibility. Mastery is derived rather than stored. Six support test cases cover learning, ownership/slots, real stats, reaction timing, lethal retaliation and malformed/older saves.

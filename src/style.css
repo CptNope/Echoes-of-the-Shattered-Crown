@@ -239,6 +239,13 @@ h1 {
   display: block;
   flex-shrink: 0;
 }
+.active-supports {
+  display: block;
+  margin-top: 7px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #66745d;
+}
 .boss-brief {
   border-left: 2px solid #a1644c;
   padding: 10px 12px;

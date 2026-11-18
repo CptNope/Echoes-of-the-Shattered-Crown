@@ -1,3 +1,11 @@
+import {
+  supports,
+  mastered,
+  supportCost,
+  emptySupports,
+  type SupportId,
+  type SupportSlot,
+} from "./supports";
 import { jobs, skills, unlocked, type JobId, type SkillId } from "./data";
 import {
   createBattle,
@@ -27,6 +35,8 @@ export type Member = Pick<
   | "jpSpent"
   | "learned"
   | "equipment"
+  | "learnedSupport"
+  | "supportSlots"
 >;
 export interface Company {
   members: Member[];
@@ -55,6 +65,8 @@ export const toMember = (u: Unit): Member =>
     jpSpent: u.jpSpent,
     learned: u.learned,
     equipment: u.equipment,
+    learnedSupport: u.learnedSupport,
+    supportSlots: u.supportSlots,
   });
 export const spendableJP = (m: Member, job: JobId) =>
   (m.jp[job] ?? 0) - (m.jpSpent[job] ?? 0);
@@ -349,4 +361,48 @@ export function decodeSave(
     return { game: value.game, migrated: false };
   const migrated = migrateLegacyBattle(value.battle);
   return migrated ? { game: migrated, migrated: true } : null;
+}
+
+export function learnSupport(
+  game: Expedition,
+  memberId: string,
+  id: SupportId,
+): Expedition {
+  const m = game.company.members.find((m) => m.id === memberId),
+    item = supports[id];
+  if (
+    game.stage !== "camp" ||
+    !m ||
+    !mastered(m, item.job) ||
+    (m.learnedSupport ?? []).includes(id) ||
+    spendableJP(m, item.job) < supportCost
+  )
+    return game;
+  const next = structuredClone(game),
+    target = next.company.members.find((m) => m.id === memberId)!;
+  target.learnedSupport = [...(target.learnedSupport ?? []), id];
+  target.supportSlots ??= emptySupports();
+  target.jpSpent[item.job] = (target.jpSpent[item.job] ?? 0) + supportCost;
+  return next;
+}
+export function setSupport(
+  game: Expedition,
+  memberId: string,
+  slot: SupportSlot,
+  id: SupportId | null,
+): Expedition {
+  const m = game.company.members.find((m) => m.id === memberId);
+  if (
+    game.stage !== "camp" ||
+    !m ||
+    (id &&
+      (!(m.learnedSupport ?? []).includes(id) || supports[id].slot !== slot))
+  )
+    return game;
+  const next = structuredClone(game),
+    target = next.company.members.find((m) => m.id === memberId)!;
+  target.learnedSupport ??= [];
+  target.supportSlots ??= emptySupports();
+  target.supportSlots[slot] = id;
+  return next;
 }

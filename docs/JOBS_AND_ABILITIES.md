@@ -4,11 +4,11 @@
 
 ## Loadout contract
 
-A unit has a primary job, a secondary set, permanent learned skill IDs, lifetime JP, per-job spending and three equipment slots. Available skills are Weapon strike, all native primary skills, the secondary job's **learned** skills, and Lantern concord. Primary stats plus gear determine combat; the secondary supplies skills only.
+A unit has a primary job, a secondary set, permanent learned skill IDs, lifetime JP, per-job spending and three equipment slots. Available skills are Weapon strike, all native primary skills, the secondary job's **learned** skills, and Lantern concord. Primary stats plus gear and equipped support bonuses determine combat; the secondary supplies skills only.
 
 Camp training costs 60 spendable JP from the selected unlocked teaching job. Lifetime JP determines levels and prerequisites and is never reduced by spending. Starter secondary skills are already learned. A shared skill needs to be learned only once. Base maximum HP remains character-specific; equipped HP bonuses and proficiency changes can change derived maximum HP.
 
-Mastery rewards, passive/reaction/movement slots and a separate overall character level are still planned. See [company progression](COMPANY_AND_PROGRESSION.md).
+Mastery lessons and passive/reaction/movement slots are available for all eight jobs. A separate overall character level remains planned. See [mastery and supports](MASTERY_AND_SUPPORTS.md) and [company progression](COMPANY_AND_PROGRESSION.md).
 
 ## Job statistics
 
@@ -100,3 +100,7 @@ Power is an input to the damage formula, not guaranteed final damage. Range uses
 | Lifebinder + Vanguard   | Restoration with Sundering arc                   | Uses Lifebinder attack 0; no secondary-job Vanguard aura  |
 
 These combinations illustrate skill access and stat tradeoffs; they are not claims of balance certification. Future jobs and the 20-job plan are in [the roadmap](ROADMAP.md).
+
+## Mastery lessons
+
+Every current job has one support lesson. Mastery requires an unlocked job, 240 lifetime JP and all its native skills permanently learned; the lesson costs 120 spendable JP. See [mastery and supports](MASTERY_AND_SUPPORTS.md) for the eight effects, three equipment-independent slots and reaction timing.

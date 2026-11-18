@@ -29,6 +29,7 @@ import { Battlefield, type Mode } from "./scene";
 import { saveGame, loadGame } from "./storage";
 import { Camp } from "./Camp";
 import { Portrait } from "./Portrait";
+import { supports } from "./supports";
 import { createExpedition, returnToCamp, retryContract } from "./campaign";
 import { encounters } from "./encounters";
 import { AudioScore } from "./audio";
@@ -559,6 +560,14 @@ function App() {
                 {jobs[actor.job].name} · Lv.{" "}
                 {jobLevel(actor.jp[actor.job] ?? 0)}
               </span>
+              {actor.supportSlots && (
+                <small className="active-supports">
+                  {Object.values(actor.supportSlots)
+                    .filter((id) => id !== null)
+                    .map((id) => supports[id!].name)
+                    .join(" · ") || "No supports equipped"}
+                </small>
+              )}
               <div className="meter">
                 <i style={{ width: `${(actor.hp / actor.maxHp) * 100}%` }} />
               </div>

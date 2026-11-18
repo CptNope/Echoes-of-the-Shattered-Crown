@@ -2,7 +2,7 @@
 
 [Documentation index](README.md) · [Jobs](JOBS_AND_ABILITIES.md) · [Saves](DATA_AND_SAVES.md)
 
-Version 0.3 extends an expedition loop around the tactical engine. The company camp is a functional management screen, not a 3D town or the full campaign promised in the original brief.
+Version 0.4 extends an expedition loop around the tactical engine. The company camp is a functional management screen, not a 3D town or the full campaign promised in the original brief.
 
 ```mermaid
 flowchart LR
@@ -49,7 +49,7 @@ Primary jobs grant all their native skills immediately. A secondary job grants o
 
 For example, Sera can earn Vanguard JP, learn Sundering arc, become an Arcanist and choose Vanguard as her secondary. She then has elemental primary skills plus her permanently learned cleave. Native primary skills do not automatically become permanently learned simply by changing jobs.
 
-Each valid ability use earns 10 lifetime primary-job JP; a victory grants 60 to every companion. Empty casts and misses still earn use JP. This is an early progression economy, not a final anti-farming balance. Mastery rewards, passive/reaction/movement slots and a separate character-level system remain planned.
+Each valid ability use earns 10 lifetime primary-job JP; a victory grants 60 to every companion. Empty casts and misses still earn use JP. This is an early progression economy, not a final anti-farming balance. Version 0.4 adds [job mastery and eight support lessons](MASTERY_AND_SUPPORTS.md), with passive, reaction and movement slots. A separate character-level system remains planned.
 
 ## Equipment and shared inventory
 
@@ -70,7 +70,7 @@ Every member has weapon, armor and relic slots. The inventory counts **all owned
 
 The company begins with 140 gold, one of each weapon, four leathers, one pair of boots and one copper focus. Each companion starts with a suitable weapon and leathers; the two relics begin unequipped. Purchases are capped at 99 owned copies per item and cannot overdraw gold. Equipment/job changes happen at camp, with the existing first-activation job adjustment still available inside a battle.
 
-Derived stats are primary job stats plus equipped bonuses. Move and speed have a minimum of 1; attack, armor and magic have a minimum of 0. Maximum HP is the member's base HP plus gear HP. Secondary jobs do not add stats. Bonuses affect actual pathfinding, damage, defensive calculations and initiative, not only the dossier display. Healing remains the skill's fixed amount, so magic bonuses do not increase Thread of life's healing.
+Derived stats are primary job stats plus equipped gear and support bonuses. Move and speed have a minimum of 1; attack, armor and magic have a minimum of 0. Maximum HP is the member's base HP plus gear HP. Secondary jobs do not add stats. Bonuses affect actual pathfinding, damage, defensive calculations and initiative, not only the dossier display. Healing remains the skill's fixed amount, so magic bonuses do not increase Thread of life's healing.
 
 A job change automatically unequips incompatible weapon/armor copies; ownership is preserved. The portrait shows the job costume, not individual equipment models. At the next deployment all members recover to derived maximum HP and full energy, and combat-only statuses/turn flags reset.
 

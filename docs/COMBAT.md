@@ -158,3 +158,7 @@ The planner moves before acting, shares the same validation functions as players
 ## Orren’s awakening
 
 The fourth contract adds a one-time half-health response after a valid command resolves. See [The silent belfry](THE_SILENT_BELFRY.md) for the exact trigger, timing, speed/readiness changes and first-clear reward. It does not introduce a new damage formula.
+
+## Equipped supports
+
+Derived stats now include equipped mastery supports. Second wind can recover a surviving defender after an ability hit; Close reprisal adds fixed retaliation to adjacent Weapon strikes. Reactions do not recurse, and previews show the hit before reaction effects. See [exact support rules](MASTERY_AND_SUPPORTS.md).

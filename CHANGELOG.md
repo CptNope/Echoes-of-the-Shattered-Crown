@@ -6,6 +6,20 @@ Changes are grouped by player/developer impact. Dates below use **America/New_Yo
 
 Further milestones are tracked in [the roadmap](docs/ROADMAP.md).
 
+## 0.4.0 — 2026-11-18
+
+### Added
+
+- Derived job mastery: unlocked job, 240 lifetime JP and every native skill permanently learned.
+- Eight permanent support lessons at 120 spendable job JP each, with one passive, reaction and movement slot per companion. Supports retain their effects across primary-job changes.
+- Equipment-stacking stat supports, energy-consuming Second wind recovery and nonrecursive Close reprisal retaliation, including safe turn advancement after a lethal counter.
+- Training lesson/slot controls and equipped-support names in the battle HUD.
+- Optional v2 support fields with ownership/slot validation and old-save compatibility; six new test cases (37 total), guide, reference tables and Mermaid progression diagram.
+
+### Limits
+
+- One support lesson per existing job; more active job skills, the remaining roster and refunds remain future work. Hit previews do not include the full reaction exchange.
+
 ## 0.3.0 — 2026-11-18
 
 ### Added

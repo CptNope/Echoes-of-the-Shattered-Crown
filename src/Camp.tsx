@@ -1,4 +1,13 @@
 import {
+  supports,
+  mastered,
+  masteryJP,
+  supportCost,
+  type SupportId,
+  type SupportSlot,
+} from "./supports";
+import { learnSupport, setSupport } from "./campaign";
+import {
   useEffect,
   useMemo,
   useState,
@@ -626,6 +635,86 @@ export function Camp({
                       </div>
                     );
                   })}
+                  <div className="mastery-board">
+                    <h4>
+                      {mastered(m, school) ? "Job mastered" : "Path to mastery"}
+                    </h4>
+                    <p>
+                      Earn {masteryJP} lifetime JP and permanently learn every
+                      native skill in this job. Mastery unlocks its support
+                      lesson; learning costs {supportCost} spendable JP.
+                    </p>
+                    {Object.values(supports)
+                      .filter((item) => item.job === school)
+                      .map((item) => (
+                        <div key={item.id} className="training-skill">
+                          <div>
+                            <h4>
+                              {item.name} · {item.slot}
+                            </h4>
+                            <p>{item.description}</p>
+                          </div>
+                          <button
+                            disabled={
+                              (m.learnedSupport ?? []).includes(item.id) ||
+                              !mastered(m, school) ||
+                              spendableJP(m, school) < supportCost
+                            }
+                            onClick={() => {
+                              setGame((g) => learnSupport(g, m.id, item.id));
+                              setMessage(
+                                item.name +
+                                  " learned. Equip it in the support slots below.",
+                              );
+                            }}
+                          >
+                            {(m.learnedSupport ?? []).includes(item.id)
+                              ? "Learned"
+                              : "Learn · " + supportCost + " JP"}
+                          </button>
+                        </div>
+                      ))}
+                    <h4>Equipped support abilities</h4>
+                    <p>
+                      One per slot. Learned supports work across primary jobs;
+                      changing jobs preserves the loadout.
+                    </p>
+                    {(["passive", "reaction", "movement"] as SupportSlot[]).map(
+                      (slot) => (
+                        <label className="support-slot" key={slot}>
+                          {slot}
+                          <select
+                            aria-label={slot + " support"}
+                            value={m.supportSlots?.[slot] ?? ""}
+                            onChange={(e) =>
+                              setGame((g) =>
+                                setSupport(
+                                  g,
+                                  m.id,
+                                  slot,
+                                  (e.target.value || null) as SupportId | null,
+                                ),
+                              )
+                            }
+                          >
+                            <option value="">None</option>
+                            {(m.learnedSupport ?? [])
+                              .filter((id) => supports[id].slot === slot)
+                              .map((id) => (
+                                <option key={id} value={id}>
+                                  {supports[id].name}
+                                </option>
+                              ))}
+                          </select>
+                          <small>
+                            {m.supportSlots?.[slot]
+                              ? supports[m.supportSlots[slot]!].description
+                              : "No support equipped"}
+                          </small>
+                        </label>
+                      ),
+                    )}
+                  </div>
                   <p className="camp-note">
                     Skills earn 10 lifetime JP per valid use; victory adds 60.
                     Each job tracks its own spending. Learned skills stay

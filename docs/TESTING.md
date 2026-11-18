@@ -4,7 +4,7 @@
 
 ## Automated rules coverage
 
-Run `npm test`. The script uses `tsx --test src/engine.test.ts src/campaign.test.ts` and Node's built-in test runner. The current suite has 31 tests; this count is an inventory, not a coverage percentage or balance certification.
+Run `npm test`. The script uses `tsx --test src/engine.test.ts src/campaign.test.ts` and Node's built-in test runner. The current suite has 37 tests; this count is an inventory, not a coverage percentage or balance certification.
 
 | Area             | Assertions represented                                                                                        |
 | ---------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -73,3 +73,7 @@ Browser checks on an isolated localhost origin verified buying Bronze lamellar, 
 Three new tests cover belfry gating and first-clear reward deduplication, the one-time half-health awakening and saved phase, and lethal-hit/older-v2-save compatibility. The deterministic complete-battle scenario now runs all four maps.
 
 Browser QA used a disposable localhost fixture to show all eight normalized characters, load a half-health Orren, trigger the real end-turn awakening, and perform the real finishing attack before returning to camp to inspect the relic. This is targeted state coverage, not a manual full-campaign playthrough. The fixture was removed. This pass inspected 1280px and 914px viewports. The requested phone override did not take effect in this browser session; earlier 0.2 phone checks remain historical evidence. Physical-device performance remains unverified.
+
+## Version 0.4 validation
+
+Six new cases bring the suite to 37 tests. They cover mastery prerequisites/spending, owned and correctly typed slots, cross-job and actual stat effects, Second wind costs/survival, lethal Close reprisal turn advancement, and backward-compatible or malformed saves. A disposable localhost fixture seeded only JP; real UI actions learned the native skill, unlocked the support lesson, purchased/equipped Steadfast, saved, cleared the slot, loaded to restore it, then deployed with the support visible in combat. The fixture was removed. This targeted check is not a complete manual campaign or physical-device test.
