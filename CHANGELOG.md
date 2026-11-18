@@ -6,6 +6,19 @@ Changes are grouped by player/developer impact. Dates below use **America/New_Yo
 
 Further milestones are tracked in [the roadmap](docs/ROADMAP.md).
 
+## 0.6.0 — 2026-11-18
+
+### Added
+
+- Automatic company/battle recovery with serialized current/previous IndexedDB snapshots, startup review and enemy/input pause until a recovery choice. Manual saves remain separate.
+- Portable JSON export/import, company/progress/turn preview, explicit restore, native/legacy compatibility and a 1 MiB UTF-8 limit. Invalid files leave the session unchanged.
+- Backups controls in camp and battle, automatic-storage status, focus handling and file download names.
+- Six backup tests (49 total), actual browser download/import/reopen checks, real IndexedDB queue/fallback/manual-isolation checks, a guide and Mermaid recovery diagram.
+
+### Limits
+
+- Browser clearing and abrupt interruption of a pending write can still lose local recovery. No cloud sync, checksum/encryption or multi-tab merge; exported files provide an independent copy.
+
 ## 0.5.0 — 2026-11-18
 
 ### Added

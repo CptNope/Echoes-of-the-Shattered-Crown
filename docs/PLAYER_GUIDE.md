@@ -92,4 +92,8 @@ Focus outlines, dialog focus trapping, keyboard shortcuts and shape-based team m
 
 ## Saving before leaving
 
-Wait for a save confirmation. Refresh or reopen starts a fresh camp until you use Load save. Clearing site data, private-browsing storage policies or another browser profile/origin can make snapshots unavailable. See [data and saves](DATA_AND_SAVES.md) before diagnosing a missing save.
+Wait for a save confirmation. Refresh or reopen offers a valid automatic recovery for review; Load save restores the separate manual checkpoint. Clearing site data, private-browsing storage policies or another browser profile/origin can make snapshots unavailable. See [data and saves](DATA_AND_SAVES.md) before diagnosing a missing save.
+
+## Closing the tab and moving a company
+
+From 0.6 onward, automatic recovery follows company/battle changes. Reopen and review Resume recovery to continue; the old manual checkpoint stays under Load save. Open Backups in camp or battle to export a JSON file or preview an import. Restore is explicit and leaves the manual slot unchanged. Browser data clearing can remove local recovery, so keep a file for important progress. See [backups and recovery](BACKUPS_AND_RECOVERY.md).

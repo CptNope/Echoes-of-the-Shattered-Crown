@@ -141,3 +141,7 @@ The optional `Battle.bossAwakened` flag belongs to encounter state. Rule resolut
 ## Mastery and supports
 
 `supports.ts` defines eight lessons, mastery requirements, support-derived bonuses and validation. `campaign.ts` owns JP purchases and camp-only slot changes; `engine.ts` consumes bonuses and resolves nonrecursive reactions after damage. Optional profile/unit fields preserve v2 compatibility. Mastery is derived rather than stored. Six support test cases cover learning, ownership/slots, real stats, reaction timing, lethal retaliation and malformed/older saves.
+
+## Recovery and portable files
+
+`portable.ts` validates, serializes and parses the bounded JSON envelope without browser dependencies. `BackupDialog.tsx` owns file selection, local download, candidate review and focus management. `storage.ts` serializes recovery writes and rotates current/previous recovery in IndexedDB independently from manual slots. App startup gates new recovery writes and battle input/AI until the previous recovery is checked and the player chooses Resume or Start new. Camera, audio and menu state are not part of the saved expedition.

@@ -100,6 +100,7 @@ export function Camp({
   setGame,
   onSave,
   onLoad,
+  onBackups,
   busy,
   notice,
   dismiss,
@@ -108,6 +109,7 @@ export function Camp({
   setGame: Dispatch<SetStateAction<Expedition>>;
   onSave: () => void;
   onLoad: () => void;
+  onBackups: () => void;
   busy: boolean;
   notice: string;
   dismiss: () => void;
@@ -217,6 +219,7 @@ export function Camp({
           <button disabled={busy} onClick={onLoad}>
             Load save
           </button>
+          <button onClick={onBackups}>Backups</button>
         </div>
       </header>
       <div className="camp-shell">

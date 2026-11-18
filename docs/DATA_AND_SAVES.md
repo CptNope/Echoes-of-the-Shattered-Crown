@@ -21,7 +21,7 @@ Current battles still have 81 tiles and eight units. The persistent company has 
 | ---------------------------- | ---------------------------------------------------- |
 | Database / schema version    | `echoes-crown` / `1`                                 |
 | Object store                 | `saves`                                              |
-| Slots                        | `manual`, `backup`                                   |
+| Slots                        | `manual`, `backup`, `recovery`, `recovery-backup`    |
 | Current wrapper              | `{ game: Expedition, savedAt: ISODateString }`       |
 | Current game / battle format | Both version `2`                                     |
 | Legacy wrapper supported     | `{ battle: Version1Battle, savedAt: ISODateString }` |
@@ -57,7 +57,7 @@ Migration clones the old battle, adds the shrine encounter ID, sets battle versi
 
 Positions, HP/MP, turn flags, statuses, readiness, JP, RNG seed and outcome are preserved. Empty equipment prevents new bonuses from silently changing a battle already in progress. The migrated company receives the new starting treasury/inventory, with its roster taken from the old battle; equipment can be assigned at camp later. Since the old format had no pre-deployment profile, its migrated current roster becomes the retry baseline. Old malformed or incompatible records are rejected rather than guessed into a playable state.
 
-Loading a legacy record does not rewrite it immediately. A subsequent manual save stores the current v2 wrapper and retains the old decodable record as backup. There is still no portable save export/import or general migration chain beyond this one supported transition.
+Loading a legacy record does not rewrite it immediately. A subsequent manual save stores the current v2 wrapper and retains the old decodable record as backup. Portable export/import now accepts this wrapper through the supported migration path; there is no general migration chain beyond that transition.
 
 ## Profile versus field state
 
@@ -69,18 +69,18 @@ The engine validates known jobs, skills, gear slots/proficiencies, JP spending, 
 
 ## Storage limitations
 
-| Scenario                                   | Behavior                                                          |
-| ------------------------------------------ | ----------------------------------------------------------------- |
-| Refresh or reopen                          | Fresh company appears; use Load save to restore the manual slot   |
-| New company                                | In-memory progress resets after confirmation; manual save remains |
-| Retry contract                             | Pre-deployment roster restored; attempt gains discarded           |
-| Return after defeat                        | Attempt JP kept; no bounty or contract unlock                     |
-| Another profile/device/origin              | Separate storage; no synchronization                              |
-| Private Site versus Pages                  | Different origins and different saves                             |
-| Multiple tabs on one origin                | Shared slots; later saves can overwrite earlier ones              |
-| Site-data clearing/private-browsing policy | Persistence may be removed or restricted                          |
+| Scenario                                   | Behavior                                                                                                  |
+| ------------------------------------------ | --------------------------------------------------------------------------------------------------------- |
+| Refresh or reopen                          | Valid automatic recovery is reviewed before continuing; Load save restores the separate manual checkpoint |
+| New company                                | In-memory progress resets after confirmation; manual save remains                                         |
+| Retry contract                             | Pre-deployment roster restored; attempt gains discarded                                                   |
+| Return after defeat                        | Attempt JP kept; no bounty or contract unlock                                                             |
+| Another profile/device/origin              | Separate storage; no synchronization                                                                      |
+| Private Site versus Pages                  | Different origins and different saves                                                                     |
+| Multiple tabs on one origin                | Shared slots; later saves can overwrite earlier ones                                                      |
+| Site-data clearing/private-browsing policy | Persistence may be removed or restricted                                                                  |
 
-Repository paths on the same `cptnope.github.io` host share an origin, though this project uses its own database name. A custom domain is another origin and does not automatically transfer existing snapshots. No autosave, cloud sync, encryption, checksums, portable recovery file or conflict resolution is implemented.
+Repository paths on the same `cptnope.github.io` host share an origin, though this project uses its own database name. A custom domain is another origin and does not automatically transfer existing snapshots. Automatic recovery and portable JSON files are implemented in 0.6. Cloud sync, encryption, checksums and multi-tab conflict resolution are not. See [backup and recovery rules](BACKUPS_AND_RECOVERY.md).
 
 ## Version 0.3 compatibility
 
@@ -95,3 +95,7 @@ Expedition version 2 is retained. Member profiles and units may include optional
 ## Version 0.5 compatibility
 
 The four added skill IDs (`gloam`, `aegis`, `raincall`, `delay`) use existing guard/status/readiness fields. Expedition v2 remains valid without migration. Older learned collections are preserved; newly created companies use current starter secondary definitions. Supported v1 migration also uses current secondary definitions. Older application versions reject learned collections containing unknown skill IDs, so do not downgrade these saves.
+
+## Version 0.6 recovery records
+
+Automatic writes use separate recovery/current-previous slots in the existing store, preserving manual checkpoints. Writes are serialized within a page and rotate the previous decodable snapshot in one transaction. Startup reads recovery before enabling fresh autosave or enemy turns; a valid candidate requires Resume or Start new. Portable envelope version 1 wraps the unchanged expedition v2. See [the complete format and player flow](BACKUPS_AND_RECOVERY.md).

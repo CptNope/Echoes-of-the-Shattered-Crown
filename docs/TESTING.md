@@ -4,7 +4,7 @@
 
 ## Automated rules coverage
 
-Run `npm test`. The script uses `tsx --test src/engine.test.ts src/campaign.test.ts src/supports.test.ts src/advanced.test.ts` and Node's built-in test runner. The current suite has 43 tests; this count is an inventory, not a coverage percentage or balance certification.
+Run `npm test`. The script uses `tsx --test src/engine.test.ts src/campaign.test.ts src/supports.test.ts src/advanced.test.ts src/portable.test.ts` and Node's built-in test runner. The current suite has 49 tests; this count is an inventory, not a coverage percentage or balance certification.
 
 | Area             | Assertions represented                                                                                        |
 | ---------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -81,3 +81,7 @@ Six new cases bring the suite to 37 tests. They cover mastery prerequisites/spen
 ## Version 0.5 validation
 
 Six new cases bring the suite to 43 tests: Gloam preview/hit/miss consumption, Oathguard ally/self targeting and expiry, rain area/soak/friendly immunity, deterministic Stolen hour timing, camp learning/old v2 collections, and AI defensive casting. Existing complete-battle simulations still terminate on all four maps. Browser QA performed an actual opening-turn move and rain cast, checked the 11-damage preview against the captain’s 100→89 HP, and used a disposable local Runewarden save to check the 45% Oathguard preview and guard feedback. The fixture was removed.
+
+## Version 0.6 validation
+
+Six new pure backup cases bring the suite to 49 tests: complete-company and active-battle round trips, legacy/native imports, malformed/unsupported data, UTF-8 limits, safe download names and timestamp handling. Actual browser/IndexedDB checks downloaded a JSON file, rejected an invalid file without changing gold, reviewed and restored the download, and then loaded the unchanged manual checkpoint. A real turn-two battle was closed and resumed. A disposable local harness verified queued writes (latest 72 gold), corrupt-current fallback (previous 71), manual isolation (45), and an enemy-turn recovery that remained unchanged across a second close before Resume. Separate 390px and 768px nested viewport checks showed no horizontal overflow in backup access/header layouts; the phone recovery dialog was visually inspected. The harnesses were removed; these storage/browser checks are not part of the Node suite or physical-device certification.

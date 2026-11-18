@@ -26,7 +26,15 @@ import {
   type Unit,
 } from "./engine";
 import { Battlefield, type Mode } from "./scene";
-import { saveGame, loadGame } from "./storage";
+import {
+  saveGame,
+  loadGame,
+  saveRecovery,
+  loadRecovery,
+  type RecoveryRecord,
+} from "./storage";
+import type { Expedition } from "./campaign";
+import { BackupDialog } from "./BackupDialog";
 import { Camp } from "./Camp";
 import { Portrait } from "./Portrait";
 import { supports } from "./supports";
@@ -84,6 +92,52 @@ const Glyph = ({ kind }: { kind: "settings" | "sound" | "magic" }) => (
 );
 function App() {
   const [game, setGame] = useState(createExpedition);
+  const [backupOpen, setBackupOpen] = useState(false),
+    [recovery, setRecovery] = useState<RecoveryRecord | null>(null),
+    [recoveryReady, setRecoveryReady] = useState(false),
+    [autoStatus, setAutoStatus] = useState("Checking…"),
+    [storageDisabled, setStorageDisabled] = useState(false);
+  useEffect(() => {
+    let alive = true;
+    void loadRecovery()
+      .then((r) => {
+        if (!alive) return;
+        if (r) {
+          setRecovery(r);
+          setBackupOpen(true);
+          setAutoStatus(
+            r.recovered
+              ? "Previous valid snapshot available"
+              : "Saved company available",
+          );
+        } else setRecoveryReady(true);
+      })
+      .catch(() => {
+        if (alive) {
+          setAutoStatus("Unavailable in this browser; use file backups");
+          setStorageDisabled(true);
+          setRecoveryReady(true);
+        }
+      });
+    return () => {
+      alive = false;
+    };
+  }, []);
+  useEffect(() => {
+    if (!recoveryReady || storageDisabled) return;
+    let alive = true;
+    setAutoStatus("Saving…");
+    void saveRecovery(game)
+      .then(() => {
+        if (alive) setAutoStatus("Saved at " + new Date().toLocaleTimeString());
+      })
+      .catch(() => {
+        if (alive) setAutoStatus("Save failed; export a file backup");
+      });
+    return () => {
+      alive = false;
+    };
+  }, [game, recoveryReady, storageDisabled]);
   const battle = game.battle;
   const mission = encounters[battle.encounter];
   const boss =
@@ -120,7 +174,12 @@ function App() {
     view = useRef<Battlefield | null>(null),
     score = useRef<AudioScore | null>(null),
     latest = useRef({ battle, mode, modal, stage: game.stage });
-  latest.current = { battle, mode, modal, stage: game.stage };
+  latest.current = {
+    battle,
+    mode,
+    modal: backupOpen ? "settings" : modal,
+    stage: game.stage,
+  };
   const selectRef = useRef<(x: number, z: number) => void>(() => {});
   const actor = activeUnit(battle),
     isPlayer =
@@ -133,7 +192,7 @@ function App() {
   const inspected = target ?? actor;
   const chosen = mode !== "inspect" && mode !== "move" ? skills[mode] : null;
   const send = (c: Parameters<typeof command>[1]) => {
-    if (!isPlayer || modal) return;
+    if (!isPlayer || modal || backupOpen || !recoveryReady) return;
     const next = command(battle, c);
     if (next === battle) {
       setNotice(
@@ -184,6 +243,8 @@ function App() {
       game.stage !== "battle" ||
       battle.result !== "playing" ||
       actor.team !== "enemy" ||
+      backupOpen ||
+      !recoveryReady ||
       modal
     )
       return;
@@ -196,9 +257,10 @@ function App() {
       fast ? 250 : 1000,
     );
     return () => clearTimeout(timer);
-  }, [battle, modal, fast, game.stage]);
+  }, [battle, modal, fast, game.stage, backupOpen, recoveryReady]);
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
+      if (backupOpen || !recoveryReady) return;
       if (game.stage !== "battle") return;
       if (
         e.target instanceof HTMLInputElement ||
@@ -411,17 +473,50 @@ function App() {
       setBusy(false);
     }
   }
+  function restoreBackup(value: Expedition) {
+    setGame(value);
+    setSceneRevision((n) => n + 1);
+    setMode("inspect");
+    setSelected(null);
+    setHover({ x: activeUnit(value.battle).x, z: activeUnit(value.battle).z });
+    setModal(null);
+    setBackupOpen(false);
+    setRecovery(null);
+    setRecoveryReady(true);
+    setNotice(
+      "Company restored. Automatic recovery will update; the manual save is unchanged.",
+    );
+  }
+  const backupDialog = backupOpen ? (
+    <BackupDialog
+      game={game}
+      recovery={recovery}
+      startup={!recoveryReady}
+      status={autoStatus}
+      onRestore={restoreBackup}
+      onClose={() => {
+        setBackupOpen(false);
+        setRecovery(null);
+        setRecoveryReady(true);
+      }}
+    />
+  ) : null;
   if (game.stage === "camp")
     return (
-      <Camp
-        game={game}
-        setGame={setGame}
-        onSave={() => void persist()}
-        onLoad={() => void persist(true)}
-        busy={busy}
-        notice={notice}
-        dismiss={() => setNotice("")}
-      />
+      <>
+        {" "}
+        <Camp
+          game={game}
+          setGame={setGame}
+          onSave={() => void persist()}
+          onLoad={() => void persist(true)}
+          onBackups={() => setBackupOpen(true)}
+          busy={busy}
+          notice={notice}
+          dismiss={() => setNotice("")}
+        />{" "}
+        {backupDialog}{" "}
+      </>
     );
   return (
     <div
@@ -684,6 +779,7 @@ function App() {
               <button disabled={busy} onClick={() => persist(true)}>
                 Load save
               </button>
+              <button onClick={() => setBackupOpen(true)}>Backups</button>
             </div>
           </div>
         </aside>
@@ -1295,6 +1391,7 @@ function App() {
           </section>
         </div>
       )}
+      {backupDialog}
     </div>
   );
 }

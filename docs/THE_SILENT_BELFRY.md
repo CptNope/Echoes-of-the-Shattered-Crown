@@ -7,7 +7,7 @@ Contract IV unlocks after clearing the Oathless redoubt. Four companions enter a
 | Detail                | Rule                                                                                                                           |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
 | Orren                 | Runewarden primary, Chronoweaver secondary, 168 HP, 48 energy                                                                  |
-| Native/learned skills | Stillwater, Oathguard, learned Borrowed dawn, plus universal strike/concord                                                               |
+| Native/learned skills | Stillwater, Oathguard, learned Borrowed dawn, plus universal strike/concord                                                    |
 | Awakening threshold   | Alive at 84 HP or less when a valid command resolves                                                                           |
 | One-time response     | Clear burn and slow; restore energy to 48; advance readiness by 25, clamped at zero; guard; equip Dawnwatch charm for +2 speed |
 | Guard duration        | Until Orren's next activation, following ordinary guard rules                                                                  |
