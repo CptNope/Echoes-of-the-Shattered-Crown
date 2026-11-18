@@ -52,3 +52,24 @@ One complete battle with four allies and four AI enemies. Orthographic Three.js 
 Remaining: full purchased/mastered ability system, equipment/inventory, persistent multi-battle progression, free continuous camera/pan/tracking, explicit facing selection, detailed action animation/effects, destructible obstacles, weather, full elemental resistance tables, configurable permadeath, campaign maps/dialogue choices/hub/recruitment, game modes, authored orchestral score, PWA/offline, save migration/export and device-specific performance certification. Current line-of-sight is a discrete tile sampling approximation. Scenery fading is view-based, rather than exact per-character occlusion. The procedural music is a sketch, and sprite animations cover idle/travel/fallen rather than all requested states. Accessibility includes keyboard and touch commands, reduced motion, larger text and shape-based team markers; remapping and screen-reader battlefield navigation remain future work. No 60 FPS claim has been certified.
 
 All artwork and musical notes are authored for this project. React, Three.js, Vite and other dependencies retain their respective open-source licenses. Google Fonts are external optional type assets (Cormorant Garamond and DM Sans, SIL Open Font License).
+
+## GitHub Pages via Actions
+
+Play at [CptNope.github.io/Echoes-of-the-Shattered-Crown](https://cptnope.github.io/Echoes-of-the-Shattered-Crown/).
+
+The [Pages workflow](.github/workflows/pages.yml) runs `npm ci`, all combat tests, the TypeScript/Vite build, and an asset-path check. Pushes to `main` and manual runs publish `dist/` using GitHub's Pages artifact deployment. Pull requests run validation without deployment. A final job checks the published HTML, JavaScript and CSS over HTTPS.
+
+Repository Settings → Pages → Build and deployment → Source must be **GitHub Actions**. No personal access token or custom secrets are needed; deployment uses the workflow's short-lived GitHub token and OIDC identity.
+
+Vite uses `BASE_PATH` for project hosting. The workflow sets it to `/Echoes-of-the-Shattered-Crown/`; local development and other hosts default to `/`. If the repository is renamed or a custom domain is added, update the workflow's `BASE_PATH` accordingly.
+
+Reproduce the Pages build in PowerShell:
+
+```powershell
+$env:BASE_PATH = '/Echoes-of-the-Shattered-Crown/'
+npm run build
+node scripts/verify-pages.mjs
+Remove-Item Env:BASE_PATH
+```
+
+Browser saves are specific to their origin. Saves from the private Site do not transfer automatically to the GitHub Pages origin.
