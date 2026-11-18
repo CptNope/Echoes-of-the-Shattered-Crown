@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.env
+*.log
+.sites-workflow/
+
+# Private hosting binding stays local
+.openai/
