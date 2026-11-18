@@ -8,7 +8,7 @@ An original isometric tactical RPG about a mercenary company, a fractured world,
 
 ![The Lantern Company at the shrine of Veyr](docs/assets/battlefield.jpg)
 
-> **Current edition: 0.4 — Job mastery.** Prepare a persistent roster at camp, complete four linked Veyr contracts, learn secondary skills with JP, and provision shared equipment. Challenge Orren in the fourth contract for a unique relic; all eight jobs now have detailed illustrated sprites. Master existing jobs to learn eight cross-job supports and equip passive, reaction and movement slots. The full story campaign remains future work.
+> **Current edition: 0.5 — Advanced tactics.** Prepare a persistent roster at camp, complete four linked Veyr contracts, learn secondary skills with JP, and provision shared equipment. Challenge Orren in the fourth contract for a unique relic; all eight jobs now have detailed illustrated sprites. Master existing jobs to learn eight cross-job supports and equip passive, reaction and movement slots. Four new advanced-job abilities add exposure finishers, ally guard, rain setup and timeline delay. The full story campaign remains future work.
 
 ## Contents
 
@@ -38,6 +38,8 @@ An original isometric tactical RPG about a mercenary company, a fractured world,
 | Persistence  | Company + active battle, previous-save backup, v1 migration                                | Manual browser-local saves; no cloud sync, autosave or export          |
 | Input        | Pointer, touch, battle keyboard/gamepad mapping, reduced motion and text sizing            | Physical devices and full controller-driven camp navigation unverified |
 
+See [advanced abilities](docs/ADVANCED_ABILITIES.md) for the new tactics and preview rules.
+
 See [job mastery and support abilities](docs/MASTERY_AND_SUPPORTS.md) for the new learning and loadout system.
 
 See [the belfry boss guide](docs/THE_SILENT_BELFRY.md) and [character art pipeline](docs/SPRITE_ART.md) for this expansion.
@@ -61,7 +63,7 @@ Open the Local URL printed by Vite. If its default port is unavailable, use `npm
 | ----------------------------------------------- | --------------------------------------------------------- |
 | `npm ci`                                        | Install locked dependency versions                        |
 | `npm run dev`                                   | Start the local development server                        |
-| `npm test`                                      | Run 37 deterministic engine and battle-scenario tests     |
+| `npm test`                                      | Run 43 deterministic engine and battle-scenario tests     |
 | `npm run build`                                 | Strict TypeScript check for `src/`, then generate `dist/` |
 | `npx vite preview --host 127.0.0.1 --port 4187` | Preview a production build locally                        |
 | `node scripts/verify-pages.mjs`                 | Check a build produced with the Pages base path           |
@@ -192,29 +194,29 @@ The [workflow](.github/workflows/pages.yml) builds for `/Echoes-of-the-Shattered
 
 ## Documentation
 
-| Read this                                                  | To understand                                                   |
-| ---------------------------------------------------------- | --------------------------------------------------------------- |
-| [Documentation index](docs/README.md)                      | Reading paths and source-of-truth map                           |
-| [Company and progression](docs/COMPANY_AND_PROGRESSION.md) | Contract loop, JP spending, shared inventory and all nine items |
-| [Player guide](docs/PLAYER_GUIDE.md)                       | Roster, first battle, menus, controls and tactics               |
-| [Combat rules](docs/COMBAT.md)                             | Exact movement, damage, initiative, statuses and AI             |
-| [Jobs and abilities](docs/JOBS_AND_ABILITIES.md)           | Eight jobs, nine abilities, unlocks and loadouts                |
-| [Architecture](docs/ARCHITECTURE.md)                       | Module boundaries, state flow and engine contracts              |
-| [Data and saves](docs/DATA_AND_SAVES.md)                   | Records, IndexedDB, validation and recovery                     |
-| [Development](docs/DEVELOPMENT.md)                         | Setup, conventions and extension recipes                        |
-| [Testing](docs/TESTING.md)                                 | Coverage, browser checks, CI and verification gaps              |
-| [Deployment](docs/DEPLOYMENT.md)                           | Pages pipeline, permissions and troubleshooting                 |
-| [Art and audio](docs/ART_AND_AUDIO.md)                     | Original assets and presentation pipeline                       |
-| [Roadmap](docs/ROADMAP.md)                                 | Milestones and 20-job development roster                        |
-| [Troubleshooting](docs/TROUBLESHOOTING.md)                 | Runtime, saves, input and hosting issues                        |
-| [Changelog](CHANGELOG.md)                                  | Changes linked to actual repository history                     |
-| [Contributing](CONTRIBUTING.md)                            | Contribution scope and review expectations                      |
+| Read this                                                  | To understand                                                  |
+| ---------------------------------------------------------- | -------------------------------------------------------------- |
+| [Documentation index](docs/README.md)                      | Reading paths and source-of-truth map                          |
+| [Company and progression](docs/COMPANY_AND_PROGRESSION.md) | Contract loop, JP spending, shared inventory and all ten items |
+| [Player guide](docs/PLAYER_GUIDE.md)                       | Roster, first battle, menus, controls and tactics              |
+| [Combat rules](docs/COMBAT.md)                             | Exact movement, damage, initiative, statuses and AI            |
+| [Jobs and abilities](docs/JOBS_AND_ABILITIES.md)           | Eight jobs, thirteen abilities, unlocks and loadouts           |
+| [Architecture](docs/ARCHITECTURE.md)                       | Module boundaries, state flow and engine contracts             |
+| [Data and saves](docs/DATA_AND_SAVES.md)                   | Records, IndexedDB, validation and recovery                    |
+| [Development](docs/DEVELOPMENT.md)                         | Setup, conventions and extension recipes                       |
+| [Testing](docs/TESTING.md)                                 | Coverage, browser checks, CI and verification gaps             |
+| [Deployment](docs/DEPLOYMENT.md)                           | Pages pipeline, permissions and troubleshooting                |
+| [Art and audio](docs/ART_AND_AUDIO.md)                     | Original assets and presentation pipeline                      |
+| [Roadmap](docs/ROADMAP.md)                                 | Milestones and 20-job development roster                       |
+| [Troubleshooting](docs/TROUBLESHOOTING.md)                 | Runtime, saves, input and hosting issues                       |
+| [Changelog](CHANGELOG.md)                                  | Changes linked to actual repository history                    |
+| [Contributing](CONTRIBUTING.md)                            | Contribution scope and review expectations                     |
 
 ## Development status
 
-Version 0.4 extends the company-management milestone: four linked contracts, permanent secondary-skill learning, equipment and carried progression. Phase 2 now includes mastery and three support slots for the existing eight jobs; more distinct advanced active skill boards and the remaining job roster are still planned. Phase 3's world map, branching story, recruitment and town systems remain planned.
+Version 0.5 extends the company-management milestone: four linked contracts, permanent secondary-skill learning, equipment and carried progression. Phase 2 now includes mastery and three support slots for the existing eight jobs; each advanced job now has an additional distinct active ability; the remaining job roster and further skill-board depth are still planned. Phase 3's world map, branching story, recruitment and town systems remain planned.
 
-The suite has **37 tests**, including full deterministic simulations of all four maps, economic and equipment invariants, rewards and v1 migration. Browser checks cover all eight job sprites, boss awakening, first-clear relic settlement, buying/equipping, manual save/load, migrated resource preservation, learning across a job change, result settlement and second-contract deployment. Result/learning checks use isolated local fixtures, not a claim of a full manual campaign playthrough. Physical mobile devices, Safari, gamepad hardware and 60 FPS remain uncertified. See [testing](docs/TESTING.md).
+The suite has **43 tests**, including full deterministic simulations of all four maps, economic and equipment invariants, rewards and v1 migration. Browser checks cover all eight job sprites, boss awakening, first-clear relic settlement, buying/equipping, manual save/load, migrated resource preservation, learning across a job change, result settlement and second-contract deployment. Result/learning checks use isolated local fixtures, not a claim of a full manual campaign playthrough. Physical mobile devices, Safari, gamepad hardware and 60 FPS remain uncertified. See [testing](docs/TESTING.md).
 
 ## Contributing and licensing
 

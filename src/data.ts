@@ -16,7 +16,11 @@ export type SkillId =
   | "frost"
   | "veil"
   | "haste"
-  | "rally";
+  | "rally"
+  | "gloam"
+  | "aegis"
+  | "raincall"
+  | "delay";
 export type Element = "physical" | "fire" | "ice" | "lightning" | "spirit";
 export interface Skill {
   id: SkillId;
@@ -28,8 +32,62 @@ export interface Skill {
   element: Element;
   kind: "damage" | "heal" | "buff";
   description: string;
+  effect?: "consumeExposure" | "aegis" | "soak" | "delay";
 }
 export const skills: Record<SkillId, Skill> = {
+  gloam: {
+    id: "gloam",
+    name: "Gloam pursuit",
+    cost: 9,
+    range: 2,
+    power: 30,
+    radius: 0,
+    element: "physical",
+    kind: "damage",
+    effect: "consumeExposure",
+    description:
+      "A precise pursuit. An exposed target takes 12 extra damage in addition to the normal exposure bonus; a successful hit consumes exposure.",
+  },
+  aegis: {
+    id: "aegis",
+    name: "Oathguard",
+    cost: 8,
+    range: 3,
+    power: 0,
+    radius: 0,
+    element: "spirit",
+    kind: "buff",
+    effect: "aegis",
+    description:
+      "Grant a living ally guard: 45% incoming damage reduction until their next activation. Also cleanse burn. Can target the caster.",
+  },
+  raincall: {
+    id: "raincall",
+    name: "Rain of glass",
+    cost: 8,
+    range: 4,
+    power: 12,
+    radius: 1,
+    element: "spirit",
+    kind: "damage",
+    effect: "soak",
+    description:
+      "A cross-shaped magical shower. Successful hits soak enemies for three activations, preparing lightning synergy. Allies and terrain are unchanged.",
+  },
+  delay: {
+    id: "delay",
+    name: "Stolen hour",
+    cost: 9,
+    range: 4,
+    power: 14,
+    radius: 0,
+    element: "spirit",
+    kind: "damage",
+    effect: "delay",
+    description:
+      "Deal spirit damage and delay a surviving enemy by 30 timeline ticks on a successful hit. Does not apply the slow status.",
+  },
+
   strike: {
     id: "strike",
     name: "Weapon strike",
@@ -210,7 +268,7 @@ export const jobs: Record<JobId, Job> = {
     attack: 8,
     armor: 2,
     magic: 0,
-    skills: ["veil"],
+    skills: ["veil", "gloam"],
     requires: { dancer: 3 },
   },
   runewarden: {
@@ -223,7 +281,7 @@ export const jobs: Record<JobId, Job> = {
     attack: 5,
     armor: 11,
     magic: 6,
-    skills: ["frost"],
+    skills: ["frost", "aegis"],
     requires: { vanguard: 3, arcanist: 2 },
   },
   stormherald: {
@@ -236,7 +294,7 @@ export const jobs: Record<JobId, Job> = {
     attack: 2,
     armor: 3,
     magic: 11,
-    skills: ["surge", "frost"],
+    skills: ["surge", "frost", "raincall"],
     requires: { arcanist: 3 },
   },
   chronoweaver: {
@@ -249,7 +307,7 @@ export const jobs: Record<JobId, Job> = {
     attack: 0,
     armor: 3,
     magic: 9,
-    skills: ["haste", "mend"],
+    skills: ["haste", "mend", "delay"],
     requires: { arcanist: 2, lifebinder: 3 },
   },
 };

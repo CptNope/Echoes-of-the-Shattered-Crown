@@ -2,13 +2,15 @@
 
 [Project home](../README.md) · [Play](https://cptnope.github.io/Echoes-of-the-Shattered-Crown/) · [Changelog](../CHANGELOG.md)
 
-These guides describe the current company-and-belfry implementation. Future work is explicitly labeled. Package version `0.4.0` is a development baseline, not a claim that the full-game brief is complete.
+These guides describe the current company-and-belfry implementation. Future work is explicitly labeled. Package version `0.5.0` is a development baseline, not a claim that the full-game brief is complete.
 
 See [company and progression](COMPANY_AND_PROGRESSION.md) for the contract loop, permanent learning and equipment.
 
 New in 0.3: [The silent belfry](THE_SILENT_BELFRY.md), [character sprites and generation prompt](SPRITE_ART.md).
 
 New in 0.4: [job mastery and support slots](MASTERY_AND_SUPPORTS.md).
+
+New in 0.5: [advanced active abilities and enemy tactics](ADVANCED_ABILITIES.md).
 
 ## Reading paths
 

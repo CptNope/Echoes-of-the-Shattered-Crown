@@ -246,6 +246,16 @@ h1 {
   line-height: 1.5;
   color: #66745d;
 }
+.target-effects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 12px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #46634b;
+  text-transform: capitalize;
+  margin-bottom: 8px;
+}
 .boss-brief {
   border-left: 2px solid #a1644c;
   padding: 10px 12px;

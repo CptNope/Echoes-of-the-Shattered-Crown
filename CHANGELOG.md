@@ -6,6 +6,20 @@ Changes are grouped by player/developer impact. Dates below use **America/New_Yo
 
 Further milestones are tracked in [the roadmap](docs/ROADMAP.md).
 
+## 0.5.0 — 2026-11-18
+
+### Added
+
+- Gloam pursuit (Shadowrunner), Oathguard (Runewarden), Rain of glass (Storm Herald) and Stolen hour (Chronoweaver); thirteen active abilities total.
+- Conditional exposure finishers, living-ally guard/burn cleansing, cross-shaped soak setup and surviving-target readiness delay.
+- Enemy ranged positioning and scoring for rain setup, timeline effects and defensive ally protection.
+- Target status/guard labels and buff-specific previews; self-cast guard survives end turn.
+- Six tests (43 total), advanced ability guide, updated numeric references, save/mastery notes and Mermaid resolution diagram.
+
+### Compatibility
+
+- Retains expedition v2; old learned collections/supports remain valid. Newly added native skills count toward derived mastery; previously learned supports remain effective. New companies and v1 migrations use current starter secondary definitions.
+
 ## 0.4.0 — 2026-11-18
 
 ### Added

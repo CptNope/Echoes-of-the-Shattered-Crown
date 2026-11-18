@@ -818,18 +818,32 @@ function App() {
                         ? `${jobs[target.job].name} · ${target.hp}/${target.maxHp} HP · ${target.mp} energy`
                         : "Choose Move or a skill to act on this tile."}
                 </p>
+                {target && (
+                  <div className="target-effects">
+                    {target.guard && <span>Guard · 45% reduction</span>}
+                    {Object.entries(target.status)
+                      .filter(([, n]) => n > 0)
+                      .map(([name, n]) => (
+                        <span key={name}>
+                          {name} · {n} activations
+                        </span>
+                      ))}
+                  </div>
+                )}
                 {chosen && target && canConfirm && (
                   <div className="preview-numbers">
                     <b>
                       {chosen.kind === "heal" ? "+" : ""}
-                      {chosen.kind === "buff"
-                        ? 35
+                      {chosen.effect === "aegis"
+                        ? "45%"
                         : preview(battle, actor, target, chosen).amount}{" "}
                       <small>
                         {chosen.kind === "heal"
                           ? "healing"
                           : chosen.kind === "buff"
-                            ? "timeline effect"
+                            ? chosen.effect === "aegis"
+                              ? "damage reduction"
+                              : "timeline advance"
                             : "damage"}
                       </small>
                     </b>
@@ -845,7 +859,9 @@ function App() {
                   <small className="affected">
                     Area:{" "}
                     {chosen.radius === 0 ? "single tile" : "cross · 5 tiles"} ·
-                    allies spared
+                    {chosen.kind === "damage"
+                      ? "allies spared"
+                      : "allied target"}
                   </small>
                 )}
                 {mode !== "inspect" && (

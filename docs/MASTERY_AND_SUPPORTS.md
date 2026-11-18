@@ -44,3 +44,7 @@ Close reprisal requires an adjacent Weapon strike and a surviving defender. Its 
 The expedition remains version 2. Optional `learnedSupport` and `supportSlots` fields are carried by member profiles and combat units. Saves without either field represent no learned/equipped supports. Once present, the learned IDs must be unique and known, all three slots must exist, and each equipped ID must be owned and match its slot. Extra slot keys are rejected. The existing v1 migration still applies.
 
 Do not downgrade after learning supports: older builds do not apply the bonuses and can discard the new fields during result settlement. This milestone supplies one support lesson per existing job, not the full twenty-job roadmap, respecialization/refunds, extra active skill boards, or a separate character-level system. The enemy planner uses the existing hit preview and does not model full reaction exchanges.
+
+## Expanded native boards in 0.5
+
+The four advanced jobs each gain a native ability. Their new skills count toward derived mastery. Previously learned supports remain owned and effective even if the expanded board no longer displays as mastered. See [the advanced abilities guide](ADVANCED_ABILITIES.md) for compatibility details.

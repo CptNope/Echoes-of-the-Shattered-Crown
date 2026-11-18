@@ -91,3 +91,7 @@ The unique relic is awarded during the first successful belfry settlement, using
 ## Version 0.4 compatibility
 
 Expedition version 2 is retained. Member profiles and units may include optional `learnedSupport` and `supportSlots` fields. If both are absent, the unit has no supports. Present data requires unique known lesson IDs, exactly the passive/reaction/movement slots, owned equipped IDs and correct slot types. Deployment and settlement copy these fields; manual snapshots retain the loadout. Older app versions ignore support effects and can discard support fields on settlement, so downgrading is unsupported.
+
+## Version 0.5 compatibility
+
+The four added skill IDs (`gloam`, `aegis`, `raincall`, `delay`) use existing guard/status/readiness fields. Expedition v2 remains valid without migration. Older learned collections are preserved; newly created companies use current starter secondary definitions. Supported v1 migration also uses current secondary definitions. Older application versions reject learned collections containing unknown skill IDs, so do not downgrade these saves.

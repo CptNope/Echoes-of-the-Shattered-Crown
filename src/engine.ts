@@ -383,7 +383,9 @@ export function preview(
   synergy: boolean;
 } {
   const height = tileAt(s, a.x, a.z)!.h - tileAt(s, b.x, b.z)!.h;
-  const flank = (a.x - b.x) * b.facing[0] + (a.z - b.z) * b.facing[1] < 0;
+  const flank =
+    sk.kind === "damage" &&
+    (a.x - b.x) * b.facing[0] + (a.z - b.z) * b.facing[1] < 0;
   const formation = living(s).some(
     (v) =>
       v.id !== b.id &&
@@ -405,10 +407,12 @@ export function preview(
     Math.max(-6, Math.min(8, height * 4)) +
     (flank ? 6 : 0) +
     (b.status.exposed ? 7 : 0);
+  if (sk.effect === "consumeExposure" && b.status.exposed > 0) amount += 12;
   if (b.guard) amount *= 0.55;
   if (synergy) amount *= 1.5;
   if (sk.kind === "heal")
     amount = b.hp <= 0 ? 24 : Math.min(b.maxHp - b.hp, sk.power);
+  if (sk.kind === "buff") amount = sk.effect === "aegis" ? 0 : 35;
   return {
     amount: Math.max(sk.kind === "damage" ? 1 : 0, Math.round(amount)),
     hit:
@@ -511,8 +515,17 @@ export function command(state: Battle, c: Command): Battle {
         v.status.burn = 0;
         note(s, `${u.name} → ${v.name}: +${p.amount} health.`);
       } else if (sk.kind === "buff") {
-        v.next = Math.max(0, v.next - 35);
-        note(s, `${v.name} borrows 35 timeline ticks.`);
+        if (sk.effect === "aegis") {
+          v.guard = true;
+          v.status.burn = 0;
+          note(
+            s,
+            `${u.name} protects ${v.name} with Oathguard: 45% reduction until their next activation; burn cleansed.`,
+          );
+        } else {
+          v.next = Math.max(0, v.next - 35);
+          note(s, `${v.name} borrows 35 timeline ticks.`);
+        }
       } else if (rng(s) * 100 > p.hit) note(s, `${v.name} evades ${sk.name}.`);
       else {
         const crit = rng(s) < 0.1,
@@ -524,6 +537,12 @@ export function command(state: Battle, c: Command): Battle {
           v.status.soaked = 2;
         }
         if (sk.id === "veil") v.status.exposed = 2;
+        if (sk.effect === "consumeExposure") v.status.exposed = 0;
+        if (sk.effect === "soak") v.status.soaked = 3;
+        if (sk.effect === "delay" && v.hp > 0) {
+          v.next += 30;
+          note(s, `${v.name} loses 30 timeline ticks to Stolen hour.`);
+        }
         note(
           s,
           `${u.name} → ${v.name}: ${damage}${crit ? " critical" : ""} damage${v.hp === 0 ? " · fallen" : ""}.`,
@@ -572,7 +591,7 @@ export function command(state: Battle, c: Command): Battle {
     if (u.hp === 0 && s.result === "playing")
       return command(s, { type: "end" });
   } else {
-    u.guard = !u.acted;
+    u.guard = u.guard || !u.acted;
     if (u.guard) note(s, `${u.name} braces: incoming damage reduced by 45%.`);
     if (u.status.burn > 0) {
       u.hp = Math.max(0, u.hp - 6);
@@ -616,7 +635,14 @@ export function aiTurn(state: Battle): Battle {
     const [x, z] = k.split(",").map(Number),
       p = { x, z };
     const near = Math.min(...enemies.map((v) => distance(p, v)));
-    const range = u.job === "arcanist" || u.job === "lifebinder" ? 3 : 1;
+    const range = [
+      "arcanist",
+      "lifebinder",
+      "stormherald",
+      "chronoweaver",
+    ].includes(u.job)
+      ? 3
+      : 1;
     const score =
       -Math.abs(near - range) * 5 +
       tileAt(s, x, z)!.h * 1.5 -
@@ -637,6 +663,29 @@ export function aiTurn(state: Battle): Battle {
         if (sk.kind === "damage" && v.team !== u.team && v.hp > 0) {
           const p = preview(s, u, v, sk);
           score += Math.min(v.hp, p.amount) + (v.hp <= p.amount ? 22 : 0);
+          if (sk.effect === "delay" && v.hp > p.amount) score += 7;
+          if (
+            sk.effect === "soak" &&
+            v.status.soaked === 0 &&
+            living(s).some(
+              (a) =>
+                a.team === u.team &&
+                a.mp >= skills.surge.cost &&
+                availableSkills(a).includes("surge") &&
+                distance(a, v) <= skills.surge.range,
+            )
+          )
+            score += 6;
+        } else if (sk.kind === "buff" && v.team === u.team && v.hp > 0) {
+          if (
+            sk.effect === "aegis" &&
+            !v.guard &&
+            enemies.some((e) => distance(e, v) <= 3) &&
+            v.next > u.next + 15
+          )
+            score += 9 + (v.maxHp - v.hp) * 0.08;
+          if (sk.effect !== "aegis" && v.id !== u.id && v.next > u.next + 40)
+            score += Math.min(14, (v.next - u.next) * 0.12);
         } else if (sk.kind === "heal" && v.team === u.team)
           score += preview(s, u, v, sk).amount * (v.hp === 0 ? 1.8 : 1);
       }

@@ -14,18 +14,18 @@ Mastery lessons and passive/reaction/movement slots are available for all eight 
 
 These are **base job stats**. Actual battle stats include equipped bonuses; the camp dossier shows the derived values.
 
-| ID             | Name         | Move | Speed | Attack | Armor | Magic | Granted skills                |
-| -------------- | ------------ | ---: | ----: | -----: | ----: | ----: | ----------------------------- |
-| `vanguard`     | Vanguard     |    3 |    10 |      9 |     9 |     0 | Sundering arc                 |
-| `dancer`       | Blade Dancer |    5 |    14 |      7 |     3 |     0 | Dusk needle                   |
-| `arcanist`     | Arcanist     |    3 |    10 |      1 |     2 |    10 | Cinder bloom, Stillwater      |
-| `lifebinder`   | Lifebinder   |    4 |    11 |      0 |     4 |     8 | Thread of life                |
-| `shadowrunner` | Shadowrunner |    5 |    15 |      8 |     2 |     0 | Dusk needle                   |
-| `runewarden`   | Runewarden   |    3 |     9 |      5 |    11 |     6 | Stillwater                    |
-| `stormherald`  | Storm Herald |    4 |    12 |      2 |     3 |    11 | Glasslight bolt, Stillwater   |
-| `chronoweaver` | Chronoweaver |    4 |    13 |      0 |     3 |     9 | Borrowed dawn, Thread of life |
+| ID             | Name         | Move | Speed | Attack | Armor | Magic | Granted skills                             |
+| -------------- | ------------ | ---: | ----: | -----: | ----: | ----: | ------------------------------------------ |
+| `vanguard`     | Vanguard     |    3 |    10 |      9 |     9 |     0 | Sundering arc                              |
+| `dancer`       | Blade Dancer |    5 |    14 |      7 |     3 |     0 | Dusk needle                                |
+| `arcanist`     | Arcanist     |    3 |    10 |      1 |     2 |    10 | Cinder bloom, Stillwater                   |
+| `lifebinder`   | Lifebinder   |    4 |    11 |      0 |     4 |     8 | Thread of life                             |
+| `shadowrunner` | Shadowrunner |    5 |    15 |      8 |     2 |     0 | Dusk needle, Gloam pursuit                 |
+| `runewarden`   | Runewarden   |    3 |     9 |      5 |    11 |     6 | Stillwater, Oathguard                      |
+| `stormherald`  | Storm Herald |    4 |    12 |      2 |     3 |    11 | Glasslight bolt, Stillwater, Rain of glass |
+| `chronoweaver` | Chronoweaver |    4 |    13 |      0 |     3 |     9 | Borrowed dawn, Thread of life, Stolen hour |
 
-Only primary Vanguards grant adjacent protection; only primary Blade Dancers riposte. These are fixed engine behaviors, not equipable reaction slots. Four advanced definitions reuse current skills and remain progression foundations rather than fully separate skill boards.
+Only primary Vanguards grant adjacent protection; only primary Blade Dancers riposte. These are fixed engine behaviors, not equipable reaction slots. Each advanced job now has a distinct additional active ability. See [advanced ability rules](ADVANCED_ABILITIES.md) for exposure consumption, ally guard, soak setup and timeline delay.
 
 ## Progress and prerequisites
 
@@ -66,17 +66,21 @@ Ilya starts with a Storm Herald secondary despite the general prerequisite. `cha
 
 Power is an input to the damage formula, not guaranteed final damage. Range uses Manhattan distance to the center. A cross is center plus four cardinal neighbors.
 
-| ID       | Name            | Energy | Range | Power | Area   | Kind / element     |
-| -------- | --------------- | -----: | ----: | ----: | ------ | ------------------ |
-| `strike` | Weapon strike   |      0 |     1 |    24 | Single | Damage / physical  |
-| `cleave` | Sundering arc   |      7 |     1 |    29 | Cross  | Damage / physical  |
-| `ember`  | Cinder bloom    |      9 |     4 |    31 | Cross  | Damage / fire      |
-| `mend`   | Thread of life  |      8 |     4 |    36 | Single | Heal / spirit      |
-| `surge`  | Glasslight bolt |     10 |     5 |    32 | Single | Damage / lightning |
-| `frost`  | Stillwater      |      6 |     4 |    20 | Cross  | Damage / ice       |
-| `veil`   | Dusk needle     |      6 |     3 |    28 | Single | Damage / physical  |
-| `haste`  | Borrowed dawn   |      8 |     3 |     0 | Single | Buff / spirit      |
-| `rally`  | Lantern concord |      0 |     4 |    42 | Cross  | Damage / spirit    |
+| ID         | Name            | Energy | Range | Power | Area   | Kind / element     |
+| ---------- | --------------- | -----: | ----: | ----: | ------ | ------------------ |
+| `strike`   | Weapon strike   |      0 |     1 |    24 | Single | Damage / physical  |
+| `cleave`   | Sundering arc   |      7 |     1 |    29 | Cross  | Damage / physical  |
+| `ember`    | Cinder bloom    |      9 |     4 |    31 | Cross  | Damage / fire      |
+| `mend`     | Thread of life  |      8 |     4 |    36 | Single | Heal / spirit      |
+| `surge`    | Glasslight bolt |     10 |     5 |    32 | Single | Damage / lightning |
+| `frost`    | Stillwater      |      6 |     4 |    20 | Cross  | Damage / ice       |
+| `veil`     | Dusk needle     |      6 |     3 |    28 | Single | Damage / physical  |
+| `haste`    | Borrowed dawn   |      8 |     3 |     0 | Single | Buff / spirit      |
+| `rally`    | Lantern concord |      0 |     4 |    42 | Cross  | Damage / spirit    |
+| `gloam`    | Gloam pursuit   |      9 |     2 |    30 | Single | damage / physical  |
+| `aegis`    | Oathguard       |      8 |     3 |     0 | Single | buff / spirit      |
+| `raincall` | Rain of glass   |      8 |     4 |    12 | Cross  | damage / spirit    |
+| `delay`    | Stolen hour     |      9 |     4 |    14 | Single | damage / spirit    |
 
 | Ability         | Additional behavior                                                  |
 | --------------- | -------------------------------------------------------------------- |

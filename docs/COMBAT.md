@@ -162,3 +162,7 @@ The fourth contract adds a one-time half-health response after a valid command r
 ## Equipped supports
 
 Derived stats now include equipped mastery supports. Second wind can recover a surviving defender after an ability hit; Close reprisal adds fixed retaliation to adjacent Weapon strikes. Reactions do not recurse, and previews show the hit before reaction effects. See [exact support rules](MASTERY_AND_SUPPORTS.md).
+
+## Advanced effects
+
+[Advanced abilities](ADVANCED_ABILITIES.md) add exposure consumption, ally guard/burn cleansing, three-activation soak and 30-tick enemy delay. Guard granted during an activation persists through its end and clears at the next activation. Buff previews report 45% reduction for Oathguard or 35 ticks for Borrowed dawn. Tile inspection shows active status counters and guard.

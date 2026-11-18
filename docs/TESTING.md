@@ -4,7 +4,7 @@
 
 ## Automated rules coverage
 
-Run `npm test`. The script uses `tsx --test src/engine.test.ts src/campaign.test.ts` and Node's built-in test runner. The current suite has 37 tests; this count is an inventory, not a coverage percentage or balance certification.
+Run `npm test`. The script uses `tsx --test src/engine.test.ts src/campaign.test.ts src/supports.test.ts src/advanced.test.ts` and Node's built-in test runner. The current suite has 43 tests; this count is an inventory, not a coverage percentage or balance certification.
 
 | Area             | Assertions represented                                                                                        |
 | ---------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -77,3 +77,7 @@ Browser QA used a disposable localhost fixture to show all eight normalized char
 ## Version 0.4 validation
 
 Six new cases bring the suite to 37 tests. They cover mastery prerequisites/spending, owned and correctly typed slots, cross-job and actual stat effects, Second wind costs/survival, lethal Close reprisal turn advancement, and backward-compatible or malformed saves. A disposable localhost fixture seeded only JP; real UI actions learned the native skill, unlocked the support lesson, purchased/equipped Steadfast, saved, cleared the slot, loaded to restore it, then deployed with the support visible in combat. The fixture was removed. This targeted check is not a complete manual campaign or physical-device test.
+
+## Version 0.5 validation
+
+Six new cases bring the suite to 43 tests: Gloam preview/hit/miss consumption, Oathguard ally/self targeting and expiry, rain area/soak/friendly immunity, deterministic Stolen hour timing, camp learning/old v2 collections, and AI defensive casting. Existing complete-battle simulations still terminate on all four maps. Browser QA performed an actual opening-turn move and rain cast, checked the 11-damage preview against the captain’s 100→89 HP, and used a disposable local Runewarden save to check the 45% Oathguard preview and guard feedback. The fixture was removed.
