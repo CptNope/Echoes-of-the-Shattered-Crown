@@ -32,6 +32,8 @@ jobs:
           cache: npm
       - name: Install locked dependencies
         run: npm ci
+      - name: Verify documentation and generated catalog
+        run: npm run docs:verify
       - name: Test deterministic combat
         run: npm test
       - name: Build for the repository subpath

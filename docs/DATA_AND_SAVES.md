@@ -107,3 +107,7 @@ Battle.lastAction optionally stores unit, skill and turn for renderer feedback. 
 ## Resolved effect outcomes (0.8)
 
 Battle.lastAction can additionally contain target coordinates and up to eight unique unit outcomes: hit, miss, heal or buff. Both fields are optional for compatibility. Coordinates must be board integers; outcomes must name known units and valid result types. These cosmetic records add no combat RNG rolls. See [combat effects](COMBAT_EFFECTS.md).
+
+## Expansion planning boundary
+
+The current format remains version 2. Variable boards/rosters, quest state, transaction ledgers and a future migration chain are proposals in the [engine plan](roadmap/ENGINE_AND_SYSTEMS.md), not required fields in present saves. [Quality gates](roadmap/RELEASE_AND_QUALITY.md) require supported-save fixtures before such changes ship.

@@ -89,3 +89,9 @@ Use the pure `campaign.ts` transitions for camp changes. Keep lifetime JP separa
 ## Extending combat effects
 
 Add a recipe in src/combat-effects.ts for each SkillId and update the matching atlas/manifest together. Keep pure planning separate from src/effect-renderer.ts and consume resolved cue outcomes. The [effects guide](COMBAT_EFFECTS.md) describes particle caps, compatibility and build commands. Never consume the combat RNG for particles or gate a command on effect completion.
+
+## Documentation workflow
+
+Run npm run docs:catalog after source content or art-manifest changes. Run npm run docs:verify to validate Markdown links/anchors, table shape, fenced diagram structure, all 160 backlog IDs/dependencies and generated-catalog freshness. The command runs in the build job before gameplay tests. It does not claim full Mermaid syntax/rendering validation; see [documentation testing](TESTING.md#documentation-validation).
+
+Choose expansion work from the [master roadmap](ROADMAP.md) and [stable backlog](roadmap/BACKLOG.md). Use the [systems guide](SYSTEMS_GUIDE.md) to locate the current owner before changing a rule or serialized record.

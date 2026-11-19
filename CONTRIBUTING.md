@@ -4,7 +4,7 @@ Start with the [README](README.md), [architecture](docs/ARCHITECTURE.md), [devel
 
 ## Scope a change
 
-For a bug, describe a reproducible fresh-battle sequence and the expected rule. For a substantial feature, explain the player path, affected state, save compatibility and milestone it serves before expanding the interface. Do not imply planned systems are implemented just by adding buttons or data names.
+For a bug, describe a reproducible fresh-battle sequence and the expected rule. For expansion work, reference a stable ID from the [160-item backlog](docs/roadmap/BACKLOG.md) or explain a new proposal. For a substantial feature, explain the player path, affected state, save compatibility and milestone it serves before expanding the interface. Do not imply planned systems are implemented just by adding buttons or data names.
 
 | Kind of change  | Expected evidence                                                                 |
 | --------------- | --------------------------------------------------------------------------------- |
@@ -20,6 +20,7 @@ For a bug, describe a reproducible fresh-battle sequence and the expected rule. 
 
 ```sh
 npm ci
+npm run docs:verify
 npm test
 npm run build
 ```
@@ -37,3 +38,5 @@ Do not commit `node_modules/`, `dist/`, private hosting bindings, browser saves,
 ## Ownership
 
 No project-wide license or contributor agreement has been selected. Do not add an arbitrary license or infer reuse permission from dependencies. External assets need documented provenance and terms; see [art and audio](docs/ART_AND_AUDIO.md#ownership-and-licenses).
+
+For source content changes, regenerate docs/REFERENCE_CATALOG.md with npm run docs:catalog. Keep implementation facts in current guides and future proposals in docs/roadmap. Do not mark a gate complete without its stated evidence.

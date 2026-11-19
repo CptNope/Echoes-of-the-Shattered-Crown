@@ -1,6 +1,15 @@
 # Changelog
 
+## Unreleased
 
+### Documentation
+
+- Rebuilt the expansion roadmap around the current v0.8 baseline, M0–M12 gates, scope options and next increments.
+- Added a 160-item backlog across sixteen tracks with stable IDs, priorities, relative sizes, dependencies and acceptance evidence.
+- Added engine, campaign/content, art/audio and release/quality plans, including tables, dependency graphs and production arithmetic.
+- Added an end-to-end current systems guide and source-generated catalog for jobs, abilities, supports, equipment, contracts, clips, effects and assets.
+- Updated README/navigation, architecture, data, development, testing and contribution guides.
+- Added reproducible documentation/catalog checks to GitHub Actions. Gameplay and save format remain v0.8 / Expedition v2.
 
 ## [0.8.0] — 2026-11-18
 

@@ -10,7 +10,9 @@
     "art:build": "node scripts/build-animation-art.mjs",
     "art:verify": "node scripts/verify-animation-art.mjs",
     "effects:build": "node scripts/build-effect-art.mjs",
-    "effects:verify": "node scripts/verify-effect-art.mjs"
+    "effects:verify": "node scripts/verify-effect-art.mjs",
+    "docs:catalog": "tsx scripts/generate-reference.ts",
+    "docs:verify": "node scripts/verify-docs.mjs && tsx scripts/generate-reference.ts --check"
   },
   "dependencies": {
     "idb": "^8.0.0",

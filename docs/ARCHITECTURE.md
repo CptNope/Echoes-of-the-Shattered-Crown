@@ -1,6 +1,6 @@
 # Architecture
 
-[Documentation index](README.md) · [Development](DEVELOPMENT.md) · [Data and saves](DATA_AND_SAVES.md)
+[Documentation index](README.md) · [Development](DEVELOPMENT.md) · [Data and saves](DATA_AND_SAVES.md) · [Complete system flows](SYSTEMS_GUIDE.md)
 
 ## Boundaries
 
@@ -39,6 +39,10 @@ flowchart TB
 | `main.tsx`                       | HUD, dialogs, input mapping, notices, targeting, UI settings, scheduling    | Independent damage or movement formulas                         |
 | `scene.ts`                       | Terrain geometry, sprite textures, camera, visual interpolation, highlights | Hits, damage, resource spending or turn advancement             |
 | `storage.ts`                     | Atomic manual/backup records and decoded fallback load                      | Combat resolution (migration is delegated to campaign decoding) |
+| `animation.ts / animation-art.ts` | Character clip selection and cached image loading | Combat timing or outcome decisions |
+| `combat-effects.ts` | Pure effect recipes, target geometry and visual sampling | Resource spending or gameplay RNG |
+| `effect-renderer.ts / effect-art.ts` | Pooled effects, atlas UVs, particles, fallback and teardown | Authoritative hit or status resolution |
+| `portable.ts / BackupDialog.tsx` | Validated export/import and candidate review | Silent replacement before restore approval |
 | `audio.ts`                       | AudioContext, synthesized notes and playback timer                          | Gameplay time or random combat rolls                            |
 
 ## Command lifecycle
@@ -145,3 +149,7 @@ The optional `Battle.bossAwakened` flag belongs to encounter state. Rule resolut
 ## Recovery and portable files
 
 `portable.ts` validates, serializes and parses the bounded JSON envelope without browser dependencies. `BackupDialog.tsx` owns file selection, local download, candidate review and focus management. `storage.ts` serializes recovery writes and rotates current/previous recovery in IndexedDB independently from manual slots. App startup gates new recovery writes and battle input/AI until the previous recovery is checked and the player chooses Resume or Start new. Camera, audio and menu state are not part of the saved expedition.
+
+## Expansion contracts
+
+The [current systems guide](SYSTEMS_GUIDE.md) traces every implemented player path. [Proposed engine contracts](roadmap/ENGINE_AND_SYSTEMS.md) cover variable board/roster definitions, objective reducers, ordered presentation events and future migrations. They are not current schemas. Start expansion with the fixed-assumption audit and baseline fixtures, preserving the rule/presentation boundary.

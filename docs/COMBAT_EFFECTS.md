@@ -36,13 +36,13 @@ Old v2 saves can omit target and outcomes. Such historical cues do not create ta
 sequenceDiagram
     participant Rules as Combat rules
     participant Cue as Resolved action cue
-    participant Actor as Character renderer
+    participant UnitView as Character renderer
     participant FX as Effect renderer
     Rules->>Rules: Resolve costs, hit rolls, damage and statuses
     Rules->>Cue: Record target and per-unit outcomes
-    Cue->>Actor: Queue attack or cast
-    Actor->>Actor: Finish position interpolation
-    Actor->>FX: Emit cosmetic effect
+    Cue->>UnitView: Queue attack or cast
+    UnitView->>UnitView: Finish position interpolation
+    UnitView->>FX: Emit cosmetic effect
     FX->>FX: Cast motes and optional travel
     FX->>FX: Eight-frame target sequence
     FX->>FX: Successful outcome particles only

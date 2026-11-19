@@ -93,3 +93,9 @@ Six animation cases bring the suite to 55 tests: loop boundaries, one-shot final
 ## Version 0.8 validation
 
 Seven new effect cases bring the suite to 62 tests. They check all thirteen recipe mappings, eight-frame and reduced-motion playback, cross/edge geometry, missed-hit particle suppression, resolved real-command cues without extra RNG, legacy cue compatibility and malformed saves, and deterministic visual sampling. The effects verifier decodes and hashes 96 distinct cells. Browser review rendered all thirteen abilities, exercised the fifty-cast pool cap and cleanup, miss and fallback previews, reduced motion, and a normal-game Arcanist move/Cinder bloom command. The spell reel records thirteen isolated ability previews; it is not a full combat replay or a performance certification.
+
+## Documentation validation
+
+npm run docs:verify recursively checks maintained and historical Markdown: local paths/heading anchors, consistent tables, closed code fences and supported Mermaid block types. It verifies exactly 160 unique backlog IDs, dependency references, an acyclic dependency graph and source-derived catalog freshness. It does not execute links to external services or fully parse Mermaid syntax. A separate Mermaid parser pass validates the diagrams for this roadmap expansion; browser rendering remains useful for layout/readability.
+
+These are documentation integrity checks, not additional gameplay test cases. The gameplay suite remains 62 tests. No runtime feature is added by this documentation update.

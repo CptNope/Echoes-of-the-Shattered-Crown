@@ -2,6 +2,8 @@
 
 [Documentation index](README.md) · [Pages workflow](../.github/workflows/pages.yml) · [Asset verifier](../scripts/verify-pages.mjs)
 
+The build job now runs npm run docs:verify after dependency installation and before gameplay tests. Markdown remains hosted by the GitHub repository viewer; Pages still publishes the game and art workbench.
+
 ## Production target
 
 | Setting                | Value                                                                                                        |

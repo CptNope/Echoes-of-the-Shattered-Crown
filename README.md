@@ -4,7 +4,7 @@ An original isometric tactical RPG about a mercenary company, a fractured world,
 
 [![Pages build and deployment](https://github.com/CptNope/Echoes-of-the-Shattered-Crown/actions/workflows/pages.yml/badge.svg)](https://github.com/CptNope/Echoes-of-the-Shattered-Crown/actions/workflows/pages.yml)
 
-**[Play on GitHub Pages](https://cptnope.github.io/Echoes-of-the-Shattered-Crown/)** · [Documentation](docs/README.md) · [Changelog](CHANGELOG.md) · [Contributing](CONTRIBUTING.md)
+**[Play on GitHub Pages](https://cptnope.github.io/Echoes-of-the-Shattered-Crown/)** · [Documentation](docs/README.md) · [Expansion roadmap](docs/ROADMAP.md) · [Changelog](CHANGELOG.md) · [Contributing](CONTRIBUTING.md)
 
 ![The Lantern Company at the shrine of Veyr](docs/assets/battlefield.jpg)
 
@@ -22,6 +22,7 @@ An original isometric tactical RPG about a mercenary company, a fractured world,
 - [GitHub Pages and Actions](#github-pages-and-actions)
 - [Documentation](#documentation)
 - [Development status](#development-status)
+- [Expansion plan](#expansion-plan)
 - [Contributing and licensing](#contributing-and-licensing)
 
 Read [combat effects and particles](docs/COMBAT_EFFECTS.md), explore the [animation workbench](https://cptnope.github.io/Echoes-of-the-Shattered-Crown/animation-review.html) or read the [animation pipeline](docs/ANIMATION_PIPELINE.md).
@@ -68,6 +69,8 @@ Open the Local URL printed by Vite. If its default port is unavailable, use `npm
 | `npm ci`                                        | Install locked dependency versions                        |
 | `npm run dev`                                   | Start the local development server                        |
 | `npm test`                                      | Run 62 deterministic combat, save, animation and effect tests     |
+| `npm run docs:catalog` | Regenerate all current content and asset reference tables |
+| `npm run docs:verify` | Check documentation links, tables, backlog dependencies and catalog freshness |
 | `npm run build`                                 | Strict TypeScript check for `src/`, then generate `dist/` |
 | `npx vite preview --host 127.0.0.1 --port 4187` | Preview a production build locally                        |
 | `node scripts/verify-pages.mjs`                 | Check a build produced with the Pages base path           |
@@ -138,7 +141,7 @@ flowchart TB
     Save -->|Validated load| UI
 ```
 
-The engine owns outcomes. The renderer cannot decide hits, damage or initiative. Replaying the same legal commands from the same initial seed produces the same simulation state. See [architecture](docs/ARCHITECTURE.md).
+The engine owns outcomes. The renderer cannot decide hits, damage or initiative. Replaying the same legal commands from the same initial seed produces the same simulation state. See [how all systems connect](docs/SYSTEMS_GUIDE.md), the [source-derived catalog](docs/REFERENCE_CATALOG.md), and [architecture](docs/ARCHITECTURE.md).
 
 ## Project layout
 
@@ -147,6 +150,8 @@ The engine owns outcomes. The renderer cannot decide hits, damage or initiative.
 ├── .github/workflows/pages.yml  # Test, build, deploy, verify
 ├── docs/                       # Guides, diagrams, references, screenshot
 ├── scripts/verify-pages.mjs     # Local and live asset checks
+├── scripts/verify-docs.mjs      # Links, tables and backlog dependency checks
+├── scripts/generate-reference.ts # Source-derived catalog
 ├── src/
 │   ├── campaign.ts             # Company progression, rewards and migration
 │   ├── Camp.tsx                # Contracts, training and outfitter UI
@@ -161,6 +166,14 @@ The engine owns outcomes. The renderer cannot decide hits, damage or initiative.
 │   ├── scene.ts                # Three.js terrain and character billboards
 │   ├── main.tsx                # React interface and inputs
 │   ├── sprites.ts              # Cached transparent atlas and fallback
+│   ├── animation.ts            # Character clip selection
+│   ├── animation-art.ts        # Character sheet cache and loader
+│   ├── combat-effects.ts       # Pure effect recipes and planning
+│   ├── effect-renderer.ts      # Bounded sprites, particles and fallback
+│   ├── effect-art.ts           # Effect atlas loading
+│   ├── supports.ts             # Mastery, lessons and equipped bonuses
+│   ├── portable.ts             # Bounded JSON export/import
+│   ├── BackupDialog.tsx        # File review and restoration
 │   ├── storage.ts              # IndexedDB snapshots and recovery
 │   ├── audio.ts                # Procedural score and tones
 │   └── style.css               # Responsive interface
@@ -198,6 +211,8 @@ The [workflow](.github/workflows/pages.yml) builds for `/Echoes-of-the-Shattered
 
 ## Documentation
 
+Start with the [current systems guide](docs/SYSTEMS_GUIDE.md) for end-to-end flows and the [generated catalog](docs/REFERENCE_CATALOG.md) for every current job, skill, support, item, contract, clip and effect recipe. Expansion proposals live in the [roadmap library](docs/roadmap/README.md).
+
 | Read this                                                  | To understand                                                  |
 | ---------------------------------------------------------- | -------------------------------------------------------------- |
 | [Documentation index](docs/README.md)                      | Reading paths and source-of-truth map                          |
@@ -211,7 +226,9 @@ The [workflow](.github/workflows/pages.yml) builds for `/Echoes-of-the-Shattered
 | [Testing](docs/TESTING.md)                                 | Coverage, browser checks, CI and verification gaps             |
 | [Deployment](docs/DEPLOYMENT.md)                           | Pages pipeline, permissions and troubleshooting                |
 | [Art and audio](docs/ART_AND_AUDIO.md)                     | Original assets and presentation pipeline                      |
-| [Roadmap](docs/ROADMAP.md)                                 | Milestones and 20-job development roster                       |
+| [Expansion roadmap](docs/ROADMAP.md) | M0–M12 gates, 160 work items and a twenty-job production plan |
+| [Current system flows](docs/SYSTEMS_GUIDE.md) | How company, combat, AI, saves, presentation and delivery connect |
+| [Generated catalog](docs/REFERENCE_CATALOG.md) | Source-derived tables for all current content and animation recipes |
 | [Troubleshooting](docs/TROUBLESHOOTING.md)                 | Runtime, saves, input and hosting issues                       |
 | [Changelog](CHANGELOG.md)                                  | Changes linked to actual repository history                    |
 | [Contributing](CONTRIBUTING.md)                            | Contribution scope and review expectations                     |
@@ -221,6 +238,31 @@ The [workflow](.github/workflows/pages.yml) builds for `/Echoes-of-the-Shattered
 Version 0.8 extends the company-management milestone: four linked contracts, permanent secondary-skill learning, equipment and carried progression. Phase 2 now includes mastery and three support slots for the existing eight jobs; each advanced job now has an additional distinct active ability; the remaining job roster and further skill-board depth are still planned. Phase 3's world map, branching story, recruitment and town systems remain planned.
 
 The suite has **62 tests**, including full deterministic simulations of all four maps, economic and equipment invariants, rewards and v1 migration. Browser checks cover file export/import, closed-tab recovery, all eight job sprites, boss awakening, first-clear relic settlement, buying/equipping, manual save/load, migrated resource preservation, learning across a job change, result settlement and second-contract deployment. Result/learning checks use isolated local fixtures, not a claim of a full manual campaign playthrough. Physical mobile devices, Safari, gamepad hardware and 60 FPS remain uncertified. See [testing](docs/TESTING.md).
+
+## Expansion plan
+
+The [master roadmap](docs/ROADMAP.md) separates the implemented v0.8 baseline from proposed campaign-scale work. It includes M0–M12 acceptance gates, recommended next increments, dependencies and scope options. The [160-item backlog](docs/roadmap/BACKLOG.md) spans sixteen tracks with stable IDs, priorities, relative size and concrete acceptance evidence. These are plans, not delivery-date commitments.
+
+| Planning guide | What it covers |
+| --- | --- |
+| [Engine and systems](docs/roadmap/ENGINE_AND_SYSTEMS.md) | Variable maps/rosters, objectives, resolved events, transactions and migrations |
+| [Content and campaign](docs/roadmap/CONTENT_PLAN.md) | Twenty-job roster, regional concepts, recruits, quests, factions and encounter patterns |
+| [Art and audio production](docs/roadmap/ART_AUDIO_PRODUCTION.md) | Directional animation arithmetic, environment kits, effects, music and asset budgets |
+| [Quality and release](docs/roadmap/RELEASE_AND_QUALITY.md) | Tests, accessibility, devices, balance, risks, offline updates and rollback |
+
+```mermaid
+flowchart LR
+    Baseline[Current four-contract route] --> Foundation[Safe expansion foundations]
+    Foundation --> Encounters[Encounter and objective toolkit]
+    Encounters --> Chapter[Complete campaign chapter]
+    Chapter --> Campaign[Approved campaign and job expansion]
+    Encounters --> Production[Art, audio and accessibility production]
+    Production --> Review[Balance, compatibility and recovery gates]
+    Campaign --> Review
+    Review --> Release[Release candidate]
+```
+
+Documentation checks run in Actions. Use npm run docs:catalog after changing content, then npm run docs:verify to check links, tables, fenced diagrams, backlog dependencies and catalog freshness. Mermaid syntax is also parsed during this documentation expansion's verification; the built-in repository checker covers structural blocks and references.
 
 ## Contributing and licensing
 

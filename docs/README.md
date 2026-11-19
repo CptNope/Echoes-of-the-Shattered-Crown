@@ -1,60 +1,99 @@
 # Documentation
 
-[Project home](../README.md) · [Play](https://cptnope.github.io/Echoes-of-the-Shattered-Crown/) · [Changelog](../CHANGELOG.md)
+[Play](https://cptnope.github.io/Echoes-of-the-Shattered-Crown/) · [Project README](../README.md) · [Changelog](../CHANGELOG.md) · [Expansion roadmap](ROADMAP.md)
 
-These guides describe the current company-and-belfry implementation. Future work is explicitly labeled. Package version `0.8.0` is a development baseline, not a claim that the full-game brief is complete.
+The game baseline is **v0.8.0**. Current implementation guides and future expansion plans are distinct. This index links the complete maintained documentation; historical design material stays preserved.
 
-See [company and progression](COMPANY_AND_PROGRESSION.md) for the contract loop, permanent learning and equipment.
+## Start with a player path
 
-New in 0.3: [The silent belfry](THE_SILENT_BELFRY.md), [character sprites and generation prompt](SPRITE_ART.md).
+| Goal | Start here | Continue with |
+| --- | --- | --- |
+| Play a first contract | [Player guide](PLAYER_GUIDE.md) | [Combat rules](COMBAT.md), [company](COMPANY_AND_PROGRESSION.md) |
+| Understand everything implemented | [System flows](SYSTEMS_GUIDE.md) | [Source-derived catalog](REFERENCE_CATALOG.md), [architecture](ARCHITECTURE.md) |
+| Plan expansion | [Master roadmap](ROADMAP.md) | [160-item backlog](roadmap/BACKLOG.md), [roadmap library](roadmap/README.md) |
+| Design missions and story | [Content plan](roadmap/CONTENT_PLAN.md) | [Engine contracts](roadmap/ENGINE_AND_SYSTEMS.md), [quality gates](roadmap/RELEASE_AND_QUALITY.md) |
+| Make sprites, effects or audio | [Art/audio](ART_AND_AUDIO.md) | [Animation](ANIMATION_PIPELINE.md), [effects](COMBAT_EFFECTS.md), [production plan](roadmap/ART_AUDIO_PRODUCTION.md) |
+| Contribute code/content | [Development](DEVELOPMENT.md) | [Contributing](../CONTRIBUTING.md), [testing](TESTING.md) |
+| Recover or move progress | [Backups/recovery](BACKUPS_AND_RECOVERY.md) | [Data/saves](DATA_AND_SAVES.md), [troubleshooting](TROUBLESHOOTING.md) |
+| Publish a change | [Deployment](DEPLOYMENT.md) | [Quality/release](roadmap/RELEASE_AND_QUALITY.md) |
 
-New in 0.4: [job mastery and support slots](MASTERY_AND_SUPPORTS.md).
+## Current game reference
 
-New in 0.5: [advanced active abilities and enemy tactics](ADVANCED_ABILITIES.md).
+| Guide | Scope |
+| --- | --- |
+| [How the game works](SYSTEMS_GUIDE.md) | Runtime ownership and complete company/combat/AI/save/render/delivery flows |
+| [Generated catalog](REFERENCE_CATALOG.md) | Every current job, active skill, support, item, contract, clip, effect recipe and art file |
+| [Player guide](PLAYER_GUIDE.md) | Controls, menus, first battle and current device limits |
+| [Company and progression](COMPANY_AND_PROGRESSION.md) | Contract loop, learning, shared gear, economy and settlement |
+| [Jobs and abilities](JOBS_AND_ABILITIES.md) | Eight jobs, thirteen active abilities and current unlocks |
+| [Mastery and supports](MASTERY_AND_SUPPORTS.md) | Mastery, learned support lessons and three equipped slots |
+| [Combat](COMBAT.md) | Movement, damage, targeting, initiative, statuses, reactions and AI |
+| [Advanced abilities](ADVANCED_ABILITIES.md) | Distinct advanced-job skills and tactical interactions |
+| [The silent belfry](THE_SILENT_BELFRY.md) | Orren's persistent phase and first-clear relic |
+| [Art and audio](ART_AND_AUDIO.md) | Visual identity, current audio and ownership boundaries |
+| [Portrait sprite pipeline](SPRITE_ART.md) | Original ready-pose atlas, normalization and prompt |
+| [Character animation](ANIMATION_PIPELINE.md) | 256 frames, state precedence, registration and runtime clips |
+| [Combat effects](COMBAT_EFFECTS.md) | 96 effect frames, resolved cues, particles, limits and workbench |
 
-New in 0.6: [automatic recovery and portable backups](BACKUPS_AND_RECOVERY.md).
+## Engineering and operations
 
-New in 0.7: [256-frame character animation pipeline](ANIMATION_PIPELINE.md) and [exact generation prompts](animation-prompts.json).
+| Guide | Scope |
+| --- | --- |
+| [Architecture](ARCHITECTURE.md) | Current module ownership and rule/presentation boundary |
+| [Data and saves](DATA_AND_SAVES.md) | Current serialized records, validation, supported migration and origin limits |
+| [Backups and recovery](BACKUPS_AND_RECOVERY.md) | Automatic recovery, manual isolation, portable files and restore flow |
+| [Development](DEVELOPMENT.md) | Setup, extension patterns and documentation generation |
+| [Testing](TESTING.md) | Current 62-test suite, browser observations, integrity checks and gaps |
+| [Deployment](DEPLOYMENT.md) | Actions, Pages subpath, asset verification and permissions |
+| [Troubleshooting](TROUBLESHOOTING.md) | Runtime, storage, input and hosting failure recovery |
+| [Contributing](../CONTRIBUTING.md) | Scope, evidence, review and provenance requirements |
 
-New in 0.8: [spell and attack effects, particles and cue contracts](COMBAT_EFFECTS.md).
+## Expansion library
 
-## Reading paths
+| Guide | Planning artifact |
+| --- | --- |
+| [Master roadmap](ROADMAP.md) | Current baseline, M0–M12 gates, next increments, dependencies and scope envelopes |
+| [Roadmap index](roadmap/README.md) | Planning vocabulary and reading paths |
+| [Backlog](roadmap/BACKLOG.md) | 160 planned work items in sixteen tracks |
+| [Engine and systems](roadmap/ENGINE_AND_SYSTEMS.md) | Proposed maps, rosters, events, objectives, transactions and migrations |
+| [Content and campaign](roadmap/CONTENT_PLAN.md) | Twenty-job planning roster, regions, missions, recruits, factions and endings |
+| [Art/audio production](roadmap/ART_AUDIO_PRODUCTION.md) | Frame arithmetic, directional pilot, kits, effects, soundtrack and budgets |
+| [Release/quality](roadmap/RELEASE_AND_QUALITY.md) | Regression/device/accessibility matrix, balance, risks and release gates |
 
-| Goal                | Start here                         | Continue with                                                       |
-| ------------------- | ---------------------------------- | ------------------------------------------------------------------- |
-| Play                | [Player guide](PLAYER_GUIDE.md)    | [Jobs](JOBS_AND_ABILITIES.md), [combat](COMBAT.md)                  |
-| Understand the code | [Architecture](ARCHITECTURE.md)    | [Data and saves](DATA_AND_SAVES.md), [development](DEVELOPMENT.md)  |
-| Contribute          | [Contributing](../CONTRIBUTING.md) | [Development](DEVELOPMENT.md), [testing](TESTING.md)                |
-| Publish             | [Deployment](DEPLOYMENT.md)        | [Troubleshooting](TROUBLESHOOTING.md)                               |
-| Create assets       | [Art and audio](ART_AND_AUDIO.md)  | [Architecture](ARCHITECTURE.md), [roadmap](ROADMAP.md)              |
-| Review scope        | [Roadmap](ROADMAP.md)              | [Changelog](../CHANGELOG.md), [original brief](../PROJECT_BRIEF.md) |
+Proposed job unlocks, regions and content totals are design candidates. Only the current catalog and implementation guides claim shipped behavior.
 
 ## Source-of-truth map
 
-| Topic                 | Implementation                                                                    | Reference                                   |
-| --------------------- | --------------------------------------------------------------------------------- | ------------------------------------------- |
-| Jobs and skills       | [`src/data.ts`](../src/data.ts)                                                   | [Jobs and abilities](JOBS_AND_ABILITIES.md) |
-| Rules and AI          | [`src/engine.ts`](../src/engine.ts)                                               | [Combat](COMBAT.md)                         |
-| Save persistence      | [`src/storage.ts`](../src/storage.ts), engine `validateSave()`                    | [Data and saves](DATA_AND_SAVES.md)         |
-| Inputs and settings   | [`src/main.tsx`](../src/main.tsx)                                                 | [Player guide](PLAYER_GUIDE.md)             |
-| Rendering and sprites | [`src/scene.ts`](../src/scene.ts)                                                 | [Art and audio](ART_AND_AUDIO.md)           |
-| Sound                 | [`src/audio.ts`](../src/audio.ts)                                                 | [Art and audio](ART_AND_AUDIO.md)           |
-| Hosting               | [`vite.config.ts`](../vite.config.ts), [workflow](../.github/workflows/pages.yml) | [Deployment](DEPLOYMENT.md)                 |
-| Assertions            | [`src/engine.test.ts`](../src/engine.test.ts)                                     | [Testing](TESTING.md)                       |
+| Topic | Source | Maintained reference |
+| --- | --- | --- |
+| Jobs / skills | [data.ts](../src/data.ts) | [Generated catalog](REFERENCE_CATALOG.md), [jobs](JOBS_AND_ABILITIES.md) |
+| Rules / AI | [engine.ts](../src/engine.ts) | [Combat](COMBAT.md), [system flows](SYSTEMS_GUIDE.md) |
+| Company / settlement | [campaign.ts](../src/campaign.ts), [Camp.tsx](../src/Camp.tsx) | [Company](COMPANY_AND_PROGRESSION.md) |
+| Gear / contracts / supports | [equipment.ts](../src/equipment.ts), [encounters.ts](../src/encounters.ts), [supports.ts](../src/supports.ts) | [Generated catalog](REFERENCE_CATALOG.md) |
+| Save decoding / storage | [campaign.ts](../src/campaign.ts), [storage.ts](../src/storage.ts), [portable.ts](../src/portable.ts) | [Data/saves](DATA_AND_SAVES.md), [recovery](BACKUPS_AND_RECOVERY.md) |
+| HUD / inputs / file review | [main.tsx](../src/main.tsx), [BackupDialog.tsx](../src/BackupDialog.tsx) | [Player guide](PLAYER_GUIDE.md) |
+| Characters / rendering | [scene.ts](../src/scene.ts), [animation.ts](../src/animation.ts), [animation-art.ts](../src/animation-art.ts) | [Animation](ANIMATION_PIPELINE.md) |
+| Effects / particles | [combat-effects.ts](../src/combat-effects.ts), [effect-renderer.ts](../src/effect-renderer.ts), [effect-art.ts](../src/effect-art.ts) | [Combat effects](COMBAT_EFFECTS.md) |
+| Audio | [audio.ts](../src/audio.ts) | [Art/audio](ART_AND_AUDIO.md) |
+| Hosting / asset checks | [workflow](../.github/workflows/pages.yml), [verify-pages](../scripts/verify-pages.mjs) | [Deployment](DEPLOYMENT.md) |
+| Documentation integrity | [verify-docs](../scripts/verify-docs.mjs), [catalog generator](../scripts/generate-reference.ts) | [Testing](TESTING.md#documentation-validation) |
 
-If code and a guide disagree, report the mismatch and inspect the implementation before changing either. A roadmap entry is not evidence that a feature exists.
+## Historical and provenance material
 
-## Historical context
+| Resource | Purpose |
+| --- | --- |
+| [Original project brief](../PROJECT_BRIEF.md) | Preserved initial requirements and long-term ambition |
+| [Initial design](../DESIGN.md) | Early design and staged plan; not current implementation certification |
+| [Phase 1 validation](../VALIDATION.md) | Historical evidence with its original scope |
+| [Changelog](../CHANGELOG.md) | Human-readable shipped changes and pending documentation updates |
+| [Character prompts](animation-prompts.json) | Exact generation prompts for the eight current animation sheets |
+| [Effect prompts](effect-prompts.json) | Exact generation prompts for the three current VFX sheets |
 
-| Document                                | Purpose                                                     |
-| --------------------------------------- | ----------------------------------------------------------- |
-| [PROJECT_BRIEF.md](../PROJECT_BRIEF.md) | Original requirements, preserved from the initial README    |
-| [DESIGN.md](../DESIGN.md)               | Initial design, architecture, art direction and staged plan |
-| [VALIDATION.md](../VALIDATION.md)       | Historical Phase 1 verification and limits                  |
-| [CHANGELOG.md](../CHANGELOG.md)         | Human-readable repository changes                           |
+## Maintaining diagrams and tables
 
-The guides here are the maintained implementation reference. Historical files retain their early planning context.
+Mermaid blocks render in GitHub's Markdown viewer. Prose and tables state the same critical rules for viewers that cannot display diagrams. No separate diagram service or Figma file is required.
 
-## Diagrams
+Run npm run docs:catalog when content or art manifests change. Run npm run docs:verify for recursive local links/anchors, tables, fenced diagram structure, backlog identity/dependency checks and catalog freshness. The checker deliberately distinguishes structural checks from full Mermaid parsing and from artistic/device review. See [documentation validation](TESTING.md#documentation-validation).
 
-Diagrams use fenced `mermaid` blocks for GitHub's Markdown viewer. Basic flowchart, sequence and state syntax keeps them portable. Tables and prose state the same important rules if your viewer cannot render Mermaid. A separate diagram service is not required.
+When code and a guide disagree, inspect the implementation and fix the mismatch. Move a proposed feature into the current reference only after it actually works.
+
