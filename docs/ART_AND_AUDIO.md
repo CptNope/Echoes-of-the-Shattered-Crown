@@ -26,6 +26,10 @@ The current 256-frame animation set is documented in [the animation pipeline](AN
 
 Animation must follow simulation outcomes. It must not decide when a hit succeeds, consume random rolls, or change turn order. Retain reduced-motion behavior, camera readability, transparent backgrounds and graphics-resource disposal.
 
+## Combat effects
+
+Version 0.8 adds three transparent effect atlases with 96 frames, twelve sequences and recipes for all thirteen skills. Bounded particles provide sparks, embers, ice, rain, healing and shadow motes. Reduced motion uses static contact poses. See [the combat effects guide](COMBAT_EFFECTS.md) for assets, prompts, pool limits and outcome-aware behavior.
+
 ## Audio
 
 `AudioScore` uses Web Audio oscillators and gain envelopes, with no external recordings. A small original sequence plays on a 650 ms timer with a lower supporting tone every fourth step. The interface also requests short tones for commands. The score starts only after a user action and uses the same audio context/volume infrastructure; there are no separate music, ambient and effects mixers.

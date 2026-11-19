@@ -1,6 +1,21 @@
 # Changelog
 
 
+
+## [0.8.0] — 2026-11-18
+
+### Added
+
+- Three generated transparent effect atlases: 96 frames across twelve weapon, elemental and support sequences, mapped to all thirteen abilities.
+- Cast/travel/contact phases, outcome-aware hit particles, and bounded pools of 24 effect sprites and 256 particles.
+- Reduced-motion contact poses, procedural fallback rings, shared atlas textures and explicit teardown.
+- Ability contact sheets, miss/fallback/held-pose previews, burst stress check and thirteen-ability WebM recording in the art workbench.
+- Seven effect tests (62 total), reproducible effect asset build/verification and live Pages checksum checks.
+
+### Changed
+
+- Valid skill cues include optional target coordinates and resolved hit/miss/heal/buff outcomes. Older v2 saves remain supported; combat RNG and timing rules are unchanged.
+
 ## [0.7.0] — 2026-11-18
 
 ### Added

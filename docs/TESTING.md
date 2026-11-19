@@ -4,7 +4,7 @@
 
 ## Automated rules coverage
 
-Run `npm test`. The script uses `tsx --test src/engine.test.ts src/campaign.test.ts src/supports.test.ts src/advanced.test.ts src/portable.test.ts src/animation.test.ts` and Node's built-in test runner. The current suite has 55 tests; this count is an inventory, not a coverage percentage or balance certification.
+Run `npm test`. The script uses `tsx --test src/engine.test.ts src/campaign.test.ts src/supports.test.ts src/advanced.test.ts src/portable.test.ts src/animation.test.ts src/combat-effects.test.ts` and Node's built-in test runner. The current suite has 62 tests; this count is an inventory, not a coverage percentage or balance certification.
 
 | Area             | Assertions represented                                                                                        |
 | ---------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -89,3 +89,7 @@ Six new pure backup cases bring the suite to 49 tests: complete-company and acti
 ## Version 0.7 validation
 
 Six animation cases bring the suite to 55 tests: loop boundaries, one-shot final holds, reduced-motion poses, state precedence, valid command/save cues and snapshot replay protection. The art verifier decodes all 256 cells and checks hashes and opacity. Browser fixtures exercised the production renderer with all jobs, walking, attack, cast, hurt, guard, down/revive and victory. Reduced-motion poses remained stable; the company reel rendered all eight states. Eight distinct job sheets used 17 GPU textures including bars and other scene assets; the normal four-job board used 13. These are local observations, not memory or frame-rate certification across devices.
+
+## Version 0.8 validation
+
+Seven new effect cases bring the suite to 62 tests. They check all thirteen recipe mappings, eight-frame and reduced-motion playback, cross/edge geometry, missed-hit particle suppression, resolved real-command cues without extra RNG, legacy cue compatibility and malformed saves, and deterministic visual sampling. The effects verifier decodes and hashes 96 distinct cells. Browser review rendered all thirteen abilities, exercised the fifty-cast pool cap and cleanup, miss and fallback previews, reduced motion, and a normal-game Arcanist move/Cinder bloom command. The spell reel records thirteen isolated ability previews; it is not a full combat replay or a performance certification.

@@ -142,6 +142,33 @@
       ><a id="download" hidden>Download animation reel</a
       ><output id="record-status"></output>
     </div>
+    <h2 id="spellcraft">Weapon trails &amp; spellcraft</h2>
+    <p>
+      96 painted effect frames across twelve sequences, shared by thirteen
+      abilities. Haste and Stolen hour use the same time motif with different
+      particles.
+    </p>
+    <div class="controls">
+      <label
+        >Ability
+        <select id="effect-skill"></select
+      ></label>
+      <button id="preview-effect">Preview ability</button>
+      <label><input id="effect-miss" type="checkbox" /> Preview miss</label>
+      <label
+        ><input id="effect-hold" type="checkbox" /> Hold contact pose</label
+      >
+      <button id="effect-volley">Burst stress check</button>
+      <label
+        ><input id="effect-fallback" type="checkbox" /> Preview fallback</label
+      >
+    </div>
+    <output id="effect-status" aria-live="polite">Loading effect art…</output>
+    <section
+      id="effect-frames"
+      aria-label="Eight effect frames"
+      style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px"
+    ></section>
     <h2>Battlefield integration</h2>
     <p>
       These fixtures exercise the production Three.js renderer, including enemy

@@ -84,6 +84,10 @@ Open animation-review.html locally or on Pages. Select a character, pause, or st
 
 The lower fixture section uses the production battlefield renderer with isolated snapshots. Its buttons exercise movement, cues, damage, guard, down/revive and victory without touching saved companies. Frame indices and GPU texture counts are visible for review. Fixtures are visual checks, not proof of legal combat commands; deterministic command and save behavior are tested separately.
 
+## Spell and attack overlays (0.8)
+
+The existing character attack and cast poses now drive [96 additional effect frames and pooled particles](COMBAT_EFFECTS.md). Cosmetic cues additionally record optional target coordinates and resolved outcomes.
+
 ## Current boundaries
 
 There are no directional/back-view sheets, dedicated run/item clips, gear variants, weapon-specific attacks or bespoke character portraits beyond the current job identities. Cast is a generic job pose, including support abilities. Additional directions and longer motion cycles remain future production work.

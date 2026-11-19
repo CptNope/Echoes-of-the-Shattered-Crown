@@ -84,6 +84,8 @@ export interface ActionCue {
   unit: string;
   skill: SkillId;
   turn: number;
+  target?: { x: number; z: number };
+  outcomes?: { unit: string; result: "hit" | "miss" | "heal" | "buff" }[];
 }
 export function actionCueChanged(
   before: ActionCue | undefined,

@@ -1,4 +1,6 @@
-import { jobs, type JobId } from "./data";
+import { jobs, skills, type JobId, type SkillId } from "./data";
+import { effectRecipes } from "./combat-effects";
+import { loadEffectAtlas } from "./effect-art";
 import { animationStates, animationFrame } from "./animation";
 import { loadAnimationSheet, type LoadedAnimationSheet } from "./animation-art";
 import { Battlefield } from "./scene";
@@ -254,6 +256,238 @@ setInterval(() => {
     " animated actors · " +
     field.renderer.info.memory.textures +
     " GPU textures · frames " +
-    [...field.actors.values()].map((a) => a.artFrame).join(",");
+    [...field.actors.values()].map((a) => a.artFrame).join(",") +
+    " · effects " +
+    field.combatEffects.stats.sprites +
+    "/24 sprites, " +
+    field.combatEffects.stats.particles +
+    "/256 particles · " +
+    field.combatEffects.stats.atlases +
+    "/3 effect atlases · " +
+    field.combatEffects.stats.casts +
+    " casts · " +
+    field.combatEffects.stats.recycled +
+    " recycled";
 }, 250);
 window.addEventListener("pagehide", () => field.dispose(), { once: true });
+
+// The spell review uses the same atlas cache and production effects renderer.
+const effectSelect = el<HTMLSelectElement>("effect-skill"),
+  effectMiss = el<HTMLInputElement>("effect-miss"),
+  effectHold = el<HTMLInputElement>("effect-hold");
+const effectIds = Object.keys(skills) as SkillId[],
+  effectCanvases: HTMLCanvasElement[] = [];
+for (const id of effectIds) {
+  const option = document.createElement("option");
+  option.value = id;
+  option.textContent = skills[id].name;
+  effectSelect.append(option);
+}
+effectSelect.value = "ember";
+for (let i = 0; i < 8; i++) {
+  const f = document.createElement("figure"),
+    c = document.createElement("canvas"),
+    caption = document.createElement("figcaption");
+  c.width = 256;
+  c.height = 160;
+  c.setAttribute("aria-label", "Effect frame " + (i + 1));
+  caption.textContent = "Frame " + (i + 1);
+  f.append(c, caption);
+  el("effect-frames").append(f);
+  effectCanvases.push(c);
+}
+let effectView = 0;
+async function showEffectFrames() {
+  const id = effectSelect.value as SkillId,
+    version = ++effectView,
+    r = effectRecipes[id],
+    art = await loadEffectAtlas(r.atlas);
+  if (version !== effectView) return;
+  effectCanvases.forEach((c, i) => {
+    const g = c.getContext("2d")!;
+    g.clearRect(0, 0, c.width, c.height);
+    if (art) {
+      const frame = r.clip * 8 + i,
+        cw = art.width / 4,
+        ch = art.height / 8;
+      g.drawImage(
+        art.image,
+        (frame % 4) * cw,
+        Math.floor(frame / 4) * ch,
+        cw,
+        ch,
+        0,
+        0,
+        c.width,
+        c.height,
+      );
+    }
+  });
+  el("effect-status").textContent = art
+    ? skills[id].name +
+      " · 8 frames · " +
+      r.particle +
+      " particles · " +
+      (r.travelMs ? r.travelMs + " ms travel" : "melee contact")
+    : "Effect art unavailable; battlefield uses rings and particles.";
+}
+effectSelect.onchange = () => void showEffectFrames();
+void showEffectFrames();
+const effectJobs: Record<SkillId, JobId> = {
+  strike: "vanguard",
+  cleave: "vanguard",
+  gloam: "shadowrunner",
+  rally: "vanguard",
+  ember: "arcanist",
+  frost: "arcanist",
+  surge: "stormherald",
+  raincall: "stormherald",
+  mend: "lifebinder",
+  aegis: "runewarden",
+  haste: "chronoweaver",
+  delay: "chronoweaver",
+  veil: "shadowrunner",
+};
+function previewAbility(scroll = true) {
+  field.combatEffects.clear();
+  const id = effectSelect.value as SkillId,
+    turn = state.turn + 1;
+  state = createBattle(17);
+  state.turn = turn;
+  state.units[0].job = effectJobs[id];
+  const target = skills[id].kind === "damage" ? state.units[4] : state.units[3];
+  const affected = state.units.filter(
+    (u) =>
+      Math.abs(u.x - target.x) + Math.abs(u.z - target.z) <=
+        skills[id].radius &&
+      (skills[id].kind === "damage" ? u.team === "enemy" : u.team === "ally"),
+  );
+  state.lastAction = {
+    unit: state.units[0].id,
+    skill: id,
+    turn,
+    target: { x: target.x, z: target.z },
+    outcomes: affected.map((u) => ({
+      unit: u.id,
+      result:
+        skills[id].kind === "damage"
+          ? effectMiss.checked
+            ? "miss"
+            : "hit"
+          : skills[id].kind === "heal"
+            ? "heal"
+            : "buff",
+    })),
+  };
+  field.update(state, "inspect", null);
+  if (scroll)
+    el("field").scrollIntoView({
+      behavior: reduced.checked ? "instant" : "smooth",
+      block: "center",
+    });
+}
+el("preview-effect").onclick = () => previewAbility();
+effectHold.onchange = () => {
+  field.combatEffects.holdPreview = effectHold.checked;
+  if (effectHold.checked) previewAbility();
+};
+el<HTMLInputElement>("effect-fallback").onchange = () => {
+  field.combatEffects.fallbackPreview =
+    el<HTMLInputElement>("effect-fallback").checked;
+  previewAbility();
+};
+el("effect-volley").onclick = () => {
+  field.combatEffects.clear();
+  const s = createBattle();
+  for (let i = 0; i < 50; i++) {
+    const id = effectIds[i % effectIds.length];
+    field.combatEffects.emit(
+      {
+        unit: s.units[0].id,
+        skill: id,
+        turn: i + 1,
+        target: { x: 6, z: 4 },
+        outcomes: [{ unit: s.units[4].id, result: "hit" }],
+      },
+      s,
+      performance.now(),
+      reduced.checked,
+    );
+  }
+  el("field").scrollIntoView({ behavior: "instant", block: "center" });
+};
+const effectRecord = document.createElement("button");
+effectRecord.textContent = "Record spell reel";
+el("fixtures").append(effectRecord);
+const effectDownload = document.createElement("a");
+effectDownload.hidden = true;
+effectDownload.textContent = "Download spell reel";
+el("fixtures").append(effectDownload);
+const effectRecordStatus = document.createElement("output");
+el("fixtures").append(effectRecordStatus);
+effectRecord.onclick = () => {
+  const mime = [
+    "video/webm;codecs=vp9",
+    "video/webm;codecs=vp8",
+    "video/webm",
+  ].find(
+    (v) =>
+      typeof MediaRecorder !== "undefined" && MediaRecorder.isTypeSupported(v),
+  );
+  if (!mime) {
+    effectRecordStatus.textContent = "WebM recording unavailable.";
+    return;
+  }
+  effectHold.checked = false;
+  field.combatEffects.holdPreview = false;
+  effectMiss.checked = false;
+  const oldReduced = reduced.checked;
+  reduced.checked = false;
+  field.reduced = false;
+  const stream = field.renderer.domElement.captureStream(20),
+    recorder = new MediaRecorder(stream, {
+      mimeType: mime,
+      videoBitsPerSecond: 3000000,
+    }),
+    chunks: BlobPart[] = [];
+  let index = 0;
+  const seen = new Set<SkillId>();
+  effectRecord.disabled = true;
+  const next = () => {
+    const id = effectIds[index++];
+    effectSelect.value = id;
+    void showEffectFrames();
+    previewAbility(false);
+    seen.add(id);
+    effectRecordStatus.textContent =
+      "Recording " + skills[id].name + " (" + index + "/13)";
+  };
+  next();
+  const interval = setInterval(() => {
+    if (index >= effectIds.length) {
+      clearInterval(interval);
+      recorder.stop();
+    } else next();
+  }, 1400);
+  recorder.ondataavailable = (e) => {
+    if (e.data.size) chunks.push(e.data);
+  };
+  recorder.onstop = () => {
+    stream.getTracks().forEach((t) => t.stop());
+    if (effectDownload.href.startsWith("blob:"))
+      URL.revokeObjectURL(effectDownload.href);
+    effectDownload.href = URL.createObjectURL(
+      new Blob(chunks, { type: "video/webm" }),
+    );
+    effectDownload.download = "echoes-spells-and-steel.webm";
+    effectDownload.hidden = false;
+    effectDownload.click();
+    effectRecord.disabled = false;
+    reduced.checked = oldReduced;
+    field.reduced = oldReduced;
+    effectRecordStatus.textContent =
+      "Reel ready: " + seen.size + " / 13 abilities.";
+  };
+  recorder.start();
+  el("field").scrollIntoView({ behavior: "instant", block: "center" });
+};

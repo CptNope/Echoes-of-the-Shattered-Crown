@@ -103,3 +103,7 @@ Automatic writes use separate recovery/current-previous slots in the existing st
 ## Cosmetic animation cue (0.7)
 
 Battle.lastAction optionally stores unit, skill and turn for renderer feedback. Existing v2 saves may omit it. The validator rejects unknown actors/skills and invalid turn numbers. Loading a snapshot does not replay its old action. Animation timing never gates combat or save restoration.
+
+## Resolved effect outcomes (0.8)
+
+Battle.lastAction can additionally contain target coordinates and up to eight unique unit outcomes: hit, miss, heal or buff. Both fields are optional for compatibility. Coordinates must be board integers; outcomes must name known units and valid result types. These cosmetic records add no combat RNG rolls. See [combat effects](COMBAT_EFFECTS.md).

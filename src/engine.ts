@@ -69,7 +69,13 @@ export interface Battle {
   log: string[];
   rewarded: boolean;
   bossAwakened?: boolean;
-  lastAction?: { unit: string; skill: SkillId; turn: number };
+  lastAction?: {
+    unit: string;
+    skill: SkillId;
+    turn: number;
+    target?: { x: number; z: number };
+    outcomes?: { unit: string; result: "hit" | "miss" | "heal" | "buff" }[];
+  };
 }
 export type Command =
   | { type: "move"; x: number; z: number }
@@ -496,7 +502,13 @@ export function command(state: Battle, c: Command): Battle {
     if (!availableSkills(u).includes(c.skill) || !canTarget(s, u, sk, c.x, c.z))
       return state;
     u.mp -= sk.cost;
-    s.lastAction = { unit: u.id, skill: sk.id, turn: s.turn };
+    s.lastAction = {
+      unit: u.id,
+      skill: sk.id,
+      turn: s.turn,
+      target: { x: c.x, z: c.z },
+      outcomes: [],
+    };
     u.acted = true;
     if (c.skill === "rally") s.momentum -= 3;
     u.facing =
@@ -513,10 +525,12 @@ export function command(state: Battle, c: Command): Battle {
     for (const v of targets) {
       const p = preview(s, u, v, sk);
       if (sk.kind === "heal") {
+        s.lastAction.outcomes!.push({ unit: v.id, result: "heal" });
         v.hp = Math.min(v.maxHp, v.hp + p.amount);
         v.status.burn = 0;
         note(s, `${u.name} → ${v.name}: +${p.amount} health.`);
       } else if (sk.kind === "buff") {
+        s.lastAction.outcomes!.push({ unit: v.id, result: "buff" });
         if (sk.effect === "aegis") {
           v.guard = true;
           v.status.burn = 0;
@@ -528,8 +542,11 @@ export function command(state: Battle, c: Command): Battle {
           v.next = Math.max(0, v.next - 35);
           note(s, `${v.name} borrows 35 timeline ticks.`);
         }
-      } else if (rng(s) * 100 > p.hit) note(s, `${v.name} evades ${sk.name}.`);
-      else {
+      } else if (rng(s) * 100 > p.hit) {
+        s.lastAction.outcomes!.push({ unit: v.id, result: "miss" });
+        note(s, `${v.name} evades ${sk.name}.`);
+      } else {
+        s.lastAction.outcomes!.push({ unit: v.id, result: "hit" });
         const crit = rng(s) < 0.1,
           damage = Math.round(p.amount * (crit ? 1.5 : 1));
         v.hp = Math.max(0, v.hp - damage);
@@ -745,6 +762,22 @@ function validBattle(raw: unknown): raw is Battle {
         !Number.isInteger(s.lastAction.turn) ||
         s.lastAction.turn < 1 ||
         s.lastAction.turn > s.turn ||
+        (s.lastAction.target !== undefined &&
+          (!s.lastAction.target ||
+            ![s.lastAction.target.x, s.lastAction.target.z].every(
+              (n) => Number.isInteger(n) && n >= 0 && n <= 8,
+            ))) ||
+        (s.lastAction.outcomes !== undefined &&
+          (!Array.isArray(s.lastAction.outcomes) ||
+            s.lastAction.outcomes.length > 8 ||
+            new Set(s.lastAction.outcomes.map((o) => o.unit)).size !==
+              s.lastAction.outcomes.length ||
+            s.lastAction.outcomes.some(
+              (o) =>
+                !o ||
+                !["hit", "miss", "heal", "buff"].includes(o.result) ||
+                !s.units?.some((u) => u.id === o.unit),
+            ))) ||
         !s.units?.some((u) => u.id === s.lastAction!.unit))) ||
     (s.bossAwakened !== undefined && typeof s.bossAwakened !== "boolean") ||
     !Number.isInteger(s.seed) ||

@@ -85,3 +85,7 @@ Pages deploys the game artifact, not this documentation directory. GitHub render
 ## Progression work
 
 Use the pure `campaign.ts` transitions for camp changes. Keep lifetime JP separate from spending; preserve shared-copy reservation and proficiency checks. Battle units carry field gains while the Company record stays the retry baseline until settlement. Schema changes must cover both current game validation and the supported v1 migration. `npm test` runs `engine.test.ts` and `campaign.test.ts`.
+
+## Extending combat effects
+
+Add a recipe in src/combat-effects.ts for each SkillId and update the matching atlas/manifest together. Keep pure planning separate from src/effect-renderer.ts and consume resolved cue outcomes. The [effects guide](COMBAT_EFFECTS.md) describes particle caps, compatibility and build commands. Never consume the combat RNG for particles or gate a command on effect completion.

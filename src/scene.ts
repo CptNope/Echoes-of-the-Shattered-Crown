@@ -19,6 +19,8 @@ import {
   type AnimationState,
 } from "./animation";
 import { loadAnimationSheet, type LoadedAnimationSheet } from "./animation-art";
+import { CombatEffects } from "./effect-renderer";
+import type { ActionCue } from "./animation";
 export type Mode = "inspect" | "move" | SkillId;
 const palette = {
   grass: [0x7d9161, 0x879b6c, 0x74895d, 0x8b9a6a],
@@ -50,7 +52,11 @@ export class Battlefield {
       sheet: LoadedAnimationSheet | null;
       artJob: Unit["job"];
       artFrame: number;
-      action: { clip: "attack" | "cast"; start: number | null } | null;
+      action: {
+        clip: "attack" | "cast";
+        start: number | null;
+        cue?: ActionCue;
+      } | null;
       idleStart: number;
       walkStart: number;
       downStart: number | null;
@@ -58,6 +64,7 @@ export class Battlefield {
     }
   >();
   effects = new THREE.Group();
+  combatEffects: CombatEffects;
   angle = Math.PI / 4;
   targetAngle = Math.PI / 4;
   zoom = 1;
@@ -121,6 +128,10 @@ export class Battlefield {
     this.scene.add(sun);
     this.buildTerrain();
     this.buildActors();
+    this.combatEffects = new CombatEffects(
+      this.scene,
+      (x, z) => tileAt(this.state, Math.round(x), Math.round(z))!.h * 0.43,
+    );
     for (const u of state.units) this.requestAnimationArt(u);
     void loadSpriteArt().then((ready) => {
       if (!ready || this.disposed) return;
@@ -509,7 +520,7 @@ export class Battlefield {
         oldEvent = old.lastAction;
       if (event && event.unit === v.id && actionCueChanged(oldEvent, event)) {
         const clip = actionClip(event.skill);
-        actor.action = { clip, start: null };
+        actor.action = { clip, start: null, cue: event };
         actor.attackUntil = now + clipDuration(clip);
       }
       const ctx = (
@@ -629,7 +640,16 @@ export class Battlefield {
         this.reduced ? 1 : 1 - Math.exp(-delta / 100),
       );
       if (a.action && !walking) {
-        if (a.action.start === null) a.action.start = time;
+        if (a.action.start === null) {
+          a.action.start = time;
+          if (a.action.cue)
+            this.combatEffects.emit(
+              a.action.cue,
+              this.state,
+              time,
+              this.reduced,
+            );
+        }
         if (time - a.action.start >= clipDuration(a.action.clip))
           a.action = null;
       }
@@ -695,6 +715,7 @@ export class Battlefield {
       );
       a.bar.position.copy(a.sprite.position).add(new THREE.Vector3(0, 1.63, 0));
     }
+    this.combatEffects.update(time, this.reduced);
     const gem = this.effects.children[0];
     if (gem) {
       gem.rotation.y = this.reduced ? 0 : time * 0.0006;
@@ -719,6 +740,7 @@ export class Battlefield {
   };
   dispose() {
     this.disposed = true;
+    this.combatEffects.dispose();
     cancelAnimationFrame(this.frame);
     this.observer.disconnect();
     this.renderer.domElement.removeEventListener(

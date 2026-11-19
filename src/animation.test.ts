@@ -68,6 +68,8 @@ test("valid combat actions record a compatible cosmetic cue", () => {
     unit: s.active,
     skill: "aegis",
     turn: s.turn,
+    target: { x: 2, z: 5 },
+    outcomes: [{ unit: s.active, result: "buff" }],
   });
   assert.equal(actionClip("aegis"), "cast");
   assert.equal(actionClip("strike"), "attack");

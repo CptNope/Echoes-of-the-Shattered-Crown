@@ -97,3 +97,5 @@ The production artifact includes `public/art/company-atlas.png` at `art/company-
 ## Animation assets
 
 The build includes animation-review.html and all eight WebP sheets. The Pages verifier imports verify-animation-art.mjs: local builds decode frames with Sharp; the live job uses Node built-ins to check the published manifest, file sizes, WebP signatures and SHA-256 checksums. The verification job does not require npm install.
+
+Version 0.8 also verifies three combat-effect WebP atlases and their manifest. Local checks decode all 96 cells; live checks validate deployed sizes and SHA-256 hashes with Node built-ins.
