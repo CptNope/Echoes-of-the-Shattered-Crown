@@ -16,6 +16,8 @@ The level studio is implemented at `studio.html`, available from camp and battle
 
 Keyboard: Tab reaches tools and tile buttons; arrow keys move focus within the board; Enter/Space activates the focused tile. A blocked tile displays ×, actor labels carry ally/enemy underlines, and each tile exposes its coordinates, terrain and elevation to assistive technology.
 
+On phones, use **Show battlefield tools** to open the palette. The board scrolls horizontally inside its own frame to preserve 44-pixel tile targets. Preview entry/exit returns to the top of the workspace.
+
 ## Implemented boundaries
 
 | Area | Current behavior |

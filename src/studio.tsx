@@ -159,6 +159,10 @@ function Preview({
         (x, z) => click.current(x, z),
         () => {},
       );
+      scene.renderer.domElement.setAttribute(
+        "aria-label",
+        "Isometric playtest. Use the tactical tile controls below for keyboard play.",
+      );
       scene.reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
       view.current = scene;
       return () => {
@@ -317,9 +321,14 @@ function Studio() {
   const project = history.project;
   const [message, setMessage] = useState(opened.message),
     [error, setError] = useState("");
-  const [saved, setSaved] = useState<number | null>(null),
+  const [saved, setSaved] = useState<number | null>(() =>
+      opened.token === exportLevelProject(opened.project)
+        ? opened.project.revision
+        : null,
+    ),
     token = useRef(opened.token);
   const [secured, setSecured] = useState(opened.project.revision);
+  const [toolsOpen, setToolsOpen] = useState(false);
   const [cell, setCell] = useState<Cell>({ x: 3, z: 4 }),
     [tool, setTool] = useState("inspect");
   const [terrain, setTerrain] = useState<(typeof terrains)[number]>("grass"),
@@ -332,6 +341,9 @@ function Studio() {
     [staged, setStaged] = useState<LevelProject | null>(null);
   const importDialog = useRef<HTMLDialogElement>(null);
   const dirty = secured !== project.revision;
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [preview]);
   useEffect(() => {
     setName(project.name);
     setSeed(String(project.seed));
@@ -421,7 +433,14 @@ function Studio() {
         </main>
       ) : (
         <div className="studio-shell">
-          <aside className="tool-panel">
+          <aside className={"tool-panel" + (toolsOpen ? " tools-open" : "")}>
+            <button
+              className="palette-toggle"
+              aria-expanded={toolsOpen}
+              onClick={() => setToolsOpen(!toolsOpen)}
+            >
+              {toolsOpen ? "Hide battlefield tools" : "Show battlefield tools"}
+            </button>
             <h2>Battlefield tools</h2>
             <p>9 × 9 · shrine template</p>
             <div className="tool-list">
