@@ -37,6 +37,8 @@ flowchart LR
     S8 --> S9[Clean round-trip and release proof]
 ```
 
+Six bounded [prototype slices](blueprints/IMPLEMENTATION_SLICES.md) refine how to start the shared project, map, pixel, music/SFX, API and export work. They reuse existing work IDs and do not mark any item complete.
+
 ## First cross-domain pilot
 
 Before a broad rollout, import the current game into a canonical project; edit one map tile, ability, sprite frame, musical phrase and original SFX; bind cues; preview; export Complete game; import cleanly; edit each source again. This pilot establishes the shared contracts. It does not certify every tool or the final content scope.

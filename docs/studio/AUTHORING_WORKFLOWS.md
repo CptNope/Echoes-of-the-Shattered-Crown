@@ -4,6 +4,8 @@
 
 All tools in this document are planned. The studio must expose the same durable edits to people and automation clients, with real preview and export behavior.
 
+Concrete controls, transaction boundaries and diagnostics are expanded in the [editor-shell blueprint](blueprints/EDITOR_SHELL_AND_INTERACTION.md); pixel/timeline and level/rule source contracts have their own linked specifications in the [blueprint index](blueprints/README.md).
+
 ## Workspace model
 
 | Area | Proposed behavior |

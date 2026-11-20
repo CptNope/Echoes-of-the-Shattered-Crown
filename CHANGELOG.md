@@ -4,6 +4,9 @@
 
 ### Documentation
 
+- Added six detailed studio blueprints for editor interaction, pixels/animation, levels/rules, audio nodes/cues, import/export conformance and prototype implementation slices.
+- Added six proposal-only JSON examples and checks for their source identities, pixel/timeline data, audio/music ports/clocks, map/objective references, edit addresses and complete-bundle membership. No editors, audio renders or game bundles are claimed by these checks.
+
 - Added an eight-guide complete game-authoring studio plan with twenty-four requirements, eighty tooling work items, ten gates and thirty-two acceptance scenarios.
 - Specified level/rule/campaign/UI editing, layered pixel art and animation, environment/VFX, agent/source extensions, music composition, original SFX synthesis/sampling/recording, ambience/voice and mixer/cue tools.
 - Defined default playable-plus-editable Complete game bundles, separate artifact profiles and clean source-preserving reimport gates; added two Proposed studio ADRs and planning coverage checks.

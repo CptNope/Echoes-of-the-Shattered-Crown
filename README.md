@@ -76,7 +76,8 @@ Open the Local URL printed by Vite. If its default port is unavailable, use `npm
 | `npm run docs:verify` | Check links, tables, backlog, catalog and design-plan integrity |
 | `npm run docs:plan` | Validate proposed slice, decision, mission, job and route references |
 | `npm run docs:adr` | Validate architecture decision records, index and replacement history |
-| `npm run docs:studio` | Check authoring-tool requirements, work items, artifacts and acceptance coverage |
+| `npm run docs:studio` | Check authoring requirements, work items, artifacts and blueprint examples |
+| `npm run docs:studio:examples` | Validate proposal pixel/audio/level/transaction/package examples |
 | `npm run build`                                 | Strict TypeScript check for `src/`, then generate `dist/` |
 | `npx vite preview --host 127.0.0.1 --port 4187` | Preview a production build locally                        |
 | `node scripts/verify-pages.mjs`                 | Check a build produced with the Pages base path           |
@@ -297,6 +298,8 @@ The [studio plan](docs/studio/README.md) extends the roadmap into a complete tac
 | [Round-trip acceptance](docs/studio/ACCEPTANCE_AND_ROUNDTRIP.md) | Thirty-two scenarios, including a complete authored game reimported and edited again |
 
 Default proposed export: **playable game plus editable project/source payload**. Preserve pixel layers, animation timelines, music notes, SFX graphs, recordings and code; offer a separate clearly labeled play-only build. These are planned tools, not implemented studio features. npm run docs:studio checks planning coverage and references; docs:verify includes it in Actions.
+
+The [editor blueprint library](docs/studio/blueprints/README.md) now adds six detailed tool specifications and six checked design examples. It covers actual field/port/clock/transaction contracts and bounded prototype exit evidence, while keeping future tooling distinct from the current playable game.
 
 ## Contributing and licensing
 

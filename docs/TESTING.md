@@ -111,3 +111,7 @@ npm run docs:adr validates numbered filenames/title IDs, unique permanent number
 ## Authoring-studio planning validation
 
 npm run docs:studio checks the proposal-only studio manifest: twenty-four requirements covered by eighty work items and thirty-two acceptance scenarios; ten acyclic gates; combined game/studio dependency references; six artifact profiles; default playable-plus-editable export guarantees; and two Proposed ADR references. It parses illustrative JSON and checks document/row references. These are design-integrity checks, not execution of unimplemented editors, sound renderers or round-trip scenarios. docs:verify runs the same check in Actions.
+
+## Studio design-example checks
+
+npm run docs:studio:examples validates six linked proposal examples and blueprint references: palette/cel/frame/pivot constraints, typed acyclic audio graphs and sample regions, note/arrangement bounds, cue/bus identity, complete level cells/occupancy/order/objective references, basic route reachability, edit addresses and declared invalid cases, and complete-game membership/path rules. It does not implement source editing, render PCM/images, execute game rules or build an archive. The full documentation command runs it in Actions.

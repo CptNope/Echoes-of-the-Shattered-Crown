@@ -1,0 +1,275 @@
+{
+  "format": "echoes-studio-blueprint-index",
+  "proposalVersion": 1,
+  "status": "proposal",
+  "implemented": false,
+  "documents": [
+    {
+      "id": "BP-SHELL",
+      "file": "docs/studio/blueprints/EDITOR_SHELL_AND_INTERACTION.md",
+      "requirements": [
+        "STREQ-01",
+        "STREQ-18",
+        "STREQ-20",
+        "STREQ-21"
+      ],
+      "workItems": [
+        "STU-CORE-03",
+        "STU-CORE-04",
+        "STU-CORE-06",
+        "STU-CORE-07",
+        "STU-CORE-08",
+        "STU-API-01",
+        "STU-API-02",
+        "STU-API-03",
+        "STU-API-08"
+      ],
+      "acceptance": [
+        "STAC-02",
+        "STAC-03",
+        "STAC-22",
+        "STAC-24",
+        "STAC-25",
+        "STAC-32"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "BP-PIXEL",
+      "file": "docs/studio/blueprints/PIXEL_ANIMATION_EDITOR.md",
+      "requirements": [
+        "STREQ-10",
+        "STREQ-11",
+        "STREQ-12",
+        "STREQ-20",
+        "STREQ-22"
+      ],
+      "workItems": [
+        "STU-ART-01",
+        "STU-ART-02",
+        "STU-ART-03",
+        "STU-ART-04",
+        "STU-ART-05",
+        "STU-ART-06",
+        "STU-ART-07",
+        "STU-ART-08",
+        "STU-ANIM-01",
+        "STU-ANIM-02",
+        "STU-ANIM-03",
+        "STU-ANIM-04",
+        "STU-ANIM-05",
+        "STU-ANIM-06",
+        "STU-ANIM-07",
+        "STU-ANIM-08",
+        "STU-API-04"
+      ],
+      "acceptance": [
+        "STAC-11",
+        "STAC-12",
+        "STAC-13",
+        "STAC-24",
+        "STAC-27",
+        "STAC-28"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "BP-LEVEL",
+      "file": "docs/studio/blueprints/LEVEL_AND_RULES_EDITORS.md",
+      "requirements": [
+        "STREQ-02",
+        "STREQ-03",
+        "STREQ-04",
+        "STREQ-05",
+        "STREQ-06",
+        "STREQ-07",
+        "STREQ-08",
+        "STREQ-09",
+        "STREQ-18",
+        "STREQ-19",
+        "STREQ-21",
+        "STREQ-24"
+      ],
+      "workItems": [
+        "STU-MAP-01",
+        "STU-MAP-02",
+        "STU-MAP-03",
+        "STU-MAP-04",
+        "STU-MAP-05",
+        "STU-MAP-06",
+        "STU-MAP-07",
+        "STU-MAP-08",
+        "STU-CONTENT-01",
+        "STU-CONTENT-02",
+        "STU-CONTENT-03",
+        "STU-CONTENT-04",
+        "STU-CONTENT-05",
+        "STU-CONTENT-06",
+        "STU-CONTENT-07",
+        "STU-CONTENT-08",
+        "STU-API-06"
+      ],
+      "acceptance": [
+        "STAC-04",
+        "STAC-05",
+        "STAC-06",
+        "STAC-07",
+        "STAC-08",
+        "STAC-09",
+        "STAC-10",
+        "STAC-22",
+        "STAC-23",
+        "STAC-25",
+        "STAC-30"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "BP-AUDIO",
+      "file": "docs/studio/blueprints/AUDIO_NODE_AND_CUE_SPEC.md",
+      "requirements": [
+        "STREQ-14",
+        "STREQ-15",
+        "STREQ-16",
+        "STREQ-17",
+        "STREQ-20",
+        "STREQ-22"
+      ],
+      "workItems": [
+        "STU-MUSIC-01",
+        "STU-MUSIC-02",
+        "STU-MUSIC-03",
+        "STU-MUSIC-04",
+        "STU-MUSIC-05",
+        "STU-MUSIC-06",
+        "STU-MUSIC-07",
+        "STU-MUSIC-08",
+        "STU-SFX-01",
+        "STU-SFX-02",
+        "STU-SFX-03",
+        "STU-SFX-04",
+        "STU-SFX-05",
+        "STU-SFX-06",
+        "STU-SFX-07",
+        "STU-SFX-08",
+        "STU-API-04"
+      ],
+      "acceptance": [
+        "STAC-15",
+        "STAC-16",
+        "STAC-17",
+        "STAC-18",
+        "STAC-19",
+        "STAC-20",
+        "STAC-21",
+        "STAC-24",
+        "STAC-27"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "BP-PACK",
+      "file": "docs/studio/blueprints/IMPORT_EXPORT_CONFORMANCE.md",
+      "requirements": [
+        "STREQ-01",
+        "STREQ-19",
+        "STREQ-22",
+        "STREQ-23",
+        "STREQ-24"
+      ],
+      "workItems": [
+        "STU-PACK-01",
+        "STU-PACK-02",
+        "STU-PACK-03",
+        "STU-PACK-04",
+        "STU-PACK-05",
+        "STU-PACK-06",
+        "STU-PACK-07",
+        "STU-PACK-08",
+        "STU-CORE-05",
+        "STU-API-07"
+      ],
+      "acceptance": [
+        "STAC-23",
+        "STAC-26",
+        "STAC-27",
+        "STAC-28",
+        "STAC-29",
+        "STAC-30",
+        "STAC-31",
+        "STAC-32"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "BP-SLICES",
+      "file": "docs/studio/blueprints/IMPLEMENTATION_SLICES.md",
+      "requirements": [
+        "STREQ-13",
+        "STREQ-19",
+        "STREQ-20",
+        "STREQ-21",
+        "STREQ-22",
+        "STREQ-23",
+        "STREQ-24"
+      ],
+      "workItems": [
+        "STU-VFX-08",
+        "STU-API-01",
+        "STU-API-04",
+        "STU-API-07",
+        "STU-PACK-05",
+        "STU-PACK-08"
+      ],
+      "acceptance": [
+        "STAC-14",
+        "STAC-23",
+        "STAC-24",
+        "STAC-25",
+        "STAC-26",
+        "STAC-27"
+      ],
+      "status": "proposed"
+    }
+  ],
+  "examples": [
+    {
+      "kind": "project",
+      "file": "docs/studio/specs/examples/project.json",
+      "format": "echoes-project-design-example"
+    },
+    {
+      "kind": "pixels",
+      "file": "docs/studio/specs/examples/pixels.json",
+      "format": "echoes-pixel-design-example"
+    },
+    {
+      "kind": "audio",
+      "file": "docs/studio/specs/examples/audio.json",
+      "format": "echoes-audio-design-example"
+    },
+    {
+      "kind": "level",
+      "file": "docs/studio/specs/examples/level.json",
+      "format": "echoes-level-design-example"
+    },
+    {
+      "kind": "transaction",
+      "file": "docs/studio/specs/examples/transaction.json",
+      "format": "echoes-edit-design-example"
+    },
+    {
+      "kind": "bundle",
+      "file": "docs/studio/specs/examples/bundle.json",
+      "format": "echoes-bundle-design-example"
+    }
+  ],
+  "implementationSlices": [
+    "STSL-01",
+    "STSL-02",
+    "STSL-03",
+    "STSL-04",
+    "STSL-05",
+    "STSL-06"
+  ]
+}

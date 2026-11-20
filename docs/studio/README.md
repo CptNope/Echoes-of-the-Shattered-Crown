@@ -19,6 +19,12 @@ The default **Complete game** export must contain a playable build **and** the e
 | [Acceptance/round trips](ACCEPTANCE_AND_ROUNDTRIP.md) | Thirty-two acceptance scenarios and a full-game golden-project test |
 | [Planning manifest](specs/studio-plan.json) | Machine-readable requirements, work items, stages, artifacts and acceptance references |
 
+## Detailed editor blueprints
+
+The [blueprint library](blueprints/README.md) expands the tool plan into six specifications: [editor shell](blueprints/EDITOR_SHELL_AND_INTERACTION.md), [pixel/animation](blueprints/PIXEL_ANIMATION_EDITOR.md), [level/rules](blueprints/LEVEL_AND_RULES_EDITORS.md), [audio nodes/cues](blueprints/AUDIO_NODE_AND_CUE_SPEC.md), [import/export conformance](blueprints/IMPORT_EXPORT_CONFORMANCE.md) and [implementation slices](blueprints/IMPLEMENTATION_SLICES.md).
+
+Six small [JSON design examples](specs/blueprints.json) cover project identity, layered pixels/timeline, music/SFX graphs, level/objective, cross-domain edit batch and complete-game membership. They are proposal-only schema probes: checks do not render audio/art, apply editor changes or build a playable bundle. npm run docs:studio:examples validates their internal references and constraints.
+
 ## Full authoring coverage
 
 Every requirement needs a real editing path, an inspectable data model, validation, undo/redo where applicable, runtime compilation and export/import coverage.

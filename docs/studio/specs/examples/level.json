@@ -1,0 +1,268 @@
+{
+  "proposalVersion": 1,
+  "status": "proposal",
+  "runtimeCompatible": false,
+  "format": "echoes-level-design-example",
+  "id": "level-demo",
+  "width": 6,
+  "height": 4,
+  "tiles": [
+    {
+      "x": 0,
+      "z": 0,
+      "height": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 1,
+      "z": 0,
+      "height": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 2,
+      "z": 0,
+      "height": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 3,
+      "z": 0,
+      "height": 1,
+      "terrain": "grass",
+      "blocked": true
+    },
+    {
+      "x": 4,
+      "z": 0,
+      "height": 1,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 5,
+      "z": 0,
+      "height": 1,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 0,
+      "z": 1,
+      "height": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 1,
+      "z": 1,
+      "height": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 2,
+      "z": 1,
+      "height": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 3,
+      "z": 1,
+      "height": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 4,
+      "z": 1,
+      "height": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 5,
+      "z": 1,
+      "height": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 0,
+      "z": 2,
+      "height": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 1,
+      "z": 2,
+      "height": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 2,
+      "z": 2,
+      "height": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 3,
+      "z": 2,
+      "height": 1,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 4,
+      "z": 2,
+      "height": 1,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 5,
+      "z": 2,
+      "height": 1,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 0,
+      "z": 3,
+      "height": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 1,
+      "z": 3,
+      "height": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 2,
+      "z": 3,
+      "height": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 3,
+      "z": 3,
+      "height": 1,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 4,
+      "z": 3,
+      "height": 1,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 5,
+      "z": 3,
+      "height": 1,
+      "terrain": "grass",
+      "blocked": false
+    }
+  ],
+  "actorTemplates": [
+    {
+      "id": "actor-ally",
+      "team": "ally"
+    },
+    {
+      "id": "actor-enemy",
+      "team": "enemy"
+    }
+  ],
+  "units": [
+    {
+      "id": "u-ally",
+      "templateId": "actor-ally",
+      "x": 0,
+      "z": 1
+    },
+    {
+      "id": "u-enemy",
+      "templateId": "actor-enemy",
+      "x": 5,
+      "z": 2
+    }
+  ],
+  "simulationOrder": [
+    "u-ally",
+    "u-enemy"
+  ],
+  "zones": [
+    {
+      "id": "zone-deploy",
+      "kind": "deployment",
+      "cells": [
+        {
+          "x": 0,
+          "z": 1
+        },
+        {
+          "x": 0,
+          "z": 2
+        }
+      ]
+    },
+    {
+      "id": "zone-control",
+      "kind": "objective",
+      "cells": [
+        {
+          "x": 4,
+          "z": 1
+        },
+        {
+          "x": 4,
+          "z": 2
+        }
+      ]
+    }
+  ],
+  "props": [
+    {
+      "id": "prop-switch",
+      "x": 4,
+      "z": 1,
+      "blocked": false
+    }
+  ],
+  "objectives": [
+    {
+      "id": "obj-switch",
+      "kind": "interact",
+      "targetProp": "prop-switch",
+      "targetZone": "zone-control",
+      "interactionRange": 1,
+      "terminalPrecedence": "hard-failure-before-success"
+    }
+  ],
+  "triggers": [
+    {
+      "id": "trigger-switch",
+      "event": "interact-resolved",
+      "targetProp": "prop-switch",
+      "action": {
+        "kind": "complete-objective",
+        "objectiveId": "obj-switch"
+      },
+      "once": true,
+      "dependsOn": []
+    }
+  ]
+}

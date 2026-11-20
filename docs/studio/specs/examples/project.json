@@ -1,0 +1,30 @@
+{
+  "proposalVersion": 1,
+  "status": "proposal",
+  "runtimeCompatible": false,
+  "format": "echoes-project-design-example",
+  "id": "project-demo",
+  "revision": 4,
+  "documents": [
+    {
+      "id": "pixel-demo",
+      "kind": "pixel",
+      "file": "pixels.json"
+    },
+    {
+      "id": "audio-demo",
+      "kind": "audio",
+      "file": "audio.json"
+    },
+    {
+      "id": "level-demo",
+      "kind": "level",
+      "file": "level.json"
+    }
+  ],
+  "engine": {
+    "sourceLock": "design-placeholder-not-a-build",
+    "payloadAvailable": false
+  },
+  "sourceAvailability": "example-data-only"
+}

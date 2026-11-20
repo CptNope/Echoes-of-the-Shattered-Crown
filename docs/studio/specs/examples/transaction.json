@@ -1,0 +1,70 @@
+{
+  "proposalVersion": 1,
+  "status": "proposal",
+  "runtimeCompatible": false,
+  "format": "echoes-edit-design-example",
+  "projectId": "project-demo",
+  "expectedRevision": 4,
+  "atomic": true,
+  "operations": [
+    {
+      "kind": "pixel.setPixel",
+      "documentId": "pixel-demo",
+      "frameId": "px-frame-1",
+      "layerId": "layer-body",
+      "x": 2,
+      "y": 2,
+      "index": 2
+    },
+    {
+      "kind": "animation.setDuration",
+      "documentId": "pixel-demo",
+      "clipId": "clip-idle",
+      "frameId": "px-frame-2",
+      "durationMs": 150
+    },
+    {
+      "kind": "music.setNote",
+      "documentId": "audio-demo",
+      "patternId": "pattern-1",
+      "noteId": "note-1",
+      "pitch": 62
+    },
+    {
+      "kind": "audio.setParam",
+      "documentId": "audio-demo",
+      "graphId": "graph-impact",
+      "nodeId": "env",
+      "parameter": "decayMs",
+      "value": 160
+    },
+    {
+      "kind": "map.setTile",
+      "documentId": "level-demo",
+      "x": 3,
+      "z": 2,
+      "height": 1
+    }
+  ],
+  "invalidCases": [
+    {
+      "id": "bad-revision",
+      "expectedRevision": 3,
+      "expectedDiagnostic": "EDIT-REVISION"
+    },
+    {
+      "id": "bad-palette-index",
+      "operation": {
+        "kind": "pixel.setPixel",
+        "documentId": "pixel-demo",
+        "frameId": "px-frame-1",
+        "layerId": "layer-body",
+        "x": 2,
+        "y": 2,
+        "index": 99
+      },
+      "expectedDiagnostic": "EDIT-VALUE"
+    }
+  ],
+  "implemented": false
+}

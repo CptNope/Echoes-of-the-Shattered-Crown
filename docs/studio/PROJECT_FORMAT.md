@@ -4,6 +4,8 @@
 
 **Proposed formats, not current import support.** The existing JSON backup remains player progress. The studio needs a separate canonical project that preserves everything required to edit and reproduce a game.
 
+The [conformance blueprint](blueprints/IMPORT_EXPORT_CONFORMANCE.md) expands staging, member/path, source-preservation and failure rules. [Example bundle metadata](specs/examples/bundle.json) describes a not-built package; no actual archive or file hashes are claimed.
+
 ## Artifact profiles
 
 Names/extensions below are proposed product conventions.

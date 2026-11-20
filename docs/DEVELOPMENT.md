@@ -105,3 +105,5 @@ Create a record for a durable cross-module, persistence, platform or delivery ch
 ## Authoring toolkit planning
 
 Use [docs/studio](studio/README.md) for the canonical-project, editor/agent transaction, music/SFX graph and complete-game round-trip direction. Keep studio STU/STREQ/SD/STAC identities in docs/studio/specs/studio-plan.json and run npm run docs:studio after revisions. Source-derived runtime references remain separate.
+
+Detailed studio contracts live under docs/studio/blueprints, with proposal-only examples under docs/studio/specs/examples. Keep blueprint/index references synchronized and run npm run docs:studio:examples after changes. Prototype implementation exits remain separate from documentation validation.

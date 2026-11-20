@@ -4,6 +4,8 @@
 
 **Planned tools, with sound effects as a first-class authoring domain.** The current AudioScore is an oscillator-based sketch and command tones. The proposed studio adds composition, synthesis, sampling, waveform editing, recording, ambience/voice, mixing and runtime cue design. Music editing alone does not satisfy this plan.
 
+The [audio node/cue blueprint](blueprints/AUDIO_NODE_AND_CUE_SPEC.md) specifies initial port kinds, voice gates, musical/sample time, graph diagnostics and cue policies. Its synthetic [audio example](specs/examples/audio.json) is validated structurally, not rendered.
+
 ## Audio toolset
 
 | Tool | Create/edit | Required preservation |

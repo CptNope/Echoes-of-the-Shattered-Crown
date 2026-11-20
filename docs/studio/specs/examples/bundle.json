@@ -1,0 +1,66 @@
+{
+  "proposalVersion": 1,
+  "status": "proposal",
+  "runtimeCompatible": false,
+  "format": "echoes-bundle-design-example",
+  "profile": "complete-game",
+  "projectId": "project-demo",
+  "revision": 4,
+  "buildStatus": "not-built-design-example",
+  "members": [
+    {
+      "path": "play/index.html",
+      "roles": [
+        "runtime"
+      ]
+    },
+    {
+      "path": "edit/project.echo-project.zip",
+      "roles": [
+        "project-manifest",
+        "source-assets",
+        "graphs",
+        "extensions"
+      ]
+    },
+    {
+      "path": "source/engine.zip",
+      "roles": [
+        "engine-source"
+      ]
+    },
+    {
+      "path": "source/build-tools.zip",
+      "roles": [
+        "build-scripts",
+        "dependency-lock"
+      ]
+    },
+    {
+      "path": "reports/build-report.json",
+      "roles": [
+        "build-report"
+      ]
+    },
+    {
+      "path": "HOW_TO_PLAY_AND_EDIT.md",
+      "roles": [
+        "launch-instructions"
+      ]
+    }
+  ],
+  "hashPolicy": "actual-sha256-required-when-built",
+  "cleanReimportRequired": true,
+  "sourceComparison": [
+    "stable-ids",
+    "pixel-layers-and-cels",
+    "palettes",
+    "animation-durations-and-pivots",
+    "music-notes-and-arrangements",
+    "audio-graphs-and-sample-edits",
+    "cue-and-mixer-bindings",
+    "level-objective-state-definitions",
+    "custom-code-and-engine-locks"
+  ],
+  "payloadFilesPresent": false
+}

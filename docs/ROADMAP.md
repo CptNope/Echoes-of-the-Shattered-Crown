@@ -12,6 +12,8 @@ The toolset covers music and original sound effects separately, as well as level
 
 Start with the [current-game cross-domain pilot](studio/STUDIO_ROADMAP.md#first-cross-domain-pilot), then use the [artifact contract](studio/PROJECT_FORMAT.md) and [round-trip proof](studio/ACCEPTANCE_AND_ROUNDTRIP.md). These are planned studio capabilities, not claims that editing tools already exist.
 
+The [studio blueprint library](studio/blueprints/README.md) deepens the authoring plan into editor interaction, pixel/animation, level/rules, audio-node/cue and import/export specifications, plus six bounded prototype slices and checked data examples.
+
 ## Reading map
 
 | Question | Reference |

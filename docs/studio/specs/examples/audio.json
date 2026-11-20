@@ -1,0 +1,387 @@
+{
+  "proposalVersion": 1,
+  "status": "proposal",
+  "runtimeCompatible": false,
+  "format": "echoes-audio-design-example",
+  "id": "audio-demo",
+  "projectSampleRate": 48000,
+  "render": {
+    "frames": 120000,
+    "seed": 9,
+    "rendered": false
+  },
+  "graphs": [
+    {
+      "id": "graph-impact",
+      "nodes": [
+        {
+          "id": "noise",
+          "type": "noise",
+          "params": {
+            "color": "white",
+            "seed": 9
+          }
+        },
+        {
+          "id": "tone",
+          "type": "oscillator",
+          "params": {
+            "wave": "sine",
+            "frequencyHz": 660
+          }
+        },
+        {
+          "id": "env",
+          "type": "envelope",
+          "params": {
+            "attackMs": 3,
+            "decayMs": 140,
+            "sustain": 0,
+            "releaseMs": 40
+          }
+        },
+        {
+          "id": "noiseGain",
+          "type": "gain",
+          "params": {
+            "gain": 0.25
+          }
+        },
+        {
+          "id": "toneGain",
+          "type": "gain",
+          "params": {
+            "gain": 0.12
+          }
+        },
+        {
+          "id": "mix",
+          "type": "mixer",
+          "params": {}
+        },
+        {
+          "id": "out",
+          "type": "output",
+          "params": {
+            "bus": "sfx"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "from": "noise",
+          "fromPort": "audio",
+          "to": "noiseGain",
+          "toPort": "audio"
+        },
+        {
+          "from": "tone",
+          "fromPort": "audio",
+          "to": "toneGain",
+          "toPort": "audio"
+        },
+        {
+          "from": "env",
+          "fromPort": "control",
+          "to": "noiseGain",
+          "toPort": "gain"
+        },
+        {
+          "from": "env",
+          "fromPort": "control",
+          "to": "toneGain",
+          "toPort": "gain"
+        },
+        {
+          "from": "noiseGain",
+          "fromPort": "audio",
+          "to": "mix",
+          "toPort": "a"
+        },
+        {
+          "from": "toneGain",
+          "fromPort": "audio",
+          "to": "mix",
+          "toPort": "b"
+        },
+        {
+          "from": "mix",
+          "fromPort": "audio",
+          "to": "out",
+          "toPort": "audio"
+        }
+      ]
+    },
+    {
+      "id": "graph-instrument",
+      "nodes": [
+        {
+          "id": "osc",
+          "type": "oscillator",
+          "params": {
+            "wave": "triangle",
+            "frequencyHz": 440
+          }
+        },
+        {
+          "id": "env",
+          "type": "envelope",
+          "params": {
+            "attackMs": 30,
+            "decayMs": 220,
+            "sustain": 0.5,
+            "releaseMs": 80
+          }
+        },
+        {
+          "id": "gain",
+          "type": "gain",
+          "params": {
+            "gain": 0.3
+          }
+        },
+        {
+          "id": "out",
+          "type": "output",
+          "params": {
+            "bus": "music"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "from": "osc",
+          "fromPort": "audio",
+          "to": "gain",
+          "toPort": "audio"
+        },
+        {
+          "from": "env",
+          "fromPort": "control",
+          "to": "gain",
+          "toPort": "gain"
+        },
+        {
+          "from": "gain",
+          "fromPort": "audio",
+          "to": "out",
+          "toPort": "audio"
+        }
+      ]
+    },
+    {
+      "id": "graph-sample",
+      "nodes": [
+        {
+          "id": "sample",
+          "type": "sample",
+          "params": {
+            "sampleId": "sample-click",
+            "regionId": "region-click"
+          }
+        },
+        {
+          "id": "out",
+          "type": "output",
+          "params": {
+            "bus": "ui"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "from": "sample",
+          "fromPort": "audio",
+          "to": "out",
+          "toPort": "audio"
+        }
+      ]
+    }
+  ],
+  "samples": [
+    {
+      "id": "sample-click",
+      "sampleRate": 48000,
+      "channels": 1,
+      "frames": 4800,
+      "payloadAvailable": false,
+      "regions": [
+        {
+          "id": "region-click",
+          "startFrame": 0,
+          "endFrame": 2400,
+          "loop": {
+            "startFrame": 512,
+            "endFrame": 2048
+          }
+        }
+      ]
+    }
+  ],
+  "buses": [
+    {
+      "id": "master",
+      "parent": null,
+      "gain": 0.8
+    },
+    {
+      "id": "music",
+      "parent": "master",
+      "gain": 0.7
+    },
+    {
+      "id": "sfx",
+      "parent": "master",
+      "gain": 0.8
+    },
+    {
+      "id": "ui",
+      "parent": "master",
+      "gain": 0.7
+    }
+  ],
+  "instruments": [
+    {
+      "id": "inst-simple",
+      "graphId": "graph-instrument",
+      "rootMidi": 69
+    }
+  ],
+  "music": {
+    "ticksPerQuarter": 480,
+    "tempoMap": [
+      {
+        "tick": 0,
+        "bpm": 96
+      }
+    ],
+    "meterMap": [
+      {
+        "tick": 0,
+        "numerator": 4,
+        "denominator": 4
+      }
+    ],
+    "patterns": [
+      {
+        "id": "pattern-1",
+        "instrumentId": "inst-simple",
+        "lengthTicks": 1920,
+        "notes": [
+          {
+            "id": "note-1",
+            "startTick": 0,
+            "lengthTicks": 480,
+            "pitch": 60,
+            "velocity": 0.7
+          },
+          {
+            "id": "note-2",
+            "startTick": 480,
+            "lengthTicks": 480,
+            "pitch": 64,
+            "velocity": 0.7
+          },
+          {
+            "id": "note-3",
+            "startTick": 960,
+            "lengthTicks": 480,
+            "pitch": 67,
+            "velocity": 0.7
+          },
+          {
+            "id": "note-4",
+            "startTick": 1440,
+            "lengthTicks": 480,
+            "pitch": 72,
+            "velocity": 0.7
+          }
+        ]
+      }
+    ],
+    "arrangements": [
+      {
+        "id": "arr-main",
+        "lengthTicks": 1920,
+        "clips": [
+          {
+            "id": "arr-clip-1",
+            "patternId": "pattern-1",
+            "startTick": 0,
+            "repeats": 1
+          }
+        ],
+        "loop": {
+          "startTick": 0,
+          "endTick": 1920
+        },
+        "automation": [
+          {
+            "targetBus": "music",
+            "parameter": "gain",
+            "points": [
+              {
+                "tick": 0,
+                "value": 0.6
+              },
+              {
+                "tick": 1920,
+                "value": 0.7
+              }
+            ],
+            "interpolation": "linear"
+          }
+        ]
+      }
+    ]
+  },
+  "cues": [
+    {
+      "id": "cue-hit",
+      "kind": "one-shot",
+      "event": "damage-resolved",
+      "resultFilter": [
+        "hit"
+      ],
+      "source": {
+        "kind": "graph",
+        "id": "graph-impact"
+      },
+      "bus": "sfx",
+      "maxVoices": 4,
+      "cooldownMs": 40,
+      "onLoad": "suppress-one-shot-replay",
+      "variationSeed": "cosmetic-event",
+      "variants": [
+        {
+          "id": "hit-main",
+          "weight": 1,
+          "pitchRatio": 1,
+          "gain": 1
+        }
+      ]
+    },
+    {
+      "id": "cue-battle-music",
+      "kind": "state",
+      "event": "battle-state",
+      "source": {
+        "kind": "arrangement",
+        "id": "arr-main"
+      },
+      "bus": "music",
+      "maxVoices": 1,
+      "cooldownMs": 0,
+      "onLoad": "restore-state",
+      "variationSeed": "cosmetic-event",
+      "variants": [
+        {
+          "id": "music-main",
+          "weight": 1,
+          "pitchRatio": 1,
+          "gain": 1
+        }
+      ]
+    }
+  ]
+}

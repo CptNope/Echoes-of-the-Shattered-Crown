@@ -2220,5 +2220,6 @@
       "file": "docs/adr/0012-proposed-shared-music-and-sfx-graphs.md",
       "status": "Proposed"
     }
-  ]
+  ],
+  "blueprintIndex": "docs/studio/specs/blueprints.json"
 }

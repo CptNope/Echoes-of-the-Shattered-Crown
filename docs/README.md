@@ -90,6 +90,8 @@ These tools are proposed; the present game remains v0.8.
 | [Tooling roadmap](studio/STUDIO_ROADMAP.md) | Eighty work items across ten studio tracks/gates |
 | [Acceptance](studio/ACCEPTANCE_AND_ROUNDTRIP.md) | Thirty-two planned scenarios and full-game golden-project round trip |
 
+The [detailed studio blueprint library](studio/blueprints/README.md) specifies interaction/history, pixel timelines, level/rule inspectors, music/SFX ports/clocks, import/export conformance and six prototype slices, with checked proposal examples.
+
 ## Source-of-truth map
 
 | Topic | Source | Maintained reference |
