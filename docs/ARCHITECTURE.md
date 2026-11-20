@@ -156,6 +156,10 @@ The optional `Battle.bossAwakened` flag belongs to encounter state. Rule resolut
 
 `portable.ts` validates, serializes and parses the bounded JSON envelope without browser dependencies. `BackupDialog.tsx` owns file selection, local download, candidate review and focus management. `storage.ts` serializes recovery writes and rotates current/previous recovery in IndexedDB independently from manual slots. App startup gates new recovery writes and battle input/AI until the previous recovery is checked and the player chooses Resume or Start new. Camera, audio and menu state are not part of the saved expedition.
 
+## Proposed authoring architecture
+
+The [studio plan](studio/README.md) proposes a canonical rich-source project, shared typed edit transactions, one preview/export runtime, buildable source extensions and separate complete-game/play-only artifacts. [ADR-0011](adr/0011-proposed-editable-game-project-and-build-artifacts.md) captures the package boundary; [ADR-0012](adr/0012-proposed-shared-music-and-sfx-graphs.md) covers shared music/SFX graph semantics. Neither is an adopted runtime change.
+
 ## Expansion contracts
 
 The [current systems guide](SYSTEMS_GUIDE.md) traces every implemented player path. [Proposed engine contracts](roadmap/ENGINE_AND_SYSTEMS.md) cover variable board/roster definitions, objective reducers, ordered presentation events and future migrations. They are not current schemas. Start expansion with the fixed-assumption audit and baseline fixtures, preserving the rule/presentation boundary.

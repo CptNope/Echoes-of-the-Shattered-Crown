@@ -32,6 +32,10 @@ The [planning manifest](specs/plan.json) connects these briefs to existing backl
 
 Use the [ADR section](../adr/README.md) for adopted architecture and concrete proposals, with a reusable template and supersession links. The [decision register](DECISION_REGISTER.md) remains the planning question list. Neither an example schema nor a Proposed ADR automatically accepts a D-ID.
 
+## Full authoring toolkit
+
+The [studio library](../studio/README.md) adds a complete-game editor plan: eighty tooling work items, twenty-four requirements and thirty-two acceptance scenarios. It covers layered pixel/animation tools, maps/rules/campaign/UI, agent/source editing, music composition and first-class sound-effect synthesis/sampling/mixing. The default complete-game artifact preserves editable sources alongside a playable build. Studio IDs remain separate from the original 160-item game backlog.
+
 ## Vocabulary
 
 | Label | Meaning |

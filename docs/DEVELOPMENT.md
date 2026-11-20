@@ -101,3 +101,7 @@ Planning metadata in docs/roadmap/specs/plan.json is intentionally separate from
 ## Architecture decision records
 
 Create a record for a durable cross-module, persistence, platform or delivery choice using [the ADR template](adr/template.md). Link relevant source/evidence and roadmap questions. Retrospective records identify unknown original dates. Material replacement uses a new ID with reciprocal supersession links. Routine bug fixes and ordinary content additions do not require separate ADRs. Run npm run docs:adr or the full documentation command.
+
+## Authoring toolkit planning
+
+Use [docs/studio](studio/README.md) for the canonical-project, editor/agent transaction, music/SFX graph and complete-game round-trip direction. Keep studio STU/STREQ/SD/STAC identities in docs/studio/specs/studio-plan.json and run npm run docs:studio after revisions. Source-derived runtime references remain separate.

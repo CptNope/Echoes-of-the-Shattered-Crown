@@ -8,6 +8,10 @@ All entries below are **open proposals**. Recommendations are starting points fo
 
 The [ADR section](../adr/README.md) records concrete architecture choices and their history. D-IDs here remain open questions; they can map to one or more Proposed ADRs without being accepted. [ADR-0010](../adr/0010-proposed-variable-board-and-roster-contract.md) consolidates the variable-board/roster direction around D-01/D-02/D-12. Do not add an original approval date that was never recorded.
 
+## Studio decisions
+
+The [authoring studio plan](../studio/README.md#proposed-open-decisions) introduces open SD-01–SD-08 for project formats, runtime boundaries, default complete exports, codecs, extensions, layered sources, shared audio graphs and compatibility. They are separate from D-01–D-16. [ADR-0011](../adr/0011-proposed-editable-game-project-and-build-artifacts.md) and [ADR-0012](../adr/0012-proposed-shared-music-and-sfx-graphs.md) remain Proposed.
+
 ## Decision lifecycle
 
 ```mermaid

@@ -46,3 +46,5 @@ For design-only changes, keep stable blueprint/decision IDs and update docs/road
 ## Architecture decisions
 
 For durable architecture choices, start with [docs/adr](docs/adr/README.md) and its template. Explain alternatives, consequences, evidence and revisit conditions. Keep proposals distinct from adopted implementation. Unknown historical dates remain unknown. Use a new record and reciprocal links when superseding a decision; preserve prior rationale. Routine fixes and content edits using existing contracts do not require an ADR. Run npm run docs:adr before review.
+
+Authoring-tool proposals belong in [docs/studio](docs/studio/README.md). Preserve editing sources and explicit artifact guarantees; include UI/API parity, undo, diagnostics, playable-runtime integration and clean reimport acceptance. Music and sound-effect authoring are distinct requirements. Validate the studio manifest with npm run docs:studio.

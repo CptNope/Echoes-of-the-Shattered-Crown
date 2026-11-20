@@ -4,7 +4,7 @@ An original isometric tactical RPG about a mercenary company, a fractured world,
 
 [![Pages build and deployment](https://github.com/CptNope/Echoes-of-the-Shattered-Crown/actions/workflows/pages.yml/badge.svg)](https://github.com/CptNope/Echoes-of-the-Shattered-Crown/actions/workflows/pages.yml)
 
-**[Play on GitHub Pages](https://cptnope.github.io/Echoes-of-the-Shattered-Crown/)** · [Documentation](docs/README.md) · [Expansion roadmap](docs/ROADMAP.md) · [ADRs](docs/adr/README.md) · [Changelog](CHANGELOG.md) · [Contributing](CONTRIBUTING.md)
+**[Play on GitHub Pages](https://cptnope.github.io/Echoes-of-the-Shattered-Crown/)** · [Documentation](docs/README.md) · [Expansion roadmap](docs/ROADMAP.md) · [ADRs](docs/adr/README.md) · [Authoring studio plan](docs/studio/README.md) · [Changelog](CHANGELOG.md) · [Contributing](CONTRIBUTING.md)
 
 ![The Lantern Company at the shrine of Veyr](docs/assets/battlefield.jpg)
 
@@ -25,6 +25,7 @@ An original isometric tactical RPG about a mercenary company, a fractured world,
 - [Development status](#development-status)
 - [Expansion plan](#expansion-plan)
 - [Detailed expansion blueprints](#detailed-expansion-blueprints)
+- [Complete game-authoring studio](#complete-game-authoring-studio)
 - [Contributing and licensing](#contributing-and-licensing)
 
 Read [combat effects and particles](docs/COMBAT_EFFECTS.md), explore the [animation workbench](https://cptnope.github.io/Echoes-of-the-Shattered-Crown/animation-review.html) or read the [animation pipeline](docs/ANIMATION_PIPELINE.md).
@@ -75,6 +76,7 @@ Open the Local URL printed by Vite. If its default port is unavailable, use `npm
 | `npm run docs:verify` | Check links, tables, backlog, catalog and design-plan integrity |
 | `npm run docs:plan` | Validate proposed slice, decision, mission, job and route references |
 | `npm run docs:adr` | Validate architecture decision records, index and replacement history |
+| `npm run docs:studio` | Check authoring-tool requirements, work items, artifacts and acceptance coverage |
 | `npm run build`                                 | Strict TypeScript check for `src/`, then generate `dist/` |
 | `npx vite preview --host 127.0.0.1 --port 4187` | Preview a production build locally                        |
 | `node scripts/verify-pages.mjs`                 | Check a build produced with the Pages base path           |
@@ -239,7 +241,7 @@ Start with the [current systems guide](docs/SYSTEMS_GUIDE.md) for end-to-end flo
 
 ## Architecture decisions
 
-The [ADR section](docs/adr/README.md) records durable architectural choices, alternatives, consequences and revisit conditions. It includes a [template](docs/adr/template.md), nine Accepted records (eight retrospectively documenting the current implementation) and one Proposed variable-map/roster contract. Original decision dates are left unknown where history was not recorded.
+The [ADR section](docs/adr/README.md) records durable architectural choices, alternatives, consequences and revisit conditions. It includes a [template](docs/adr/template.md), nine Accepted records (eight retrospectively documenting the current implementation) and three Proposed contracts for variable maps, editable game packages and shared music/SFX authoring. Original decision dates are left unknown where history was not recorded.
 
 Use the [open decision register](docs/roadmap/DECISION_REGISTER.md) for roadmap questions and ADRs for concrete architecture choices/history. Proposed records do not change the current game or save format. Run npm run docs:adr for numbering, metadata, index and supersession checks; the command also runs through docs:verify in Actions.
 
@@ -279,6 +281,22 @@ Documentation checks run in Actions. Use npm run docs:catalog after changing con
 The [design-brief library](docs/roadmap/README.md#detailed-design-briefs) adds three production slices, eighteen acceptance scenarios, sixteen open decisions, six mission blueprints, twelve proposed jobs and 36 prototype abilities. A convergent campaign/quest outline covers all four rescue/breach and archive-choice combinations. [Technical contracts](docs/roadmap/TECHNICAL_CONTRACTS.md) explain proposed map, roster, objective, event and settlement data.
 
 These remain proposals. A separate planning-manifest check validates references and route structure; it does not add runtime content or certify balance. Start with [production slices](docs/roadmap/PRODUCTION_SLICES.md) or explore [missions](docs/roadmap/ENCOUNTER_BLUEPRINTS.md) and [jobs/abilities](docs/roadmap/JOB_ABILITY_BLUEPRINTS.md).
+
+## Complete game-authoring studio
+
+The [studio plan](docs/studio/README.md) extends the roadmap into a complete tactical-RPG authoring toolset: levels/objectives, rules/jobs/AI, economy, campaign/dialogue, UI/controls, layered pixel art, animation, environment assets, particles, music composition, original sound-effect design, ambience/voice, mixing and custom engine/code extensions.
+
+| Plan | What it establishes |
+| --- | --- |
+| [Authoring workflows](docs/studio/AUTHORING_WORKFLOWS.md) | Real editor operations, source models, undo/recovery and domain coverage |
+| [Music and SFX studio](docs/studio/AUDIO_STUDIO.md) | Piano roll/arranger plus synth/sample/recording/waveform tools, buses and event cues |
+| [Project/artifact format](docs/studio/PROJECT_FORMAT.md) | Rich sources, stable IDs and separate project/game/save/asset/source formats |
+| [Build and playable export](docs/studio/RUNTIME_BUILD_EXPORT.md) | Shared preview/export runtime and default complete-game bundle |
+| [Automation and extensions](docs/studio/AUTOMATION_AND_EXTENSION_API.md) | UI/API/CLI editing parity and buildable custom rule/runtime sources |
+| [Studio roadmap](docs/studio/STUDIO_ROADMAP.md) | Eighty planned work items, twenty-four requirements and ten acceptance gates |
+| [Round-trip acceptance](docs/studio/ACCEPTANCE_AND_ROUNDTRIP.md) | Thirty-two scenarios, including a complete authored game reimported and edited again |
+
+Default proposed export: **playable game plus editable project/source payload**. Preserve pixel layers, animation timelines, music notes, SFX graphs, recordings and code; offer a separate clearly labeled play-only build. These are planned tools, not implemented studio features. npm run docs:studio checks planning coverage and references; docs:verify includes it in Actions.
 
 ## Contributing and licensing
 

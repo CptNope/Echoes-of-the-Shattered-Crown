@@ -20,6 +20,8 @@ The initial accepted baseline records are **retrospective** except ADR-0001's ne
 | [ADR-0008](0008-art-manifests-and-provenance.md) | Accepted | Retrospective | Ship processed art with manifests, provenance and reproducible checks |
 | [ADR-0009](0009-publish-static-builds-through-actions.md) | Accepted | Retrospective | Build, validate and publish GitHub Pages through Actions |
 | [ADR-0010](0010-proposed-variable-board-and-roster-contract.md) | Proposed | Roadmap proposal | Propose shared variable-board and roster contracts |
+| [ADR-0011](0011-proposed-editable-game-project-and-build-artifacts.md) | Proposed | Studio planning proposal | Propose canonical editable projects and complete-game exports |
+| [ADR-0012](0012-proposed-shared-music-and-sfx-graphs.md) | Proposed | Studio planning proposal | Propose shared editable music, SFX and audio runtime contracts |
 
 ## When to create an ADR
 

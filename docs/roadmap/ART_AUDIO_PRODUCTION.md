@@ -4,6 +4,8 @@
 
 Current production contracts are in [character animation](../ANIMATION_PIPELINE.md), [combat effects](../COMBAT_EFFECTS.md) and [portrait art](../SPRITE_ART.md). Everything marked target/candidate below is proposed.
 
+For the complete creation/editing toolset, see [studio workflows](../studio/AUTHORING_WORKFLOWS.md) and the dedicated [music/SFX studio](../studio/AUDIO_STUDIO.md). The studio preserves layers, notes, sample edits, sound graphs and mixes through project/complete-game export. This is planned authoring functionality, separate from the current production scripts.
+
 ## Current asset baseline
 
 | Family | Current quantity | Geometry/format | Boundary |

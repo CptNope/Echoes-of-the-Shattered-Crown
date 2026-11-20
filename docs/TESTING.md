@@ -107,3 +107,7 @@ The documentation command also runs scripts/verify-roadmap.ts. It checks the pro
 ## ADR integrity
 
 npm run docs:adr validates numbered filenames/title IDs, unique permanent numbers, allowed statuses, metadata, Recorded dates, required sections, index/status agreement and reciprocal acyclic supersession links. Supersession chains retain earlier adopted records. The template is excluded from numbered-record validation but remains subject to general Markdown checks. These checks establish document structure, not historical approval or implementation correctness. docs:verify includes this check in Actions.
+
+## Authoring-studio planning validation
+
+npm run docs:studio checks the proposal-only studio manifest: twenty-four requirements covered by eighty work items and thirty-two acceptance scenarios; ten acyclic gates; combined game/studio dependency references; six artifact profiles; default playable-plus-editable export guarantees; and two Proposed ADR references. It parses illustrative JSON and checks document/row references. These are design-integrity checks, not execution of unimplemented editors, sound renderers or round-trip scenarios. docs:verify runs the same check in Actions.

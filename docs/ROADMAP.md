@@ -4,6 +4,14 @@
 
 This plan grows the playable v0.8 contract route into a complete original tactical RPG. **Only the baseline below is implemented.** Proposed milestones are acceptance gates, not scheduled releases or delivery-date commitments. The original [project brief](../PROJECT_BRIEF.md) remains the long-term vision.
 
+## Complete authoring-platform track
+
+The [studio plan](studio/README.md) makes full game editing and playable import/export a first-class expansion goal. It adds twenty-four authoring requirements, eighty STU work items, ten STAGE gates and thirty-two acceptance scenarios alongside the existing game-content roadmap.
+
+The toolset covers music and original sound effects separately, as well as levels/objectives, rules/AI, progression/economy, campaign/UI, layered pixels, animation, environment/VFX, source code and agent automation. The proposed default export includes both the playable game and the complete editable project/source payload. A clean-studio reimport/re-edit is a required gate.
+
+Start with the [current-game cross-domain pilot](studio/STUDIO_ROADMAP.md#first-cross-domain-pilot), then use the [artifact contract](studio/PROJECT_FORMAT.md) and [round-trip proof](studio/ACCEPTANCE_AND_ROUNDTRIP.md). These are planned studio capabilities, not claims that editing tools already exist.
+
 ## Reading map
 
 | Question | Reference |

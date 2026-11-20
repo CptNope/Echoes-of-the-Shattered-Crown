@@ -75,6 +75,21 @@ Proposed job unlocks, regions and content totals are design candidates. Only the
 | [Technical contracts](roadmap/TECHNICAL_CONTRACTS.md) | Proposed schemas and rule/event/settlement ownership |
 | [Planning manifest](roadmap/specs/plan.json) | Machine-readable design references and route combinations |
 
+## Complete game-authoring studio plan
+
+These tools are proposed; the present game remains v0.8.
+
+| Guide | Coverage |
+| --- | --- |
+| [Studio index](studio/README.md) | Full-editability requirements, artifact guarantees and open decisions |
+| [Editor workflows](studio/AUTHORING_WORKFLOWS.md) | Maps, rules, actors, campaign, art, animation, UI, controls and source tools |
+| [Music and sound effects](studio/AUDIO_STUDIO.md) | Composition, synthesis, sampling, recording, ambience/voice, mix and cues |
+| [Project format](studio/PROJECT_FORMAT.md) | Lossless sources, identities, schemas and complete/play-only export distinctions |
+| [Build/export](studio/RUNTIME_BUILD_EXPORT.md) | Shared preview runtime, compilation, launch, packaging and reimport |
+| [Automation/extensions](studio/AUTOMATION_AND_EXTENSION_API.md) | Agent/UI/CLI command parity and custom engine/source editing |
+| [Tooling roadmap](studio/STUDIO_ROADMAP.md) | Eighty work items across ten studio tracks/gates |
+| [Acceptance](studio/ACCEPTANCE_AND_ROUNDTRIP.md) | Thirty-two planned scenarios and full-game golden-project round trip |
+
 ## Source-of-truth map
 
 | Topic | Source | Maintained reference |

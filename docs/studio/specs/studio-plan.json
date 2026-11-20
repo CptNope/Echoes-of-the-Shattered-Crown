@@ -1,0 +1,2224 @@
+{
+  "format": "echoes-studio-design-plan",
+  "version": 1,
+  "status": "proposal",
+  "editorImplemented": false,
+  "runtimeCompatible": false,
+  "baseline": "0.8.0",
+  "documents": [
+    "docs/studio/README.md",
+    "docs/studio/AUTHORING_WORKFLOWS.md",
+    "docs/studio/AUDIO_STUDIO.md",
+    "docs/studio/PROJECT_FORMAT.md",
+    "docs/studio/RUNTIME_BUILD_EXPORT.md",
+    "docs/studio/AUTOMATION_AND_EXTENSION_API.md",
+    "docs/studio/STUDIO_ROADMAP.md",
+    "docs/studio/ACCEPTANCE_AND_ROUNDTRIP.md"
+  ],
+  "defaultExport": "complete-game",
+  "requirements": [
+    {
+      "id": "STREQ-01",
+      "domain": "Workspace",
+      "description": "Create, clone, rename, version, recover and organize complete projects.",
+      "status": "planned"
+    },
+    {
+      "id": "STREQ-02",
+      "domain": "Level design",
+      "description": "Edit dimensions, height, terrain, collision, props, lighting, camera and navigation.",
+      "status": "planned"
+    },
+    {
+      "id": "STREQ-03",
+      "domain": "Missions",
+      "description": "Edit deployment, objectives, waves, boss phases, triggers and rewards.",
+      "status": "planned"
+    },
+    {
+      "id": "STREQ-04",
+      "domain": "Rules",
+      "description": "Edit combat formulas, targeting, statuses, reactions, timing and difficulty.",
+      "status": "planned"
+    },
+    {
+      "id": "STREQ-05",
+      "domain": "Progression",
+      "description": "Edit jobs, ability boards, lessons, unlocks, supports and growth.",
+      "status": "planned"
+    },
+    {
+      "id": "STREQ-06",
+      "domain": "Actors and AI",
+      "description": "Edit companions, enemies, summons, stats, loadouts and behavior profiles.",
+      "status": "planned"
+    },
+    {
+      "id": "STREQ-07",
+      "domain": "Economy",
+      "description": "Edit gear, consumables, shops, recipes, loot and transaction rules.",
+      "status": "planned"
+    },
+    {
+      "id": "STREQ-08",
+      "domain": "Campaign",
+      "description": "Edit routes, quests, factions, recruitment, choices and endings.",
+      "status": "planned"
+    },
+    {
+      "id": "STREQ-09",
+      "domain": "Narrative/localization",
+      "description": "Edit dialogue, codex, speaker portraits, subtitles and localized strings.",
+      "status": "planned"
+    },
+    {
+      "id": "STREQ-10",
+      "domain": "Pixel art",
+      "description": "Create layered pixel art, palettes, tiles, portraits, icons and source sheets.",
+      "status": "planned"
+    },
+    {
+      "id": "STREQ-11",
+      "domain": "Animation",
+      "description": "Edit frames, durations, directions, pivots, events and state transitions.",
+      "status": "planned"
+    },
+    {
+      "id": "STREQ-12",
+      "domain": "Environment assets",
+      "description": "Import/edit modular props, materials, collision and environment prefabs.",
+      "status": "planned"
+    },
+    {
+      "id": "STREQ-13",
+      "domain": "VFX",
+      "description": "Edit effect clips, emitters, trails, curves, blending, anchors and resource budgets.",
+      "status": "planned"
+    },
+    {
+      "id": "STREQ-14",
+      "domain": "Music",
+      "description": "Compose/import/edit notes, patterns, arrangements, stems, tempo, loops and adaptive transitions.",
+      "status": "planned"
+    },
+    {
+      "id": "STREQ-15",
+      "domain": "Sound effects",
+      "description": "Synthesize, record/import, layer, trim and automate original gameplay/UI sound effects.",
+      "status": "planned"
+    },
+    {
+      "id": "STREQ-16",
+      "domain": "Ambience and voice",
+      "description": "Edit ambient beds, emitters, dialogue recordings, subtitles and localized audio.",
+      "status": "planned"
+    },
+    {
+      "id": "STREQ-17",
+      "domain": "Audio integration",
+      "description": "Edit buses, effects, loudness, spatialization, variations and resolved-event cue bindings.",
+      "status": "planned"
+    },
+    {
+      "id": "STREQ-18",
+      "domain": "Presentation and controls",
+      "description": "Edit UI layouts/themes/fonts, menus, input maps and accessibility defaults.",
+      "status": "planned"
+    },
+    {
+      "id": "STREQ-19",
+      "domain": "Code extensions",
+      "description": "Edit custom rules/runtime source and versioned extension modules with reproducible builds.",
+      "status": "planned"
+    },
+    {
+      "id": "STREQ-20",
+      "domain": "Automation",
+      "description": "Expose the same editing transactions to UI, CLI and agent/API clients.",
+      "status": "planned"
+    },
+    {
+      "id": "STREQ-21",
+      "domain": "Preview and diagnostics",
+      "description": "Playtest exact builds with seeds, breakpoints, inspector, performance and validation reports.",
+      "status": "planned"
+    },
+    {
+      "id": "STREQ-22",
+      "domain": "Project round trip",
+      "description": "Import/export editable projects preserving source layers, graphs, code and stable IDs.",
+      "status": "planned"
+    },
+    {
+      "id": "STREQ-23",
+      "domain": "Complete game distribution",
+      "description": "Export a playable game plus editable payload and reimport it into a clean studio.",
+      "status": "planned"
+    },
+    {
+      "id": "STREQ-24",
+      "domain": "Compatibility and delivery",
+      "description": "Manage engine/project/save versions, dependencies, offline behavior and deployment targets.",
+      "status": "planned"
+    }
+  ],
+  "decisions": [
+    {
+      "id": "SD-01",
+      "topic": "Canonical project format",
+      "recommendation": "Versioned project package with stable IDs, source assets and engine/source lock.",
+      "status": "open"
+    },
+    {
+      "id": "SD-02",
+      "topic": "Runtime/authoring boundary",
+      "recommendation": "Compile project content into the shared deterministic runtime; keep editor state separate.",
+      "status": "open"
+    },
+    {
+      "id": "SD-03",
+      "topic": "Default game export",
+      "recommendation": "Default to playable plus editable project/source payload; label runtime-only mode explicitly.",
+      "status": "open"
+    },
+    {
+      "id": "SD-04",
+      "topic": "Audio codecs and encoding",
+      "recommendation": "Preserve source PCM/graphs and define supported import/decode/export adapters per target.",
+      "status": "open"
+    },
+    {
+      "id": "SD-05",
+      "topic": "Custom code and capabilities",
+      "recommendation": "Version extension APIs and include buildable source; imported code activation is explicit.",
+      "status": "open"
+    },
+    {
+      "id": "SD-06",
+      "topic": "Pixel/animation sources",
+      "recommendation": "Preserve layers, palettes, frames, pivots and timing instead of treating packed atlases as masters.",
+      "status": "open"
+    },
+    {
+      "id": "SD-07",
+      "topic": "Audio graph parity",
+      "recommendation": "Use one serializable graph/cue contract for realtime preview, offline render and game runtime.",
+      "status": "open"
+    },
+    {
+      "id": "SD-08",
+      "topic": "Versions, saves and offline",
+      "recommendation": "Separate project/engine/build/save identities and validate update/migration before activation.",
+      "status": "open"
+    }
+  ],
+  "stages": [
+    {
+      "id": "STAGE-0",
+      "name": "Runtime content seam",
+      "dependsOn": [],
+      "acceptance": "Compile validated project content into the current runtime; preserve existing IDs, rules and save fixtures.",
+      "status": "planned",
+      "workItems": [
+        "STU-CORE-01"
+      ],
+      "acceptanceCases": [
+        "STAC-01"
+      ]
+    },
+    {
+      "id": "STAGE-1",
+      "name": "Workspace and transactions",
+      "dependsOn": [
+        "STAGE-0"
+      ],
+      "acceptance": "Create/recover a project; stable IDs, undo/redo, revision checks and asset ownership work.",
+      "status": "planned",
+      "workItems": [
+        "STU-CORE-02",
+        "STU-CORE-03",
+        "STU-CORE-04",
+        "STU-CORE-05",
+        "STU-CORE-06",
+        "STU-CORE-07",
+        "STU-CORE-08"
+      ],
+      "acceptanceCases": []
+    },
+    {
+      "id": "STAGE-2",
+      "name": "Level and mission authoring",
+      "dependsOn": [
+        "STAGE-1"
+      ],
+      "acceptance": "Build and play one alternate map/objective using real editor controls and the shared runtime.",
+      "status": "planned",
+      "workItems": [
+        "STU-MAP-01",
+        "STU-MAP-02",
+        "STU-MAP-03",
+        "STU-MAP-04",
+        "STU-MAP-05",
+        "STU-MAP-06",
+        "STU-MAP-07",
+        "STU-MAP-08"
+      ],
+      "acceptanceCases": []
+    },
+    {
+      "id": "STAGE-3",
+      "name": "Game systems and campaign",
+      "dependsOn": [
+        "STAGE-1",
+        "STAGE-2"
+      ],
+      "acceptance": "Author a complete route, actors, jobs, abilities, economy, dialogue, UI and localization.",
+      "status": "planned",
+      "workItems": [
+        "STU-CONTENT-01",
+        "STU-CONTENT-02",
+        "STU-CONTENT-03",
+        "STU-CONTENT-04",
+        "STU-CONTENT-05",
+        "STU-CONTENT-06",
+        "STU-CONTENT-07",
+        "STU-CONTENT-08"
+      ],
+      "acceptanceCases": []
+    },
+    {
+      "id": "STAGE-4",
+      "name": "Visual source authoring",
+      "dependsOn": [
+        "STAGE-1"
+      ],
+      "acceptance": "Edit layered pixels, frames/directions, pivots and prop assets; compiled output matches preview.",
+      "status": "planned",
+      "workItems": [
+        "STU-ART-01",
+        "STU-ART-02",
+        "STU-ART-03",
+        "STU-ART-04",
+        "STU-ART-05",
+        "STU-ART-06",
+        "STU-ART-07",
+        "STU-ART-08",
+        "STU-ANIM-01",
+        "STU-ANIM-02",
+        "STU-ANIM-03",
+        "STU-ANIM-04",
+        "STU-ANIM-05",
+        "STU-ANIM-06",
+        "STU-ANIM-07",
+        "STU-ANIM-08"
+      ],
+      "acceptanceCases": []
+    },
+    {
+      "id": "STAGE-5",
+      "name": "Effects and presentation",
+      "dependsOn": [
+        "STAGE-0",
+        "STAGE-4"
+      ],
+      "acceptance": "Author bounded effect/particle graphs and bind them to resolved events with reduced-motion alternatives.",
+      "status": "planned",
+      "workItems": [
+        "STU-VFX-01",
+        "STU-VFX-02",
+        "STU-VFX-03",
+        "STU-VFX-04",
+        "STU-VFX-05",
+        "STU-VFX-06",
+        "STU-VFX-07",
+        "STU-VFX-08"
+      ],
+      "acceptanceCases": []
+    },
+    {
+      "id": "STAGE-6",
+      "name": "Music and sound studio",
+      "dependsOn": [
+        "STAGE-0",
+        "STAGE-1"
+      ],
+      "acceptance": "Compose music, synthesize/layer SFX, edit ambience/voice and mix/bind cues in a playable preview.",
+      "status": "planned",
+      "workItems": [
+        "STU-MUSIC-01",
+        "STU-MUSIC-02",
+        "STU-MUSIC-03",
+        "STU-MUSIC-04",
+        "STU-MUSIC-05",
+        "STU-MUSIC-06",
+        "STU-MUSIC-07",
+        "STU-MUSIC-08",
+        "STU-SFX-01",
+        "STU-SFX-02",
+        "STU-SFX-03",
+        "STU-SFX-04",
+        "STU-SFX-05",
+        "STU-SFX-06",
+        "STU-SFX-07",
+        "STU-SFX-08"
+      ],
+      "acceptanceCases": []
+    },
+    {
+      "id": "STAGE-7",
+      "name": "Automation and code extensions",
+      "dependsOn": [
+        "STAGE-1",
+        "STAGE-3"
+      ],
+      "acceptance": "UI/API/CLI share typed transactions; custom rules/source changes build, diagnose and round-trip.",
+      "status": "planned",
+      "workItems": [
+        "STU-API-01",
+        "STU-API-02",
+        "STU-API-03",
+        "STU-API-04",
+        "STU-API-05",
+        "STU-API-06",
+        "STU-API-07",
+        "STU-API-08"
+      ],
+      "acceptanceCases": []
+    },
+    {
+      "id": "STAGE-8",
+      "name": "Project and playable export",
+      "dependsOn": [
+        "STAGE-3",
+        "STAGE-4",
+        "STAGE-5",
+        "STAGE-6",
+        "STAGE-7"
+      ],
+      "acceptance": "Export complete-game bundle; import in a clean studio; play the result with source editing intact.",
+      "status": "planned",
+      "workItems": [
+        "STU-PACK-01",
+        "STU-PACK-02",
+        "STU-PACK-03",
+        "STU-PACK-04",
+        "STU-PACK-05",
+        "STU-PACK-06",
+        "STU-PACK-07",
+        "STU-PACK-08"
+      ],
+      "acceptanceCases": []
+    },
+    {
+      "id": "STAGE-9",
+      "name": "Authoring release gate",
+      "dependsOn": [
+        "STAGE-8"
+      ],
+      "acceptance": "Pass full golden-project round trips, supported-device/editor access checks, migration and offline/update rehearsals.",
+      "status": "planned",
+      "workItems": [],
+      "acceptanceCases": [
+        "STAC-01",
+        "STAC-02",
+        "STAC-03",
+        "STAC-04",
+        "STAC-05",
+        "STAC-06",
+        "STAC-07",
+        "STAC-08",
+        "STAC-09",
+        "STAC-10",
+        "STAC-11",
+        "STAC-12",
+        "STAC-13",
+        "STAC-14",
+        "STAC-15",
+        "STAC-16",
+        "STAC-17",
+        "STAC-18",
+        "STAC-19",
+        "STAC-20",
+        "STAC-21",
+        "STAC-22",
+        "STAC-23",
+        "STAC-24",
+        "STAC-25",
+        "STAC-26",
+        "STAC-27",
+        "STAC-28",
+        "STAC-29",
+        "STAC-30",
+        "STAC-31",
+        "STAC-32"
+      ]
+    }
+  ],
+  "workItems": [
+    {
+      "id": "STU-CORE-01",
+      "status": "planned",
+      "track": "CORE",
+      "stage": "STAGE-0",
+      "name": "Current-game content adapter",
+      "dependsOn": [
+        "FND-02",
+        "FND-04"
+      ],
+      "requirements": [
+        "STREQ-04",
+        "STREQ-21"
+      ],
+      "acceptance": "Compile the current catalogs into a project without changing baseline fixtures."
+    },
+    {
+      "id": "STU-CORE-02",
+      "status": "planned",
+      "track": "CORE",
+      "stage": "STAGE-1",
+      "name": "Canonical schema and identities",
+      "dependsOn": [
+        "STU-CORE-01",
+        "SAV-01"
+      ],
+      "requirements": [
+        "STREQ-01",
+        "STREQ-24"
+      ],
+      "acceptance": "Version project/content/build identities and reject unresolved references."
+    },
+    {
+      "id": "STU-CORE-03",
+      "status": "planned",
+      "track": "CORE",
+      "stage": "STAGE-1",
+      "name": "Project browser and revisions",
+      "dependsOn": [
+        "STU-CORE-02"
+      ],
+      "requirements": [
+        "STREQ-01"
+      ],
+      "acceptance": "Create, clone, open and checkpoint a project with stable revision identity."
+    },
+    {
+      "id": "STU-CORE-04",
+      "status": "planned",
+      "track": "CORE",
+      "stage": "STAGE-1",
+      "name": "Typed transactions and undo",
+      "dependsOn": [
+        "STU-CORE-03"
+      ],
+      "requirements": [
+        "STREQ-01",
+        "STREQ-20"
+      ],
+      "acceptance": "UI/API batches commit atomically; undo restores source documents/assets."
+    },
+    {
+      "id": "STU-CORE-05",
+      "status": "planned",
+      "track": "CORE",
+      "stage": "STAGE-1",
+      "name": "Asset/dependency browser",
+      "dependsOn": [
+        "STU-CORE-04"
+      ],
+      "requirements": [
+        "STREQ-01",
+        "STREQ-22"
+      ],
+      "acceptance": "Trace usages, hashes and dependency closure before rename/delete/export."
+    },
+    {
+      "id": "STU-CORE-06",
+      "status": "planned",
+      "track": "CORE",
+      "stage": "STAGE-1",
+      "name": "Schema-driven inspectors",
+      "dependsOn": [
+        "STU-CORE-04"
+      ],
+      "requirements": [
+        "STREQ-04",
+        "STREQ-18",
+        "STREQ-20"
+      ],
+      "acceptance": "Inspect/edit fields, units, constraints and references through common commands."
+    },
+    {
+      "id": "STU-CORE-07",
+      "status": "planned",
+      "track": "CORE",
+      "stage": "STAGE-1",
+      "name": "Project recovery and conflicts",
+      "dependsOn": [
+        "STU-CORE-04",
+        "SAV-05"
+      ],
+      "requirements": [
+        "STREQ-01",
+        "STREQ-24"
+      ],
+      "acceptance": "Recover a consistent revision and reject stale conflicting writes."
+    },
+    {
+      "id": "STU-CORE-08",
+      "status": "planned",
+      "track": "CORE",
+      "stage": "STAGE-1",
+      "name": "Editor navigation and diagnostics",
+      "dependsOn": [
+        "STU-CORE-06",
+        "UX-02"
+      ],
+      "requirements": [
+        "STREQ-18",
+        "STREQ-21"
+      ],
+      "acceptance": "Keyboard-accessible tools report field/node/source errors and preserve last valid build."
+    },
+    {
+      "id": "STU-MAP-01",
+      "status": "planned",
+      "track": "MAP",
+      "stage": "STAGE-2",
+      "name": "Map source document",
+      "dependsOn": [
+        "STU-CORE-02",
+        "MAP-01"
+      ],
+      "requirements": [
+        "STREQ-02"
+      ],
+      "acceptance": "Persist dimensions, tiles, heights, collision, zones and environment references."
+    },
+    {
+      "id": "STU-MAP-02",
+      "status": "planned",
+      "track": "MAP",
+      "stage": "STAGE-2",
+      "name": "Terrain brushes and region edits",
+      "dependsOn": [
+        "STU-MAP-01",
+        "STU-CORE-04"
+      ],
+      "requirements": [
+        "STREQ-02"
+      ],
+      "acceptance": "Paint, fill, resize and copy regions with undo and affected-reference review."
+    },
+    {
+      "id": "STU-MAP-03",
+      "status": "planned",
+      "track": "MAP",
+      "stage": "STAGE-2",
+      "name": "Props and environment placement",
+      "dependsOn": [
+        "STU-MAP-02",
+        "STU-ART-07"
+      ],
+      "requirements": [
+        "STREQ-02",
+        "STREQ-12"
+      ],
+      "acceptance": "Edit transform, collision, light/camera and interactable state consistently."
+    },
+    {
+      "id": "STU-MAP-04",
+      "status": "planned",
+      "track": "MAP",
+      "stage": "STAGE-2",
+      "name": "Deployment and roster authoring",
+      "dependsOn": [
+        "STU-MAP-01",
+        "MAP-04"
+      ],
+      "requirements": [
+        "STREQ-03",
+        "STREQ-06"
+      ],
+      "acceptance": "Place legal ally/enemy/neutral zones and explicit simulation order."
+    },
+    {
+      "id": "STU-MAP-05",
+      "status": "planned",
+      "track": "MAP",
+      "stage": "STAGE-2",
+      "name": "Objective/failure graph editor",
+      "dependsOn": [
+        "STU-MAP-04",
+        "OBJ-01"
+      ],
+      "requirements": [
+        "STREQ-03"
+      ],
+      "acceptance": "Define counters and precedence; test win/fail/retry/resume."
+    },
+    {
+      "id": "STU-MAP-06",
+      "status": "planned",
+      "track": "MAP",
+      "stage": "STAGE-2",
+      "name": "Waves and boss phases",
+      "dependsOn": [
+        "STU-MAP-05",
+        "AI-07"
+      ],
+      "requirements": [
+        "STREQ-03"
+      ],
+      "acceptance": "Edit saved triggers/spawns/phase actions without duplicate waves on reload."
+    },
+    {
+      "id": "STU-MAP-07",
+      "status": "planned",
+      "track": "MAP",
+      "stage": "STAGE-2",
+      "name": "Map/mission validation view",
+      "dependsOn": [
+        "STU-MAP-03",
+        "STU-MAP-06"
+      ],
+      "requirements": [
+        "STREQ-02",
+        "STREQ-03",
+        "STREQ-21"
+      ],
+      "acceptance": "Locate invalid cells, collisions, references and required-route issues."
+    },
+    {
+      "id": "STU-MAP-08",
+      "status": "planned",
+      "track": "MAP",
+      "stage": "STAGE-2",
+      "name": "Exact mission playtest",
+      "dependsOn": [
+        "STU-MAP-07",
+        "STU-CORE-01"
+      ],
+      "requirements": [
+        "STREQ-03",
+        "STREQ-21"
+      ],
+      "acceptance": "Run a chosen revision/seed through the same runtime as export."
+    },
+    {
+      "id": "STU-CONTENT-01",
+      "status": "planned",
+      "track": "CONTENT",
+      "stage": "STAGE-3",
+      "name": "Actor and AI profile editors",
+      "dependsOn": [
+        "STU-CORE-06",
+        "AI-03"
+      ],
+      "requirements": [
+        "STREQ-06"
+      ],
+      "acceptance": "Edit roster identity/stats/roles and inspect legal AI choices."
+    },
+    {
+      "id": "STU-CONTENT-02",
+      "status": "planned",
+      "track": "CONTENT",
+      "stage": "STAGE-3",
+      "name": "Rules/jobs/ability boards",
+      "dependsOn": [
+        "STU-CORE-06",
+        "FND-05",
+        "CBT-07"
+      ],
+      "requirements": [
+        "STREQ-04",
+        "STREQ-05"
+      ],
+      "acceptance": "Edit formulas, targeting, statuses, reactions, learning and unlock graphs with shared previews."
+    },
+    {
+      "id": "STU-CONTENT-03",
+      "status": "planned",
+      "track": "CONTENT",
+      "stage": "STAGE-3",
+      "name": "Items, shops and recipes",
+      "dependsOn": [
+        "STU-CONTENT-02",
+        "ECO-02"
+      ],
+      "requirements": [
+        "STREQ-07"
+      ],
+      "acceptance": "Edit gear/consumables/crafting/loot with transaction and ownership checks."
+    },
+    {
+      "id": "STU-CONTENT-04",
+      "status": "planned",
+      "track": "CONTENT",
+      "stage": "STAGE-3",
+      "name": "Campaign, dialogue and quests",
+      "dependsOn": [
+        "STU-CONTENT-01",
+        "NAR-02",
+        "NAR-03"
+      ],
+      "requirements": [
+        "STREQ-08",
+        "STREQ-09"
+      ],
+      "acceptance": "Author routes, choices, factions, recruits, codex and endings with saved consequences."
+    },
+    {
+      "id": "STU-CONTENT-05",
+      "status": "planned",
+      "track": "CONTENT",
+      "stage": "STAGE-3",
+      "name": "UI/theme/control schemas",
+      "dependsOn": [
+        "STU-CORE-06",
+        "UX-02"
+      ],
+      "requirements": [
+        "STREQ-18"
+      ],
+      "acceptance": "Edit menus/HUD/fonts/layout/input/accessibility defaults and play the full control path."
+    },
+    {
+      "id": "STU-CONTENT-06",
+      "status": "planned",
+      "track": "CONTENT",
+      "stage": "STAGE-3",
+      "name": "Localization and voice references",
+      "dependsOn": [
+        "STU-CONTENT-04",
+        "STU-SFX-08"
+      ],
+      "requirements": [
+        "STREQ-09",
+        "STREQ-16"
+      ],
+      "acceptance": "Map strings, subtitles, speakers and locale takes with missing/overflow diagnostics."
+    },
+    {
+      "id": "STU-CONTENT-07",
+      "status": "planned",
+      "track": "CONTENT",
+      "stage": "STAGE-3",
+      "name": "Content graph validation",
+      "dependsOn": [
+        "STU-CONTENT-03",
+        "STU-CONTENT-04",
+        "STU-CONTENT-05"
+      ],
+      "requirements": [
+        "STREQ-04",
+        "STREQ-08",
+        "STREQ-21"
+      ],
+      "acceptance": "Reject cycles, missing content and unreachable required routes before export."
+    },
+    {
+      "id": "STU-CONTENT-08",
+      "status": "planned",
+      "track": "CONTENT",
+      "stage": "STAGE-3",
+      "name": "Full-game preview flow",
+      "dependsOn": [
+        "STU-CONTENT-07",
+        "STU-MAP-08"
+      ],
+      "requirements": [
+        "STREQ-18",
+        "STREQ-21"
+      ],
+      "acceptance": "Run title/new-game, campaign, battle, failure/retry, victory and supported ending."
+    },
+    {
+      "id": "STU-ART-01",
+      "status": "planned",
+      "track": "ART",
+      "stage": "STAGE-4",
+      "name": "Layered pixel source format",
+      "dependsOn": [
+        "STU-CORE-05"
+      ],
+      "requirements": [
+        "STREQ-10"
+      ],
+      "acceptance": "Preserve dimensions, color mode, layers/cels, source pixels and palettes."
+    },
+    {
+      "id": "STU-ART-02",
+      "status": "planned",
+      "track": "ART",
+      "stage": "STAGE-4",
+      "name": "Pixel tools and selections",
+      "dependsOn": [
+        "STU-ART-01",
+        "STU-CORE-04"
+      ],
+      "requirements": [
+        "STREQ-10"
+      ],
+      "acceptance": "Brush/erase/fill/select/transform/clipboard edits round-trip and undo."
+    },
+    {
+      "id": "STU-ART-03",
+      "status": "planned",
+      "track": "ART",
+      "stage": "STAGE-4",
+      "name": "Layers and palette workflow",
+      "dependsOn": [
+        "STU-ART-02"
+      ],
+      "requirements": [
+        "STREQ-10"
+      ],
+      "acceptance": "Reorder/group/opacity and indexed/RGBA edits preserve source and transparent semantics."
+    },
+    {
+      "id": "STU-ART-04",
+      "status": "planned",
+      "track": "ART",
+      "stage": "STAGE-4",
+      "name": "Tileset authoring",
+      "dependsOn": [
+        "STU-ART-03",
+        "STU-MAP-01"
+      ],
+      "requirements": [
+        "STREQ-02",
+        "STREQ-10"
+      ],
+      "acceptance": "Edit reusable tiles and terrain tags; paint them into maps."
+    },
+    {
+      "id": "STU-ART-05",
+      "status": "planned",
+      "track": "ART",
+      "stage": "STAGE-4",
+      "name": "Visual import adapters",
+      "dependsOn": [
+        "STU-ART-01",
+        "STU-CORE-05"
+      ],
+      "requirements": [
+        "STREQ-10",
+        "STREQ-12"
+      ],
+      "acceptance": "Import supported raster/layer/model formats with explicit conversion/mapping reports."
+    },
+    {
+      "id": "STU-ART-06",
+      "status": "planned",
+      "track": "ART",
+      "stage": "STAGE-4",
+      "name": "Portrait/icon/UI asset tools",
+      "dependsOn": [
+        "STU-ART-03",
+        "STU-CONTENT-05"
+      ],
+      "requirements": [
+        "STREQ-09",
+        "STREQ-10",
+        "STREQ-18"
+      ],
+      "acceptance": "Create and bind readable portraits/icons with source and locale/UI references."
+    },
+    {
+      "id": "STU-ART-07",
+      "status": "planned",
+      "track": "ART",
+      "stage": "STAGE-4",
+      "name": "Geometry/material/prefab inspector",
+      "dependsOn": [
+        "STU-ART-05"
+      ],
+      "requirements": [
+        "STREQ-12"
+      ],
+      "acceptance": "Edit modular source geometry/material/collision and reusable environment prefabs."
+    },
+    {
+      "id": "STU-ART-08",
+      "status": "planned",
+      "track": "ART",
+      "stage": "STAGE-4",
+      "name": "Visual source compiler",
+      "dependsOn": [
+        "STU-ART-04",
+        "STU-ART-06",
+        "STU-ART-07"
+      ],
+      "requirements": [
+        "STREQ-10",
+        "STREQ-12",
+        "STREQ-22"
+      ],
+      "acceptance": "Build runtime images/geometry without replacing rich masters; verify source/derivative hashes."
+    },
+    {
+      "id": "STU-ANIM-01",
+      "status": "planned",
+      "track": "ANIM",
+      "stage": "STAGE-4",
+      "name": "Timeline/clip schema",
+      "dependsOn": [
+        "STU-ART-01",
+        "STU-CORE-02"
+      ],
+      "requirements": [
+        "STREQ-11"
+      ],
+      "acceptance": "Persist frame/cel IDs, duration, tags, direction and registration."
+    },
+    {
+      "id": "STU-ANIM-02",
+      "status": "planned",
+      "track": "ANIM",
+      "stage": "STAGE-4",
+      "name": "Frame/cel editing",
+      "dependsOn": [
+        "STU-ANIM-01",
+        "STU-ART-02"
+      ],
+      "requirements": [
+        "STREQ-11"
+      ],
+      "acceptance": "Add, duplicate, reorder and edit frames with exact duration and undo."
+    },
+    {
+      "id": "STU-ANIM-03",
+      "status": "planned",
+      "track": "ANIM",
+      "stage": "STAGE-4",
+      "name": "Onion skin and loop audition",
+      "dependsOn": [
+        "STU-ANIM-02"
+      ],
+      "requirements": [
+        "STREQ-11"
+      ],
+      "acceptance": "Compare adjacent cels and inspect loop/contact timing at game scale."
+    },
+    {
+      "id": "STU-ANIM-04",
+      "status": "planned",
+      "track": "ANIM",
+      "stage": "STAGE-4",
+      "name": "Pivots, directions and attachments",
+      "dependsOn": [
+        "STU-ANIM-02",
+        "ART-01"
+      ],
+      "requirements": [
+        "STREQ-11"
+      ],
+      "acceptance": "Edit foot/pivot/weapon markers and direction mapping across camera quadrants."
+    },
+    {
+      "id": "STU-ANIM-05",
+      "status": "planned",
+      "track": "ANIM",
+      "stage": "STAGE-4",
+      "name": "State/event binding editor",
+      "dependsOn": [
+        "STU-ANIM-04",
+        "FND-05"
+      ],
+      "requirements": [
+        "STREQ-11",
+        "STREQ-13"
+      ],
+      "acceptance": "Bind idle/walk/attack/cast/hurt/guard/down/revive without changing rule timing."
+    },
+    {
+      "id": "STU-ANIM-06",
+      "status": "planned",
+      "track": "ANIM",
+      "stage": "STAGE-4",
+      "name": "Packing and registration compiler",
+      "dependsOn": [
+        "STU-ANIM-04",
+        "STU-ART-08"
+      ],
+      "requirements": [
+        "STREQ-11",
+        "STREQ-22"
+      ],
+      "acceptance": "Build atlases with padding, timing/anchor metadata and verified clip coverage."
+    },
+    {
+      "id": "STU-ANIM-07",
+      "status": "planned",
+      "track": "ANIM",
+      "stage": "STAGE-4",
+      "name": "Runtime motion review",
+      "dependsOn": [
+        "STU-ANIM-05",
+        "STU-ANIM-06"
+      ],
+      "requirements": [
+        "STREQ-11",
+        "STREQ-21"
+      ],
+      "acceptance": "Preview transitions, interruption, load-held poses, enemy view and reduced motion."
+    },
+    {
+      "id": "STU-ANIM-08",
+      "status": "planned",
+      "track": "ANIM",
+      "stage": "STAGE-4",
+      "name": "Timeline source round trip",
+      "dependsOn": [
+        "STU-ANIM-07",
+        "STU-CORE-07"
+      ],
+      "requirements": [
+        "STREQ-11",
+        "STREQ-22"
+      ],
+      "acceptance": "Reopen source frames, tags, directions, pivots and timings after serialization."
+    },
+    {
+      "id": "STU-VFX-01",
+      "status": "planned",
+      "track": "VFX",
+      "stage": "STAGE-5",
+      "name": "Effect graph source schema",
+      "dependsOn": [
+        "STU-CORE-06"
+      ],
+      "requirements": [
+        "STREQ-13"
+      ],
+      "acceptance": "Persist layers, nodes, parameter units, anchors and supported blend modes."
+    },
+    {
+      "id": "STU-VFX-02",
+      "status": "planned",
+      "track": "VFX",
+      "stage": "STAGE-5",
+      "name": "Emitter and shape tools",
+      "dependsOn": [
+        "STU-VFX-01"
+      ],
+      "requirements": [
+        "STREQ-13"
+      ],
+      "acceptance": "Edit spawn rate/bursts, shapes, color, lifetime and sprite sources."
+    },
+    {
+      "id": "STU-VFX-03",
+      "status": "planned",
+      "track": "VFX",
+      "stage": "STAGE-5",
+      "name": "Curves and modulation",
+      "dependsOn": [
+        "STU-VFX-02",
+        "STU-ANIM-04"
+      ],
+      "requirements": [
+        "STREQ-13"
+      ],
+      "acceptance": "Edit motion/scale/opacity/color curves and attachment behavior."
+    },
+    {
+      "id": "STU-VFX-04",
+      "status": "planned",
+      "track": "VFX",
+      "stage": "STAGE-5",
+      "name": "Trails/projectile anchoring",
+      "dependsOn": [
+        "STU-VFX-03",
+        "STU-ANIM-05"
+      ],
+      "requirements": [
+        "STREQ-13"
+      ],
+      "acceptance": "Source/travel/contact phases stay attached through movement/camera changes."
+    },
+    {
+      "id": "STU-VFX-05",
+      "status": "planned",
+      "track": "VFX",
+      "stage": "STAGE-5",
+      "name": "Budget/quality profiles",
+      "dependsOn": [
+        "STU-VFX-04",
+        "FND-09"
+      ],
+      "requirements": [
+        "STREQ-13",
+        "STREQ-24"
+      ],
+      "acceptance": "Bound pools and render cost; record measured profile tradeoffs."
+    },
+    {
+      "id": "STU-VFX-06",
+      "status": "planned",
+      "track": "VFX",
+      "stage": "STAGE-5",
+      "name": "Resolved-event effect bindings",
+      "dependsOn": [
+        "STU-VFX-04",
+        "FND-05"
+      ],
+      "requirements": [
+        "STREQ-13"
+      ],
+      "acceptance": "Hit/miss/heal/buff/prop cues consume deduplicable resolved facts."
+    },
+    {
+      "id": "STU-VFX-07",
+      "status": "planned",
+      "track": "VFX",
+      "stage": "STAGE-5",
+      "name": "Low-motion/intensity alternatives",
+      "dependsOn": [
+        "STU-VFX-05",
+        "UX-03"
+      ],
+      "requirements": [
+        "STREQ-13",
+        "STREQ-18"
+      ],
+      "acceptance": "Edit static/low-intensity alternatives without gameplay timing changes."
+    },
+    {
+      "id": "STU-VFX-08",
+      "status": "planned",
+      "track": "VFX",
+      "stage": "STAGE-5",
+      "name": "Compile and preview effect graphs",
+      "dependsOn": [
+        "STU-VFX-06",
+        "STU-VFX-07",
+        "STU-ANIM-06"
+      ],
+      "requirements": [
+        "STREQ-13",
+        "STREQ-21",
+        "STREQ-22"
+      ],
+      "acceptance": "Export/reopen graphs and validate compiled clips, fallback and teardown."
+    },
+    {
+      "id": "STU-MUSIC-01",
+      "status": "planned",
+      "track": "MUSIC",
+      "stage": "STAGE-6",
+      "name": "Audio source/graph/time contract",
+      "dependsOn": [
+        "STU-CORE-02"
+      ],
+      "requirements": [
+        "STREQ-14",
+        "STREQ-15",
+        "STREQ-17"
+      ],
+      "acceptance": "Define project sample/tick clocks, versioned nodes and source/master ownership."
+    },
+    {
+      "id": "STU-MUSIC-02",
+      "status": "planned",
+      "track": "MUSIC",
+      "stage": "STAGE-6",
+      "name": "Instrument rack",
+      "dependsOn": [
+        "STU-MUSIC-01"
+      ],
+      "requirements": [
+        "STREQ-14"
+      ],
+      "acceptance": "Create oscillator/sample instruments with envelopes, filters and modulation."
+    },
+    {
+      "id": "STU-MUSIC-03",
+      "status": "planned",
+      "track": "MUSIC",
+      "stage": "STAGE-6",
+      "name": "Piano roll and note commands",
+      "dependsOn": [
+        "STU-MUSIC-02"
+      ],
+      "requirements": [
+        "STREQ-14",
+        "STREQ-20"
+      ],
+      "acceptance": "Edit pitch/start/duration/velocity and audition through UI/API."
+    },
+    {
+      "id": "STU-MUSIC-04",
+      "status": "planned",
+      "track": "MUSIC",
+      "stage": "STAGE-6",
+      "name": "Patterns and arrangement",
+      "dependsOn": [
+        "STU-MUSIC-03"
+      ],
+      "requirements": [
+        "STREQ-14"
+      ],
+      "acceptance": "Reuse patterns, arrange/split/loop clips and preserve editable note sources."
+    },
+    {
+      "id": "STU-MUSIC-05",
+      "status": "planned",
+      "track": "MUSIC",
+      "stage": "STAGE-6",
+      "name": "Tempo/meter and automation",
+      "dependsOn": [
+        "STU-MUSIC-04"
+      ],
+      "requirements": [
+        "STREQ-14"
+      ],
+      "acceptance": "Edit musical-time maps and parameter curves with explicit render scheduling."
+    },
+    {
+      "id": "STU-MUSIC-06",
+      "status": "planned",
+      "track": "MUSIC",
+      "stage": "STAGE-6",
+      "name": "Stems and loop regions",
+      "dependsOn": [
+        "STU-MUSIC-05"
+      ],
+      "requirements": [
+        "STREQ-14",
+        "STREQ-17"
+      ],
+      "acceptance": "Route aligned stems and audition repeat/crossfade/tail boundaries."
+    },
+    {
+      "id": "STU-MUSIC-07",
+      "status": "planned",
+      "track": "MUSIC",
+      "stage": "STAGE-6",
+      "name": "Adaptive music transitions",
+      "dependsOn": [
+        "STU-MUSIC-06",
+        "FND-05"
+      ],
+      "requirements": [
+        "STREQ-14",
+        "STREQ-17"
+      ],
+      "acceptance": "Bind region/battle/phase state at declared musical boundaries without replayed stings."
+    },
+    {
+      "id": "STU-MUSIC-08",
+      "status": "planned",
+      "track": "MUSIC",
+      "stage": "STAGE-6",
+      "name": "Offline render and parity",
+      "dependsOn": [
+        "STU-MUSIC-06",
+        "STU-SFX-06"
+      ],
+      "requirements": [
+        "STREQ-14",
+        "STREQ-17",
+        "STREQ-22"
+      ],
+      "acceptance": "Bounce master/stems under shared graph semantics; compare source/PCM/loop parity."
+    },
+    {
+      "id": "STU-SFX-01",
+      "status": "planned",
+      "track": "SFX",
+      "stage": "STAGE-6",
+      "name": "SFX synthesis graph",
+      "dependsOn": [
+        "STU-MUSIC-01"
+      ],
+      "requirements": [
+        "STREQ-15"
+      ],
+      "acceptance": "Create original oscillator/noise/sample effects with editable nodes."
+    },
+    {
+      "id": "STU-SFX-02",
+      "status": "planned",
+      "track": "SFX",
+      "stage": "STAGE-6",
+      "name": "Non-destructive waveform editor",
+      "dependsOn": [
+        "STU-SFX-01",
+        "STU-CORE-05"
+      ],
+      "requirements": [
+        "STREQ-15"
+      ],
+      "acceptance": "Trim/split/fade/reverse/normalize/loop original sources with retained edit lists."
+    },
+    {
+      "id": "STU-SFX-03",
+      "status": "planned",
+      "track": "SFX",
+      "stage": "STAGE-6",
+      "name": "Layered sound design",
+      "dependsOn": [
+        "STU-SFX-01",
+        "STU-MUSIC-02"
+      ],
+      "requirements": [
+        "STREQ-15"
+      ],
+      "acceptance": "Layer transients/body/tails; edit envelopes, filters, pitch sweeps and modulation."
+    },
+    {
+      "id": "STU-SFX-04",
+      "status": "planned",
+      "track": "SFX",
+      "stage": "STAGE-6",
+      "name": "Recording and sample import",
+      "dependsOn": [
+        "STU-SFX-02"
+      ],
+      "requirements": [
+        "STREQ-15",
+        "STREQ-16"
+      ],
+      "acceptance": "User-start takes/import supported clips; retain original sample/rate/channel provenance."
+    },
+    {
+      "id": "STU-SFX-05",
+      "status": "planned",
+      "track": "SFX",
+      "stage": "STAGE-6",
+      "name": "Variants, spatialization and cue policy",
+      "dependsOn": [
+        "STU-SFX-03",
+        "STU-SFX-04",
+        "FND-05"
+      ],
+      "requirements": [
+        "STREQ-15",
+        "STREQ-17"
+      ],
+      "acceptance": "Edit event bindings, weights, caps, priority, cooldown and pan/distance behavior."
+    },
+    {
+      "id": "STU-SFX-06",
+      "status": "planned",
+      "track": "SFX",
+      "stage": "STAGE-6",
+      "name": "Mixer and shared DSP engine",
+      "dependsOn": [
+        "STU-SFX-03",
+        "STU-MUSIC-02"
+      ],
+      "requirements": [
+        "STREQ-17"
+      ],
+      "acceptance": "Route buses/sends/ducking and use shared realtime/offline/runtime graph semantics."
+    },
+    {
+      "id": "STU-SFX-07",
+      "status": "planned",
+      "track": "SFX",
+      "stage": "STAGE-6",
+      "name": "Codec/render adapters",
+      "dependsOn": [
+        "STU-SFX-06",
+        "STU-SFX-04"
+      ],
+      "requirements": [
+        "STREQ-15",
+        "STREQ-17",
+        "STREQ-22"
+      ],
+      "acceptance": "Encode supported runtime targets; preserve masters and diagnose unsupported codecs."
+    },
+    {
+      "id": "STU-SFX-08",
+      "status": "planned",
+      "track": "SFX",
+      "stage": "STAGE-6",
+      "name": "Ambience, voice and subtitles",
+      "dependsOn": [
+        "STU-SFX-05",
+        "STU-SFX-06",
+        "STU-CONTENT-04"
+      ],
+      "requirements": [
+        "STREQ-16",
+        "STREQ-17"
+      ],
+      "acceptance": "Edit beds/emitters/locale takes and subtitle links; mute/resume/loop behavior is correct."
+    },
+    {
+      "id": "STU-API-01",
+      "status": "planned",
+      "track": "API",
+      "stage": "STAGE-7",
+      "name": "Capability/schema discovery",
+      "dependsOn": [
+        "STU-CORE-06"
+      ],
+      "requirements": [
+        "STREQ-20"
+      ],
+      "acceptance": "Describe every editor operation, constraint, format and unsupported capability."
+    },
+    {
+      "id": "STU-API-02",
+      "status": "planned",
+      "track": "API",
+      "stage": "STAGE-7",
+      "name": "Typed domain commands",
+      "dependsOn": [
+        "STU-CORE-04",
+        "STU-API-01"
+      ],
+      "requirements": [
+        "STREQ-20"
+      ],
+      "acceptance": "UI/API/CLI share validated changes and stable document IDs."
+    },
+    {
+      "id": "STU-API-03",
+      "status": "planned",
+      "track": "API",
+      "stage": "STAGE-7",
+      "name": "Batch/conflict/diff workflow",
+      "dependsOn": [
+        "STU-API-02",
+        "STU-CORE-07"
+      ],
+      "requirements": [
+        "STREQ-20"
+      ],
+      "acceptance": "Stage, diff, validate, commit/abort with actionable source errors and recovery."
+    },
+    {
+      "id": "STU-API-04",
+      "status": "planned",
+      "track": "API",
+      "stage": "STAGE-7",
+      "name": "Pixel/music/SFX automation",
+      "dependsOn": [
+        "STU-API-02",
+        "STU-ART-03",
+        "STU-MUSIC-04",
+        "STU-SFX-03"
+      ],
+      "requirements": [
+        "STREQ-10",
+        "STREQ-14",
+        "STREQ-15",
+        "STREQ-20"
+      ],
+      "acceptance": "Agent commands edit actual layers, notes and sound nodes, not only flattened outputs."
+    },
+    {
+      "id": "STU-API-05",
+      "status": "planned",
+      "track": "API",
+      "stage": "STAGE-7",
+      "name": "Scenario/debug result API",
+      "dependsOn": [
+        "STU-API-03",
+        "STU-CONTENT-08",
+        "STU-MAP-08"
+      ],
+      "requirements": [
+        "STREQ-21"
+      ],
+      "acceptance": "Return real preview builds, seeds, rule results, visual/audio auditions and diagnostics."
+    },
+    {
+      "id": "STU-API-06",
+      "status": "planned",
+      "track": "API",
+      "stage": "STAGE-7",
+      "name": "Versioned code/inspector extensions",
+      "dependsOn": [
+        "STU-API-01",
+        "STU-CONTENT-02"
+      ],
+      "requirements": [
+        "STREQ-19"
+      ],
+      "acceptance": "Edit/export source modules and custom inspectors with explicit API compatibility."
+    },
+    {
+      "id": "STU-API-07",
+      "status": "planned",
+      "track": "API",
+      "stage": "STAGE-7",
+      "name": "Engine-source build workspace",
+      "dependsOn": [
+        "STU-API-06",
+        "FND-09"
+      ],
+      "requirements": [
+        "STREQ-19",
+        "STREQ-24"
+      ],
+      "acceptance": "Preserve engine overrides, build scripts and locks; clean rebuild needs no hidden vendor source."
+    },
+    {
+      "id": "STU-API-08",
+      "status": "planned",
+      "track": "API",
+      "stage": "STAGE-7",
+      "name": "UI/API/CLI parity proof",
+      "dependsOn": [
+        "STU-API-04",
+        "STU-API-05",
+        "STU-API-07"
+      ],
+      "requirements": [
+        "STREQ-20",
+        "STREQ-21"
+      ],
+      "acceptance": "Complete representative edits in every domain through both UI and automation."
+    },
+    {
+      "id": "STU-PACK-01",
+      "status": "planned",
+      "track": "PACK",
+      "stage": "STAGE-8",
+      "name": "Artifact and compatibility schemas",
+      "dependsOn": [
+        "STU-CORE-02",
+        "SAV-01"
+      ],
+      "requirements": [
+        "STREQ-22",
+        "STREQ-23",
+        "STREQ-24"
+      ],
+      "acceptance": "Separate project/complete-game/runtime/asset/save/source formats and identity/version rules."
+    },
+    {
+      "id": "STU-PACK-02",
+      "status": "planned",
+      "track": "PACK",
+      "stage": "STAGE-8",
+      "name": "Lossless source project export",
+      "dependsOn": [
+        "STU-CORE-05",
+        "STU-ART-08",
+        "STU-ANIM-08",
+        "STU-MUSIC-06",
+        "STU-SFX-06",
+        "STU-API-07"
+      ],
+      "requirements": [
+        "STREQ-22"
+      ],
+      "acceptance": "Include rich sources, code, provenance and dependency closure; reopen to edit again."
+    },
+    {
+      "id": "STU-PACK-03",
+      "status": "planned",
+      "track": "PACK",
+      "stage": "STAGE-8",
+      "name": "Staged project/complete-bundle import",
+      "dependsOn": [
+        "STU-PACK-01",
+        "STU-PACK-02"
+      ],
+      "requirements": [
+        "STREQ-22",
+        "STREQ-23"
+      ],
+      "acceptance": "Inspect, map conflicts, validate and commit without partially replacing a workspace."
+    },
+    {
+      "id": "STU-PACK-04",
+      "status": "planned",
+      "track": "PACK",
+      "stage": "STAGE-8",
+      "name": "Shared runtime compiler",
+      "dependsOn": [
+        "STU-CONTENT-08",
+        "STU-VFX-08",
+        "STU-MUSIC-08",
+        "STU-SFX-07"
+      ],
+      "requirements": [
+        "STREQ-21",
+        "STREQ-23"
+      ],
+      "acceptance": "Build exact preview/export runtime with all required code, content, visuals and audio."
+    },
+    {
+      "id": "STU-PACK-05",
+      "status": "planned",
+      "track": "PACK",
+      "stage": "STAGE-8",
+      "name": "Default Complete game bundle",
+      "dependsOn": [
+        "STU-PACK-03",
+        "STU-PACK-04",
+        "STU-API-07"
+      ],
+      "requirements": [
+        "STREQ-23"
+      ],
+      "acceptance": "Ship playable output plus editable payload and matching buildable engine source."
+    },
+    {
+      "id": "STU-PACK-06",
+      "status": "planned",
+      "track": "PACK",
+      "stage": "STAGE-8",
+      "name": "Launch/static-host profiles",
+      "dependsOn": [
+        "STU-PACK-04",
+        "QA-06"
+      ],
+      "requirements": [
+        "STREQ-23",
+        "STREQ-24"
+      ],
+      "acceptance": "Test local preview launch and root/subpath hosting without studio/backend dependencies."
+    },
+    {
+      "id": "STU-PACK-07",
+      "status": "planned",
+      "track": "PACK",
+      "stage": "STAGE-8",
+      "name": "Save/offline/update compatibility",
+      "dependsOn": [
+        "STU-PACK-06",
+        "SAV-08"
+      ],
+      "requirements": [
+        "STREQ-24"
+      ],
+      "acceptance": "Keep project/play saves separate and rehearse compatible update/cache/migration paths."
+    },
+    {
+      "id": "STU-PACK-08",
+      "status": "planned",
+      "track": "PACK",
+      "stage": "STAGE-8",
+      "name": "Golden game and clean re-edit proof",
+      "dependsOn": [
+        "STU-PACK-05",
+        "STU-PACK-07",
+        "STU-API-08",
+        "STU-SFX-08"
+      ],
+      "requirements": [
+        "STREQ-01",
+        "STREQ-22",
+        "STREQ-23",
+        "STREQ-24"
+      ],
+      "acceptance": "Author, play, export, import, re-edit and rebuild the complete fixture in a clean environment."
+    }
+  ],
+  "artifactProfiles": [
+    {
+      "id": "project",
+      "label": "Editable project",
+      "extension": ".echo-project.zip",
+      "playable": false,
+      "losslessAuthoring": true,
+      "includes": [
+        "project-manifest",
+        "source-assets",
+        "graphs",
+        "extensions",
+        "engine-source-lock"
+      ],
+      "purpose": "Open/edit or transfer the canonical project; no compiled player required."
+    },
+    {
+      "id": "complete-game",
+      "label": "Complete game bundle (default)",
+      "extension": ".echo-bundle.zip",
+      "playable": true,
+      "losslessAuthoring": true,
+      "includes": [
+        "runtime",
+        "project-manifest",
+        "source-assets",
+        "graphs",
+        "extensions",
+        "engine-source",
+        "build-report",
+        "launch-instructions"
+      ],
+      "purpose": "Play and reimport into the studio with complete authoring sources."
+    },
+    {
+      "id": "runtime-only",
+      "label": "Play-only web build",
+      "extension": ".echo-game.zip",
+      "playable": true,
+      "losslessAuthoring": false,
+      "includes": [
+        "runtime",
+        "build-report",
+        "launch-instructions"
+      ],
+      "purpose": "Smaller distribution; source layers/graphs cannot be guaranteed recoverable."
+    },
+    {
+      "id": "asset-pack",
+      "label": "Reusable asset pack",
+      "extension": ".echo-assets.zip",
+      "playable": false,
+      "losslessAuthoring": false,
+      "includes": [
+        "selected-source-assets",
+        "selected-graphs",
+        "dependency-manifest"
+      ],
+      "purpose": "Import selected reusable assets with conflict mapping; not a complete game/project."
+    },
+    {
+      "id": "player-save",
+      "label": "Player progress backup",
+      "extension": ".echo-save.json",
+      "playable": false,
+      "losslessAuthoring": false,
+      "includes": [
+        "player-progress",
+        "compatibility-identity"
+      ],
+      "purpose": "Restore player progress for a compatible game; not authoring content."
+    },
+    {
+      "id": "source",
+      "label": "Source/developer export",
+      "extension": ".echo-source.zip",
+      "playable": false,
+      "losslessAuthoring": true,
+      "includes": [
+        "project-manifest",
+        "source-assets",
+        "graphs",
+        "extensions",
+        "engine-source",
+        "build-scripts",
+        "dependency-lock"
+      ],
+      "purpose": "Rebuild and extend the game's implementation outside the studio."
+    }
+  ],
+  "acceptanceCases": [
+    {
+      "id": "STAC-01",
+      "status": "planned",
+      "name": "Current-game template",
+      "action": "Compile the existing project template and replay baseline scenarios.",
+      "expected": "Equivalent current rules, IDs, resources and RNG; no editor-only simulation.",
+      "requirements": [
+        "STREQ-04",
+        "STREQ-21"
+      ],
+      "artifacts": []
+    },
+    {
+      "id": "STAC-02",
+      "status": "planned",
+      "name": "Workspace recovery",
+      "action": "Create/clone/checkpoint, interrupt an edit session and reopen.",
+      "expected": "One consistent reviewed project revision; player saves remain separate.",
+      "requirements": [
+        "STREQ-01",
+        "STREQ-24"
+      ],
+      "artifacts": [
+        "project"
+      ]
+    },
+    {
+      "id": "STAC-03",
+      "status": "planned",
+      "name": "Atomic editing and undo",
+      "action": "Apply a valid batch and an invalid/stale batch; undo/redo the accepted edit.",
+      "expected": "No partial source changes; revision and asset history match.",
+      "requirements": [
+        "STREQ-01",
+        "STREQ-20"
+      ],
+      "artifacts": []
+    },
+    {
+      "id": "STAC-04",
+      "status": "planned",
+      "name": "Level design",
+      "action": "Resize/paint elevation/collision, place props and select corners.",
+      "expected": "Map/rule/world/input agreement and retained authored source.",
+      "requirements": [
+        "STREQ-02",
+        "STREQ-12"
+      ],
+      "artifacts": []
+    },
+    {
+      "id": "STAC-05",
+      "status": "planned",
+      "name": "Mission authoring",
+      "action": "Edit deployment, objective, wave, phase and rewards; play fail/retry/win.",
+      "expected": "Approved counter/terminal order, no duplicate spawns or settlement.",
+      "requirements": [
+        "STREQ-03"
+      ],
+      "artifacts": []
+    },
+    {
+      "id": "STAC-06",
+      "status": "planned",
+      "name": "Rules and progression",
+      "action": "Edit a formula/status/reaction, ability board, job unlock and support.",
+      "expected": "Preview/resolution/learning/save contracts agree.",
+      "requirements": [
+        "STREQ-04",
+        "STREQ-05"
+      ],
+      "artifacts": []
+    },
+    {
+      "id": "STAC-07",
+      "status": "planned",
+      "name": "Actors and AI",
+      "action": "Edit an enemy/companion/summon build and AI role.",
+      "expected": "Legal deterministic behavior and stable identity/ownership.",
+      "requirements": [
+        "STREQ-06"
+      ],
+      "artifacts": []
+    },
+    {
+      "id": "STAC-08",
+      "status": "planned",
+      "name": "Economy",
+      "action": "Edit gear, consumable, shop, recipe and loot/settlement policy.",
+      "expected": "Costs/output/ownership commit once; invalid actions preserve state.",
+      "requirements": [
+        "STREQ-07"
+      ],
+      "artifacts": []
+    },
+    {
+      "id": "STAC-09",
+      "status": "planned",
+      "name": "Campaign and quests",
+      "action": "Create a route with choices, recruit/faction consequence and ending.",
+      "expected": "Required paths reachable; branch/restoration/settlement consistent.",
+      "requirements": [
+        "STREQ-08"
+      ],
+      "artifacts": []
+    },
+    {
+      "id": "STAC-10",
+      "status": "planned",
+      "name": "Dialogue/localization",
+      "action": "Edit speaker/portrait/choice, codex, subtitle and locale strings.",
+      "expected": "Commit/cancel and long/missing-string diagnostics; source keys preserved.",
+      "requirements": [
+        "STREQ-09"
+      ],
+      "artifacts": []
+    },
+    {
+      "id": "STAC-11",
+      "status": "planned",
+      "name": "Pixel document",
+      "action": "Paint/transform pixels, edit layers and indexed/RGBA palette.",
+      "expected": "Layer/cel/palette/source pixels reopen exactly; packed output remains a derivative.",
+      "requirements": [
+        "STREQ-10"
+      ],
+      "artifacts": [
+        "project"
+      ]
+    },
+    {
+      "id": "STAC-12",
+      "status": "planned",
+      "name": "Animation",
+      "action": "Edit frames, durations, directions, pivots, events and transitions.",
+      "expected": "Game-scale playback, interruption/down/revive and source timing agree.",
+      "requirements": [
+        "STREQ-11"
+      ],
+      "artifacts": [
+        "project"
+      ]
+    },
+    {
+      "id": "STAC-13",
+      "status": "planned",
+      "name": "Environment source",
+      "action": "Import/edit geometry, materials, prefabs, lights and collision.",
+      "expected": "Rendered and rule footprints agree; editable source/dependency references survive.",
+      "requirements": [
+        "STREQ-12"
+      ],
+      "artifacts": [
+        "asset-pack"
+      ]
+    },
+    {
+      "id": "STAC-14",
+      "status": "planned",
+      "name": "VFX",
+      "action": "Author emitters, curves, sprite/trail anchors and quality/motion alternatives.",
+      "expected": "Bounded result-driven playback, fallback and teardown.",
+      "requirements": [
+        "STREQ-13"
+      ],
+      "artifacts": [
+        "project"
+      ]
+    },
+    {
+      "id": "STAC-15",
+      "status": "planned",
+      "name": "Music composition",
+      "action": "Create an instrument and piano-roll phrase; edit pitch, duration and velocity.",
+      "expected": "Editable note/instrument sources survive with audible compiled result.",
+      "requirements": [
+        "STREQ-14"
+      ],
+      "artifacts": [
+        "project"
+      ]
+    },
+    {
+      "id": "STAC-16",
+      "status": "planned",
+      "name": "Arrangement and stems",
+      "action": "Arrange patterns, tempo/meter, automation, stems and loops.",
+      "expected": "Aligned render and transitions follow the declared sample/tick policy.",
+      "requirements": [
+        "STREQ-14",
+        "STREQ-17"
+      ],
+      "artifacts": [
+        "project"
+      ]
+    },
+    {
+      "id": "STAC-17",
+      "status": "planned",
+      "name": "Original sound synthesis",
+      "action": "Create a new layered SFX from noise/oscillators/samples and envelopes.",
+      "expected": "Graph/node/source layers remain editable after export/import.",
+      "requirements": [
+        "STREQ-15"
+      ],
+      "artifacts": [
+        "project"
+      ]
+    },
+    {
+      "id": "STAC-18",
+      "status": "planned",
+      "name": "Waveform and takes",
+      "action": "Record/import a take, trim/split/fade/reverse/normalize and loop.",
+      "expected": "Original PCM plus edit list preserved; supported codec conversion explicit.",
+      "requirements": [
+        "STREQ-15",
+        "STREQ-16"
+      ],
+      "artifacts": [
+        "asset-pack"
+      ]
+    },
+    {
+      "id": "STAC-19",
+      "status": "planned",
+      "name": "Mixing",
+      "action": "Route music/SFX/ambience/voice/UI buses, sends, ducking and automation.",
+      "expected": "Realtime/offline/runtime parity under the declared graph/toolchain settings.",
+      "requirements": [
+        "STREQ-17"
+      ],
+      "artifacts": []
+    },
+    {
+      "id": "STAC-20",
+      "status": "planned",
+      "name": "Audio cue binding",
+      "action": "Bind hit/miss/footstep/UI/phase cues with variants, caps and cooldowns.",
+      "expected": "Resolved facts and deduplication correct; no combat RNG consumed.",
+      "requirements": [
+        "STREQ-15",
+        "STREQ-17"
+      ],
+      "artifacts": []
+    },
+    {
+      "id": "STAC-21",
+      "status": "planned",
+      "name": "Ambience and voice",
+      "action": "Place an emitter/bed; bind locale voice and subtitle; mute/resume.",
+      "expected": "Loop/spatial/subtitle fallback and source editability survive.",
+      "requirements": [
+        "STREQ-16",
+        "STREQ-17"
+      ],
+      "artifacts": []
+    },
+    {
+      "id": "STAC-22",
+      "status": "planned",
+      "name": "UI and controls",
+      "action": "Edit title/HUD/theme/input/accessibility defaults and play supported controls.",
+      "expected": "Complete new-game-to-settlement path with focus and readable feedback.",
+      "requirements": [
+        "STREQ-18"
+      ],
+      "artifacts": []
+    },
+    {
+      "id": "STAC-23",
+      "status": "planned",
+      "name": "Code extension/source",
+      "action": "Edit a custom rule/runtime module and buildable source export.",
+      "expected": "Included API/dependency/source locks reproduce the behavior in a clean build.",
+      "requirements": [
+        "STREQ-19"
+      ],
+      "artifacts": [
+        "source"
+      ]
+    },
+    {
+      "id": "STAC-24",
+      "status": "planned",
+      "name": "Automation parity",
+      "action": "Repeat representative map/pixel/note/SFX/rule/UI edits through UI and API/CLI.",
+      "expected": "Equivalent project diffs, undo and diagnostics; no hidden-only edit path.",
+      "requirements": [
+        "STREQ-20"
+      ],
+      "artifacts": []
+    },
+    {
+      "id": "STAC-25",
+      "status": "planned",
+      "name": "Exact playable preview",
+      "action": "Run asset, mission and full-game preview from a named revision/build.",
+      "expected": "Actual exported runtime semantics, isolated saves and inspectable results.",
+      "requirements": [
+        "STREQ-21"
+      ],
+      "artifacts": []
+    },
+    {
+      "id": "STAC-26",
+      "status": "planned",
+      "name": "Default complete export",
+      "action": "Export Complete game and inspect its members/dependency report.",
+      "expected": "Playable runtime plus all editable masters/graphs/code and engine/build locks.",
+      "requirements": [
+        "STREQ-23"
+      ],
+      "artifacts": [
+        "complete-game"
+      ]
+    },
+    {
+      "id": "STAC-27",
+      "status": "planned",
+      "name": "Clean complete reimport",
+      "action": "Import default bundle in a clean compatible studio with original workspace unavailable.",
+      "expected": "Source IDs/graphs/pixels/PCM/code preserved; re-edit each major domain and rebuild.",
+      "requirements": [
+        "STREQ-22",
+        "STREQ-23"
+      ],
+      "artifacts": [
+        "complete-game"
+      ]
+    },
+    {
+      "id": "STAC-28",
+      "status": "planned",
+      "name": "Project/pack/source transfers",
+      "action": "Export project, selected asset pack and source; import with ID conflicts.",
+      "expected": "Lossless whole-project/source modes and explicit partial-pack remapping.",
+      "requirements": [
+        "STREQ-22"
+      ],
+      "artifacts": [
+        "project",
+        "asset-pack",
+        "source"
+      ]
+    },
+    {
+      "id": "STAC-29",
+      "status": "planned",
+      "name": "Play-only launch",
+      "action": "Build runtime-only and launch via local preview/root/subpath static host.",
+      "expected": "Playable without studio/backend/original repo; missing rich-source guarantee disclosed.",
+      "requirements": [
+        "STREQ-23",
+        "STREQ-24"
+      ],
+      "artifacts": [
+        "runtime-only"
+      ]
+    },
+    {
+      "id": "STAC-30",
+      "status": "planned",
+      "name": "Save compatibility",
+      "action": "Export/import player progress across compatible and incompatible edited builds.",
+      "expected": "Declared compatibility/migration or explicit rejection without lost progress.",
+      "requirements": [
+        "STREQ-24"
+      ],
+      "artifacts": [
+        "player-save"
+      ]
+    },
+    {
+      "id": "STAC-31",
+      "status": "planned",
+      "name": "Offline/update/lifecycle",
+      "action": "Rehearse chosen offline profile, interrupted update and background/resume.",
+      "expected": "Compatible cached build/assets/saves; graphics/audio resources recover or dispose.",
+      "requirements": [
+        "STREQ-24"
+      ],
+      "artifacts": [
+        "complete-game",
+        "runtime-only"
+      ]
+    },
+    {
+      "id": "STAC-32",
+      "status": "planned",
+      "name": "Import/build failures",
+      "action": "Import corrupt/missing/unsupported content, codec or extension and attempt export.",
+      "expected": "Actionable diagnostics, original project intact, last valid build accurately labeled.",
+      "requirements": [
+        "STREQ-22",
+        "STREQ-24"
+      ],
+      "artifacts": [
+        "project",
+        "complete-game"
+      ]
+    }
+  ],
+  "relatedADRs": [
+    {
+      "id": "ADR-0011",
+      "file": "docs/adr/0011-proposed-editable-game-project-and-build-artifacts.md",
+      "status": "Proposed"
+    },
+    {
+      "id": "ADR-0012",
+      "file": "docs/adr/0012-proposed-shared-music-and-sfx-graphs.md",
+      "status": "Proposed"
+    }
+  ]
+}
