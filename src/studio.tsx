@@ -307,7 +307,7 @@ function Preview({
           <p role="status">{soundNotice}</p>
           {project.music && (
             <p>
-              Project music: {project.music.tempo} BPM �{" "}
+              Project music: {project.music.tempo} BPM /{" "}
               {project.music.enabled ? "included" : "omitted"}
             </p>
           )}
