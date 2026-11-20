@@ -127,3 +127,4 @@ Run npm run docs:catalog when content or art manifests change. Run npm run docs:
 
 When code and a guide disagree, inspect the implementation and fix the mismatch. Move a proposed feature into the current reference only after it actually works.
 
+The [advanced authoring contracts](studio/specs/advanced-blueprints.json) deepen rules/AI, campaign/economy/UI, VFX/environment, project versioning/merges and toolkit release evidence. Eleven blueprints and ten illustrative examples now form the studio implementation handoff. All editor contracts remain proposed.

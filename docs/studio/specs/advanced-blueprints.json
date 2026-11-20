@@ -1,0 +1,200 @@
+{
+  "format": "echoes-studio-advanced-blueprints",
+  "proposalVersion": 1,
+  "status": "proposal",
+  "implemented": false,
+  "documents": [
+    {
+      "id": "BP-RULES",
+      "file": "docs/studio/blueprints/RULES_AND_AI_AUTHORING.md",
+      "requirements": [
+        "STREQ-04",
+        "STREQ-05",
+        "STREQ-06",
+        "STREQ-19",
+        "STREQ-20",
+        "STREQ-21"
+      ],
+      "workItems": [
+        "STU-CONTENT-01",
+        "STU-CONTENT-02",
+        "STU-API-06",
+        "STU-API-05"
+      ],
+      "acceptance": [
+        "STAC-06",
+        "STAC-07",
+        "STAC-23",
+        "STAC-24",
+        "STAC-25"
+      ],
+      "examples": [
+        "rules"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "BP-CAMPAIGN",
+      "file": "docs/studio/blueprints/CAMPAIGN_ECONOMY_UI_AUTHORING.md",
+      "requirements": [
+        "STREQ-07",
+        "STREQ-08",
+        "STREQ-09",
+        "STREQ-18",
+        "STREQ-20",
+        "STREQ-22",
+        "STREQ-24"
+      ],
+      "workItems": [
+        "STU-CONTENT-03",
+        "STU-CONTENT-04",
+        "STU-CONTENT-05",
+        "STU-CONTENT-06",
+        "STU-CONTENT-07"
+      ],
+      "acceptance": [
+        "STAC-08",
+        "STAC-09",
+        "STAC-10",
+        "STAC-22",
+        "STAC-27"
+      ],
+      "examples": [
+        "campaign-ui"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "BP-PRESENT",
+      "file": "docs/studio/blueprints/VFX_MATERIAL_ENVIRONMENT_AUTHORING.md",
+      "requirements": [
+        "STREQ-02",
+        "STREQ-11",
+        "STREQ-12",
+        "STREQ-13",
+        "STREQ-17",
+        "STREQ-18",
+        "STREQ-20",
+        "STREQ-22"
+      ],
+      "workItems": [
+        "STU-VFX-01",
+        "STU-VFX-02",
+        "STU-VFX-03",
+        "STU-VFX-04",
+        "STU-VFX-05",
+        "STU-VFX-06",
+        "STU-VFX-07",
+        "STU-VFX-08",
+        "STU-ART-07"
+      ],
+      "acceptance": [
+        "STAC-13",
+        "STAC-14",
+        "STAC-21",
+        "STAC-24",
+        "STAC-27"
+      ],
+      "examples": [
+        "presentation"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "BP-VERSION",
+      "file": "docs/studio/blueprints/PROJECT_VERSIONING_AND_COLLABORATION.md",
+      "requirements": [
+        "STREQ-01",
+        "STREQ-19",
+        "STREQ-20",
+        "STREQ-22",
+        "STREQ-23",
+        "STREQ-24"
+      ],
+      "workItems": [
+        "STU-CORE-07",
+        "STU-PACK-01",
+        "STU-PACK-03",
+        "STU-PACK-07"
+      ],
+      "acceptance": [
+        "STAC-02",
+        "STAC-03",
+        "STAC-27",
+        "STAC-30",
+        "STAC-31",
+        "STAC-32"
+      ],
+      "examples": [
+        "version-merge"
+      ],
+      "status": "proposed"
+    },
+    {
+      "id": "BP-RELEASE",
+      "file": "docs/studio/blueprints/TOOLKIT_RELEASE_PLAN.md",
+      "requirements": [
+        "STREQ-03",
+        "STREQ-10",
+        "STREQ-14",
+        "STREQ-15",
+        "STREQ-16",
+        "STREQ-21",
+        "STREQ-23",
+        "STREQ-24"
+      ],
+      "workItems": [
+        "STU-PACK-05",
+        "STU-PACK-08",
+        "STU-API-08"
+      ],
+      "acceptance": [
+        "STAC-24",
+        "STAC-25",
+        "STAC-26",
+        "STAC-27",
+        "STAC-28",
+        "STAC-29",
+        "STAC-30",
+        "STAC-31",
+        "STAC-32"
+      ],
+      "examples": [
+        "rules",
+        "campaign-ui",
+        "version-merge",
+        "presentation"
+      ],
+      "status": "proposed"
+    }
+  ],
+  "examples": [
+    {
+      "kind": "rules",
+      "file": "docs/studio/specs/advanced/rules.json",
+      "format": "echoes-rule-authoring-example"
+    },
+    {
+      "kind": "campaign-ui",
+      "file": "docs/studio/specs/advanced/campaign-ui.json",
+      "format": "echoes-campaign-ui-authoring-example"
+    },
+    {
+      "kind": "version-merge",
+      "file": "docs/studio/specs/advanced/version-merge.json",
+      "format": "echoes-version-merge-authoring-example"
+    },
+    {
+      "kind": "presentation",
+      "file": "docs/studio/specs/advanced/presentation.json",
+      "format": "echoes-presentation-authoring-example"
+    }
+  ],
+  "releaseLayers": [
+    "R0",
+    "R1",
+    "R2",
+    "R3",
+    "R4"
+  ]
+}

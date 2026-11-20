@@ -12,12 +12,19 @@
 | [Audio nodes and cue editing](AUDIO_NODE_AND_CUE_SPEC.md) | Music/SFX graph ports, clocks, envelopes, sampling, mixer/cue policy and errors |
 | [Import/export conformance](IMPORT_EXPORT_CONFORMANCE.md) | Artifact membership, staging, source preservation, launch and failure diagnostics |
 | [Implementation slices](IMPLEMENTATION_SLICES.md) | Six bounded prototype slices with concrete entry/exit evidence |
+| [Rules and AI authoring](RULES_AND_AI_AUTHORING.md) | Typed formulas, status timing, bounded reactions, progression and AI diagnostics |
+| [Campaign, economy and UI](CAMPAIGN_ECONOMY_UI_AUTHORING.md) | Quest branches, atomic transactions, localization, screen bindings and controls |
+| [VFX, materials and environment](VFX_MATERIAL_ENVIRONMENT_AUTHORING.md) | Emitters, curves, anchors, budgets, prefabs, collision and lighting |
+| [Project versioning and collaboration](PROJECT_VERSIONING_AND_COLLABORATION.md) | Independent versions, staged migrations, recovery, conflicts and typed merges |
+| [Toolkit release plan](TOOLKIT_RELEASE_PLAN.md) | Five evidence gates from contract probes to release candidate |
 
 ## Machine-readable design examples
 
 [Blueprint index](../specs/blueprints.json) links six illustrative JSON examples: project header, layered pixels/animation, audio/music/cues, level/objective, cross-domain transaction and complete-bundle manifest.
 
 The checker verifies their internal references and declared constraints. It does not render audio/art, build an executable game, implement transactions or certify an editor. A bundle member list is an example contract, not evidence that an archive was built.
+
+[Advanced blueprint index](../specs/advanced-blueprints.json) links four additional examples for typed rules/AI, campaign/economy/UI, project migrations/merges and presentation assets. `npm run docs:studio:advanced` checks their references, formula answers, branch routes, sample transaction arithmetic, explicit merge resolutions and asset constraints. It does not execute migrations, simulate battles or render effects. Together, both indexes cover eleven blueprints and ten illustrative examples.
 
 ## Relationship to existing plans
 

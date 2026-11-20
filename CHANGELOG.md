@@ -4,6 +4,9 @@
 
 ### Documentation
 
+- Added five advanced authoring blueprints for rules/AI, campaign/economy/UI, VFX/material/environment, project versioning/merges and five toolkit release gates.
+- Added four proposal examples and CI checks for formula answers, branch routes, economy arithmetic, typed conflicts, migration edges and presentation references. These are design checks; no editor, migration runner or renderer is implemented.
+
 - Added six detailed studio blueprints for editor interaction, pixels/animation, levels/rules, audio nodes/cues, import/export conformance and prototype implementation slices.
 - Added six proposal-only JSON examples and checks for their source identities, pixel/timeline data, audio/music ports/clocks, map/objective references, edit addresses and complete-bundle membership. No editors, audio renders or game bundles are claimed by these checks.
 

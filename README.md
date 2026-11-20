@@ -306,3 +306,5 @@ The [editor blueprint library](docs/studio/blueprints/README.md) now adds six de
 Start with [CONTRIBUTING.md](CONTRIBUTING.md). Keep rules independent of rendering, preserve determinism, and add meaningful regression coverage for rule changes.
 
 Artwork and musical material were authored for this project. Packages and fonts retain their own licenses. **No repository-level project license has been selected or added**; public access does not itself grant a separate redistribution license. See [ownership and licenses](docs/ART_AND_AUDIO.md#ownership-and-licenses).
+
+The [advanced authoring contracts](docs/studio/specs/advanced-blueprints.json) add rules/AI formulas, campaign/economy/UI editing, VFX/material/environment tools, project migration/merge behavior and five toolkit release gates. Four more checked examples link these contracts to the existing requirements, work items and acceptance cases. They remain proposals; the game runtime stays v0.8.

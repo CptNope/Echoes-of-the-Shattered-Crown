@@ -1,0 +1,126 @@
+{
+  "proposalVersion": 1,
+  "status": "proposal",
+  "runtimeCompatible": false,
+  "implemented": false,
+  "format": "echoes-presentation-authoring-example",
+  "id": "presentation-demo",
+  "sourceClips": [
+    {
+      "id": "fx-source",
+      "documentId": "pixel-demo",
+      "clipId": "clip-idle"
+    }
+  ],
+  "anchors": [
+    {
+      "id": "anchor-weapon",
+      "kind": "actor-attachment",
+      "attachmentId": "weapon"
+    },
+    {
+      "id": "anchor-target",
+      "kind": "target-position"
+    }
+  ],
+  "emitters": [
+    {
+      "id": "sparks",
+      "sourceId": "fx-source",
+      "anchorId": "anchor-target",
+      "count": 16,
+      "maxAlive": 32,
+      "lifetimeMs": 400,
+      "speed": 1.5,
+      "gravity": -2,
+      "seed": 17,
+      "color": [
+        0.8,
+        0.65,
+        0.25,
+        1
+      ],
+      "scaleCurve": [
+        {
+          "t": 0,
+          "value": 1
+        },
+        {
+          "t": 1,
+          "value": 0.1
+        }
+      ],
+      "opacityCurve": [
+        {
+          "t": 0,
+          "value": 0.8
+        },
+        {
+          "t": 1,
+          "value": 0
+        }
+      ]
+    }
+  ],
+  "profiles": [
+    {
+      "id": "normal",
+      "maxSprites": 24,
+      "maxParticles": 256,
+      "emissionScale": 1
+    },
+    {
+      "id": "low",
+      "maxSprites": 8,
+      "maxParticles": 32,
+      "emissionScale": 0.25
+    }
+  ],
+  "motionAlternatives": {
+    "reduced": "static-contact",
+    "staticSourceId": "fx-source"
+  },
+  "materials": [
+    {
+      "id": "mat-demo",
+      "model": "standard",
+      "baseColor": "#9caa8dff",
+      "roughness": 0.8,
+      "metalness": 0.1,
+      "opacity": 1
+    }
+  ],
+  "prefabs": [
+    {
+      "id": "prefab-demo",
+      "primitive": "box",
+      "size": [
+        1,
+        1,
+        1
+      ],
+      "materialId": "mat-demo",
+      "placement": {
+        "levelId": "level-demo",
+        "x": 2,
+        "z": 2
+      },
+      "collision": {
+        "blocked": true,
+        "relativeCells": [
+          {
+            "x": 0,
+            "z": 0
+          }
+        ]
+      }
+    }
+  ],
+  "environment": {
+    "id": "env-demo",
+    "camera": "orthographic",
+    "lightIntensity": 2,
+    "ambienceCueId": null
+  },
+  "rendered": false
+}

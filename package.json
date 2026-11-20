@@ -12,11 +12,12 @@
     "effects:build": "node scripts/build-effect-art.mjs",
     "effects:verify": "node scripts/verify-effect-art.mjs",
     "docs:catalog": "tsx scripts/generate-reference.ts",
-    "docs:verify": "node scripts/verify-docs.mjs && tsx scripts/generate-reference.ts --check && tsx scripts/verify-roadmap.ts && node scripts/verify-adrs.mjs && node scripts/verify-studio-plan.mjs && node scripts/verify-studio-examples.mjs",
+    "docs:verify": "node scripts/verify-docs.mjs && tsx scripts/generate-reference.ts --check && tsx scripts/verify-roadmap.ts && node scripts/verify-adrs.mjs && node scripts/verify-studio-plan.mjs && node scripts/verify-studio-examples.mjs && node scripts/verify-studio-advanced.mjs",
     "docs:plan": "tsx scripts/verify-roadmap.ts",
     "docs:adr": "node scripts/verify-adrs.mjs",
-    "docs:studio": "node scripts/verify-studio-plan.mjs && node scripts/verify-studio-examples.mjs",
-    "docs:studio:examples": "node scripts/verify-studio-examples.mjs"
+    "docs:studio": "node scripts/verify-studio-plan.mjs && node scripts/verify-studio-examples.mjs && node scripts/verify-studio-advanced.mjs",
+    "docs:studio:examples": "node scripts/verify-studio-examples.mjs",
+    "docs:studio:advanced": "node scripts/verify-studio-advanced.mjs"
   },
   "dependencies": {
     "idb": "^8.0.0",

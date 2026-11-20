@@ -107,3 +107,5 @@ Create a record for a durable cross-module, persistence, platform or delivery ch
 Use [docs/studio](studio/README.md) for the canonical-project, editor/agent transaction, music/SFX graph and complete-game round-trip direction. Keep studio STU/STREQ/SD/STAC identities in docs/studio/specs/studio-plan.json and run npm run docs:studio after revisions. Source-derived runtime references remain separate.
 
 Detailed studio contracts live under docs/studio/blueprints, with proposal-only examples under docs/studio/specs/examples. Keep blueprint/index references synchronized and run npm run docs:studio:examples after changes. Prototype implementation exits remain separate from documentation validation.
+
+Advanced contracts and fixtures live in docs/studio/specs/advanced-blueprints.json and docs/studio/specs/advanced. Run npm run docs:studio:advanced after changing typed rule examples, campaign/UI references, migration/merge cases or presentation constraints. Keep computed example answers separate from runtime integration and release evidence in the [toolkit release plan](studio/blueprints/TOOLKIT_RELEASE_PLAN.md).

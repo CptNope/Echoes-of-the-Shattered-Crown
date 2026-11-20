@@ -1,0 +1,242 @@
+{
+  "proposalVersion": 1,
+  "status": "proposal",
+  "runtimeCompatible": false,
+  "implemented": false,
+  "format": "echoes-rule-authoring-example",
+  "id": "rules-demo",
+  "contextTypes": {
+    "skill.power": "number",
+    "attacker.attack": "number",
+    "defender.armor": "number",
+    "height": "number",
+    "guarded": "boolean",
+    "ai.damageEstimate": "number",
+    "ai.energyCost": "number",
+    "ai.objectiveDistance": "number"
+  },
+  "expressions": {
+    "base": {
+      "op": "subtract",
+      "args": [
+        {
+          "op": "add",
+          "args": [
+            {
+              "op": "input",
+              "name": "skill.power"
+            },
+            {
+              "op": "input",
+              "name": "attacker.attack"
+            }
+          ]
+        },
+        {
+          "op": "input",
+          "name": "defender.armor"
+        }
+      ]
+    },
+    "scaled": {
+      "op": "add",
+      "args": [
+        {
+          "op": "ref",
+          "name": "base"
+        },
+        {
+          "op": "max",
+          "args": [
+            {
+              "op": "literal",
+              "value": -6
+            },
+            {
+              "op": "min",
+              "args": [
+                {
+                  "op": "literal",
+                  "value": 8
+                },
+                {
+                  "op": "multiply",
+                  "args": [
+                    {
+                      "op": "input",
+                      "name": "height"
+                    },
+                    {
+                      "op": "literal",
+                      "value": 4
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "damage": {
+      "op": "max",
+      "args": [
+        {
+          "op": "literal",
+          "value": 1
+        },
+        {
+          "op": "round",
+          "args": [
+            {
+              "op": "select",
+              "args": [
+                {
+                  "op": "input",
+                  "name": "guarded"
+                },
+                {
+                  "op": "multiply",
+                  "args": [
+                    {
+                      "op": "ref",
+                      "name": "scaled"
+                    },
+                    {
+                      "op": "literal",
+                      "value": 0.55
+                    }
+                  ]
+                },
+                {
+                  "op": "ref",
+                  "name": "scaled"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "aiScore": {
+      "op": "subtract",
+      "args": [
+        {
+          "op": "subtract",
+          "args": [
+            {
+              "op": "input",
+              "name": "ai.damageEstimate"
+            },
+            {
+              "op": "multiply",
+              "args": [
+                {
+                  "op": "input",
+                  "name": "ai.energyCost"
+                },
+                {
+                  "op": "literal",
+                  "value": 0.2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "op": "input",
+          "name": "ai.objectiveDistance"
+        }
+      ]
+    }
+  },
+  "outputs": [
+    {
+      "expression": "damage",
+      "type": "number"
+    },
+    {
+      "expression": "aiScore",
+      "type": "number"
+    }
+  ],
+  "knownAnswers": [
+    {
+      "id": "plain",
+      "expression": "damage",
+      "context": {
+        "skill.power": 30,
+        "attacker.attack": 8,
+        "defender.armor": 5,
+        "height": 1,
+        "guarded": false
+      },
+      "expected": 37
+    },
+    {
+      "id": "guarded",
+      "expression": "damage",
+      "context": {
+        "skill.power": 30,
+        "attacker.attack": 8,
+        "defender.armor": 5,
+        "height": 1,
+        "guarded": true
+      },
+      "expected": 20
+    },
+    {
+      "id": "floor",
+      "expression": "damage",
+      "context": {
+        "skill.power": 10,
+        "attacker.attack": 3,
+        "defender.armor": 20,
+        "height": -2,
+        "guarded": false
+      },
+      "expected": 1
+    },
+    {
+      "id": "ai-score",
+      "expression": "aiScore",
+      "context": {
+        "ai.damageEstimate": 30,
+        "ai.energyCost": 9,
+        "ai.objectiveDistance": 2
+      },
+      "expected": 26.2
+    }
+  ],
+  "statuses": [
+    {
+      "id": "burn-demo",
+      "clock": "actor-activation-end",
+      "duration": 2,
+      "stacking": "replace-with-max",
+      "tick": {
+        "kind": "fixed-damage",
+        "amount": 4
+      },
+      "reactionPolicy": "no-recursive-triggers"
+    }
+  ],
+  "reactionLimits": {
+    "maxDepth": 4,
+    "maxEvents": 32
+  },
+  "aiProfiles": [
+    {
+      "id": "ai-demo",
+      "legalityAuthority": "shared-runtime",
+      "candidateOrder": "stable-unit-and-tile-id",
+      "scoreExpression": "aiScore",
+      "budget": {
+        "candidates": 128,
+        "depth": 1
+      }
+    }
+  ],
+  "randomnessPolicy": "combat-only-through-approved-runtime-hook",
+  "note": "Synthetic formula values are not a replacement for current combat rules."
+}

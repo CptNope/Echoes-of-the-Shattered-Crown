@@ -25,6 +25,9 @@ The [blueprint library](blueprints/README.md) expands the tool plan into six spe
 
 Six small [JSON design examples](specs/blueprints.json) cover project identity, layered pixels/timeline, music/SFX graphs, level/objective, cross-domain edit batch and complete-game membership. They are proposal-only schema probes: checks do not render audio/art, apply editor changes or build a playable bundle. npm run docs:studio:examples validates their internal references and constraints.
 
+
+Five [advanced authoring specifications](specs/advanced-blueprints.json) extend the core six blueprints with typed rules/AI, campaign/economy/UI, VFX/material/environment, project versioning/merges and an evidence-based toolkit release plan. Four additional examples exercise contract calculations and references through npm run docs:studio:advanced; they do not implement editors, run migrations or render assets.
+
 ## Full authoring coverage
 
 Every requirement needs a real editing path, an inspectable data model, validation, undo/redo where applicable, runtime compilation and export/import coverage.

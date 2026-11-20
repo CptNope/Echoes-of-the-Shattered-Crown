@@ -115,3 +115,7 @@ npm run docs:studio checks the proposal-only studio manifest: twenty-four requir
 ## Studio design-example checks
 
 npm run docs:studio:examples validates six linked proposal examples and blueprint references: palette/cel/frame/pivot constraints, typed acyclic audio graphs and sample regions, note/arrangement bounds, cue/bus identity, complete level cells/occupancy/order/objective references, basic route reachability, edit addresses and declared invalid cases, and complete-game membership/path rules. It does not implement source editing, render PCM/images, execute game rules or build an archive. The full documentation command runs it in Actions.
+
+## Advanced studio contract checks
+
+npm run docs:studio:advanced checks five advanced blueprints against all twenty-four requirements and existing work/acceptance identities. Four proposal examples exercise typed formula inference and known answers, quest routes, example buy/craft arithmetic, localization/UI references, migration-edge compatibility, explicit three-way merge resolutions, VFX curves/budgets and prefab placement. These checks calculate small design examples; they do not simulate the game, render effects/audio, execute migrations, implement an economy reducer or prove export round trips. docs:studio and docs:verify include them.

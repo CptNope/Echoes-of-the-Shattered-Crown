@@ -1,0 +1,87 @@
+{
+  "proposalVersion": 1,
+  "status": "proposal",
+  "runtimeCompatible": false,
+  "implemented": false,
+  "format": "echoes-version-merge-authoring-example",
+  "id": "version-merge-demo",
+  "versionDomains": {
+    "projectSchema": 1,
+    "engineApi": "proposed-1",
+    "extensionApi": "proposed-1",
+    "playerSave": 2,
+    "editorStore": 1
+  },
+  "migrations": [
+    {
+      "id": "project-1-to-2",
+      "domain": "projectSchema",
+      "from": 1,
+      "to": 2,
+      "transform": "proposal-field-remap",
+      "implemented": false
+    },
+    {
+      "id": "project-2-to-3",
+      "domain": "projectSchema",
+      "from": 2,
+      "to": 3,
+      "transform": "proposal-default-addition",
+      "implemented": false
+    },
+    {
+      "id": "save-2-to-3",
+      "domain": "playerSave",
+      "from": 2,
+      "to": 3,
+      "transform": "proposal-progress-remap",
+      "implemented": false
+    }
+  ],
+  "unsupportedDowngrade": {
+    "domain": "projectSchema",
+    "from": 3,
+    "to": 1,
+    "expected": "reject-with-original-intact"
+  },
+  "merge": {
+    "baseRevision": 4,
+    "leftRevision": 5,
+    "rightRevision": 6,
+    "base": {
+      "maps/demo/title": "Crossing",
+      "audio/cue-hit/maxVoices": 4,
+      "sprites/demo/pivot/y": 7
+    },
+    "left": {
+      "maps/demo/title": "West crossing",
+      "audio/cue-hit/maxVoices": 6
+    },
+    "right": {
+      "sprites/demo/pivot/y": 6,
+      "audio/cue-hit/maxVoices": 8
+    },
+    "expectedConflicts": [
+      "audio/cue-hit/maxVoices"
+    ],
+    "resolutions": [
+      {
+        "path": "audio/cue-hit/maxVoices",
+        "choice": "left"
+      }
+    ],
+    "expectedMerged": {
+      "maps/demo/title": "West crossing",
+      "audio/cue-hit/maxVoices": 6,
+      "sprites/demo/pivot/y": 6
+    }
+  },
+  "opaqueAssetConflict": {
+    "assetId": "sample-demo",
+    "leftRevisionRef": "take-left",
+    "rightRevisionRef": "take-right",
+    "policy": "manual-source-selection",
+    "preserveBoth": true
+  },
+  "migrationExecutionClaimed": false
+}

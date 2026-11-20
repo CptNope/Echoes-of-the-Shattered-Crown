@@ -1,0 +1,263 @@
+{
+  "proposalVersion": 1,
+  "status": "proposal",
+  "runtimeCompatible": false,
+  "implemented": false,
+  "format": "echoes-campaign-ui-authoring-example",
+  "id": "campaign-ui-demo",
+  "choices": [
+    {
+      "id": "approach",
+      "values": [
+        "rescue",
+        "breach"
+      ]
+    }
+  ],
+  "quests": [
+    {
+      "id": "q-start",
+      "requiresAll": [],
+      "requiresAny": []
+    },
+    {
+      "id": "q-rescue",
+      "requiresAll": [
+        "q-start"
+      ],
+      "requiresAny": [],
+      "condition": {
+        "choice": "approach",
+        "equals": "rescue"
+      }
+    },
+    {
+      "id": "q-breach",
+      "requiresAll": [
+        "q-start"
+      ],
+      "requiresAny": [],
+      "condition": {
+        "choice": "approach",
+        "equals": "breach"
+      }
+    },
+    {
+      "id": "q-finale",
+      "requiresAll": [],
+      "requiresAny": [
+        "q-rescue",
+        "q-breach"
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "id": "route-rescue",
+      "choice": {
+        "approach": "rescue"
+      },
+      "quests": [
+        "q-start",
+        "q-rescue",
+        "q-finale"
+      ]
+    },
+    {
+      "id": "route-breach",
+      "choice": {
+        "approach": "breach"
+      },
+      "quests": [
+        "q-start",
+        "q-breach",
+        "q-finale"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "blade-demo",
+      "maxStack": 1,
+      "price": 30
+    },
+    {
+      "id": "potion-demo",
+      "maxStack": 99,
+      "price": 5
+    },
+    {
+      "id": "herb-demo",
+      "maxStack": 99,
+      "price": 1
+    }
+  ],
+  "startingResources": {
+    "gold": 100,
+    "inventory": {
+      "blade-demo": 1,
+      "potion-demo": 2,
+      "herb-demo": 3
+    }
+  },
+  "shops": [
+    {
+      "id": "shop-demo",
+      "offers": [
+        "blade-demo",
+        "potion-demo",
+        "herb-demo"
+      ]
+    }
+  ],
+  "recipes": [
+    {
+      "id": "recipe-potion",
+      "goldCost": 2,
+      "consume": {
+        "herb-demo": 1
+      },
+      "grant": {
+        "potion-demo": 1
+      }
+    }
+  ],
+  "calculationCases": [
+    {
+      "id": "buy-two",
+      "kind": "buy",
+      "itemId": "potion-demo",
+      "quantity": 2,
+      "expectedGold": 90,
+      "expectedCount": 4
+    },
+    {
+      "id": "craft-one",
+      "kind": "craft",
+      "recipeId": "recipe-potion",
+      "expectedGold": 98,
+      "expectedInventory": {
+        "blade-demo": 1,
+        "potion-demo": 3,
+        "herb-demo": 2
+      }
+    }
+  ],
+  "settlements": [
+    {
+      "id": "settle-finale",
+      "onceKey": "mission-attempt-demo",
+      "grantGold": 20,
+      "grantItems": {
+        "potion-demo": 1
+      }
+    }
+  ],
+  "strings": {
+    "en": {
+      "title.main": "Design example",
+      "button.start": "Start",
+      "button.settings": "Settings",
+      "button.back": "Back",
+      "setting.motion": "Reduced motion",
+      "setting.sfx": "Sound effects"
+    },
+    "pseudo": {
+      "title.main": "[Expanded design example title]",
+      "button.start": "[Start expanded]",
+      "button.settings": "[Settings expanded]",
+      "button.back": "[Back expanded]",
+      "setting.motion": "[Reduced motion expanded]",
+      "setting.sfx": "[Sound effects expanded]"
+    }
+  },
+  "actions": [
+    "start-game",
+    "open-settings",
+    "back"
+  ],
+  "settings": {
+    "reducedMotion": {
+      "type": "boolean",
+      "default": true
+    },
+    "sfxVolume": {
+      "type": "number",
+      "min": 0,
+      "max": 1,
+      "default": 0.8,
+      "bus": "sfx"
+    }
+  },
+  "screens": [
+    {
+      "id": "screen-main",
+      "elements": [
+        {
+          "id": "title",
+          "kind": "text",
+          "textKey": "title.main"
+        },
+        {
+          "id": "start",
+          "kind": "button",
+          "textKey": "button.start",
+          "action": "start-game"
+        },
+        {
+          "id": "settings",
+          "kind": "button",
+          "textKey": "button.settings",
+          "action": "open-settings"
+        }
+      ],
+      "focusOrder": [
+        "start",
+        "settings"
+      ]
+    },
+    {
+      "id": "screen-settings",
+      "elements": [
+        {
+          "id": "motion",
+          "kind": "setting",
+          "textKey": "setting.motion",
+          "settingId": "reducedMotion"
+        },
+        {
+          "id": "sfx",
+          "kind": "setting",
+          "textKey": "setting.sfx",
+          "settingId": "sfxVolume"
+        },
+        {
+          "id": "back",
+          "kind": "button",
+          "textKey": "button.back",
+          "action": "back"
+        }
+      ],
+      "focusOrder": [
+        "motion",
+        "sfx",
+        "back"
+      ]
+    }
+  ],
+  "inputMaps": [
+    {
+      "device": "keyboard",
+      "bindings": [
+        {
+          "key": "Enter",
+          "action": "start-game"
+        },
+        {
+          "key": "Escape",
+          "action": "back"
+        }
+      ]
+    }
+  ]
+}
