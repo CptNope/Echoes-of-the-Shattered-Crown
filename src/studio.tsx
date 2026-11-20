@@ -652,7 +652,9 @@ function Studio() {
                 <p>
                   {soundDraftDirty
                     ? "Apply or discard sound edits before playtesting."
-                    : "Shape the battlefield and its sounds, then play your revision."}
+                    : panel === "sounds"
+                      ? "Edit, audition and apply combat sounds."
+                      : "Shape the battlefield and its sounds, then play your revision."}
                 </p>
               </div>
               <button
