@@ -257,6 +257,7 @@ export function resolvedSoundEvents(
 export class StudioSfxPlayer {
   private ctx: AudioContext | null = null;
   private voices: AudioBufferSourceNode[] = [];
+  private loop: AudioBufferSourceNode | null = null;
   private disposed = false;
   async unlock() {
     if (this.disposed) throw new Error("Sound player closed.");
@@ -288,7 +289,35 @@ export class StudioSfxPlayer {
     source.start();
     return true;
   }
+  playLoop(pcm: Float32Array): boolean {
+    if (this.disposed || this.ctx?.state !== "running") return false;
+    if (
+      pcm.length < 1 ||
+      pcm.length > SFX_RATE * 4 ||
+      !pcm.every(Number.isFinite)
+    )
+      throw new Error("Invalid music buffer.");
+    if (this.loop) {
+      this.loop.stop();
+      this.loop.disconnect();
+      this.loop = null;
+    }
+    const buffer = this.ctx.createBuffer(1, pcm.length, SFX_RATE);
+    buffer.getChannelData(0).set(pcm);
+    const source = this.ctx.createBufferSource();
+    source.buffer = buffer;
+    source.loop = true;
+    source.connect(this.ctx.destination);
+    source.start();
+    this.loop = source;
+    return true;
+  }
   stop() {
+    if (this.loop) {
+      this.loop.stop();
+      this.loop.disconnect();
+      this.loop = null;
+    }
     for (const v of this.voices) {
       v.onended = null;
       v.stop();

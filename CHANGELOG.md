@@ -4,6 +4,9 @@
 
 ### Added
 
+- Added a working music-pattern editor: sixteen notes/rests, tempo, instrument, gain, gate, loop audition/stop, one-bar WAV export and source-preserving project/history integration.
+- Studio preview can loop applied music alongside authored SFX after explicit sound opt-in; restart/mute/exit clean up playback. Added six music tests (84 total).
+
 - Implemented the studio's layered sound-effects editor: four combat outcome bindings, tone/noise sources, pitch sweeps, envelopes, gains, mute/add/remove layers, waveform inspection, audition/stop and mono PCM16 WAV export.
 - Applied sound banks share project undo/redo, checkpoints and JSON export/import. Studio playtests use the same PCM renderer for resolved outcomes, with explicit audio opt-in and bounded voice cleanup.
 - Added eight sound tests (78 total); old level-project v1 files remain valid without the new optional sounds field. Music, recording/sampling, full DSP graphs and complete-game packaging remain planned.

@@ -37,6 +37,47 @@
 .sound-editor {
   padding: 4px 0;
 }
+.music-settings {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+.music-step-grid {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: 12px;
+  margin: 24px 0;
+}
+.music-step-grid label {
+  font-size: 12px;
+  margin: 0;
+}
+.music-step-grid label:nth-child(4n + 1) {
+  border-left: 2px solid #83977b;
+  padding-left: 8px;
+}
+.music-step-grid select {
+  padding: 8px 4px;
+}
+.music-binding {
+  max-width: 420px;
+}
+@media (max-width: 1100px) {
+  .music-step-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .music-settings {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .music-settings {
+    gap: 8px 16px;
+  }
+  .music-step-grid {
+    gap: 12px 8px;
+  }
+}
 .sound-editor h3 {
   font-size: 14px;
   font-weight: 600;

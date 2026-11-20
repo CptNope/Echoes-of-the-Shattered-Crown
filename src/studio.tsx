@@ -12,6 +12,8 @@ import {
 import { jobs, skills } from "./data";
 import { Battlefield, type Mode } from "./scene";
 import { SoundEditor } from "./SoundEditor";
+import { MusicEditor } from "./MusicEditor";
+import { renderMusic } from "./studio-music";
 import {
   defaultSoundBank,
   resolvedSoundEvents,
@@ -245,6 +247,8 @@ function Preview({
           <button
             onClick={() => {
               soundPlayer.current?.stop();
+              if (soundEnabled && project.music?.enabled)
+                soundPlayer.current?.playLoop(renderMusic(project.music));
               setBattle(compileLevelProject(project));
               setMode("inspect");
               setNotice("Preview restarted from the source revision.");
@@ -283,9 +287,13 @@ function Preview({
               try {
                 soundPlayer.current ??= new StudioSfxPlayer();
                 await soundPlayer.current.unlock();
+                if (project.music?.enabled)
+                  soundPlayer.current.playLoop(renderMusic(project.music));
                 setSoundEnabled(true);
                 setSoundNotice(
-                  "Preview sound enabled. Waiting for a resolved combat event.",
+                  project.music?.enabled
+                    ? "Preview sound enabled. Project music is looping."
+                    : "Preview sound enabled. Waiting for a resolved combat event.",
                 );
               } catch (e) {
                 setSoundNotice(
@@ -297,6 +305,12 @@ function Preview({
             {soundEnabled ? "Mute preview sound" : "Enable preview sound"}
           </button>
           <p role="status">{soundNotice}</p>
+          {project.music && (
+            <p>
+              Project music: {project.music.tempo} BPM �{" "}
+              {project.music.enabled ? "included" : "omitted"}
+            </p>
+          )}
           <h2>
             {battle.result === "playing"
               ? active.name
@@ -387,8 +401,10 @@ function Studio() {
     ),
     token = useRef(opened.token);
   const [secured, setSecured] = useState(opened.project.revision);
-  const [panel, setPanel] = useState<"map" | "sounds">("map"),
+  const [panel, setPanel] = useState<"map" | "sounds" | "music">("map"),
     [soundDraftDirty, setSoundDraftDirty] = useState(false);
+  const [musicDraftDirty, setMusicDraftDirty] = useState(false);
+  const hasDraft = soundDraftDirty || musicDraftDirty;
   const bank = useMemo(
     () => project.sounds ?? defaultSoundBank(),
     [project.sounds],
@@ -405,7 +421,7 @@ function Studio() {
   const [source, setSource] = useState(""),
     [staged, setStaged] = useState<LevelProject | null>(null);
   const importDialog = useRef<HTMLDialogElement>(null);
-  const dirty = secured !== project.revision || soundDraftDirty;
+  const dirty = secured !== project.revision || hasDraft;
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [preview]);
@@ -463,9 +479,9 @@ function Studio() {
   }
   function stage(text: string) {
     attempt(() => {
-      if (soundDraftDirty)
+      if (hasDraft)
         throw new Error(
-          "Apply or discard sound edits before importing another project.",
+          "Apply or discard audio drafts before importing another project.",
         );
       setStaged(parseLevelProject(text));
     });
@@ -510,7 +526,7 @@ function Studio() {
               aria-expanded={toolsOpen}
               onClick={() => setToolsOpen(!toolsOpen)}
             >
-              {panel === "sounds"
+              {panel !== "map"
                 ? toolsOpen
                   ? "Hide project controls"
                   : "Show project controls"
@@ -601,6 +617,14 @@ function Studio() {
                 a rendered sound.
               </p>
             </div>
+            <div hidden={panel !== "music"}>
+              <h2>Music workspace</h2>
+              <p>One bar � Sixteen sixteenth-note steps � One instrument</p>
+              <p>
+                Edit notes and tempo, audition the loop, then apply it to your
+                project.
+              </p>
+            </div>
             <details className="project-details">
               <summary>Project details</summary>
               <label>
@@ -637,8 +661,8 @@ function Studio() {
             </details>
             <p className="scope-note">
               Pilot: fixed board, roster and combat rules. Layered combat SFX
-              are editable. Pixel, music and full-game packaging tools remain
-              planned.
+              are editable. Pixel, multitrack music and full-game packaging
+              tools remain planned.
             </p>
           </aside>
           <main className="studio-sheet">
@@ -647,19 +671,23 @@ function Studio() {
                 <h1>
                   {panel === "map"
                     ? "Battlefield editor"
-                    : "Sound effects editor"}
+                    : panel === "sounds"
+                      ? "Sound effects editor"
+                      : "Music pattern editor"}
                 </h1>
                 <p>
-                  {soundDraftDirty
-                    ? "Apply or discard sound edits before playtesting."
+                  {hasDraft
+                    ? "Apply or discard audio drafts before playtesting."
                     : panel === "sounds"
                       ? "Edit, audition and apply combat sounds."
-                      : "Shape the battlefield and its sounds, then play your revision."}
+                      : panel === "music"
+                        ? "Compose a four-beat loop for your battlefield."
+                        : "Shape the battlefield and its sounds, then play your revision."}
                 </p>
               </div>
               <button
                 className="primary"
-                disabled={soundDraftDirty}
+                disabled={hasDraft}
                 onClick={() =>
                   attempt(() => setPreview(structuredClone(project)))
                 }
@@ -679,6 +707,12 @@ function Studio() {
                 onClick={() => setPanel("sounds")}
               >
                 Sound effects
+              </button>
+              <button
+                aria-pressed={panel === "music"}
+                onClick={() => setPanel("music")}
+              >
+                Music
               </button>
             </div>
             <div className="editor-toolbar">
@@ -725,6 +759,14 @@ function Studio() {
                 bank={bank}
                 apply={(bank) => edit([{ type: "sounds", bank }])}
                 onDirty={setSoundDraftDirty}
+              />
+            </div>
+            <div hidden={panel !== "music"}>
+              <MusicEditor
+                pattern={project.music}
+                apply={(pattern) => edit([{ type: "music", pattern }])}
+                onDirty={setMusicDraftDirty}
+                active={panel === "music"}
               />
             </div>
             <div className="map-layout" hidden={panel !== "map"}>
@@ -784,7 +826,7 @@ function Studio() {
                 <h2>Project files</h2>
                 <div className="actions">
                   <button
-                    disabled={soundDraftDirty}
+                    disabled={hasDraft}
                     onClick={() =>
                       attempt(() => {
                         token.current = saveProjectCheckpoint(
@@ -803,7 +845,7 @@ function Studio() {
                     Save locally
                   </button>
                   <button
-                    disabled={soundDraftDirty}
+                    disabled={hasDraft}
                     onClick={() =>
                       attempt(() => {
                         const text = exportLevelProject(project);

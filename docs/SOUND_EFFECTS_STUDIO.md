@@ -2,7 +2,7 @@
 
 [Level studio](LEVEL_STUDIO.md) · [Planned full audio studio](studio/AUDIO_STUDIO.md) · [Open studio](https://cptnope.github.io/Echoes-of-the-Shattered-Crown/studio.html)
 
-The implemented **Sound effects** editor creates layered procedural combat sounds. Applied sources share the level project's revision history, local checkpoint and JSON export/import. This is partial STSL-04 work: music composition, sampling/recording, arbitrary DSP graphs and a complete game bundle remain planned.
+The implemented **Sound effects** editor creates layered procedural combat sounds. Applied sources share the level project's revision history, local checkpoint and JSON export/import. This is partial STSL-04 work: multitrack music composition, sampling/recording, arbitrary DSP graphs and a complete game bundle remain planned.
 
 ## Create, hear and use a sound
 
@@ -65,6 +65,6 @@ Older studio builds that do not support sounds reject these enhanced project fil
 
 ## Verification
 
-Eight sound tests cover finite/bounded repeatable PCM and endpoints, pitch/gain/seed/mute/delay changes, source rejection, every quantized WAV sample/header, source/history round trips, outcome deduplication, real-command state/RNG isolation and player voice/context cleanup using a test AudioContext. Together with previous tests the suite has 78 cases.
+Eight sound tests cover finite/bounded repeatable PCM and endpoints, pitch/gain/seed/mute/delay changes, source rejection, every quantized WAV sample/header, source/history round trips, outcome deduplication, real-command state/RNG isolation and player voice/context cleanup using a test AudioContext. Together with the [music pilot](MUSIC_PATTERN_STUDIO.md) and previous tests the suite has 84 cases.
 
 The mocked lifecycle test does not prove device audibility. Browser review should audition, stop, export/reopen sources, enable preview sound, resolve a legal attack and inspect the outcome label and console. This pilot does not complete the music/SFX graph slice or certify codec/device parity.
