@@ -1,4 +1,5 @@
 import { createBattle, type Battle, type Tile } from "./engine";
+import { validateSoundBank, type SoundBank } from "./studio-sfx";
 
 /** Implemented pilot format; deliberately separate from the proposed full studio schema. */
 export interface LevelProject {
@@ -10,6 +11,7 @@ export interface LevelProject {
   seed: number;
   tiles: Pick<Tile, "x" | "z" | "h" | "terrain" | "blocked">[];
   placements: { id: string; x: number; z: number }[];
+  sounds?: SoundBank;
 }
 export const PROJECT_LIMIT = 128 * 1024;
 const template = createBattle();
@@ -53,11 +55,13 @@ export function validateLevelProject(raw: unknown): LevelProject {
     "seed",
     "tiles",
     "placements",
+    "sounds",
   ]);
   if (raw.format !== "echoes-level-project" || raw.version !== 1)
     fail(
       "Unsupported format. Import a level project v1, not a player save or studio proposal.",
     );
+  if (raw.sounds !== undefined) validateSoundBank(raw.sounds);
   if (typeof raw.id !== "string" || !/^[a-zA-Z0-9_-]{1,80}$/.test(raw.id))
     fail("Invalid project identity.");
   if (typeof raw.name !== "string" || !raw.name.trim() || raw.name.length > 80)
@@ -133,7 +137,8 @@ export type ProjectEdit =
       blocked?: boolean;
     }
   | { type: "place"; id: string; x: number; z: number }
-  | { type: "metadata"; name: string; seed: number };
+  | { type: "metadata"; name: string; seed: number }
+  | { type: "sounds"; bank: SoundBank };
 /** Atomic batch: reject every operation if any resulting invariant fails. */
 export function editProject(
   project: LevelProject,
@@ -156,6 +161,8 @@ export function editProject(
       if (!actor) fail("Unknown actor.");
       actor.x = e.x;
       actor.z = e.z;
+    } else if (e.type === "sounds") {
+      next.sounds = validateSoundBank(e.bank);
     } else if (e.type === "metadata") {
       next.name = e.name;
       next.seed = e.seed;

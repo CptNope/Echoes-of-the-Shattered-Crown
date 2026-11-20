@@ -2,7 +2,7 @@
 
 [Documentation index](README.md) · [Full studio plan](studio/README.md) · [Play the studio](https://cptnope.github.io/Echoes-of-the-Shattered-Crown/studio.html)
 
-The level studio is implemented at `studio.html`, available from camp and battle navigation. It edits a fixed shrine battlefield and playtests the result with the existing engine, actor sprites and combat effects. It is an initial part of STSL-01/02; neither prototype slice nor the full authoring toolkit is complete.
+The level studio is implemented at `studio.html`, available from camp and battle navigation. It edits a fixed shrine battlefield and [layered combat SFX](SOUND_EFFECTS_STUDIO.md), then playtests the result with the existing engine, actor sprites and combat effects. It implements parts of STSL-01/02/04; neither prototype slice nor the full authoring toolkit is complete.
 
 ## Edit and play
 
@@ -31,7 +31,7 @@ On phones, use **Show battlefield tools** to open the palette. The board scrolls
 | Local save | Explicit save; separate studio keys; previous-valid checkpoint fallback |
 | Files | Strict level-project v1 JSON; 128 KiB UTF-8 import limit; unknown fields rejected |
 | Distribution | Studio is a built static entry on GitHub Pages |
-| Not yet implemented | Resizing, new actors, objective/rule editors, pixel/audio editing, complete playable-game export, full project migrations or collaboration |
+| Not yet implemented | Resizing, new actors, objective/rule editors, pixel/music editing, sampling/recording and full audio graphs, complete playable-game export, full project migrations or collaboration |
 
 Undo and redo restore document data while increasing the revision. A new edit after undo discards the redo branch. Invalid batches leave the entire previous document intact. Undo history is session-only; files/checkpoints retain the current source, not the history.
 
@@ -52,7 +52,7 @@ flowchart LR
 
 ## Implemented file contract
 
-`src/studio-project.ts` owns the implemented format. The discriminator is `echoes-level-project`, version 1. Root fields are format, version, id, revision, name, seed, tiles and placements. Tile records contain x/z/h/terrain/blocked; placement records contain id/x/z. Source has no health, status, campaign reward or ongoing-battle fields.
+`src/studio-project.ts` owns the implemented format. The discriminator is `echoes-level-project`, version 1. Root fields are format, version, id, revision, name, seed, tiles, placements and optional sounds. Tile records contain x/z/h/terrain/blocked; placement records contain id/x/z. Source has no health, status, campaign reward or ongoing-battle fields.
 
 This format is separate from player backups and the proposal examples under docs/studio/specs. Import rejects those formats and future fields rather than silently discarding editable data. A level JSON needs this compatible runtime/studio; it is not a standalone playable game or the planned Complete game artifact.
 
@@ -69,3 +69,5 @@ Campaign IndexedDB/manual/recovery slots are untouched. Playtest outcomes remain
 Eight project tests join the existing 62 tests: exact source round trip, import rejection, atomic/stale/occupancy checks, undo/redo, edited runtime compilation, isolated terminal/retry/replay cases, corrupt-checkpoint recovery/stale writes and storage failure. The terminal cases use controlled battle fixtures; they do not certify the balance or reachability of every authored map.
 
 Pages verification checks the studio HTML and its emitted asset paths alongside the game and animation workbench. Structural validation permits isolated routes; authors must playtest whether a map can be completed.
+
+Applied sound banks use the same project history, checkpoint and source export/import. Level-project v1 files without sounds remain valid; older studio builds reject the new optional field. See the [SFX pilot guide](SOUND_EFFECTS_STUDIO.md) for source and playback contracts.

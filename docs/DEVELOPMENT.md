@@ -113,3 +113,5 @@ Advanced contracts and fixtures live in docs/studio/specs/advanced-blueprints.js
 ## Working level-studio pilot
 
 Open studio.html during Vite development. src/studio-project.ts owns the implemented level-project v1 source, validation, atomic edits, history, checkpoint helpers and runtime compiler. src/studio.tsx uses these functions for all editing controls and runs fresh Battle snapshots through the existing engine/scene. Keep this source distinct from player saves and the proposed complete-project schema; see the [pilot guide](LEVEL_STUDIO.md).
+
+The [sound-effects pilot](SOUND_EFFECTS_STUDIO.md) uses studio-sfx.ts for source validation, deterministic PCM/WAV rendering, outcome bindings and the browser audio player. SoundEditor.tsx stages drafts; a sounds edit applies them through the existing project transaction/history path. Preserve optional-source compatibility and avoid consuming combat RNG.

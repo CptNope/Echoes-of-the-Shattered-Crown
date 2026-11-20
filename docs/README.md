@@ -19,6 +19,8 @@ The game baseline is **v0.8.0**. Current implementation guides and future expans
 
 ## Current game reference
 
+[Working sound-effects editor](SOUND_EFFECTS_STUDIO.md): layer, audition and export original combat SFX, then hear applied sources in preview.
+
 [Working level studio](LEVEL_STUDIO.md): edit the battlefield, playtest a revision, and export/import its editable JSON.
 
 | Guide | Scope |

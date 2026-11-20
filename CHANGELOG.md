@@ -4,6 +4,10 @@
 
 ### Added
 
+- Implemented the studio's layered sound-effects editor: four combat outcome bindings, tone/noise sources, pitch sweeps, envelopes, gains, mute/add/remove layers, waveform inspection, audition/stop and mono PCM16 WAV export.
+- Applied sound banks share project undo/redo, checkpoints and JSON export/import. Studio playtests use the same PCM renderer for resolved outcomes, with explicit audio opt-in and bounded voice cleanup.
+- Added eight sound tests (78 total); old level-project v1 files remain valid without the new optional sounds field. Music, recording/sampling, full DSP graphs and complete-game packaging remain planned.
+
 - Implemented a level-studio pilot with terrain, elevation, collision and eight-actor placement tools on the fixed 9×9 shrine board.
 - Added atomic revisioned edits, undo/redo, project metadata, isolated seeded combat previews, restart, strict level-project JSON export/staged import and explicit local checkpoints with prior-valid fallback.
 - Added eight project tests (70 total) and Pages checks for the new studio entry. Full pixel/audio/rule authoring and playable-plus-editable bundle export remain planned.

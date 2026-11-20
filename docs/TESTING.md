@@ -4,7 +4,7 @@
 
 ## Automated rules coverage
 
-Run `npm test`. The script uses `tsx --test src/engine.test.ts src/campaign.test.ts src/supports.test.ts src/advanced.test.ts src/portable.test.ts src/animation.test.ts src/combat-effects.test.ts src/studio-project.test.ts` and Node's built-in test runner. The current suite has 70 tests; this count is an inventory, not a coverage percentage or balance certification.
+Run `npm test`. The script uses `tsx --test src/engine.test.ts src/campaign.test.ts src/supports.test.ts src/advanced.test.ts src/portable.test.ts src/animation.test.ts src/combat-effects.test.ts src/studio-project.test.ts src/studio-sfx.test.ts` and Node's built-in test runner. The current suite has 78 tests; this count is an inventory, not a coverage percentage or balance certification.
 
 | Area             | Assertions represented                                                                                        |
 | ---------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -123,3 +123,7 @@ npm run docs:studio:advanced checks five advanced blueprints against all twenty-
 ## Implemented level-studio tests
 
 The eight cases in src/studio-project.test.ts verify source-preserving round trips, strict/oversized imports, atomic revisioned batches, occupancy, undo/redo, edited preview movement, isolated terminal/retry/replay behavior, checkpoint recovery, stale writes and storage failure. They run in npm test (70 total). See the [pilot guide](LEVEL_STUDIO.md) for supported scope and manual editing/playtest paths. They do not certify every authored map as winnable.
+
+## Implemented sound-effects tests
+
+Eight cases in src/studio-sfx.test.ts cover deterministic PCM/endpoints and source controls, malformed source rejection, every WAV sample/header, project/history preservation, resolved-event deduplication, actual-command RNG isolation and mocked AudioContext lifecycle/voice limits. The suite now has 78 tests. See the [sound-effects pilot](SOUND_EFFECTS_STUDIO.md) for scope and browser checks; mocked Web Audio does not prove device audibility.

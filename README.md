@@ -6,7 +6,7 @@ An original isometric tactical RPG about a mercenary company, a fractured world,
 
 **[Play on GitHub Pages](https://cptnope.github.io/Echoes-of-the-Shattered-Crown/)** · [Documentation](docs/README.md) · [Expansion roadmap](docs/ROADMAP.md) · [ADRs](docs/adr/README.md) · [Authoring studio plan](docs/studio/README.md) · [Changelog](CHANGELOG.md) · [Contributing](CONTRIBUTING.md)
 
-**[Open the working level studio](https://cptnope.github.io/Echoes-of-the-Shattered-Crown/studio.html)** � [Pilot guide](docs/LEVEL_STUDIO.md). Paint terrain/elevation/collision, place the eight actors, undo edits, playtest a revision and export/import level-project JSON.
+**[Open the working level studio](https://cptnope.github.io/Echoes-of-the-Shattered-Crown/studio.html)** � [Pilot guide](docs/LEVEL_STUDIO.md). Paint terrain/elevation/collision, place actors, design layered combat SFX, playtest edits and export/import their source JSON. [Sound-effects guide](docs/SOUND_EFFECTS_STUDIO.md).
 
 ![The Lantern Company at the shrine of Veyr](docs/assets/battlefield.jpg)
 
@@ -252,7 +252,7 @@ Use the [open decision register](docs/roadmap/DECISION_REGISTER.md) for roadmap 
 
 Version 0.8 extends the company-management milestone: four linked contracts, permanent secondary-skill learning, equipment and carried progression. Phase 2 now includes mastery and three support slots for the existing eight jobs; each advanced job now has an additional distinct active ability; the remaining job roster and further skill-board depth are still planned. Phase 3's world map, branching story, recruitment and town systems remain planned.
 
-The suite has **70 tests**, including full deterministic simulations of all four maps, economic and equipment invariants, rewards and v1 migration. Browser checks cover file export/import, closed-tab recovery, all eight job sprites, boss awakening, first-clear relic settlement, buying/equipping, manual save/load, migrated resource preservation, learning across a job change, result settlement and second-contract deployment. Result/learning checks use isolated local fixtures, not a claim of a full manual campaign playthrough. Physical mobile devices, Safari, gamepad hardware and 60 FPS remain uncertified. See [testing](docs/TESTING.md).
+The suite has **78 tests**, including full deterministic simulations of all four maps, economic and equipment invariants, rewards and v1 migration. Browser checks cover file export/import, closed-tab recovery, all eight job sprites, boss awakening, first-clear relic settlement, buying/equipping, manual save/load, migrated resource preservation, learning across a job change, result settlement and second-contract deployment. Result/learning checks use isolated local fixtures, not a claim of a full manual campaign playthrough. Physical mobile devices, Safari, gamepad hardware and 60 FPS remain uncertified. See [testing](docs/TESTING.md).
 
 ## Expansion plan
 

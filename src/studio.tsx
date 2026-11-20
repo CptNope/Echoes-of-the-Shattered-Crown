@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   activeUnit,
@@ -11,6 +11,12 @@ import {
 } from "./engine";
 import { jobs, skills } from "./data";
 import { Battlefield, type Mode } from "./scene";
+import { SoundEditor } from "./SoundEditor";
+import {
+  defaultSoundBank,
+  resolvedSoundEvents,
+  StudioSfxPlayer,
+} from "./studio-sfx";
 import {
   createLevelProject,
   applyProjectEdits,
@@ -120,6 +126,32 @@ function Preview({
     "Choose Move or an ability, then select a tile.",
   );
   const [renderError, setRenderError] = useState("");
+  const [soundEnabled, setSoundEnabled] = useState(false),
+    [soundNotice, setSoundNotice] = useState("Preview sound is muted.");
+  const soundPlayer = useRef<StudioSfxPlayer | null>(null),
+    previousCue = useRef(battle.lastAction);
+  useEffect(
+    () => () => {
+      soundPlayer.current?.dispose();
+    },
+    [],
+  );
+  useEffect(() => {
+    const events = resolvedSoundEvents(previousCue.current, battle.lastAction);
+    previousCue.current = battle.lastAction;
+    if (!soundEnabled) return;
+    for (const event of events) {
+      const played = soundPlayer.current?.play(
+        project.sounds ?? defaultSoundBank(),
+        event,
+      );
+      setSoundNotice(
+        played
+          ? "Last sound: " + event + " · project revision " + project.revision
+          : "Audio is suspended. Mute and enable sound again.",
+      );
+    }
+  }, [battle.lastAction, soundEnabled, project]);
   const host = useRef<HTMLDivElement>(null),
     view = useRef<Battlefield | null>(null);
   const latest = useRef({ battle, mode });
@@ -212,6 +244,7 @@ function Preview({
         <div className="actions">
           <button
             onClick={() => {
+              soundPlayer.current?.stop();
               setBattle(compileLevelProject(project));
               setMode("inspect");
               setNotice("Preview restarted from the source revision.");
@@ -238,6 +271,32 @@ function Preview({
           </details>
         </div>
         <aside className="play-controls">
+          <button
+            aria-pressed={soundEnabled}
+            onClick={async () => {
+              if (soundEnabled) {
+                soundPlayer.current?.stop();
+                setSoundEnabled(false);
+                setSoundNotice("Preview sound is muted.");
+                return;
+              }
+              try {
+                soundPlayer.current ??= new StudioSfxPlayer();
+                await soundPlayer.current.unlock();
+                setSoundEnabled(true);
+                setSoundNotice(
+                  "Preview sound enabled. Waiting for a resolved combat event.",
+                );
+              } catch (e) {
+                setSoundNotice(
+                  e instanceof Error ? e.message : "Audio unavailable.",
+                );
+              }
+            }}
+          >
+            {soundEnabled ? "Mute preview sound" : "Enable preview sound"}
+          </button>
+          <p role="status">{soundNotice}</p>
           <h2>
             {battle.result === "playing"
               ? active.name
@@ -328,6 +387,12 @@ function Studio() {
     ),
     token = useRef(opened.token);
   const [secured, setSecured] = useState(opened.project.revision);
+  const [panel, setPanel] = useState<"map" | "sounds">("map"),
+    [soundDraftDirty, setSoundDraftDirty] = useState(false);
+  const bank = useMemo(
+    () => project.sounds ?? defaultSoundBank(),
+    [project.sounds],
+  );
   const [toolsOpen, setToolsOpen] = useState(false);
   const [cell, setCell] = useState<Cell>({ x: 3, z: 4 }),
     [tool, setTool] = useState("inspect");
@@ -340,7 +405,7 @@ function Studio() {
   const [source, setSource] = useState(""),
     [staged, setStaged] = useState<LevelProject | null>(null);
   const importDialog = useRef<HTMLDialogElement>(null);
-  const dirty = secured !== project.revision;
+  const dirty = secured !== project.revision || soundDraftDirty;
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [preview]);
@@ -364,12 +429,14 @@ function Studio() {
     try {
       fn();
       setError("");
+      return true;
     } catch (e) {
       setError(e instanceof Error ? e.message : "Operation failed.");
+      return false;
     }
   }
   function edit(edits: ProjectEdit[]) {
-    attempt(() => {
+    return attempt(() => {
       const next = applyProjectEdits(history, edits);
       setHistory(next);
       setMessage(
@@ -396,6 +463,10 @@ function Studio() {
   }
   function stage(text: string) {
     attempt(() => {
+      if (soundDraftDirty)
+        throw new Error(
+          "Apply or discard sound edits before importing another project.",
+        );
       setStaged(parseLevelProject(text));
     });
   }
@@ -441,73 +512,89 @@ function Studio() {
             >
               {toolsOpen ? "Hide battlefield tools" : "Show battlefield tools"}
             </button>
-            <h2>Battlefield tools</h2>
-            <p>9 × 9 · shrine template</p>
-            <div className="tool-list">
-              {[
-                ["inspect", "Inspect tile"],
-                ["terrain", "Paint terrain"],
-                ["height", "Set elevation"],
-                ["block", "Toggle collision"],
-                ["actor", "Place actor"],
-              ].map(([id, label]) => (
-                <button
-                  key={id}
-                  aria-pressed={tool === id}
-                  onClick={() => setTool(id)}
-                >
-                  {label}
-                </button>
-              ))}
+            <div hidden={panel !== "map"}>
+              <h2>Battlefield tools</h2>
+              <p>9 × 9 · shrine template</p>
+              <div className="tool-list">
+                {[
+                  ["inspect", "Inspect tile"],
+                  ["terrain", "Paint terrain"],
+                  ["height", "Set elevation"],
+                  ["block", "Toggle collision"],
+                  ["actor", "Place actor"],
+                ].map(([id, label]) => (
+                  <button
+                    key={id}
+                    aria-pressed={tool === id}
+                    onClick={() => setTool(id)}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+              {tool === "terrain" && (
+                <label>
+                  Terrain
+                  <select
+                    value={terrain}
+                    onChange={(e) =>
+                      setTerrain(e.target.value as typeof terrain)
+                    }
+                  >
+                    {terrains.map((t) => (
+                      <option key={t}>{t}</option>
+                    ))}
+                  </select>
+                </label>
+              )}
+              {tool === "height" && (
+                <label>
+                  Elevation
+                  <select
+                    value={height}
+                    onChange={(e) => setHeight(Number(e.target.value))}
+                  >
+                    {[0, 1, 2].map((h) => (
+                      <option key={h} value={h}>
+                        {h} step{h === 1 ? "" : "s"}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              )}
+              {tool === "actor" && (
+                <label>
+                  Actor
+                  <select
+                    value={actor}
+                    onChange={(e) => setActor(e.target.value)}
+                  >
+                    {actors.map((u) => (
+                      <option key={u.id} value={u.id}>
+                        {u.name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              )}
+              <p className="tool-help">
+                {tool === "inspect"
+                  ? "Select a tile to inspect its source."
+                  : "Select a tile to apply this tool. Each click is one undoable edit."}
+              </p>
             </div>
-            {tool === "terrain" && (
-              <label>
-                Terrain
-                <select
-                  value={terrain}
-                  onChange={(e) => setTerrain(e.target.value as typeof terrain)}
-                >
-                  {terrains.map((t) => (
-                    <option key={t}>{t}</option>
-                  ))}
-                </select>
-              </label>
-            )}
-            {tool === "height" && (
-              <label>
-                Elevation
-                <select
-                  value={height}
-                  onChange={(e) => setHeight(Number(e.target.value))}
-                >
-                  {[0, 1, 2].map((h) => (
-                    <option key={h} value={h}>
-                      {h} step{h === 1 ? "" : "s"}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            )}
-            {tool === "actor" && (
-              <label>
-                Actor
-                <select
-                  value={actor}
-                  onChange={(e) => setActor(e.target.value)}
-                >
-                  {actors.map((u) => (
-                    <option key={u.id} value={u.id}>
-                      {u.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            )}
-            <p className="tool-help">
-              {tool === "inspect"
-                ? "Select a tile to inspect its source."
-                : "Select a tile to apply this tool. Each click is one undoable edit."}
-            </p>
+            <div hidden={panel !== "sounds"}>
+              <h2>Sound workspace</h2>
+              <p>Four combat bindings · Up to four layers per cue</p>
+              <p>
+                Audition the draft, apply it to your project, then enable sound
+                in the playtest.
+              </p>
+              <p>
+                Source layers stay editable in project JSON. WAV export creates
+                a rendered sound.
+              </p>
+            </div>
             <details className="project-details">
               <summary>Project details</summary>
               <label>
@@ -543,23 +630,47 @@ function Studio() {
               </button>
             </details>
             <p className="scope-note">
-              Pilot: fixed board and roster, defeat-all objective. Pixel, audio
-              and full-game packaging tools are planned.
+              Pilot: fixed board, roster and combat rules. Layered combat SFX
+              are editable. Pixel, music and full-game packaging tools remain
+              planned.
             </p>
           </aside>
           <main className="studio-sheet">
             <div className="section-heading">
               <div>
-                <h1>Battlefield editor</h1>
-                <p>Shape the route through Veyr, then play your revision.</p>
+                <h1>
+                  {panel === "map"
+                    ? "Battlefield editor"
+                    : "Sound effects editor"}
+                </h1>
+                <p>
+                  {soundDraftDirty
+                    ? "Apply or discard sound edits before playtesting."
+                    : "Shape the battlefield and its sounds, then play your revision."}
+                </p>
               </div>
               <button
                 className="primary"
+                disabled={soundDraftDirty}
                 onClick={() =>
                   attempt(() => setPreview(structuredClone(project)))
                 }
               >
                 Playtest revision {project.revision}
+              </button>
+            </div>
+            <div className="editor-tabs" aria-label="Studio editors">
+              <button
+                aria-pressed={panel === "map"}
+                onClick={() => setPanel("map")}
+              >
+                Battlefield
+              </button>
+              <button
+                aria-pressed={panel === "sounds"}
+                onClick={() => setPanel("sounds")}
+              >
+                Sound effects
               </button>
             </div>
             <div className="editor-toolbar">
@@ -600,7 +711,15 @@ function Studio() {
                 {error}
               </p>
             )}
-            <div className="map-layout">
+            <div hidden={panel !== "sounds"}>
+              <SoundEditor
+                active={panel === "sounds"}
+                bank={bank}
+                apply={(bank) => edit([{ type: "sounds", bank }])}
+                onDirty={setSoundDraftDirty}
+              />
+            </div>
+            <div className="map-layout" hidden={panel !== "map"}>
               <section className="map-well">
                 <Board
                   tiles={project.tiles}
@@ -657,6 +776,7 @@ function Studio() {
                 <h2>Project files</h2>
                 <div className="actions">
                   <button
+                    disabled={soundDraftDirty}
                     onClick={() =>
                       attempt(() => {
                         token.current = saveProjectCheckpoint(
@@ -675,6 +795,7 @@ function Studio() {
                     Save locally
                   </button>
                   <button
+                    disabled={soundDraftDirty}
                     onClick={() =>
                       attempt(() => {
                         const text = exportLevelProject(project);
