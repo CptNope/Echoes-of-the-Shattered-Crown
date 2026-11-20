@@ -4,7 +4,7 @@ const dir = "docs/adr",
   files = (await readdir(dir)).filter((f) => f.endsWith(".md")).sort(),
   records = new Map(),
   ids = new Set(),
-  index = await readFile(dir + "/README.md", "utf8");
+  index = (await readFile(dir + "/README.md", "utf8")).replace(/\r\n/g, "\n");
 const statuses = new Set([
   "Proposed",
   "Accepted",
@@ -28,7 +28,7 @@ for (const file of files) {
   const id = match[1];
   assert(Number(id) > 0 && !ids.has(id), "Duplicate or invalid ADR ID " + id);
   ids.add(id);
-  const body = await readFile(dir + "/" + file, "utf8");
+  const body = (await readFile(dir + "/" + file, "utf8")).replace(/\r\n/g, "\n");
   assert(body.startsWith("# ADR-" + id + ": "), "Title mismatch " + file);
   const meta = {};
   for (const key of [
