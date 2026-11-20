@@ -97,3 +97,7 @@ Run npm run docs:catalog after source content or art-manifest changes. Run npm r
 Choose expansion work from the [master roadmap](ROADMAP.md) and [stable backlog](roadmap/BACKLOG.md). Use the [systems guide](SYSTEMS_GUIDE.md) to locate the current owner before changing a rule or serialized record.
 
 Planning metadata in docs/roadmap/specs/plan.json is intentionally separate from the source-derived catalog. Update it when revising blueprint IDs/references and run npm run docs:plan. Keep all experimental schemas and numeric prototypes labeled as proposals until implementation and acceptance evidence exist.
+
+## Architecture decision records
+
+Create a record for a durable cross-module, persistence, platform or delivery choice using [the ADR template](adr/template.md). Link relevant source/evidence and roadmap questions. Retrospective records identify unknown original dates. Material replacement uses a new ID with reciprocal supersession links. Routine bug fixes and ordinary content additions do not require separate ADRs. Run npm run docs:adr or the full documentation command.

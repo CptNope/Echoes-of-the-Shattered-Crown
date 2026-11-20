@@ -103,3 +103,7 @@ These are documentation integrity checks, not additional gameplay test cases. Th
 ## Planning-manifest validation
 
 The documentation command also runs scripts/verify-roadmap.ts. It checks the proposal-only format/status, linked backlog and decision IDs, all eighteen acceptance IDs, six mission references and prerequisite graph, twelve proposed-job prerequisites, three abilities per job, four mutually exclusive approach/archive routes reaching the finale, and JSON examples in the six design briefs. It validates structure and traceability only: no mission simulation, balance certification, decision approval or new gameplay tests. Run npm run docs:plan independently.
+
+## ADR integrity
+
+npm run docs:adr validates numbered filenames/title IDs, unique permanent numbers, allowed statuses, metadata, Recorded dates, required sections, index/status agreement and reciprocal acyclic supersession links. Supersession chains retain earlier adopted records. The template is excluded from numbered-record validation but remains subject to general Markdown checks. These checks establish document structure, not historical approval or implementation correctness. docs:verify includes this check in Actions.

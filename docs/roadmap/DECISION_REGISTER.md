@@ -4,6 +4,10 @@
 
 All entries below are **open proposals**. Recommendations are starting points for review, not adopted runtime rules. Dates, approvers and an acceptance record should be added when a decision is actually made. No decision is automatically approved by a dependent blueprint.
 
+## Architecture decision history
+
+The [ADR section](../adr/README.md) records concrete architecture choices and their history. D-IDs here remain open questions; they can map to one or more Proposed ADRs without being accepted. [ADR-0010](../adr/0010-proposed-variable-board-and-roster-contract.md) consolidates the variable-board/roster direction around D-01/D-02/D-12. Do not add an original approval date that was never recorded.
+
 ## Decision lifecycle
 
 ```mermaid

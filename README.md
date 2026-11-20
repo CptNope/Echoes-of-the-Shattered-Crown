@@ -4,7 +4,7 @@ An original isometric tactical RPG about a mercenary company, a fractured world,
 
 [![Pages build and deployment](https://github.com/CptNope/Echoes-of-the-Shattered-Crown/actions/workflows/pages.yml/badge.svg)](https://github.com/CptNope/Echoes-of-the-Shattered-Crown/actions/workflows/pages.yml)
 
-**[Play on GitHub Pages](https://cptnope.github.io/Echoes-of-the-Shattered-Crown/)** · [Documentation](docs/README.md) · [Expansion roadmap](docs/ROADMAP.md) · [Changelog](CHANGELOG.md) · [Contributing](CONTRIBUTING.md)
+**[Play on GitHub Pages](https://cptnope.github.io/Echoes-of-the-Shattered-Crown/)** · [Documentation](docs/README.md) · [Expansion roadmap](docs/ROADMAP.md) · [ADRs](docs/adr/README.md) · [Changelog](CHANGELOG.md) · [Contributing](CONTRIBUTING.md)
 
 ![The Lantern Company at the shrine of Veyr](docs/assets/battlefield.jpg)
 
@@ -21,6 +21,7 @@ An original isometric tactical RPG about a mercenary company, a fractured world,
 - [Saves and privacy](#saves-and-privacy)
 - [GitHub Pages and Actions](#github-pages-and-actions)
 - [Documentation](#documentation)
+- [Architecture decisions](#architecture-decisions)
 - [Development status](#development-status)
 - [Expansion plan](#expansion-plan)
 - [Detailed expansion blueprints](#detailed-expansion-blueprints)
@@ -73,6 +74,7 @@ Open the Local URL printed by Vite. If its default port is unavailable, use `npm
 | `npm run docs:catalog` | Regenerate all current content and asset reference tables |
 | `npm run docs:verify` | Check links, tables, backlog, catalog and design-plan integrity |
 | `npm run docs:plan` | Validate proposed slice, decision, mission, job and route references |
+| `npm run docs:adr` | Validate architecture decision records, index and replacement history |
 | `npm run build`                                 | Strict TypeScript check for `src/`, then generate `dist/` |
 | `npx vite preview --host 127.0.0.1 --port 4187` | Preview a production build locally                        |
 | `node scripts/verify-pages.mjs`                 | Check a build produced with the Pages base path           |
@@ -234,6 +236,12 @@ Start with the [current systems guide](docs/SYSTEMS_GUIDE.md) for end-to-end flo
 | [Troubleshooting](docs/TROUBLESHOOTING.md)                 | Runtime, saves, input and hosting issues                       |
 | [Changelog](CHANGELOG.md)                                  | Changes linked to actual repository history                    |
 | [Contributing](CONTRIBUTING.md)                            | Contribution scope and review expectations                     |
+
+## Architecture decisions
+
+The [ADR section](docs/adr/README.md) records durable architectural choices, alternatives, consequences and revisit conditions. It includes a [template](docs/adr/template.md), nine Accepted records (eight retrospectively documenting the current implementation) and one Proposed variable-map/roster contract. Original decision dates are left unknown where history was not recorded.
+
+Use the [open decision register](docs/roadmap/DECISION_REGISTER.md) for roadmap questions and ADRs for concrete architecture choices/history. Proposed records do not change the current game or save format. Run npm run docs:adr for numbering, metadata, index and supersession checks; the command also runs through docs:verify in Actions.
 
 ## Development status
 

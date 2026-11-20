@@ -42,3 +42,7 @@ No project-wide license or contributor agreement has been selected. Do not add a
 For source content changes, regenerate docs/REFERENCE_CATALOG.md with npm run docs:catalog. Keep implementation facts in current guides and future proposals in docs/roadmap. Do not mark a gate complete without its stated evidence.
 
 For design-only changes, keep stable blueprint/decision IDs and update docs/roadmap/specs/plan.json. Run npm run docs:plan to check references and route coverage. A recommended option is not an approved rule; record actual decision evidence before changing the implementation reference.
+
+## Architecture decisions
+
+For durable architecture choices, start with [docs/adr](docs/adr/README.md) and its template. Explain alternatives, consequences, evidence and revisit conditions. Keep proposals distinct from adopted implementation. Unknown historical dates remain unknown. Use a new record and reciprocal links when superseding a decision; preserve prior rationale. Routine fixes and content edits using existing contracts do not require an ADR. Run npm run docs:adr before review.

@@ -40,6 +40,7 @@ The game baseline is **v0.8.0**. Current implementation guides and future expans
 | Guide | Scope |
 | --- | --- |
 | [Architecture](ARCHITECTURE.md) | Current module ownership and rule/presentation boundary |
+| [Architecture decisions](adr/README.md) | Accepted baseline rationale, proposals, template and supersession history |
 | [Data and saves](DATA_AND_SAVES.md) | Current serialized records, validation, supported migration and origin limits |
 | [Backups and recovery](BACKUPS_AND_RECOVERY.md) | Automatic recovery, manual isolation, portable files and restore flow |
 | [Development](DEVELOPMENT.md) | Setup, extension patterns and documentation generation |
@@ -105,7 +106,7 @@ Proposed job unlocks, regions and content totals are design candidates. Only the
 
 Mermaid blocks render in GitHub's Markdown viewer. Prose and tables state the same critical rules for viewers that cannot display diagrams. No separate diagram service or Figma file is required.
 
-Run npm run docs:catalog when content or art manifests change. Run npm run docs:verify for recursive local links/anchors, tables, fenced diagram structure, backlog identity/dependency checks, catalog freshness and planning-manifest references/routes. The checker deliberately distinguishes structural checks from full Mermaid parsing and from artistic/device review. See [documentation validation](TESTING.md#documentation-validation).
+Run npm run docs:catalog when content or art manifests change. Run npm run docs:verify for recursive local links/anchors, tables, fenced diagram structure, backlog identity/dependency checks, catalog freshness, planning-manifest references/routes and ADR metadata/history. The checker deliberately distinguishes structural checks from full Mermaid parsing and from artistic/device review. See [documentation validation](TESTING.md#documentation-validation).
 
 When code and a guide disagree, inspect the implementation and fix the mismatch. Move a proposed feature into the current reference only after it actually works.
 

@@ -2,6 +2,12 @@
 
 [Documentation index](README.md) · [Development](DEVELOPMENT.md) · [Data and saves](DATA_AND_SAVES.md) · [Complete system flows](SYSTEMS_GUIDE.md)
 
+## Decision history
+
+See the [ADR index](adr/README.md) for the rationale behind the current simulation, browser stack, company/battle split, stable content IDs, local saves, cosmetic effects, art pipeline and Pages delivery. Existing implementation choices are recorded retrospectively with unknown original dates rather than invented approval history.
+
+[ADR-0010](adr/0010-proposed-variable-board-and-roster-contract.md) is Proposed and links open D-01/D-02/D-12; it does not replace current fixed board/roster invariants. New material reversals should have a successor ADR and explicit compatibility evidence.
+
 ## Boundaries
 
 React owns an Expedition containing a Company profile, a battle snapshot and camp/battle stage, plus presentation state. The pure engine validates gameplay commands and computes a next snapshot. Three.js renders that state and sends tile-selection callbacks upward. Camera movement, animation frames and audio never decide a combat outcome.

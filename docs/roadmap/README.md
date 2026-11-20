@@ -28,6 +28,10 @@ Everything proposed here is planned unless explicitly identified as current. The
 
 The [planning manifest](specs/plan.json) connects these briefs to existing backlog IDs and decisions. npm run docs:plan checks proposal identity, references, prerequisite acyclicity, all four approach/archive routes and JSON example syntax. It does not approve the designs, simulate combat or add playable content.
 
+## Architecture decision history
+
+Use the [ADR section](../adr/README.md) for adopted architecture and concrete proposals, with a reusable template and supersession links. The [decision register](DECISION_REGISTER.md) remains the planning question list. Neither an example schema nor a Proposed ADR automatically accepts a D-ID.
+
 ## Vocabulary
 
 | Label | Meaning |

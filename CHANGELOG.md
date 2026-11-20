@@ -4,6 +4,9 @@
 
 ### Documentation
 
+- Added docs/adr with an index, reusable template, record lifecycle and ten initial ADRs: nine Accepted records (eight retrospective implementation records) and one Proposed variable-board/roster contract.
+- Linked ADR history to architecture, contribution guidance and the open roadmap decision register; added metadata/index/supersession integrity checks to docs:verify.
+
 - Expanded the design library with three production slices/eighteen acceptance scenarios, sixteen open decisions, six mission blueprints, twelve proposed jobs/36 prototype abilities, a convergent campaign/quest outline and technical contract examples.
 - Added a proposal-only planning manifest and integrity check for references, prerequisite graphs, mutually exclusive approaches, four chapter routes and JSON examples. No gameplay content or save schema changed.
 
