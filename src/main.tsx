@@ -538,6 +538,7 @@ function App() {
           </span>
         </a>
         <nav aria-label="Game menus">
+          <a href="studio.html">Level studio</a>
           <button
             className={!modal ? "nav-active" : ""}
             onClick={() => setModal(null)}

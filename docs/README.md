@@ -19,6 +19,8 @@ The game baseline is **v0.8.0**. Current implementation guides and future expans
 
 ## Current game reference
 
+[Working level studio](LEVEL_STUDIO.md): edit the battlefield, playtest a revision, and export/import its editable JSON.
+
 | Guide | Scope |
 | --- | --- |
 | [How the game works](SYSTEMS_GUIDE.md) | Runtime ownership and complete company/combat/AI/save/render/delivery flows |

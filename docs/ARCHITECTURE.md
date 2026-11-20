@@ -10,6 +10,8 @@ See the [ADR index](adr/README.md) for the rationale behind the current simulati
 
 ## Boundaries
 
+The separate [level studio pilot](LEVEL_STUDIO.md) owns LevelProject source, revisioned edits and checkpoints in studio-project.ts. It compiles fresh Battle snapshots for the existing engine/scene and does not call campaign persistence or settlement.
+
 React owns an Expedition containing a Company profile, a battle snapshot and camp/battle stage, plus presentation state. The pure engine validates gameplay commands and computes a next snapshot. Three.js renders that state and sends tile-selection callbacks upward. Camera movement, animation frames and audio never decide a combat outcome.
 
 ```mermaid

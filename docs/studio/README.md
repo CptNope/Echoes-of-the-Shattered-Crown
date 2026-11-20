@@ -2,7 +2,7 @@
 
 [Documentation index](../README.md) · [Expansion roadmap](../ROADMAP.md) · [Studio milestones](STUDIO_ROADMAP.md) · [Acceptance gates](ACCEPTANCE_AND_ROUNDTRIP.md)
 
-**Planned authoring toolkit; not implemented editor features.** The goal is to create, edit, test, import and export a complete playable tactical RPG using one coherent toolset. The current game remains v0.8 with source-defined content, a character/effect review workbench and synthesized audio sketch.
+**Full toolkit remains planned.** A working [level studio pilot](../LEVEL_STUDIO.md) now edits fixed-board terrain/elevation/collision and actor placement, with undo/redo, project JSON, local checkpoints and isolated runtime playtests. The broader tools specified here remain proposals. The current game remains v0.8 with source-defined jobs/rules, a character/effect review workbench and synthesized audio sketch.
 
 The default **Complete game** export must contain a playable build **and** the editable project/source payload. Pixel layers, animation timelines, music notes/arrangements, sound-effect graphs, cue bindings, rules and custom code must survive export/import. A separate smaller Play-only export discloses its reduced editing guarantees.
 

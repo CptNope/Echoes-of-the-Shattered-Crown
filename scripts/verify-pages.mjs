@@ -51,6 +51,7 @@ async function checkLocal() {
     ...new Set([
       ...assets(await readFile("dist/index.html", "utf8")),
       ...assets(await readFile("dist/animation-review.html", "utf8"), true),
+      ...assets(await readFile("dist/studio.html", "utf8")),
     ]),
   ];
   const root = resolve("dist");
@@ -84,10 +85,20 @@ async function checkLive() {
     cache: "no-store",
   });
   assert(reviewResponse.ok, "Animation workbench unavailable");
+  const studioResponse = await fetch(new URL("studio.html", site), {
+    signal: AbortSignal.timeout(20000),
+    cache: "no-store",
+  });
+  assert(studioResponse.ok, "Level studio unavailable");
+  assert(
+    studioResponse.headers.get("content-type")?.includes("text/html"),
+    "Expected studio HTML",
+  );
   const paths = [
     ...new Set([
       ...assets(await htmlResponse.text()),
       ...assets(await reviewResponse.text(), true),
+      ...assets(await studioResponse.text()),
     ]),
   ];
   for (const path of paths) {

@@ -109,3 +109,7 @@ Use [docs/studio](studio/README.md) for the canonical-project, editor/agent tran
 Detailed studio contracts live under docs/studio/blueprints, with proposal-only examples under docs/studio/specs/examples. Keep blueprint/index references synchronized and run npm run docs:studio:examples after changes. Prototype implementation exits remain separate from documentation validation.
 
 Advanced contracts and fixtures live in docs/studio/specs/advanced-blueprints.json and docs/studio/specs/advanced. Run npm run docs:studio:advanced after changing typed rule examples, campaign/UI references, migration/merge cases or presentation constraints. Keep computed example answers separate from runtime integration and release evidence in the [toolkit release plan](studio/blueprints/TOOLKIT_RELEASE_PLAN.md).
+
+## Working level-studio pilot
+
+Open studio.html during Vite development. src/studio-project.ts owns the implemented level-project v1 source, validation, atomic edits, history, checkpoint helpers and runtime compiler. src/studio.tsx uses these functions for all editing controls and runs fresh Battle snapshots through the existing engine/scene. Keep this source distinct from player saves and the proposed complete-project schema; see the [pilot guide](LEVEL_STUDIO.md).

@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Added
+
+- Implemented a level-studio pilot with terrain, elevation, collision and eight-actor placement tools on the fixed 9×9 shrine board.
+- Added atomic revisioned edits, undo/redo, project metadata, isolated seeded combat previews, restart, strict level-project JSON export/staged import and explicit local checkpoints with prior-valid fallback.
+- Added eight project tests (70 total) and Pages checks for the new studio entry. Full pixel/audio/rule authoring and playable-plus-editable bundle export remain planned.
+
 ### Documentation
 
 - Added five advanced authoring blueprints for rules/AI, campaign/economy/UI, VFX/material/environment, project versioning/merges and five toolkit release gates.

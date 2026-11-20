@@ -4,7 +4,7 @@
 
 ## Automated rules coverage
 
-Run `npm test`. The script uses `tsx --test src/engine.test.ts src/campaign.test.ts src/supports.test.ts src/advanced.test.ts src/portable.test.ts src/animation.test.ts src/combat-effects.test.ts` and Node's built-in test runner. The current suite has 62 tests; this count is an inventory, not a coverage percentage or balance certification.
+Run `npm test`. The script uses `tsx --test src/engine.test.ts src/campaign.test.ts src/supports.test.ts src/advanced.test.ts src/portable.test.ts src/animation.test.ts src/combat-effects.test.ts src/studio-project.test.ts` and Node's built-in test runner. The current suite has 70 tests; this count is an inventory, not a coverage percentage or balance certification.
 
 | Area             | Assertions represented                                                                                        |
 | ---------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -98,7 +98,7 @@ Seven new effect cases bring the suite to 62 tests. They check all thirteen reci
 
 npm run docs:verify recursively checks maintained and historical Markdown: local paths/heading anchors, consistent tables, closed code fences and supported Mermaid block types. It verifies exactly 160 unique backlog IDs, dependency references, an acyclic dependency graph and source-derived catalog freshness. It does not execute links to external services or fully parse Mermaid syntax. A separate Mermaid parser pass validates the diagrams for this roadmap expansion; browser rendering remains useful for layout/readability.
 
-These are documentation integrity checks, not additional gameplay test cases. The gameplay suite remains 62 tests. No runtime feature is added by this documentation update.
+These are documentation integrity checks, not additional gameplay test cases. The planning checks do not add gameplay test cases; the later level-studio pilot adds eight executable project tests.
 
 ## Planning-manifest validation
 
@@ -119,3 +119,7 @@ npm run docs:studio:examples validates six linked proposal examples and blueprin
 ## Advanced studio contract checks
 
 npm run docs:studio:advanced checks five advanced blueprints against all twenty-four requirements and existing work/acceptance identities. Four proposal examples exercise typed formula inference and known answers, quest routes, example buy/craft arithmetic, localization/UI references, migration-edge compatibility, explicit three-way merge resolutions, VFX curves/budgets and prefab placement. These checks calculate small design examples; they do not simulate the game, render effects/audio, execute migrations, implement an economy reducer or prove export round trips. docs:studio and docs:verify include them.
+
+## Implemented level-studio tests
+
+The eight cases in src/studio-project.test.ts verify source-preserving round trips, strict/oversized imports, atomic revisioned batches, occupancy, undo/redo, edited preview movement, isolated terminal/retry/replay behavior, checkpoint recovery, stale writes and storage failure. They run in npm test (70 total). See the [pilot guide](LEVEL_STUDIO.md) for supported scope and manual editing/playtest paths. They do not certify every authored map as winnable.

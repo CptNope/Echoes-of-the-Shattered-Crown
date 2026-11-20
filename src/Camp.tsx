@@ -213,6 +213,7 @@ export function Camp({
         </a>
         <span className="camp-header-location">Veyr region · Company camp</span>
         <div className="camp-save">
+          <a href="studio.html">Level studio</a>
           <button disabled={busy} onClick={onSave}>
             Save company
           </button>
