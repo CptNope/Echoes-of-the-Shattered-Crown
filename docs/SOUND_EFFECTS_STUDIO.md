@@ -9,6 +9,8 @@ The implemented **Sound effects** editor creates layered procedural combat sound
 1. Open the level studio and select **Sound effects**.
 2. Choose Hit, Miss, Heal or Buff. These are fixed resolved-combat-event bindings.
 3. Select a layer or add one. Edit waveform, start/end pitch, duration, delay, attack and gain; mute or remove layers as needed.
+
+   **Master gain and seed** expands the bank volume and cue noise-seed controls.
 4. Use **Audition draft** to hear the current source. **Stop sound** stops voices; changing editor/event also stops audition.
 5. **Export draft WAV** renders a mono PCM16 sound from that draft. It does not replace the editable source.
 6. **Apply sound edits** commits the whole bank as one undoable source edit. Discard restores the applied bank. Invalid drafts cannot be applied or rendered.

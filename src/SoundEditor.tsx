@@ -155,47 +155,53 @@ export function SoundEditor({
                 }}
               >
                 {id.charAt(0).toUpperCase() + id.slice(1)}{" "}
-                <span>{cueFor(draft, id).layers.length} layers</span>
+                <span>
+                  {cueFor(draft, id).layers.length}{" "}
+                  {cueFor(draft, id).layers.length === 1 ? "layer" : "layers"}
+                </span>
               </button>
             ))}
           </div>
-          <label>
-            Master gain
-            <input
-              type="number"
-              min="0"
-              max="1"
-              step="0.05"
-              value={Number.isNaN(draft.gain) ? "" : draft.gain}
-              onChange={(e) =>
-                setDraft({
-                  ...draft,
-                  gain: e.target.value === "" ? NaN : Number(e.target.value),
-                })
-              }
-            />
-          </label>
-          <label>
-            Noise seed
-            <input
-              type="number"
-              min="0"
-              max="4294967295"
-              value={Number.isNaN(cue.seed) ? "" : cue.seed}
-              onChange={(e) =>
-                setDraft((b) => {
-                  const next = structuredClone(b);
-                  cueFor(next, event).seed =
-                    e.target.value === "" ? NaN : Number(e.target.value);
-                  return next;
-                })
-              }
-            />
-          </label>
-          <p>
-            Tones use a linear pitch sweep. Noise uses the saved seed; its pitch
-            fields are inactive.
-          </p>
+          <details className="sound-source-options">
+            <summary>Master gain and seed</summary>
+            <label>
+              Master gain
+              <input
+                type="number"
+                min="0"
+                max="1"
+                step="0.05"
+                value={Number.isNaN(draft.gain) ? "" : draft.gain}
+                onChange={(e) =>
+                  setDraft({
+                    ...draft,
+                    gain: e.target.value === "" ? NaN : Number(e.target.value),
+                  })
+                }
+              />
+            </label>
+            <label>
+              Noise seed
+              <input
+                type="number"
+                min="0"
+                max="4294967295"
+                value={Number.isNaN(cue.seed) ? "" : cue.seed}
+                onChange={(e) =>
+                  setDraft((b) => {
+                    const next = structuredClone(b);
+                    cueFor(next, event).seed =
+                      e.target.value === "" ? NaN : Number(e.target.value);
+                    return next;
+                  })
+                }
+              />
+            </label>
+            <p>
+              Tones use a linear pitch sweep. Noise uses the saved seed; its
+              pitch fields are inactive.
+            </p>
+          </details>
         </aside>
         <div>
           <figure className="sound-wave">

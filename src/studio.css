@@ -77,6 +77,17 @@
 .sound-audition {
   margin-bottom: 24px;
 }
+.sound-source-options {
+  margin-top: 16px;
+}
+.sound-source-options label:first-of-type {
+  margin-top: 12px;
+}
+@media (max-width: 640px) {
+  .sound-editor > .section-heading {
+    display: none;
+  }
+}
 .layer-heading {
   margin-bottom: 12px;
 }

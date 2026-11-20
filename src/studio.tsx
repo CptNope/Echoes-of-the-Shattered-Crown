@@ -510,7 +510,13 @@ function Studio() {
               aria-expanded={toolsOpen}
               onClick={() => setToolsOpen(!toolsOpen)}
             >
-              {toolsOpen ? "Hide battlefield tools" : "Show battlefield tools"}
+              {panel === "sounds"
+                ? toolsOpen
+                  ? "Hide project controls"
+                  : "Show project controls"
+                : toolsOpen
+                  ? "Hide battlefield tools"
+                  : "Show battlefield tools"}
             </button>
             <div hidden={panel !== "map"}>
               <h2>Battlefield tools</h2>
