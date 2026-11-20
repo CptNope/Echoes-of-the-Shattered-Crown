@@ -619,7 +619,7 @@ function Studio() {
             </div>
             <div hidden={panel !== "music"}>
               <h2>Music workspace</h2>
-              <p>One bar � Sixteen sixteenth-note steps � One instrument</p>
+              <p>One bar / Sixteen sixteenth-note steps / One instrument</p>
               <p>
                 Edit notes and tempo, audition the loop, then apply it to your
                 project.
