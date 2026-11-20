@@ -23,6 +23,7 @@ An original isometric tactical RPG about a mercenary company, a fractured world,
 - [Documentation](#documentation)
 - [Development status](#development-status)
 - [Expansion plan](#expansion-plan)
+- [Detailed expansion blueprints](#detailed-expansion-blueprints)
 - [Contributing and licensing](#contributing-and-licensing)
 
 Read [combat effects and particles](docs/COMBAT_EFFECTS.md), explore the [animation workbench](https://cptnope.github.io/Echoes-of-the-Shattered-Crown/animation-review.html) or read the [animation pipeline](docs/ANIMATION_PIPELINE.md).
@@ -70,7 +71,8 @@ Open the Local URL printed by Vite. If its default port is unavailable, use `npm
 | `npm run dev`                                   | Start the local development server                        |
 | `npm test`                                      | Run 62 deterministic combat, save, animation and effect tests     |
 | `npm run docs:catalog` | Regenerate all current content and asset reference tables |
-| `npm run docs:verify` | Check documentation links, tables, backlog dependencies and catalog freshness |
+| `npm run docs:verify` | Check links, tables, backlog, catalog and design-plan integrity |
+| `npm run docs:plan` | Validate proposed slice, decision, mission, job and route references |
 | `npm run build`                                 | Strict TypeScript check for `src/`, then generate `dist/` |
 | `npx vite preview --host 127.0.0.1 --port 4187` | Preview a production build locally                        |
 | `node scripts/verify-pages.mjs`                 | Check a build produced with the Pages base path           |
@@ -263,6 +265,12 @@ flowchart LR
 ```
 
 Documentation checks run in Actions. Use npm run docs:catalog after changing content, then npm run docs:verify to check links, tables, fenced diagrams, backlog dependencies and catalog freshness. Mermaid syntax is also parsed during this documentation expansion's verification; the built-in repository checker covers structural blocks and references.
+
+## Detailed expansion blueprints
+
+The [design-brief library](docs/roadmap/README.md#detailed-design-briefs) adds three production slices, eighteen acceptance scenarios, sixteen open decisions, six mission blueprints, twelve proposed jobs and 36 prototype abilities. A convergent campaign/quest outline covers all four rescue/breach and archive-choice combinations. [Technical contracts](docs/roadmap/TECHNICAL_CONTRACTS.md) explain proposed map, roster, objective, event and settlement data.
+
+These remain proposals. A separate planning-manifest check validates references and route structure; it does not add runtime content or certify balance. Start with [production slices](docs/roadmap/PRODUCTION_SLICES.md) or explore [missions](docs/roadmap/ENCOUNTER_BLUEPRINTS.md) and [jobs/abilities](docs/roadmap/JOB_ABILITY_BLUEPRINTS.md).
 
 ## Contributing and licensing
 

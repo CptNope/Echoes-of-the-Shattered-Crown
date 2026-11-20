@@ -62,6 +62,18 @@ The game baseline is **v0.8.0**. Current implementation guides and future expans
 
 Proposed job unlocks, regions and content totals are design candidates. Only the current catalog and implementation guides claim shipped behavior.
 
+## Detailed expansion briefs
+
+| Guide | Specific design coverage |
+| --- | --- |
+| [Production slices](roadmap/PRODUCTION_SLICES.md) | Fixed-assumption audit, next three increments and acceptance scenarios |
+| [Decision register](roadmap/DECISION_REGISTER.md) | Open architecture/content choices with options and evidence |
+| [Encounters](roadmap/ENCOUNTER_BLUEPRINTS.md) | Six proposed defend/escort/breach/survival/interact/escape missions |
+| [Jobs and abilities](roadmap/JOB_ABILITY_BLUEPRINTS.md) | Twelve future job identities and 36 prototype skills |
+| [Campaign and quests](roadmap/CAMPAIGN_QUEST_BLUEPRINTS.md) | Chapter choices, convergence, recruit/service settlement and recovery |
+| [Technical contracts](roadmap/TECHNICAL_CONTRACTS.md) | Proposed schemas and rule/event/settlement ownership |
+| [Planning manifest](roadmap/specs/plan.json) | Machine-readable design references and route combinations |
+
 ## Source-of-truth map
 
 | Topic | Source | Maintained reference |
@@ -93,7 +105,7 @@ Proposed job unlocks, regions and content totals are design candidates. Only the
 
 Mermaid blocks render in GitHub's Markdown viewer. Prose and tables state the same critical rules for viewers that cannot display diagrams. No separate diagram service or Figma file is required.
 
-Run npm run docs:catalog when content or art manifests change. Run npm run docs:verify for recursive local links/anchors, tables, fenced diagram structure, backlog identity/dependency checks and catalog freshness. The checker deliberately distinguishes structural checks from full Mermaid parsing and from artistic/device review. See [documentation validation](TESTING.md#documentation-validation).
+Run npm run docs:catalog when content or art manifests change. Run npm run docs:verify for recursive local links/anchors, tables, fenced diagram structure, backlog identity/dependency checks, catalog freshness and planning-manifest references/routes. The checker deliberately distinguishes structural checks from full Mermaid parsing and from artistic/device review. See [documentation validation](TESTING.md#documentation-validation).
 
 When code and a guide disagree, inspect the implementation and fix the mismatch. Move a proposed feature into the current reference only after it actually works.
 

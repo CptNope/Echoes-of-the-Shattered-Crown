@@ -99,3 +99,7 @@ Seven new effect cases bring the suite to 62 tests. They check all thirteen reci
 npm run docs:verify recursively checks maintained and historical Markdown: local paths/heading anchors, consistent tables, closed code fences and supported Mermaid block types. It verifies exactly 160 unique backlog IDs, dependency references, an acyclic dependency graph and source-derived catalog freshness. It does not execute links to external services or fully parse Mermaid syntax. A separate Mermaid parser pass validates the diagrams for this roadmap expansion; browser rendering remains useful for layout/readability.
 
 These are documentation integrity checks, not additional gameplay test cases. The gameplay suite remains 62 tests. No runtime feature is added by this documentation update.
+
+## Planning-manifest validation
+
+The documentation command also runs scripts/verify-roadmap.ts. It checks the proposal-only format/status, linked backlog and decision IDs, all eighteen acceptance IDs, six mission references and prerequisite graph, twelve proposed-job prerequisites, three abilities per job, four mutually exclusive approach/archive routes reaching the finale, and JSON examples in the six design briefs. It validates structure and traceability only: no mission simulation, balance certification, decision approval or new gameplay tests. Run npm run docs:plan independently.

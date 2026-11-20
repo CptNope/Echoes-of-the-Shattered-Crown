@@ -4,6 +4,8 @@
 
 Names, counts and unlocks below are design proposals except the explicitly current eight jobs and four Veyr contracts. Future regions and factions require narrative review; they are not established canon by being listed here.
 
+Detailed candidate implementations are in [job/ability blueprints](JOB_ABILITY_BLUEPRINTS.md), [encounter blueprints](ENCOUNTER_BLUEPRINTS.md) and [campaign/quest blueprint](CAMPAIGN_QUEST_BLUEPRINTS.md). Their costs, names and rules remain proposals.
+
 ## Twenty-job roster
 
 The first eight have current typed definitions. Proposed unlocks for later jobs are candidate design hooks, not live rules. Current precise prerequisites and native skills are generated in the catalog.

@@ -4,6 +4,8 @@
 
 Everything in the proposed contracts below is planned. Current saves remain Expedition/Battle v2. Do not implement a conceptual field merely because it appears in this guide.
 
+The [technical contract examples](TECHNICAL_CONTRACTS.md) and [production-slice audit](PRODUCTION_SLICES.md#slice-a--safe-expansion-seam) make the next steps concrete. [Open decisions](DECISION_REGISTER.md) must be resolved before the examples become runtime schemas.
+
 ## Current seams and proposed contracts
 
 | Area | Current seam | Proposed extension | Gate / IDs |

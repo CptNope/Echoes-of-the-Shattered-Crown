@@ -95,3 +95,5 @@ Add a recipe in src/combat-effects.ts for each SkillId and update the matching a
 Run npm run docs:catalog after source content or art-manifest changes. Run npm run docs:verify to validate Markdown links/anchors, table shape, fenced diagram structure, all 160 backlog IDs/dependencies and generated-catalog freshness. The command runs in the build job before gameplay tests. It does not claim full Mermaid syntax/rendering validation; see [documentation testing](TESTING.md#documentation-validation).
 
 Choose expansion work from the [master roadmap](ROADMAP.md) and [stable backlog](roadmap/BACKLOG.md). Use the [systems guide](SYSTEMS_GUIDE.md) to locate the current owner before changing a rule or serialized record.
+
+Planning metadata in docs/roadmap/specs/plan.json is intentionally separate from the source-derived catalog. Update it when revising blueprint IDs/references and run npm run docs:plan. Keep all experimental schemas and numeric prototypes labeled as proposals until implementation and acceptance evidence exist.

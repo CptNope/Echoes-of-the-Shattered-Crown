@@ -40,3 +40,5 @@ Do not commit `node_modules/`, `dist/`, private hosting bindings, browser saves,
 No project-wide license or contributor agreement has been selected. Do not add an arbitrary license or infer reuse permission from dependencies. External assets need documented provenance and terms; see [art and audio](docs/ART_AND_AUDIO.md#ownership-and-licenses).
 
 For source content changes, regenerate docs/REFERENCE_CATALOG.md with npm run docs:catalog. Keep implementation facts in current guides and future proposals in docs/roadmap. Do not mark a gate complete without its stated evidence.
+
+For design-only changes, keep stable blueprint/decision IDs and update docs/roadmap/specs/plan.json. Run npm run docs:plan to check references and route coverage. A recommended option is not an approved rule; record actual decision evidence before changing the implementation reference.

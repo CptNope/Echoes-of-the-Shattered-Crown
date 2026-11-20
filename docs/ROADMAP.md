@@ -15,6 +15,21 @@ This plan grows the playable v0.8 contract route into a complete original tactic
 | How will assets be produced? | [Art and audio production](roadmap/ART_AUDIO_PRODUCTION.md) |
 | When is a milestone complete? | [Quality and release gates](roadmap/RELEASE_AND_QUALITY.md) |
 
+## Detailed design briefs
+
+The next layer makes the existing 160-item backlog concrete without marking work complete.
+
+| Brief | Design artifact |
+| --- | --- |
+| [Production slices](roadmap/PRODUCTION_SLICES.md) | SLICE-A/B/C, audited fixed assumptions and eighteen acceptance scenarios |
+| [Decision register](roadmap/DECISION_REGISTER.md) | D-01–D-16 remain open; recommendations need evidence and approval |
+| [Encounter blueprints](roadmap/ENCOUNTER_BLUEPRINTS.md) | Six provisional missions from a 12×8 defend pilot through extraction |
+| [Job and ability blueprints](roadmap/JOB_ABILITY_BLUEPRINTS.md) | Twelve proposed jobs, 36 prototype abilities and first-pair integration cards |
+| [Campaign/quest blueprint](roadmap/CAMPAIGN_QUEST_BLUEPRINTS.md) | One convergent chapter with four approach/archive combinations |
+| [Technical contracts](roadmap/TECHNICAL_CONTRACTS.md) | Proposed data examples, stable order, events, commands and settlement |
+
+Candidate names, costs, thresholds and schemas are not current content or supported saves. The [planning manifest](roadmap/specs/plan.json) is validated as design metadata, separately from the source-derived runtime catalog.
+
 ## Verified foundation
 
 | Area | Implemented in v0.8 | Current boundary |
@@ -87,6 +102,8 @@ flowchart LR
 ```
 
 ## Next three increments
+
+Detailed implementation briefs and acceptance scenarios are in [production slices](roadmap/PRODUCTION_SLICES.md). Resolve the linked open decisions before treating a recommendation as an adopted contract.
 
 Recommended order, not a promise of a particular next release:
 

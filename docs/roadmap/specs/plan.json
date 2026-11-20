@@ -1,0 +1,1026 @@
+{
+  "format": "echoes-design-plan",
+  "version": 1,
+  "status": "proposal",
+  "runtimeCompatible": false,
+  "baseline": "0.8.0",
+  "documents": [
+    "docs/roadmap/PRODUCTION_SLICES.md",
+    "docs/roadmap/DECISION_REGISTER.md",
+    "docs/roadmap/ENCOUNTER_BLUEPRINTS.md",
+    "docs/roadmap/JOB_ABILITY_BLUEPRINTS.md",
+    "docs/roadmap/CAMPAIGN_QUEST_BLUEPRINTS.md",
+    "docs/roadmap/TECHNICAL_CONTRACTS.md"
+  ],
+  "decisions": [
+    {
+      "id": "D-01",
+      "status": "open",
+      "title": "Board shape",
+      "recommendation": "Prefer rectangular dimensions in validated map content; preserve old maps exactly.",
+      "backlog": [
+        "MAP-01",
+        "MAP-02"
+      ],
+      "evidence": "Two sizes pass rule, view and save fixtures."
+    },
+    {
+      "id": "D-02",
+      "status": "open",
+      "title": "Roster identity/order",
+      "recommendation": "Use stable IDs with explicit simulation iteration order; deployment cap is content-driven.",
+      "backlog": [
+        "CMP-01",
+        "MAP-04"
+      ],
+      "evidence": "Different roster counts preserve deterministic outcomes and tie-breaking."
+    },
+    {
+      "id": "D-03",
+      "status": "open",
+      "title": "Terminal precedence",
+      "recommendation": "Evaluate explicit hard-failure before objective success when both occur in one resolution.",
+      "backlog": [
+        "OBJ-01",
+        "OBJ-02"
+      ],
+      "evidence": "Escort/objective loss on the winning hit has one approved result."
+    },
+    {
+      "id": "D-04",
+      "status": "open",
+      "title": "Objective/status clock",
+      "recommendation": "Name every counter as actor activation, completed activation or explicit objective tick; avoid vague rounds.",
+      "backlog": [
+        "CBT-05",
+        "OBJ-06"
+      ],
+      "evidence": "HUD, save and reducer use the same unit and boundaries."
+    },
+    {
+      "id": "D-05",
+      "status": "open",
+      "title": "Presentation ordering",
+      "recommendation": "Use deduplicable ordered result batches; state commits independently of playback.",
+      "backlog": [
+        "FND-05",
+        "VFX-01"
+      ],
+      "evidence": "Move/cast/reaction/death/resume show no duplicates."
+    },
+    {
+      "id": "D-06",
+      "status": "open",
+      "title": "Summon contract",
+      "recommendation": "Prototype one owned companion with a cap, stable ID, ordinary occupancy and explicit dismissal.",
+      "backlog": [
+        "CBT-08",
+        "WRL-06"
+      ],
+      "evidence": "Owner death, blocked spawn and saved lifetime are covered."
+    },
+    {
+      "id": "D-07",
+      "status": "open",
+      "title": "Job learning model",
+      "recommendation": "Retain lifetime/spent JP distinction; approve node-specific costs only with migration defaults.",
+      "backlog": [
+        "JOB-02",
+        "JOB-06"
+      ],
+      "evidence": "Current learned skills/unlocks survive without retroactive spend."
+    },
+    {
+      "id": "D-08",
+      "status": "open",
+      "title": "Reserve progression",
+      "recommendation": "Prototype reserves preserving their builds; decide shared/earned JP after chapter playtests.",
+      "backlog": [
+        "CMP-03",
+        "CMP-06"
+      ],
+      "evidence": "Benched characters do not force a mandatory catch-up grind."
+    },
+    {
+      "id": "D-09",
+      "status": "open",
+      "title": "Respec policy",
+      "recommendation": "Favor recoverable experiments with disclosed costs; define refund scope before UI.",
+      "backlog": [
+        "JOB-04",
+        "ECO-01"
+      ],
+      "evidence": "No unlimited refund/arbitrage or lost prerequisite ownership."
+    },
+    {
+      "id": "D-10",
+      "status": "open",
+      "title": "Injury/permadeath",
+      "recommendation": "Keep recoverable default; any permanent-loss mode is opt-in and separately save-labeled.",
+      "backlog": [
+        "CMP-07",
+        "SAV-04"
+      ],
+      "evidence": "No silent rule change for existing companies."
+    },
+    {
+      "id": "D-11",
+      "status": "open",
+      "title": "Faction consequences",
+      "recommendation": "Use visible, bounded consequences with alternate required-service access.",
+      "backlog": [
+        "NAR-06",
+        "ECO-08"
+      ],
+      "evidence": "No branch blocks the only training or mandatory equipment path."
+    },
+    {
+      "id": "D-12",
+      "status": "open",
+      "title": "Save evolution",
+      "recommendation": "Introduce a new game format only for an approved incompatible shape; keep envelope/DB versions separate.",
+      "backlog": [
+        "SAV-01",
+        "SAV-03"
+      ],
+      "evidence": "Supported fixtures upgrade and rejected imports preserve progress."
+    },
+    {
+      "id": "D-13",
+      "status": "open",
+      "title": "Offline activation",
+      "recommendation": "Delay incompatible cache activation until the player can checkpoint/export and a migration path exists.",
+      "backlog": [
+        "SAV-08",
+        "QA-06"
+      ],
+      "evidence": "Old/new clients and interrupted updates remain recoverable."
+    },
+    {
+      "id": "D-14",
+      "status": "open",
+      "title": "Character directions",
+      "recommendation": "Prove four directions on one job before choosing an eight-direction production multiplier.",
+      "backlog": [
+        "ART-01",
+        "ART-03"
+      ],
+      "evidence": "Feet, weapons, camera and mirrored asymmetry pass review."
+    },
+    {
+      "id": "D-15",
+      "status": "open",
+      "title": "Performance budget",
+      "recommendation": "Measure reference devices before promising sprite, memory or frame-time targets.",
+      "backlog": [
+        "FND-09",
+        "QA-04"
+      ],
+      "evidence": "Profiles include scene, browser, cache and device metadata."
+    },
+    {
+      "id": "D-16",
+      "status": "open",
+      "title": "Chapter/canon approval",
+      "recommendation": "Treat all blueprint names, dialogue and factions as provisional until an authored slice is reviewed.",
+      "backlog": [
+        "NAR-05",
+        "NAR-10"
+      ],
+      "evidence": "Approved canon/IDs and branch convergence are recorded."
+    }
+  ],
+  "slices": [
+    {
+      "id": "SLICE-A",
+      "status": "proposed",
+      "name": "Safe expansion seam",
+      "backlog": [
+        "FND-01",
+        "FND-02",
+        "MAP-01",
+        "SAV-01",
+        "QA-01"
+      ],
+      "decisions": [
+        "D-01",
+        "D-02",
+        "D-12"
+      ],
+      "acceptance": [
+        "A-AC-01",
+        "A-AC-02",
+        "A-AC-03",
+        "A-AC-04",
+        "A-AC-05",
+        "A-AC-06"
+      ]
+    },
+    {
+      "id": "SLICE-B",
+      "status": "proposed",
+      "name": "Readable battle",
+      "backlog": [
+        "CBT-01",
+        "CBT-02",
+        "UX-01",
+        "UX-02",
+        "OBJ-01",
+        "AI-01"
+      ],
+      "decisions": [
+        "D-03",
+        "D-04",
+        "D-05"
+      ],
+      "acceptance": [
+        "B-AC-01",
+        "B-AC-02",
+        "B-AC-03",
+        "B-AC-04",
+        "B-AC-05",
+        "B-AC-06"
+      ]
+    },
+    {
+      "id": "SLICE-C",
+      "status": "proposed",
+      "name": "Alternate-objective pilot",
+      "backlog": [
+        "MAP-02",
+        "MAP-03",
+        "OBJ-02",
+        "OBJ-08",
+        "QA-02"
+      ],
+      "decisions": [
+        "D-01",
+        "D-03",
+        "D-04",
+        "D-12"
+      ],
+      "acceptance": [
+        "C-AC-01",
+        "C-AC-02",
+        "C-AC-03",
+        "C-AC-04",
+        "C-AC-05",
+        "C-AC-06"
+      ]
+    }
+  ],
+  "missions": [
+    {
+      "id": "MISS-01",
+      "name": "The Shattered Sluice",
+      "objective": "defend",
+      "board": [
+        12,
+        8
+      ],
+      "requiresAll": [
+        "bellkeeper"
+      ],
+      "requiresAny": [],
+      "backlog": [
+        "MAP-02",
+        "MAP-03",
+        "OBJ-02"
+      ],
+      "decisions": [
+        "D-01",
+        "D-03",
+        "D-04"
+      ],
+      "target": "Hold the control platform through 12 completed activations.",
+      "status": "proposed"
+    },
+    {
+      "id": "MISS-02",
+      "name": "Reedbed Rescue",
+      "objective": "escort",
+      "board": [
+        10,
+        10
+      ],
+      "requiresAll": [
+        "MISS-01"
+      ],
+      "requiresAny": [],
+      "backlog": [
+        "OBJ-04",
+        "AI-03",
+        "CMP-02"
+      ],
+      "decisions": [
+        "D-02",
+        "D-03",
+        "D-04"
+      ],
+      "target": "Bring a proposed recruit to the marked safe bank.",
+      "choiceGroup": "approach",
+      "status": "proposed"
+    },
+    {
+      "id": "MISS-03",
+      "name": "The Cinder Gate",
+      "objective": "breach",
+      "board": [
+        12,
+        10
+      ],
+      "requiresAll": [
+        "MISS-01"
+      ],
+      "requiresAny": [],
+      "backlog": [
+        "MAP-08",
+        "WRL-05",
+        "OBJ-03"
+      ],
+      "decisions": [
+        "D-01",
+        "D-03"
+      ],
+      "target": "Open the defended gate and activate the release wheel.",
+      "choiceGroup": "approach",
+      "status": "proposed"
+    },
+    {
+      "id": "MISS-04",
+      "name": "Bells in the Fog",
+      "objective": "survival",
+      "board": [
+        9,
+        12
+      ],
+      "requiresAll": [],
+      "requiresAny": [
+        "MISS-02",
+        "MISS-03"
+      ],
+      "backlog": [
+        "OBJ-06",
+        "AI-02",
+        "NAR-07"
+      ],
+      "decisions": [
+        "D-02",
+        "D-03",
+        "D-04"
+      ],
+      "target": "Survive 18 completed activations with saved waves at ticks 6 and 12.",
+      "status": "proposed"
+    },
+    {
+      "id": "MISS-05",
+      "name": "The Archive Bridge",
+      "objective": "interact",
+      "board": [
+        12,
+        8
+      ],
+      "requiresAll": [
+        "MISS-04"
+      ],
+      "requiresAny": [],
+      "backlog": [
+        "OBJ-03",
+        "NAR-02",
+        "OBJ-05"
+      ],
+      "decisions": [
+        "D-03",
+        "D-11"
+      ],
+      "target": "Secure two archive seals, then choose which record to preserve.",
+      "status": "proposed"
+    },
+    {
+      "id": "MISS-06",
+      "name": "The Last Ferry",
+      "objective": "escape",
+      "board": [
+        14,
+        10
+      ],
+      "requiresAll": [
+        "MISS-05"
+      ],
+      "requiresAny": [],
+      "backlog": [
+        "OBJ-02",
+        "OBJ-08",
+        "NAR-05"
+      ],
+      "decisions": [
+        "D-02",
+        "D-03",
+        "D-10"
+      ],
+      "target": "Extract the required surviving company through the ferry zone.",
+      "status": "proposed"
+    }
+  ],
+  "jobs": [
+    {
+      "id": "beastcaller",
+      "status": "proposed",
+      "name": "Beastcaller",
+      "requiresJobs": [
+        "lifebinder"
+      ],
+      "identity": "Owned companion and positional support",
+      "backlog": [
+        "CBT-08",
+        "JOB-05",
+        "WRL-06"
+      ]
+    },
+    {
+      "id": "spellblade",
+      "status": "proposed",
+      "name": "Spellblade",
+      "requiresJobs": [
+        "vanguard",
+        "arcanist"
+      ],
+      "identity": "One chosen weapon infusion and risk-managed melee",
+      "backlog": [
+        "JOB-05",
+        "CBT-04",
+        "CBT-05"
+      ]
+    },
+    {
+      "id": "alchemist",
+      "status": "proposed",
+      "name": "Alchemist",
+      "requiresJobs": [
+        "arcanist"
+      ],
+      "identity": "Limited mixtures and deliberate surface setup",
+      "backlog": [
+        "ECO-02",
+        "ECO-03",
+        "ECO-06"
+      ]
+    },
+    {
+      "id": "soulkeeper",
+      "status": "proposed",
+      "name": "Soulkeeper",
+      "requiresJobs": [
+        "lifebinder"
+      ],
+      "identity": "Recoverable spirit transfers with health tradeoffs",
+      "backlog": [
+        "CBT-05",
+        "CBT-07",
+        "JOB-07"
+      ]
+    },
+    {
+      "id": "riftcartographer",
+      "status": "proposed",
+      "name": "Rift Cartographer",
+      "requiresJobs": [
+        "chronoweaver"
+      ],
+      "identity": "Short repositioning and prepared routes",
+      "backlog": [
+        "MAP-02",
+        "CBT-06",
+        "JOB-07"
+      ]
+    },
+    {
+      "id": "thornmarshal",
+      "status": "proposed",
+      "name": "Thorn Marshal",
+      "requiresJobs": [
+        "vanguard",
+        "beastcaller"
+      ],
+      "identity": "Ally/summon formations and bounded zone defense",
+      "backlog": [
+        "CBT-08",
+        "JOB-07",
+        "WRL-06"
+      ]
+    },
+    {
+      "id": "ashcantor",
+      "status": "proposed",
+      "name": "Ash Cantor",
+      "requiresJobs": [
+        "soulkeeper",
+        "arcanist"
+      ],
+      "identity": "Sustained chants and interruption choices",
+      "backlog": [
+        "CBT-05",
+        "CBT-07",
+        "JOB-07"
+      ]
+    },
+    {
+      "id": "glassranger",
+      "status": "proposed",
+      "name": "Glass Ranger",
+      "requiresJobs": [
+        "shadowrunner",
+        "alchemist"
+      ],
+      "identity": "Prepared ranged lines and refraction",
+      "backlog": [
+        "CBT-02",
+        "MAP-08",
+        "JOB-07"
+      ]
+    },
+    {
+      "id": "tidemason",
+      "status": "proposed",
+      "name": "Tidemason",
+      "requiresJobs": [
+        "runewarden",
+        "stormherald"
+      ],
+      "identity": "Temporary water/cover manipulation",
+      "backlog": [
+        "CBT-06",
+        "MAP-08",
+        "JOB-07"
+      ]
+    },
+    {
+      "id": "oathbreaker",
+      "status": "proposed",
+      "name": "Oathbreaker",
+      "requiresJobs": [
+        "dancer"
+      ],
+      "identity": "Explicit offensive commitment and defensive cost",
+      "backlog": [
+        "CBT-05",
+        "JOB-07",
+        "NAR-06"
+      ]
+    },
+    {
+      "id": "starshepherd",
+      "status": "proposed",
+      "name": "Star Shepherd",
+      "requiresJobs": [
+        "beastcaller",
+        "chronoweaver"
+      ],
+      "identity": "Limited celestial summons with timeline choices",
+      "backlog": [
+        "CBT-08",
+        "AI-06",
+        "JOB-07"
+      ]
+    },
+    {
+      "id": "crownless",
+      "status": "proposed",
+      "name": "Crownless",
+      "requiresJobs": [
+        "runewarden",
+        "chronoweaver",
+        "beastcaller"
+      ],
+      "identity": "Coordinated actions with team-wide opportunity cost",
+      "backlog": [
+        "CBT-09",
+        "JOB-07",
+        "NAR-09"
+      ]
+    }
+  ],
+  "abilities": [
+    {
+      "id": "AB-call-reedfox",
+      "status": "proposed",
+      "job": "beastcaller",
+      "name": "Call Reedfox",
+      "cost": "8 EN",
+      "target": "Empty cell, range 2",
+      "intent": "Spawn one owned companion under the shared summon cap.",
+      "counterplay": "Block/contest legal spawn cells; no spawn on occupied terrain."
+    },
+    {
+      "id": "AB-pack-signal",
+      "status": "proposed",
+      "job": "beastcaller",
+      "name": "Pack Signal",
+      "cost": "4 EN",
+      "target": "Owned companion, range 4",
+      "intent": "Set its preferred target/position for its next ordinary activation.",
+      "counterplay": "No immediate extra action; command expires after the chosen activation."
+    },
+    {
+      "id": "AB-sheltering-call",
+      "status": "proposed",
+      "job": "beastcaller",
+      "name": "Sheltering Call",
+      "cost": "7 EN",
+      "target": "Owned companion, range 3",
+      "intent": "Grant existing-style guard and one clear defensive role.",
+      "counterplay": "Guard does not stack with itself and clears at the approved boundary."
+    },
+    {
+      "id": "AB-ember-edge",
+      "status": "proposed",
+      "job": "spellblade",
+      "name": "Ember Edge",
+      "cost": "6 EN",
+      "target": "Self",
+      "intent": "Prepare a fire rider for the next weapon attempt; consume on attempt.",
+      "counterplay": "A miss still consumes the preparation; no permanent free infusion."
+    },
+    {
+      "id": "AB-frost-parry",
+      "status": "proposed",
+      "job": "spellblade",
+      "name": "Frost Parry",
+      "cost": "8 EN",
+      "target": "Self",
+      "intent": "Guard with one bounded chill retaliation on a surviving adjacent hit.",
+      "counterplay": "Ranged pressure and nonrecursive reaction ordering limit retaliation."
+    },
+    {
+      "id": "AB-seam-strike",
+      "status": "proposed",
+      "job": "spellblade",
+      "name": "Seam Strike",
+      "cost": "9 EN",
+      "target": "Enemy, adjacent",
+      "intent": "A committed hybrid strike with partial armor bypass.",
+      "counterplay": "Higher cost and melee exposure; bypass amount needs balance review."
+    },
+    {
+      "id": "AB-reagent-flask",
+      "status": "proposed",
+      "job": "alchemist",
+      "name": "Reagent Flask",
+      "cost": "6 EN + charge",
+      "target": "Cell, range 3",
+      "intent": "Apply a small temporary wet surface using a finite reagent charge.",
+      "counterplay": "Do not conjure infinite inventory or bypass required terrain routes."
+    },
+    {
+      "id": "AB-dry-salve",
+      "status": "proposed",
+      "job": "alchemist",
+      "name": "Dry Salve",
+      "cost": "5 EN + charge",
+      "target": "Ally, range 3",
+      "intent": "Cleanse burn and the approved wet-surface/status interaction.",
+      "counterplay": "Single-target utility; no damage/heal refund loop."
+    },
+    {
+      "id": "AB-catalyst-break",
+      "status": "proposed",
+      "job": "alchemist",
+      "name": "Catalyst Break",
+      "cost": "9 EN + charge",
+      "target": "Prepared surface, range 3",
+      "intent": "Consume a prepared mixture for one approved surface reaction.",
+      "counterplay": "Requires setup; invalid or absent surface consumes nothing."
+    },
+    {
+      "id": "AB-borrowed-vigor",
+      "status": "proposed",
+      "job": "soulkeeper",
+      "name": "Borrowed Vigor",
+      "cost": "7 EN",
+      "target": "Ally, range 3",
+      "intent": "Transfer a bounded amount of caster HP; cannot reduce caster below one.",
+      "counterplay": "No critical healing or transfer multiplication; low-health caster cannot fund it."
+    },
+    {
+      "id": "AB-last-light-ward",
+      "status": "proposed",
+      "job": "soulkeeper",
+      "name": "Last-light Ward",
+      "cost": "10 EN",
+      "target": "Living ally, range 3",
+      "intent": "Prepare one limited recovery after a surviving hit.",
+      "counterplay": "Cannot revive through the ward or recursively trigger itself."
+    },
+    {
+      "id": "AB-spirit-tether",
+      "status": "proposed",
+      "job": "soulkeeper",
+      "name": "Spirit Tether",
+      "cost": "6 EN",
+      "target": "Living ally, range 3",
+      "intent": "Share a bounded fraction of one damage event with the caster.",
+      "counterplay": "Explicit order with guard/reactions; transferred damage cannot spawn another tether chain."
+    },
+    {
+      "id": "AB-fold-step",
+      "status": "proposed",
+      "job": "riftcartographer",
+      "name": "Fold Step",
+      "cost": "8 EN",
+      "target": "Empty legal tile, range 3",
+      "intent": "Reposition the caster with destination/LOS restrictions.",
+      "counterplay": "Cannot enter blocked/water cells or automatically activate quest objects."
+    },
+    {
+      "id": "AB-return-mark",
+      "status": "proposed",
+      "job": "riftcartographer",
+      "name": "Return Mark",
+      "cost": "6 EN",
+      "target": "Self tile",
+      "intent": "Save one temporary anchor eligible for a later paid return.",
+      "counterplay": "Anchor expires by a named actor-activation clock; occupied return is rejected."
+    },
+    {
+      "id": "AB-trail-stitch",
+      "status": "proposed",
+      "job": "riftcartographer",
+      "name": "Trail Stitch",
+      "cost": "7 EN",
+      "target": "Ally, range 3",
+      "intent": "Grant one bounded route/movement benefit for the next legal move.",
+      "counterplay": "No repeated free teleports or extra skill actions."
+    },
+    {
+      "id": "AB-thorn-screen",
+      "status": "proposed",
+      "job": "thornmarshal",
+      "name": "Thorn Screen",
+      "cost": "8 EN",
+      "target": "Cell, range 3",
+      "intent": "Create temporary defensive cover with an explicit nonblocking pilot footprint.",
+      "counterplay": "Does not wall off required exits; fire/expiry interaction must be defined."
+    },
+    {
+      "id": "AB-line-oath",
+      "status": "proposed",
+      "job": "thornmarshal",
+      "name": "Line Oath",
+      "cost": "7 EN",
+      "target": "Allied cross, range 2",
+      "intent": "Guard a small formation with ordinary guard semantics.",
+      "counterplay": "Spread, flanking and existing guard replacement limit stacking."
+    },
+    {
+      "id": "AB-briar-order",
+      "status": "proposed",
+      "job": "thornmarshal",
+      "name": "Briar Order",
+      "cost": "9 EN",
+      "target": "Owned companion, range 3",
+      "intent": "Prepare one bounded zone-defense trigger for its next activation.",
+      "counterplay": "Shared cap/reaction limits; no damage on every render or path sample."
+    },
+    {
+      "id": "AB-ember-refrain",
+      "status": "proposed",
+      "job": "ashcantor",
+      "name": "Ember Refrain",
+      "cost": "6 EN",
+      "target": "Self chant",
+      "intent": "Begin a chant that requires later action commitment to sustain.",
+      "counterplay": "Interrupt or force relocation; no free attack while automatically sustaining."
+    },
+    {
+      "id": "AB-ash-crescendo",
+      "status": "proposed",
+      "job": "ashcantor",
+      "name": "Ash Crescendo",
+      "cost": "8 EN",
+      "target": "Enemy cross, range 3",
+      "intent": "Spend prepared chant state for a shaped fire payoff.",
+      "counterplay": "Needs setup; canceled/expired chant cannot be spent."
+    },
+    {
+      "id": "AB-quiet-cadence",
+      "status": "proposed",
+      "job": "ashcantor",
+      "name": "Quiet Cadence",
+      "cost": "7 EN",
+      "target": "Chanting enemy, range 3",
+      "intent": "Interrupt an eligible sustained action.",
+      "counterplay": "Does not become a universal stun against every enemy ability."
+    },
+    {
+      "id": "AB-sightline",
+      "status": "proposed",
+      "job": "glassranger",
+      "name": "Sightline",
+      "cost": "5 EN",
+      "target": "Self",
+      "intent": "Prepare one accurate long-range attempt with disclosed duration.",
+      "counterplay": "Does not see or shoot through blockers; preparation is consumable."
+    },
+    {
+      "id": "AB-shard-line",
+      "status": "proposed",
+      "job": "glassranger",
+      "name": "Shard Line",
+      "cost": "9 EN",
+      "target": "Enemy line, range 5",
+      "intent": "Hit a bounded ordered line with reduced later-target payoff.",
+      "counterplay": "Collision, target order and friendly interaction are previewed."
+    },
+    {
+      "id": "AB-mirror-pin",
+      "status": "proposed",
+      "job": "glassranger",
+      "name": "Mirror Pin",
+      "cost": "8 EN",
+      "target": "Enemy, range 4",
+      "intent": "Apply a short movement restriction while leaving ability use available.",
+      "counterplay": "Named duration, cleanse rule and boss eligibility; no permanent lock."
+    },
+    {
+      "id": "AB-raise-weir",
+      "status": "proposed",
+      "job": "tidemason",
+      "name": "Raise Weir",
+      "cost": "9 EN",
+      "target": "Legal terrain, range 3",
+      "intent": "Temporarily redirect water/cover with a validated footprint.",
+      "counterplay": "Reject map-breaking placements and preserve objective reachability."
+    },
+    {
+      "id": "AB-channel-cut",
+      "status": "proposed",
+      "job": "tidemason",
+      "name": "Channel Cut",
+      "cost": "7 EN",
+      "target": "Short path, range 4",
+      "intent": "Create a small readable wet route for later combinations.",
+      "counterplay": "Finite length/duration; avoid unlimited lightning setup at no cost."
+    },
+    {
+      "id": "AB-setstone",
+      "status": "proposed",
+      "job": "tidemason",
+      "name": "Setstone",
+      "cost": "8 EN",
+      "target": "Water/approved cell, range 3",
+      "intent": "Form one temporary traversable crossing.",
+      "counterplay": "Decide occupied-expiry handling before implementation; never delete an occupying unit."
+    },
+    {
+      "id": "AB-breach-vow",
+      "status": "proposed",
+      "job": "oathbreaker",
+      "name": "Breach Vow",
+      "cost": "6 EN",
+      "target": "Self",
+      "intent": "Trade a disclosed defense penalty for a temporary offensive commitment.",
+      "counterplay": "Penalty survives the action as specified; cannot cancel it for free after attacking."
+    },
+    {
+      "id": "AB-debt-strike",
+      "status": "proposed",
+      "job": "oathbreaker",
+      "name": "Debt Strike",
+      "cost": "9 EN",
+      "target": "Enemy, adjacent",
+      "intent": "A high-commitment strike that forfeits the caster's protection.",
+      "counterplay": "Remove protection in approved order before retaliation; preview the risk."
+    },
+    {
+      "id": "AB-renounce",
+      "status": "proposed",
+      "job": "oathbreaker",
+      "name": "Renounce",
+      "cost": "10 EN",
+      "target": "Unit, range 3",
+      "intent": "Remove an eligible guard/pledge effect under explicit targeting rules.",
+      "counterplay": "Costs an action; cannot dispel story/objective flags."
+    },
+    {
+      "id": "AB-call-wisp",
+      "status": "proposed",
+      "job": "starshepherd",
+      "name": "Call Wisp",
+      "cost": "10 EN",
+      "target": "Empty cell, range 2",
+      "intent": "Summon one celestial helper using the approved shared owner-cap rule.",
+      "counterplay": "Changing jobs or summon families cannot bypass the cap."
+    },
+    {
+      "id": "AB-meridian",
+      "status": "proposed",
+      "job": "starshepherd",
+      "name": "Meridian",
+      "cost": "6 EN",
+      "target": "Ally, range 3",
+      "intent": "Apply a bounded readiness adjustment through the helper relationship.",
+      "counterplay": "Per-target limits and action cost prevent permanent timeline lock."
+    },
+    {
+      "id": "AB-eventide",
+      "status": "proposed",
+      "job": "starshepherd",
+      "name": "Eventide",
+      "cost": "11 EN",
+      "target": "Owned helper / area",
+      "intent": "Dismiss a helper for a one-time localized effect.",
+      "counterplay": "No resource refund loop, duplicate dismissal or repeated effect after load."
+    },
+    {
+      "id": "AB-lantern-order",
+      "status": "proposed",
+      "job": "crownless",
+      "name": "Lantern Order",
+      "cost": "10 EN",
+      "target": "Ally, range 3",
+      "intent": "Give one bounded next-move benefit through company coordination.",
+      "counterplay": "No immediate extra skill activation or infinite mutual orders."
+    },
+    {
+      "id": "AB-shared-promise",
+      "status": "proposed",
+      "job": "crownless",
+      "name": "Shared Promise",
+      "cost": "12 EN + 2 momentum",
+      "target": "Allied area, range 3",
+      "intent": "Spend company momentum on a defensive coordinated choice.",
+      "counterplay": "Competes with offensive momentum use; guard does not multiply itself."
+    },
+    {
+      "id": "AB-break-the-circle",
+      "status": "proposed",
+      "job": "crownless",
+      "name": "Break the Circle",
+      "cost": "14 EN + 3 momentum",
+      "target": "Small formation, range 3",
+      "intent": "Convert a prepared company formation into one reviewed coordinated payoff.",
+      "counterplay": "Distinct from current concord before approval; no overlapping duplicate rewards."
+    }
+  ],
+  "chapter": {
+    "id": "CHAPTER-BELLS",
+    "status": "proposed",
+    "name": "The Road Beneath the Bells",
+    "entryCompletion": "bellkeeper",
+    "finale": "MISS-06",
+    "approachGroup": [
+      "MISS-02",
+      "MISS-03"
+    ],
+    "routes": [
+      {
+        "id": "ROUTE-rescue-testimony",
+        "approach": "rescue",
+        "archiveRecord": "testimony",
+        "missions": [
+          "MISS-01",
+          "MISS-02",
+          "MISS-04",
+          "MISS-05",
+          "MISS-06"
+        ]
+      },
+      {
+        "id": "ROUTE-rescue-crown-records",
+        "approach": "rescue",
+        "archiveRecord": "crown-records",
+        "missions": [
+          "MISS-01",
+          "MISS-02",
+          "MISS-04",
+          "MISS-05",
+          "MISS-06"
+        ]
+      },
+      {
+        "id": "ROUTE-breach-testimony",
+        "approach": "breach",
+        "archiveRecord": "testimony",
+        "missions": [
+          "MISS-01",
+          "MISS-03",
+          "MISS-04",
+          "MISS-05",
+          "MISS-06"
+        ]
+      },
+      {
+        "id": "ROUTE-breach-crown-records",
+        "approach": "breach",
+        "archiveRecord": "crown-records",
+        "missions": [
+          "MISS-01",
+          "MISS-03",
+          "MISS-04",
+          "MISS-05",
+          "MISS-06"
+        ]
+      }
+    ]
+  }
+}

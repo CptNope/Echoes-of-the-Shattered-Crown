@@ -13,6 +13,21 @@ Everything proposed here is planned unless explicitly identified as current. The
 | [Art and audio](ART_AUDIO_PRODUCTION.md) | Production planning | Frame arithmetic, asset families, budgets and review gates |
 | [Release and quality](RELEASE_AND_QUALITY.md) | Prove completeness | Test matrix, accessibility, balance, risks and rollback |
 
+## Detailed design briefs
+
+| Guide | Contents |
+| --- | --- |
+| [Production slices](PRODUCTION_SLICES.md) | Three next-increment briefs, fixed-assumption audit and eighteen acceptance scenarios |
+| [Decision register](DECISION_REGISTER.md) | Sixteen open decisions, recommendations, options and evidence gates |
+| [Encounter blueprints](ENCOUNTER_BLUEPRINTS.md) | Six proposed missions with zones, objectives, waves, extraction and restore cases |
+| [Job/ability blueprints](JOB_ABILITY_BLUEPRINTS.md) | Twelve proposed jobs and 36 prototype abilities with costs and counterplay |
+| [Campaign/quest blueprint](CAMPAIGN_QUEST_BLUEPRINTS.md) | Convergent chapter, choices, recruit/service consequences and checkpoints |
+| [Technical contracts](TECHNICAL_CONTRACTS.md) | Proposed maps, roster ordering, objectives, events and settlement examples |
+
+## Planning integrity
+
+The [planning manifest](specs/plan.json) connects these briefs to existing backlog IDs and decisions. npm run docs:plan checks proposal identity, references, prerequisite acyclicity, all four approach/archive routes and JSON example syntax. It does not approve the designs, simulate combat or add playable content.
+
 ## Vocabulary
 
 | Label | Meaning |
