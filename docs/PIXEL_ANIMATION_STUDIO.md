@@ -8,7 +8,7 @@ The implemented **Pixels** editor paints a small, layered source clip and applie
 
 1. Open the studio and select **Pixels**. The starter lantern sprite is editable source, not an imported production character.
 2. Select a palette entry or **Erase**, then click/drag on the source canvas. Each stroke is one local draft undo step. Keyboard users can Tab to the canvas, move with arrows and paint with Space/Enter.
-3. Choose base/detail as the source layer. Toggle visibility or swap layer order; hidden source pixels remain editable after showing that layer.
+3. Expand **Layers, onion skin and motion** to choose base/detail, toggle visibility or swap layer order. Hidden source pixels remain editable after showing that layer.
 4. Select a frame, duplicate/delete/reorder it, and set its duration. Edit palette colors or the shared pivot.
 5. Choose **Play clip** to audition source timing. Reduced motion holds frame 1. Onion skin shows the previous composited frame only where the current frame is transparent; it never changes source pixels.
 6. Choose the preview actor and whether to use the clip. **Apply pixel edits** commits it as one project transaction. Save locally or export project JSON to preserve all layers, frames and registration.

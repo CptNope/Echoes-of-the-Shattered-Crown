@@ -100,7 +100,7 @@
   display: grid;
   grid-template-columns: repeat(16, minmax(0, 1fr));
   gap: 1px;
-  max-width: 336px;
+  max-width: 256px;
   min-width: 256px;
   background: #b6c1af;
   touch-action: none;
@@ -146,6 +146,9 @@
 }
 .pixel-inspector .actions {
   margin-bottom: 16px;
+}
+.pixel-options {
+  margin: 16px 0;
 }
 .pixel-pivots,
 .pixel-binding {

@@ -218,6 +218,21 @@ export function PixelEditor({
           </button>
         </div>
       </div>
+      <div className="pixel-timeline">
+        {draft.frames.map((f, i) => (
+          <button
+            key={f.id}
+            aria-pressed={frameIndex === i}
+            onClick={() => {
+              setFrameId(f.id);
+              setPlaying(false);
+              setPreviewFrame(i);
+            }}
+          >
+            Frame {i + 1} · {f.durationMs} ms <small>{f.id}</small>
+          </button>
+        ))}
+      </div>
       <div className="pixel-layout">
         <div>
           <div className="pixel-palette" aria-label="Palette colors">
@@ -383,58 +398,61 @@ export function PixelEditor({
               Show selected frame
             </button>
           </div>
-          <label>
-            Motion
-            <select
-              value={reduced ? "reduced" : "normal"}
-              onChange={(e) => {
-                setReduced(e.target.value === "reduced");
-                setPlaying(false);
-              }}
-            >
-              <option value="normal">Animate source timing</option>
-              <option value="reduced">Reduced motion: hold frame 1</option>
-            </select>
-          </label>
-          <label>
-            Onion skin
-            <select
-              value={onion ? "on" : "off"}
-              onChange={(e) => setOnion(e.target.value === "on")}
-            >
-              <option value="off">Off</option>
-              <option value="on">Previous frame, preview only</option>
-            </select>
-          </label>
-          <label>
-            Source layer
-            <select
-              value={layer.id}
-              onChange={(e) => setLayerId(e.target.value)}
-            >
-              {draft.layers.map((l) => (
-                <option key={l.id} value={l.id}>
-                  {l.id}
-                </option>
-              ))}
-            </select>
-          </label>
-          <div className="actions">
-            <button
-              onClick={() =>
-                command({
-                  type: "visible",
-                  layerId: layer.id,
-                  visible: !layer.visible,
-                })
-              }
-            >
-              {layer.visible ? "Hide selected layer" : "Show selected layer"}
-            </button>
-            <button onClick={() => command({ type: "swap-layers" })}>
-              Swap layer order
-            </button>
-          </div>
+          <details className="pixel-options">
+            <summary>Layers, onion skin and motion</summary>
+            <label>
+              Motion
+              <select
+                value={reduced ? "reduced" : "normal"}
+                onChange={(e) => {
+                  setReduced(e.target.value === "reduced");
+                  setPlaying(false);
+                }}
+              >
+                <option value="normal">Animate source timing</option>
+                <option value="reduced">Reduced motion: hold frame 1</option>
+              </select>
+            </label>
+            <label>
+              Onion skin
+              <select
+                value={onion ? "on" : "off"}
+                onChange={(e) => setOnion(e.target.value === "on")}
+              >
+                <option value="off">Off</option>
+                <option value="on">Previous frame, preview only</option>
+              </select>
+            </label>
+            <label>
+              Source layer
+              <select
+                value={layer.id}
+                onChange={(e) => setLayerId(e.target.value)}
+              >
+                {draft.layers.map((l) => (
+                  <option key={l.id} value={l.id}>
+                    {l.id}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <div className="actions">
+              <button
+                onClick={() =>
+                  command({
+                    type: "visible",
+                    layerId: layer.id,
+                    visible: !layer.visible,
+                  })
+                }
+              >
+                {layer.visible ? "Hide selected layer" : "Show selected layer"}
+              </button>
+              <button onClick={() => command({ type: "swap-layers" })}>
+                Swap layer order
+              </button>
+            </div>
+          </details>
           <label>
             Frame duration (ms)
             <input
@@ -472,21 +490,6 @@ export function PixelEditor({
             ))}
           </div>
         </aside>
-      </div>
-      <div className="pixel-timeline">
-        {draft.frames.map((f, i) => (
-          <button
-            key={f.id}
-            aria-pressed={frameIndex === i}
-            onClick={() => {
-              setFrameId(f.id);
-              setPlaying(false);
-              setPreviewFrame(i);
-            }}
-          >
-            Frame {i + 1} · {f.durationMs} ms <small>{f.id}</small>
-          </button>
-        ))}
       </div>
       <div className="actions">
         <button
