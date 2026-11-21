@@ -51,6 +51,8 @@ export function validateNativeSprite(value: unknown): NativeSprite {
   ]);
   check(
     p.version === 1 &&
+      typeof p.job === "string" &&
+      typeof p.actorId === "string" &&
       Object.hasOwn(jobs, p.job) &&
       PIXEL_ACTORS.includes(p.actorId as any) &&
       typeof p.enabled === "boolean",
@@ -91,7 +93,11 @@ export function validateNativeSprite(value: unknown): NativeSprite {
     "Native frames require 40-1000 ms timing.",
   );
   check(
-    p.patches && typeof p.patches === "object" && !Array.isArray(p.patches),
+    p.patches &&
+      typeof p.patches === "object" &&
+      !Array.isArray(p.patches) &&
+      (Object.getPrototypeOf(p.patches) === Object.prototype ||
+        Object.getPrototypeOf(p.patches) === null),
     "Invalid native pixel edits.",
   );
   const entries = Object.entries(p.patches);

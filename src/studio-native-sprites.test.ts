@@ -143,6 +143,8 @@ test("native validation rejects malformed asset, state timing, registration and 
   for (const change of [
     { version: 2 },
     { job: "unknown" },
+    { job: ["vanguard"] },
+    { patches: new Date() },
     { actorId: "nobody" },
     { width: 4096 },
     { height: 0 },

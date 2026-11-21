@@ -676,8 +676,9 @@ function Studio() {
               <h2>Pixel workspace</h2>
               <p>Native game sheets or 16 × 24 indexed source</p>
               <p>
-                Paint source pixels, edit timing and pivot, then apply the clip
-                to one actor.
+                {pixelMode === "native"
+                  ? "Edit original game artwork at native resolution, then playtest the character."
+                  : "Paint source pixels, edit timing and pivot, then apply the clip to one actor."}
               </p>
             </div>
             <details className="project-details">

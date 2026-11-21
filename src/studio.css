@@ -986,3 +986,12 @@ dialog::backdrop {
     max-width: 120px;
   }
 }
+
+.native-library {
+  margin: 16px 0;
+}
+.native-library summary {
+  color: #566452;
+  font-size: 12px;
+  cursor: pointer;
+}

@@ -61,14 +61,18 @@ export function NativeSpriteEditor({
     changed = draftKey !== sourceKey;
   useEffect(() => {
     setDraft(source);
+    if (source) {
+      setJob(source.job);
+      setActor(source.actorId);
+    }
     setPast([]);
     setFuture([]);
     setPlaying(false);
     generation.current++;
   }, [sourceKey]);
   useEffect(() => {
-    onDirty(changed);
-  }, [changed, onDirty]);
+    onDirty(changed || busy);
+  }, [changed, busy, onDirty]);
   useEffect(() => {
     let cancelled = false;
     setBase(null);
@@ -216,60 +220,79 @@ export function NativeSpriteEditor({
   }
   return (
     <section className="native-editor" aria-label="Game sprite editor">
-      <div className="native-load">
-        <label>
-          Game character sheet
-          <select value={job} onChange={(e) => setJob(e.target.value as JobId)}>
-            {Object.keys(jobs).map((j) => (
-              <option key={j} value={j}>
-                {jobs[j as JobId].name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Preview actor
-          <select value={actor} onChange={(e) => setActor(e.target.value)}>
-            {PIXEL_ACTORS.map((id) => (
-              <option key={id}>{id}</option>
-            ))}
-          </select>
-        </label>
-        <button
-          disabled={busy || changed}
-          onClick={async () => {
-            const token = ++generation.current;
-            setBusy(true);
-            setMessage("Loading original game sheet…");
-            try {
-              const p = await importGameSprite(job, actor);
-              await decodeNativeSprite(p);
-              if (generation.current !== token) return;
-              update(p);
-              setState("idle");
-              setColumn(0);
-              setCursor({ x: 0, y: 0 });
-              setMessage(
-                "Loaded all 32 frames at original resolution. Apply or discard this draft before loading another sheet.",
-              );
-            } catch (e) {
-              if (generation.current === token)
+      <details className="native-library" open={!draft}>
+        <summary>
+          Game sheet library
+          {draft
+            ? " · " + jobs[draft.job].name + " / " + draft.actorId
+            : " · choose original artwork"}
+        </summary>
+        <div className="native-load">
+          <label>
+            Game character sheet
+            <select
+              disabled={busy}
+              value={job}
+              onChange={(e) => setJob(e.target.value as JobId)}
+            >
+              {Object.keys(jobs).map((j) => (
+                <option key={j} value={j}>
+                  {jobs[j as JobId].name}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Preview actor
+            <select
+              disabled={busy}
+              value={actor}
+              onChange={(e) => {
+                setActor(e.target.value);
+                if (draft) update({ ...draft, actorId: e.target.value });
+              }}
+            >
+              {PIXEL_ACTORS.map((id) => (
+                <option key={id}>{id}</option>
+              ))}
+            </select>
+          </label>
+          <button
+            disabled={busy || changed}
+            onClick={async () => {
+              const token = ++generation.current;
+              setBusy(true);
+              setMessage("Loading original game sheet…");
+              try {
+                const p = await importGameSprite(job, actor);
+                await decodeNativeSprite(p);
+                if (generation.current !== token) return;
+                update(p);
+                setState("idle");
+                setColumn(0);
+                setCursor({ x: 0, y: 0 });
                 setMessage(
-                  e instanceof Error ? e.message : "Sheet load failed.",
+                  "Loaded all 32 frames at original resolution. Apply or discard this draft before loading another sheet.",
                 );
-            } finally {
-              setBusy(false);
-            }
-          }}
-        >
-          {busy ? "Loading sheet…" : "Load game sheet"}
-        </button>
-      </div>
-      <p className="pixel-help">
-        Load a shipped character sheet, then edit its actual pixels. All eight
-        states and the original transparency are retained. Loading creates a
-        draft; Apply replaces the one native actor override in this project.
-      </p>
+              } catch (e) {
+                if (generation.current === token)
+                  setMessage(
+                    e instanceof Error ? e.message : "Sheet load failed.",
+                  );
+              } finally {
+                setBusy(false);
+              }
+            }}
+          >
+            {busy ? "Loading sheet…" : "Load game sheet"}
+          </button>
+        </div>
+        <p className="pixel-help">
+          Load a shipped character sheet, then edit its actual pixels. All eight
+          states and the original transparency are retained. Loading creates a
+          draft; Apply replaces the one native actor override in this project.
+        </p>
+      </details>
       {draft && (
         <>
           <div className="section-heading">
@@ -546,7 +569,9 @@ export function NativeSpriteEditor({
               <p>
                 {state} ·{" "}
                 {playing
-                  ? "Playing source timing"
+                  ? "Frame " +
+                    ((playFrame % 4) + 1) +
+                    " / 4 · Playing source timing"
                   : "Selected frame " + (column + 1)}
               </p>
               <div className="actions">
