@@ -186,6 +186,21 @@
   .editor-tabs {
     gap: 14px;
   }
+  .pixel-palette {
+    gap: 6px;
+  }
+  .pixel-palette button {
+    min-width: 32px;
+    padding: 6px 8px;
+  }
+  .pixel-timeline {
+    display: grid;
+    grid-template-columns: repeat(var(--frame-count), minmax(0, 1fr));
+  }
+  .pixel-timeline button {
+    font-size: 12px;
+    padding: 6px;
+  }
   .pixel-grid button {
     min-height: 0 !important;
   }

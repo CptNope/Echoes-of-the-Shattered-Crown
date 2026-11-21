@@ -218,7 +218,10 @@ export function PixelEditor({
           </button>
         </div>
       </div>
-      <div className="pixel-timeline">
+      <div
+        className="pixel-timeline"
+        style={{ "--frame-count": draft.frames.length } as React.CSSProperties}
+      >
         {draft.frames.map((f, i) => (
           <button
             key={f.id}
