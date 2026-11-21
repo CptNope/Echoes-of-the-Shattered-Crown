@@ -5,7 +5,10 @@ import {
   editPixelClip,
   renderPixelFrame,
   compilePixelSheet,
-  pixelFrameAt,
+  pixelStateFrame,
+  pixelSequence,
+  PIXEL_STATES,
+  type PixelState,
   PIXEL_ACTORS,
   type PixelClip,
   type PixelEdit,
@@ -51,6 +54,7 @@ export function PixelEditor({
 }) {
   const source = JSON.stringify(clip ?? defaultPixelClip()),
     [draft, setDraft] = useState<PixelClip>(() => JSON.parse(source));
+  const [sequence, setSequence] = useState<PixelState>("idle");
   const [frameId, setFrameId] = useState("frame-1"),
     [layerId, setLayerId] = useState("detail"),
     [color, setColor] = useState(6);
@@ -84,11 +88,10 @@ export function PixelEditor({
     }
   }, [active]);
   const ink = Math.min(color, draft.palette.length - 1);
-  const frameIndex = Math.max(
-      0,
-      draft.frames.findIndex((f) => f.id === frameId),
-    ),
-    frame = draft.frames[frameIndex];
+  const visibleFrames = pixelSequence(draft, sequence);
+  const frame = visibleFrames.find((f) => f.id === frameId) ?? visibleFrames[0];
+  const frameIndex = draft.frames.findIndex((f) => f.id === frame.id);
+  const sequenceIndex = visibleFrames.findIndex((f) => f.id === frame.id);
   const layerIndex = Math.max(
       0,
       draft.layers.findIndex((l) => l.id === layerId),
@@ -109,27 +112,38 @@ export function PixelEditor({
       return onion
         ? renderPixelFrame(
             draft,
-            (frameIndex + draft.frames.length - 1) % draft.frames.length,
+            draft.frames.findIndex(
+              (f) =>
+                f.id ===
+                visibleFrames[
+                  (sequenceIndex + visibleFrames.length - 1) %
+                    visibleFrames.length
+                ].id,
+            ),
           )
         : null;
     } catch {
       return null;
     }
-  }, [draft, frameIndex, onion]);
+  }, [draft, frameIndex, sequence, onion]);
   useEffect(() => {
     if (!playing || !active || reduced || !rendered.bytes) {
-      setPreviewFrame(reduced ? 0 : frameIndex);
+      setPreviewFrame(
+        reduced
+          ? draft.frames.findIndex((f) => f.id === visibleFrames[0].id)
+          : frameIndex,
+      );
       return;
     }
     const start = performance.now();
     let id = 0;
     const tick = (now: number) => {
-      setPreviewFrame(pixelFrameAt(draft, now - start));
+      setPreviewFrame(pixelStateFrame(draft, sequence, now - start));
       id = requestAnimationFrame(tick);
     };
     id = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(id);
-  }, [playing, active, reduced, draft, frameIndex, !!rendered.bytes]);
+  }, [playing, active, reduced, draft, frameIndex, sequence, !!rendered.bytes]);
   function update(next: PixelClip) {
     setPast((p) => [...p, draft].slice(-30));
     setFuture([]);
@@ -218,18 +232,65 @@ export function PixelEditor({
           </button>
         </div>
       </div>
+      <div className="pixel-action-controls">
+        {draft.clips ? (
+          <label>
+            Animation clip
+            <select
+              value={sequence}
+              onChange={(e) => {
+                const state = e.target.value as PixelState;
+                finish(true);
+                setSequence(state);
+                const first = pixelSequence(draft, state)[0];
+                setFrameId(first.id);
+                setPlaying(false);
+                setPreviewFrame(
+                  draft.frames.findIndex((f) => f.id === first.id),
+                );
+              }}
+            >
+              {PIXEL_STATES.map((state) => (
+                <option key={state} value={state}>
+                  {state.charAt(0).toUpperCase() + state.slice(1)}
+                </option>
+              ))}
+            </select>
+          </label>
+        ) : (
+          <button
+            disabled={!rendered.bytes}
+            onClick={() => {
+              setSequence("idle");
+              setFrameId(draft.frames[0].id);
+              command({ type: "create-clips" });
+            }}
+          >
+            Create action clips
+          </button>
+        )}
+        <p>
+          {draft.clips
+            ? sequence === "attack" || sequence === "cast"
+              ? "One shot, then hold final pose"
+              : "Loop using source frame timing"
+            : "Copies existing artwork into independent idle, walk, attack and cast clips."}
+        </p>
+      </div>
       <div
         className="pixel-timeline"
-        style={{ "--frame-count": draft.frames.length } as React.CSSProperties}
+        style={{ "--frame-count": visibleFrames.length } as React.CSSProperties}
       >
-        {draft.frames.map((f, i) => (
+        {visibleFrames.map((f, i) => (
           <button
             key={f.id}
-            aria-pressed={frameIndex === i}
+            aria-pressed={frame.id === f.id}
             onClick={() => {
               setFrameId(f.id);
               setPlaying(false);
-              setPreviewFrame(i);
+              setPreviewFrame(
+                draft.frames.findIndex((frame) => frame.id === f.id),
+              );
             }}
           >
             Frame {i + 1} · {f.durationMs} ms <small>{f.id}</small>
@@ -380,8 +441,18 @@ export function PixelEditor({
             <div>
               <strong>Animation preview</strong>
               <p>
-                Frame {Math.min(previewFrame, draft.frames.length - 1) + 1} /{" "}
-                {draft.frames.length}
+                {draft.clips ? sequence : "Shared loop"} / Frame{" "}
+                {Math.max(
+                  0,
+                  visibleFrames.findIndex(
+                    (f) =>
+                      f.id ===
+                      draft.frames[
+                        Math.min(previewFrame, draft.frames.length - 1)
+                      ].id,
+                  ),
+                ) + 1}{" "}
+                / {visibleFrames.length}
               </p>
             </div>
           </div>
@@ -395,7 +466,13 @@ export function PixelEditor({
             <button
               onClick={() => {
                 setPlaying(false);
-                setPreviewFrame(reduced ? 0 : frameIndex);
+                setPreviewFrame(
+                  reduced
+                    ? draft.frames.findIndex(
+                        (f) => f.id === visibleFrames[0].id,
+                      )
+                    : frameIndex,
+                );
               }}
             >
               Show selected frame
@@ -413,7 +490,9 @@ export function PixelEditor({
                 }}
               >
                 <option value="normal">Animate source timing</option>
-                <option value="reduced">Reduced motion: hold frame 1</option>
+                <option value="reduced">
+                  Reduced motion: hold clip frame 1
+                </option>
               </select>
             </label>
             <label>
@@ -496,29 +575,45 @@ export function PixelEditor({
       </div>
       <div className="actions">
         <button
-          disabled={draft.frames.length >= 4 || !rendered.bytes}
-          onClick={() => command({ type: "duplicate", frameId: frame.id })}
+          disabled={visibleFrames.length >= 4 || !rendered.bytes}
+          onClick={() =>
+            command({ type: "duplicate", frameId: frame.id, state: sequence })
+          }
         >
           Duplicate frame
         </button>
         <button
-          disabled={draft.frames.length <= 1 || !rendered.bytes}
-          onClick={() => command({ type: "delete", frameId: frame.id })}
+          disabled={visibleFrames.length <= 1 || !rendered.bytes}
+          onClick={() =>
+            command({ type: "delete", frameId: frame.id, state: sequence })
+          }
         >
           Delete frame
         </button>
         <button
-          disabled={frameIndex === 0 || !rendered.bytes}
+          disabled={sequenceIndex === 0 || !rendered.bytes}
           onClick={() =>
-            command({ type: "move", frameId: frame.id, direction: -1 })
+            command({
+              type: "move",
+              frameId: frame.id,
+              direction: -1,
+              state: sequence,
+            })
           }
         >
           Move frame earlier
         </button>
         <button
-          disabled={frameIndex === draft.frames.length - 1 || !rendered.bytes}
+          disabled={
+            sequenceIndex === visibleFrames.length - 1 || !rendered.bytes
+          }
           onClick={() =>
-            command({ type: "move", frameId: frame.id, direction: 1 })
+            command({
+              type: "move",
+              frameId: frame.id,
+              direction: 1,
+              state: sequence,
+            })
           }
         >
           Move frame later
@@ -629,10 +724,11 @@ export function PixelEditor({
       </div>
       <p role="status">{message}</p>
       <p className="sound-limits">
-        One custom loop replaces the selected actor's preview art across states;
-        downed holds its last frame. Separate attack/cast clips, directions,
-        resizing and image-file import remain planned. PNG is a flattened
-        derivative; project JSON preserves the editable source.
+        Action clips follow real idle, walk, physical attack and magical cast
+        states. Hurt, guard and victory use idle art; downed holds its final
+        idle frame. Old clips keep their shared loop until converted. PNG packs
+        every source frame; project JSON preserves clip bindings, layers and
+        timing.
       </p>
     </section>
   );

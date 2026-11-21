@@ -129,6 +129,8 @@ function Preview({
     "Choose Move or an ability, then select a tile.",
   );
   const [renderError, setRenderError] = useState("");
+  const [customAnimation, setCustomAnimation] = useState("idle"),
+    [lastCustomAnimation, setLastCustomAnimation] = useState("none");
   const [soundEnabled, setSoundEnabled] = useState(false),
     [soundNotice, setSoundNotice] = useState("Preview sound is muted.");
   const soundPlayer = useRef<StudioSfxPlayer | null>(null),
@@ -194,6 +196,11 @@ function Preview({
         (x, z) => click.current(x, z),
         () => {},
         project.pixels,
+        (state) => {
+          setCustomAnimation(state);
+          if (["walk", "attack", "cast"].includes(state))
+            setLastCustomAnimation(state);
+        },
       );
       scene.renderer.domElement.setAttribute(
         "aria-label",
@@ -317,6 +324,12 @@ function Preview({
             <p>
               Custom pixel clip: {project.pixels.actorId} /{" "}
               {project.pixels.frames.length} frames
+            </p>
+          )}
+          {project.pixels?.enabled && (
+            <p>
+              Custom animation: {customAnimation} / Last active clip:{" "}
+              {lastCustomAnimation}
             </p>
           )}
           <h2>
@@ -638,7 +651,7 @@ function Studio() {
             </div>
             <div hidden={panel !== "pixels"}>
               <h2>Pixel workspace</h2>
-              <p>16 x 24 / Two layers / Up to four frames</p>
+              <p>16 x 24 / Two layers / Up to four frames per action</p>
               <p>
                 Paint source pixels, edit timing and pivot, then apply the clip
                 to one actor.

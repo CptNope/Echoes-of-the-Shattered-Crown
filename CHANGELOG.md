@@ -4,6 +4,10 @@
 
 ### Added
 
+- Added independent Idle/Walk/Attack/Cast authoring with explicit source-preserving conversion, owned frame editing and up to sixteen packed frames.
+- Custom actor playback follows real movement and physical/magical actions, with authored one-shot timing and a state inspector. Older shared-loop sources retain their behavior.
+- Added eight action-clip tests (100 total) and compact source-preserving exports when pretty JSON exceeds the existing 128 KiB limit.
+
 - Added a working pixel/animation pilot: 16×24 indexed art, two layers, brush/eraser strokes, draft undo/redo, palette edits, visibility/order, up to four frames, timing, pivot, onion skin, playback and PNG sheet export.
 - Applied clips share project history/checkpoints/JSON and replace one selected actor in the existing studio playtest renderer. Added eight pixel tests (92 total). Full state/direction clips, arbitrary image import and complete-game packaging remain planned.
 

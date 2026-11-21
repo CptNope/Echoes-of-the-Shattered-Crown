@@ -75,3 +75,5 @@ Applied sound banks use the same project history, checkpoint and source export/i
 The [music-pattern pilot](MUSIC_PATTERN_STUDIO.md) adds one editable sixteen-step bar with loop audition, WAV export and preview playback alongside SFX. Applied notes use the same history/checkpoint/JSON path.
 
 The [pixel-animation pilot](PIXEL_ANIMATION_STUDIO.md) adds a two-layer 16x24 clip with frame editing, source timing/pivot, PNG export and one-actor playback. Project JSON retains its optional pixels source alongside music and SFX.
+
+The [action-clip extension](ACTION_CLIP_STUDIO.md) adds explicit Idle/Walk/Attack/Cast ownership and state-driven playback. Existing shared-loop files remain valid; rich projects may export as compact JSON to stay within the same 128 KiB limit.

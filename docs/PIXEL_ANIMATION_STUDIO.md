@@ -4,6 +4,8 @@
 
 The implemented **Pixels** editor paints a small, layered source clip and applies it to one actor in the studio playtest. It implements part of STSL-03, not the full character-production toolchain. The original game art remains available when the custom clip is omitted.
 
+[Independent action clips](ACTION_CLIP_STUDIO.md) extend this pilot with explicit Idle/Walk/Attack/Cast conversion and 1–4 owned frames per action. Unconverted projects retain the original shared-loop behavior.
+
 ## Edit, animate and play
 
 1. Open the studio and select **Pixels**. The starter lantern sprite is editable source, not an imported production character.
@@ -25,7 +27,7 @@ Draft pixel history retains 30 snapshots, independently of the 50-step project h
 | Actors | The eight shrine roster IDs |
 | Palette | 2–16 indexed entries; index 0 exactly transparent; all others opaque RGBA hex |
 | Layers | Exactly base and detail, stable IDs, explicit order and visibility |
-| Frames | 1–4 unique stable IDs, each with two 384-index cels |
+| Frames | 1–4 legacy frames, or 1–4 per action (up to sixteen); each has two 384-index cels |
 | Duration | 40–1,000 whole milliseconds per frame |
 | Pivot | Shared integer x 0–16, y 0–24, measured from the source top-left |
 | Composition | Last visible nontransparent layer wins; no source flattening |
@@ -53,14 +55,14 @@ flowchart LR
 
 The same frame compositor feeds editor preview, PNG export and the scene texture. Source frame durations select the atlas column; the pivot controls sprite registration. Compilation/playback do not consume combat RNG or change battle state.
 
-This first custom clip loops across living actor states; it has no separate attack/cast/walk directions. A downed actor holds the final frame and rotates with the existing presentation policy. System reduced motion holds frame 1. Existing combat effects and authored audio remain available.
+Unconverted custom sources loop across living states. Converted sources use authored action clips; see the [state-selection contract](ACTION_CLIP_STUDIO.md). Existing combat effects and authored audio remain available.
 
 Old level projects without pixels remain valid. The current studio preserves the optional source; earlier builds reject unfamiliar fields. Disabling a clip retains its source and restores original actor art in a fresh preview.
 
 ## Limits and verification
 
-Resizing, arbitrary image-file import, per-frame pivots, attachments, free-form layer counts, partial-alpha paint, full state/direction clips, tile editing and standalone complete-game export remain planned.
+Resizing, arbitrary image-file import, per-frame pivots, attachments, free-form layer counts, partial-alpha paint, extra state/direction clips, tile editing and standalone complete-game export remain planned.
 
-Eight pixel cases verify schema bounds, atomic brush/eraser behavior, stable layer/cel and palette relationships, frame cloning/order/timing boundaries, every packed RGBA pixel, source/history round trips, battle/RNG isolation and actor/pivot/frame limits. The full suite has 92 tests.
+Eight base pixel cases verify source editing and packing. Eight action-clip cases add ownership, timing, compatibility and large-export checks. The full suite has 100 tests.
 
 Browser review should paint and undo a stroke, edit timing and registration, audition, export PNG plus source, import/reopen it, and inspect the selected actor in a real playtest. A flattened PNG or passing schema check alone does not prove a full animation authoring tool.

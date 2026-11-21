@@ -23,7 +23,8 @@ import { CombatEffects } from "./effect-renderer";
 import type { ActionCue } from "./animation";
 import {
   compilePixelSheet,
-  pixelFrameAt,
+  pixelStateFrame,
+  pixelClipDuration,
   type PixelClip,
 } from "./studio-pixels";
 function pixelCanvas(clip: PixelClip): HTMLCanvasElement {
@@ -66,6 +67,7 @@ export class Battlefield {
       attackUntil: number;
       sheet: LoadedAnimationSheet | null;
       custom: PixelClip | null;
+      customState: string | null;
       artJob: Unit["job"];
       artFrame: number;
       action: {
@@ -106,6 +108,7 @@ export class Battlefield {
     onSelect: (x: number, z: number) => void,
     onHover: (x: number, z: number) => void,
     private pixelClip?: PixelClip,
+    private onCustomAnimation?: (state: string) => void,
   ) {
     this.state = state;
     this.onSelect = onSelect;
@@ -401,6 +404,7 @@ export class Battlefield {
         attackUntil: 0,
         sheet: null,
         custom,
+        customState: null,
         artJob: u.job,
         artFrame: -1,
         action: null,
@@ -680,14 +684,41 @@ export class Battlefield {
               this.reduced,
             );
         }
-        if (time - a.action.start >= clipDuration(a.action.clip))
+        if (
+          time - a.action.start >=
+          (a.custom?.clips
+            ? pixelClipDuration(a.custom, a.action.clip)
+            : clipDuration(a.action.clip))
+        )
           a.action = null;
       }
       if (a.custom) {
-        const frame =
-          u.hp <= 0
-            ? a.custom.frames.length - 1
-            : pixelFrameAt(a.custom, time - a.idleStart, this.reduced);
+        const state = chooseAnimation({
+          hp: u.hp,
+          walking: walking && !this.reduced,
+          hurt: time < a.hurtUntil,
+          action: a.action?.clip ?? null,
+          result: this.state.result,
+          team: u.team,
+          guard: u.guard,
+        });
+        const start =
+          state === "walk"
+            ? a.walkStart
+            : state === "attack" || state === "cast"
+              ? (a.action?.start ?? time)
+              : a.idleStart;
+        const frame = pixelStateFrame(
+          a.custom,
+          state,
+          time - start,
+          this.reduced,
+        );
+        const label = a.custom.clips ? state : "shared loop";
+        if (a.customState !== label) {
+          a.customState = label;
+          this.onCustomAnimation?.(label);
+        }
         const map = a.sprite.material.map!;
         map.repeat.set(1 / a.custom.frames.length, 1);
         map.offset.set(frame / a.custom.frames.length, 0);

@@ -19,6 +19,8 @@ The game baseline is **v0.8.0**. Current implementation guides and future expans
 
 ## Current game reference
 
+[Action-clip editor](ACTION_CLIP_STUDIO.md): independent idle/walk/attack/cast frames and real-action playback, with legacy source compatibility.
+
 [Working pixel-animation editor](PIXEL_ANIMATION_STUDIO.md): layered brush/eraser art, frames/timing/pivot, PNG export and actor playback.
 
 [Working music-pattern editor](MUSIC_PATTERN_STUDIO.md): compose sixteen notes/rests, audition/export a bar and loop it with SFX in preview.

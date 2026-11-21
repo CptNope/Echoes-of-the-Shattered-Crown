@@ -8,6 +8,8 @@ export const PIXEL_ACTORS = [
   "wraith",
   "cantor",
 ] as const;
+export const PIXEL_STATES = ["idle", "walk", "attack", "cast"] as const;
+export type PixelState = (typeof PIXEL_STATES)[number];
 export interface PixelClip {
   version: 1;
   width: 16;
@@ -18,6 +20,7 @@ export interface PixelClip {
   layers: { id: "base" | "detail"; visible: boolean }[];
   frames: { id: string; durationMs: number; cels: number[][] }[];
   pivot: { x: number; y: number };
+  clips?: Record<PixelState, string[]>;
 }
 export function defaultPixelClip(): PixelClip {
   const base = Array<number>(384).fill(0),
@@ -106,6 +109,7 @@ export function validatePixelClip(raw: unknown): PixelClip {
     "layers",
     "frames",
     "pivot",
+    "clips",
   ]);
   check(
     raw.version === 1 && raw.width === 16 && raw.height === 24,
@@ -150,8 +154,8 @@ export function validatePixelClip(raw: unknown): PixelClip {
   check(
     Array.isArray(raw.frames) &&
       raw.frames.length >= 1 &&
-      raw.frames.length <= 4,
-    "Use 1-4 frames.",
+      raw.frames.length <= (raw.clips === undefined ? 4 : 16),
+    "Use up to four legacy frames or sixteen frames with action clips.",
   );
   const ids = new Set();
   for (const f of raw.frames) {
@@ -182,6 +186,29 @@ export function validatePixelClip(raw: unknown): PixelClip {
       "Cel pixels must resolve to palette indices.",
     );
   }
+  if (raw.clips !== undefined) {
+    check(object(raw.clips), "Invalid action clips.");
+    fields(raw.clips, [...PIXEL_STATES]);
+    const assigned = new Set<string>();
+    for (const state of PIXEL_STATES) {
+      const refs = raw.clips[state];
+      check(
+        Array.isArray(refs) && refs.length >= 1 && refs.length <= 4,
+        "Each action clip needs 1-4 frames.",
+      );
+      for (const id of refs) {
+        check(
+          typeof id === "string" && ids.has(id) && !assigned.has(id),
+          "Clip frames must resolve and belong to one action.",
+        );
+        assigned.add(id);
+      }
+    }
+    check(
+      assigned.size === ids.size,
+      "Every source frame must belong to an action clip.",
+    );
+  }
   check(object(raw.pivot), "Invalid pivot.");
   fields(raw.pivot, ["x", "y"]);
   check(
@@ -198,8 +225,9 @@ export type PixelEdit =
       points: { x: number; y: number; color: number }[];
     }
   | { type: "timing"; frameId: string; durationMs: number }
-  | { type: "duplicate" | "delete"; frameId: string }
-  | { type: "move"; frameId: string; direction: -1 | 1 }
+  | { type: "duplicate" | "delete"; frameId: string; state?: PixelState }
+  | { type: "move"; frameId: string; direction: -1 | 1; state?: PixelState }
+  | { type: "create-clips" }
   | { type: "palette"; index: number; color: string }
   | { type: "visible"; layerId: string; visible: boolean }
   | { type: "swap-layers" }
@@ -233,27 +261,74 @@ export function editPixelClip(source: PixelClip, edit: PixelEdit): PixelClip {
     f.durationMs = edit.durationMs;
   } else if (edit.type === "duplicate") {
     const i = next.frames.findIndex((f) => f.id === edit.frameId);
-    check(i >= 0 && next.frames.length < 4, "Keep at most four frames.");
+    const sequence = next.clips ? next.clips[edit.state!] : undefined;
+    check(
+      !next.clips || sequence?.includes(edit.frameId),
+      "Choose the owning action clip.",
+    );
+    check(
+      i >= 0 &&
+        next.frames.length < (next.clips ? 16 : 4) &&
+        (!sequence || sequence.length < 4),
+      "Keep at most four frames per clip.",
+    );
     const f = structuredClone(next.frames[i]);
     let n = 1;
     while (next.frames.some((f) => f.id === "frame-" + n)) n++;
     f.id = "frame-" + n;
     next.frames.splice(i + 1, 0, f);
+    if (sequence) sequence.splice(sequence.indexOf(edit.frameId) + 1, 0, f.id);
   } else if (edit.type === "delete") {
     const i = next.frames.findIndex((f) => f.id === edit.frameId);
-    check(i >= 0 && next.frames.length > 1, "Keep at least one frame.");
-    next.frames.splice(i, 1);
-  } else if (edit.type === "move") {
-    const i = next.frames.findIndex((f) => f.id === edit.frameId),
-      j = i + edit.direction;
+    const sequence = next.clips ? next.clips[edit.state!] : undefined;
     check(
-      i >= 0 &&
+      !next.clips || sequence?.includes(edit.frameId),
+      "Choose the owning action clip.",
+    );
+    check(
+      i >= 0 && next.frames.length > 1 && (!sequence || sequence.length > 1),
+      "Keep at least one frame per clip.",
+    );
+    next.frames.splice(i, 1);
+    if (sequence) sequence.splice(sequence.indexOf(edit.frameId), 1);
+  } else if (edit.type === "move") {
+    const sequence = next.clips
+      ? next.clips[edit.state!]
+      : next.frames.map((f) => f.id);
+    check(
+      sequence && sequence.includes(edit.frameId),
+      "Choose the owning action clip.",
+    );
+    const at = sequence.indexOf(edit.frameId),
+      to = at + edit.direction;
+    check(
+      at >= 0 &&
         (edit.direction === 1 || edit.direction === -1) &&
-        j >= 0 &&
-        j < next.frames.length,
+        to >= 0 &&
+        to < sequence.length,
       "Frame cannot move further.",
     );
+    const i = next.frames.findIndex((f) => f.id === sequence[at]),
+      j = next.frames.findIndex((f) => f.id === sequence[to]);
     [next.frames[i], next.frames[j]] = [next.frames[j], next.frames[i]];
+    if (next.clips) [sequence[at], sequence[to]] = [sequence[to], sequence[at]];
+  } else if (edit.type === "create-clips") {
+    check(!next.clips, "Action clips already exist.");
+    const originals = structuredClone(next.frames),
+      clips = {} as Record<PixelState, string[]>;
+    clips.idle = originals.map((f) => f.id);
+    for (const state of ["walk", "attack", "cast"] as const) {
+      clips[state] = [];
+      for (const original of originals) {
+        const frame = structuredClone(original);
+        let n = 1;
+        while (next.frames.some((f) => f.id === "frame-" + n)) n++;
+        frame.id = "frame-" + n;
+        next.frames.push(frame);
+        clips[state].push(frame.id);
+      }
+    }
+    next.clips = clips;
   } else if (edit.type === "palette") {
     check(
       integer(edit.index, 1, next.palette.length - 1),
@@ -326,4 +401,40 @@ export function pixelFrameAt(
     t -= clip.frames[i].durationMs;
   }
   return 0;
+}
+export function pixelSequence(clip: PixelClip, state: PixelState) {
+  return clip.clips
+    ? clip.clips[state].map((id) => clip.frames.find((f) => f.id === id)!)
+    : clip.frames;
+}
+export function pixelClipDuration(clip: PixelClip, state: PixelState) {
+  return pixelSequence(clip, state).reduce((n, f) => n + f.durationMs, 0);
+}
+export function pixelStateFrame(
+  clip: PixelClip,
+  state: string,
+  elapsed: number,
+  reduced = false,
+): number {
+  if (!clip.clips)
+    return state === "downed"
+      ? clip.frames.length - 1
+      : pixelFrameAt(clip, elapsed, reduced);
+  const mapped = PIXEL_STATES.includes(state as PixelState)
+    ? (state as PixelState)
+    : "idle";
+  const sequence = pixelSequence(clip, mapped);
+  if (state === "downed")
+    return clip.frames.findIndex((f) => f.id === sequence.at(-1)!.id);
+  let t = Math.max(0, Number.isFinite(elapsed) ? elapsed : 0);
+  if (reduced) return clip.frames.findIndex((f) => f.id === sequence[0].id);
+  const duration = pixelClipDuration(clip, mapped);
+  if (mapped === "attack" || mapped === "cast") t = Math.min(t, duration - 1);
+  else t %= duration;
+  for (const frame of sequence) {
+    if (t < frame.durationMs)
+      return clip.frames.findIndex((f) => f.id === frame.id);
+    t -= frame.durationMs;
+  }
+  return clip.frames.findIndex((f) => f.id === sequence.at(-1)!.id);
 }

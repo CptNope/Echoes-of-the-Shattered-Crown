@@ -133,7 +133,13 @@ export function parseLevelProject(text: string): LevelProject {
   return validateLevelProject(raw);
 }
 export function exportLevelProject(project: LevelProject): string {
-  return JSON.stringify(validateLevelProject(project), null, 2) + "\n";
+  const p = validateLevelProject(project),
+    pretty = JSON.stringify(p, null, 2) + "\n";
+  if (new TextEncoder().encode(pretty).length <= PROJECT_LIMIT) return pretty;
+  const compact = JSON.stringify(p) + "\n";
+  if (new TextEncoder().encode(compact).length > PROJECT_LIMIT)
+    fail("Project exceeds the 128 KiB export limit.");
+  return compact;
 }
 export type ProjectEdit =
   | {

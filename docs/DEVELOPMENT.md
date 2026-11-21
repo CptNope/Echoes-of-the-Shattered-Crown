@@ -119,3 +119,5 @@ The [sound-effects pilot](SOUND_EFFECTS_STUDIO.md) uses studio-sfx.ts for source
 The [music pilot](MUSIC_PATTERN_STUDIO.md) uses studio-music.ts for strict source validation and a deterministic one-bar renderer, MusicEditor.tsx for staged composition, and the shared studio audio player for a single loop beside SFX. Music is optional source in level-project v1; tests cover old projects without it.
 
 The [pixel pilot](PIXEL_ANIMATION_STUDIO.md) uses studio-pixels.ts for typed source edits, validation, composition, packing and source-time frame selection. PixelEditor.tsx owns local drafts/strokes. scene.ts accepts an optional clip for one actor; async production-art loading must never overwrite that actor texture. The normal game passes no custom clip.
+
+Action clips bind stable frame IDs to four states in studio-pixels.ts. Keep atlas order separate from playback order; use pixelStateFrame/pixelClipDuration in the renderer. Custom animation callbacks are presentation diagnostics only. Preserve the shared-loop path when clips are absent, and ensure exported projects pass import-size checks. See [action clips](ACTION_CLIP_STUDIO.md).

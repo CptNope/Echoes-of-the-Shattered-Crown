@@ -65,6 +65,6 @@ Older studio builds that do not support sounds reject these enhanced project fil
 
 ## Verification
 
-Eight sound tests cover finite/bounded repeatable PCM and endpoints, pitch/gain/seed/mute/delay changes, source rejection, every quantized WAV sample/header, source/history round trips, outcome deduplication, real-command state/RNG isolation and player voice/context cleanup using a test AudioContext. Together with the [music pilot](MUSIC_PATTERN_STUDIO.md) and previous tests the suite has 92 cases.
+Eight sound tests cover finite/bounded repeatable PCM and endpoints, pitch/gain/seed/mute/delay changes, source rejection, every quantized WAV sample/header, source/history round trips, outcome deduplication, real-command state/RNG isolation and player voice/context cleanup using a test AudioContext. Together with the [music pilot](MUSIC_PATTERN_STUDIO.md) and previous tests the suite has 100 cases.
 
 The mocked lifecycle test does not prove device audibility. Browser review should audition, stop, export/reopen sources, enable preview sound, resolve a legal attack and inspect the outcome label and console. This pilot does not complete the music/SFX graph slice or certify codec/device parity.
