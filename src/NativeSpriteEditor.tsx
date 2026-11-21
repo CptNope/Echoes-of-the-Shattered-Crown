@@ -5,6 +5,7 @@ import { PIXEL_ACTORS } from "./studio-pixels";
 import {
   applyNativePatches,
   nativeFill,
+  nativeBrushPoints,
   nativeFrameAt,
   nativeFrameRect,
   nativePaint,
@@ -53,6 +54,7 @@ export function NativeSpriteEditor({
   const canvas = useRef<HTMLCanvasElement>(null),
     preview = useRef<HTMLCanvasElement>(null),
     stroke = useRef<NativeSprite | null>(null),
+    strokePoint = useRef<{ x: number; y: number } | null>(null),
     live = useRef(draft),
     generation = useRef(0);
   live.current = draft;
@@ -165,16 +167,15 @@ export function NativeSpriteEditor({
         );
         return;
       }
-      const points = [];
-      for (let dy = -Math.floor(size / 2); dy <= Math.floor(size / 2); dy++)
-        for (let dx = -Math.floor(size / 2); dx <= Math.floor(size / 2); dx++)
-          if (
-            x + dx >= 0 &&
-            y + dy >= 0 &&
-            x + dx < rect.width &&
-            y + dy < rect.height
-          )
-            points.push({ x: x + dx, y: y + dy, color: ink });
+      const points = nativeBrushPoints(
+        p,
+        frame,
+        continuous ? (strokePoint.current ?? { x, y }) : { x, y },
+        { x, y },
+        size,
+        ink,
+      );
+      if (continuous) strokePoint.current = { x, y };
       const next =
         tool === "fill"
           ? nativeFill(p, frame, applyNativePatches(base, p), x, y, ink)
@@ -191,6 +192,7 @@ export function NativeSpriteEditor({
   function finish(cancel = false) {
     const before = stroke.current;
     stroke.current = null;
+    strokePoint.current = null;
     if (!before) return;
     if (cancel) {
       live.current = before;
@@ -465,6 +467,7 @@ export function NativeSpriteEditor({
                     e.currentTarget.focus();
                     if (tool === "brush" || tool === "erase") {
                       stroke.current = draft;
+                      strokePoint.current = null;
                       e.currentTarget.setPointerCapture(e.pointerId);
                       usePixel(p.x, p.y, true);
                     } else usePixel(p.x, p.y);

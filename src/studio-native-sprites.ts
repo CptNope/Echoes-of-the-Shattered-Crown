@@ -297,3 +297,42 @@ export function renderNativeFrame(
     }
   return { pixels: out, ...rect };
 }
+export function nativeBrushPoints(
+  p: NativeSprite,
+  frame: number,
+  from: { x: number; y: number },
+  to: { x: number; y: number },
+  size: number,
+  color: string,
+) {
+  nativePixelIndex(p, frame, from.x, from.y);
+  nativePixelIndex(p, frame, to.x, to.y);
+  check([1, 3, 5].includes(size), "Use a supported native brush size.");
+  const rect = nativeFrameRect(p, frame),
+    steps = Math.max(Math.abs(to.x - from.x), Math.abs(to.y - from.y)),
+    seen = new Set<number>(),
+    points: { x: number; y: number; color: string }[] = [];
+  for (let step = 0; step <= steps; step++) {
+    const x = steps
+        ? Math.round(from.x + ((to.x - from.x) * step) / steps)
+        : to.x,
+      y = steps ? Math.round(from.y + ((to.y - from.y) * step) / steps) : to.y;
+    for (let dy = -Math.floor(size / 2); dy <= Math.floor(size / 2); dy++)
+      for (let dx = -Math.floor(size / 2); dx <= Math.floor(size / 2); dx++) {
+        const px = x + dx,
+          py = y + dy,
+          index = py * rect.width + px;
+        if (
+          px >= 0 &&
+          py >= 0 &&
+          px < rect.width &&
+          py < rect.height &&
+          !seen.has(index)
+        ) {
+          seen.add(index);
+          points.push({ x: px, y: py, color });
+        }
+      }
+  }
+  return points;
+}

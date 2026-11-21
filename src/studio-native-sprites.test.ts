@@ -9,6 +9,7 @@ import {
   nativeFrameRect,
   nativePaint,
   nativeFill,
+  nativeBrushPoints,
   nativeFrameAt,
   nativeDuration,
   applyNativePatches,
@@ -108,6 +109,25 @@ test("native paint is atomic and preserves fractional alpha, exact addresses and
   assert.equal(Object.keys(next.patches).length, 2);
   assert.equal(next.patches[r.y * p.width + r.x], "#12345678");
   assert.equal(JSON.stringify(p), before);
+  const line = nativeBrushPoints(
+    p,
+    0,
+    { x: 0, y: 0 },
+    { x: 100, y: 0 },
+    1,
+    "#aabbccff",
+  );
+  assert.equal(line.length, 101);
+  assert.ok(line.every((point, index) => point.x === index && point.y === 0));
+  const edge = nativeBrushPoints(
+    p,
+    0,
+    { x: 0, y: 0 },
+    { x: 0, y: 0 },
+    5,
+    "#aabbccff",
+  );
+  assert.equal(edge.length, 9);
   const frame = renderNativeFrame(
     new Uint8ClampedArray(p.width * p.height * 4),
     next,
