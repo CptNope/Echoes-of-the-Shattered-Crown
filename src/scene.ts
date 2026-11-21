@@ -21,6 +21,21 @@ import {
 import { loadAnimationSheet, type LoadedAnimationSheet } from "./animation-art";
 import { CombatEffects } from "./effect-renderer";
 import type { ActionCue } from "./animation";
+import {
+  compilePixelSheet,
+  pixelFrameAt,
+  type PixelClip,
+} from "./studio-pixels";
+function pixelCanvas(clip: PixelClip): HTMLCanvasElement {
+  const sheet = compilePixelSheet(clip),
+    canvas = document.createElement("canvas");
+  canvas.width = sheet.width;
+  canvas.height = sheet.height;
+  canvas
+    .getContext("2d")!
+    .putImageData(new ImageData(sheet.pixels, sheet.width, sheet.height), 0, 0);
+  return canvas;
+}
 export type Mode = "inspect" | "move" | SkillId;
 const palette = {
   grass: [0x7d9161, 0x879b6c, 0x74895d, 0x8b9a6a],
@@ -50,6 +65,7 @@ export class Battlefield {
       hurtUntil: number;
       attackUntil: number;
       sheet: LoadedAnimationSheet | null;
+      custom: PixelClip | null;
       artJob: Unit["job"];
       artFrame: number;
       action: {
@@ -89,6 +105,7 @@ export class Battlefield {
     state: Battle,
     onSelect: (x: number, z: number) => void,
     onHover: (x: number, z: number) => void,
+    private pixelClip?: PixelClip,
   ) {
     this.state = state;
     this.onSelect = onSelect;
@@ -327,8 +344,17 @@ export class Battlefield {
   }
   private buildActors() {
     for (const u of this.state.units) {
-      const t = texture(spriteCanvas(u.job, u.team === "enemy"));
-      t.minFilter = t.magFilter = THREE.LinearFilter;
+      const custom =
+        this.pixelClip?.enabled && this.pixelClip.actorId === u.id
+          ? this.pixelClip
+          : null;
+      const t = texture(
+        custom ? pixelCanvas(custom) : spriteCanvas(u.job, u.team === "enemy"),
+      );
+      t.minFilter = t.magFilter = custom
+        ? THREE.NearestFilter
+        : THREE.LinearFilter;
+      if (custom) t.repeat.set(1 / custom.frames.length, 1);
       this.resources.push(t);
       const sprite = new THREE.Sprite(
         new THREE.SpriteMaterial({
@@ -374,6 +400,7 @@ export class Battlefield {
         hurtUntil: 0,
         attackUntil: 0,
         sheet: null,
+        custom,
         artJob: u.job,
         artFrame: -1,
         action: null,
@@ -387,6 +414,7 @@ export class Battlefield {
   }
   private refreshSprite(u: Unit) {
     const actor = this.actors.get(u.id)!;
+    if (actor.custom) return;
     actor.sheet = null;
     actor.artJob = u.job;
     actor.artFrame = -1;
@@ -401,6 +429,7 @@ export class Battlefield {
     this.requestAnimationArt(u);
   }
   private requestAnimationArt(u: Unit) {
+    if (this.actors.get(u.id)?.custom) return;
     void loadAnimationSheet(u.job).then((sheet) => {
       if (!sheet || this.disposed) return;
       const current = this.state.units.find((v) => v.id === u.id),
@@ -409,7 +438,8 @@ export class Battlefield {
         !actor ||
         current?.job !== u.job ||
         actor.artJob !== u.job ||
-        actor.sheet
+        actor.sheet ||
+        actor.custom
       )
         return;
       let source = this.animationSources.get(u.job);
@@ -632,7 +662,7 @@ export class Battlefield {
           u.x - 4,
           t.h * 0.43 +
             0.08 +
-            (this.reduced || a.sheet
+            (this.reduced || a.sheet || a.custom
               ? 0
               : Math.sin(time * 0.002 + u.x) * 0.018),
           u.z - 4,
@@ -653,7 +683,20 @@ export class Battlefield {
         if (time - a.action.start >= clipDuration(a.action.clip))
           a.action = null;
       }
-      if (a.sheet) {
+      if (a.custom) {
+        const frame =
+          u.hp <= 0
+            ? a.custom.frames.length - 1
+            : pixelFrameAt(a.custom, time - a.idleStart, this.reduced);
+        const map = a.sprite.material.map!;
+        map.repeat.set(1 / a.custom.frames.length, 1);
+        map.offset.set(frame / a.custom.frames.length, 0);
+        a.sprite.center.set(a.custom.pivot.x / 16, 1 - a.custom.pivot.y / 24);
+        a.sprite.scale.set(1.02, 1.53, 1);
+        a.sprite.material.rotation = u.hp <= 0 ? Math.PI / 2 : 0;
+        a.sprite.material.color.set(time < a.hurtUntil ? 0xffb9a6 : 0xffffff);
+        a.artFrame = frame;
+      } else if (a.sheet) {
         const state = chooseAnimation({
           hp: u.hp,
           walking: walking && !this.reduced,

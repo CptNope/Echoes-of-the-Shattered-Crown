@@ -1,6 +1,7 @@
 import { createBattle, type Battle, type Tile } from "./engine";
 import { validateSoundBank, type SoundBank } from "./studio-sfx";
 import { validateMusicPattern, type MusicPattern } from "./studio-music";
+import { validatePixelClip, type PixelClip } from "./studio-pixels";
 
 /** Implemented pilot format; deliberately separate from the proposed full studio schema. */
 export interface LevelProject {
@@ -14,6 +15,7 @@ export interface LevelProject {
   placements: { id: string; x: number; z: number }[];
   sounds?: SoundBank;
   music?: MusicPattern;
+  pixels?: PixelClip;
 }
 export const PROJECT_LIMIT = 128 * 1024;
 const template = createBattle();
@@ -59,6 +61,7 @@ export function validateLevelProject(raw: unknown): LevelProject {
     "placements",
     "sounds",
     "music",
+    "pixels",
   ]);
   if (raw.format !== "echoes-level-project" || raw.version !== 1)
     fail(
@@ -66,6 +69,7 @@ export function validateLevelProject(raw: unknown): LevelProject {
     );
   if (raw.sounds !== undefined) validateSoundBank(raw.sounds);
   if (raw.music !== undefined) validateMusicPattern(raw.music);
+  if (raw.pixels !== undefined) validatePixelClip(raw.pixels);
   if (typeof raw.id !== "string" || !/^[a-zA-Z0-9_-]{1,80}$/.test(raw.id))
     fail("Invalid project identity.");
   if (typeof raw.name !== "string" || !raw.name.trim() || raw.name.length > 80)
@@ -143,7 +147,8 @@ export type ProjectEdit =
   | { type: "place"; id: string; x: number; z: number }
   | { type: "metadata"; name: string; seed: number }
   | { type: "sounds"; bank: SoundBank }
-  | { type: "music"; pattern: MusicPattern };
+  | { type: "music"; pattern: MusicPattern }
+  | { type: "pixels"; clip: PixelClip };
 /** Atomic batch: reject every operation if any resulting invariant fails. */
 export function editProject(
   project: LevelProject,
@@ -166,6 +171,8 @@ export function editProject(
       if (!actor) fail("Unknown actor.");
       actor.x = e.x;
       actor.z = e.z;
+    } else if (e.type === "pixels") {
+      next.pixels = validatePixelClip(e.clip);
     } else if (e.type === "music") {
       next.music = validateMusicPattern(e.pattern);
     } else if (e.type === "sounds") {

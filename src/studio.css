@@ -62,6 +62,140 @@
 .music-binding {
   max-width: 420px;
 }
+.pixel-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 24px;
+  align-items: start;
+}
+.pixel-palette {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.pixel-palette button[aria-pressed="true"] {
+  outline: 3px solid #263b31;
+  outline-offset: 2px;
+}
+.palette-color {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+}
+.palette-color input {
+  width: 56px;
+  min-height: 32px;
+  padding: 3px;
+  margin: 0;
+}
+.pixel-canvas-well {
+  padding: 16px;
+  background: #edf0e8;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+.pixel-grid {
+  display: grid;
+  grid-template-columns: repeat(16, minmax(0, 1fr));
+  gap: 1px;
+  max-width: 336px;
+  min-width: 256px;
+  background: #b6c1af;
+  touch-action: none;
+  margin: 0 auto;
+}
+.pixel-grid button {
+  border: 0;
+  padding: 0;
+  border-radius: 0;
+  min-height: 0;
+  aspect-ratio: 1;
+  touch-action: none;
+}
+.pixel-grid button.pivot-pixel {
+  outline: 2px solid #b36325;
+  outline-offset: -2px;
+}
+.pixel-grid button:focus-visible {
+  outline: 3px solid #193d28;
+  outline-offset: -3px;
+}
+.pixel-help {
+  font-size: 12px;
+}
+.pixel-live {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.pixel-live canvas {
+  width: 96px;
+  height: 144px;
+  image-rendering: pixelated;
+  background: #edf0e8;
+}
+.pixel-live p {
+  font-size: 12px;
+}
+.pixel-inspector label {
+  font-size: 12px;
+  margin-top: 16px;
+}
+.pixel-inspector .actions {
+  margin-bottom: 16px;
+}
+.pixel-pivots,
+.pixel-binding {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.pixel-timeline {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+.pixel-timeline small {
+  display: block;
+  color: #566452;
+  font-size: 11px;
+}
+.pixel-binding {
+  max-width: 640px;
+  margin-top: 24px;
+}
+@media (max-width: 1100px) {
+  .pixel-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .pixel-inspector {
+    display: block;
+  }
+  .pixel-inspector .pixel-live {
+    max-width: 340px;
+  }
+}
+@media (max-width: 640px) {
+  .editor-tabs {
+    gap: 14px;
+  }
+  .pixel-grid button {
+    min-height: 0 !important;
+  }
+  .pixel-canvas-well {
+    padding: 8px;
+  }
+  .pixel-layout {
+    gap: 16px;
+  }
+  .pixel-binding {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
 @media (max-width: 1100px) {
   .music-step-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));

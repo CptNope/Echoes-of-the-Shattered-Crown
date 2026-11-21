@@ -4,6 +4,9 @@
 
 ### Added
 
+- Added a working pixel/animation pilot: 16×24 indexed art, two layers, brush/eraser strokes, draft undo/redo, palette edits, visibility/order, up to four frames, timing, pivot, onion skin, playback and PNG sheet export.
+- Applied clips share project history/checkpoints/JSON and replace one selected actor in the existing studio playtest renderer. Added eight pixel tests (92 total). Full state/direction clips, arbitrary image import and complete-game packaging remain planned.
+
 - Added a working music-pattern editor: sixteen notes/rests, tempo, instrument, gain, gate, loop audition/stop, one-bar WAV export and source-preserving project/history integration.
 - Studio preview can loop applied music alongside authored SFX after explicit sound opt-in; restart/mute/exit clean up playback. Added six music tests (84 total).
 

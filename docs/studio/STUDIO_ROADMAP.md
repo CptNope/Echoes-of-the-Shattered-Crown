@@ -1,5 +1,7 @@
 # Studio milestones and tooling backlog
 
+Working pilots now cover [level editing](../LEVEL_STUDIO.md), [layered SFX](../SOUND_EFFECTS_STUDIO.md), [music patterns](../MUSIC_PATTERN_STUDIO.md) and [pixel-animation source](../PIXEL_ANIMATION_STUDIO.md). These implement parts of STSL-01/02/03/04; full slice exits, all tooling work items and complete-game export gates remain unfulfilled.
+
 [Studio index](README.md) · [Original game backlog](../roadmap/BACKLOG.md) · [Acceptance](ACCEPTANCE_AND_ROUNDTRIP.md)
 
 **All eighty studio items are planned.** They extend, rather than replace, the original 160 game-expansion items. STU IDs identify authoring-tool work; STREQ IDs identify full-editability requirements.

@@ -13,6 +13,7 @@ import { jobs, skills } from "./data";
 import { Battlefield, type Mode } from "./scene";
 import { SoundEditor } from "./SoundEditor";
 import { MusicEditor } from "./MusicEditor";
+import { PixelEditor } from "./PixelEditor";
 import { renderMusic } from "./studio-music";
 import {
   defaultSoundBank,
@@ -192,6 +193,7 @@ function Preview({
         compileLevelProject(project),
         (x, z) => click.current(x, z),
         () => {},
+        project.pixels,
       );
       scene.renderer.domElement.setAttribute(
         "aria-label",
@@ -311,6 +313,12 @@ function Preview({
               {project.music.enabled ? "included" : "omitted"}
             </p>
           )}
+          {project.pixels?.enabled && (
+            <p>
+              Custom pixel clip: {project.pixels.actorId} /{" "}
+              {project.pixels.frames.length} frames
+            </p>
+          )}
           <h2>
             {battle.result === "playing"
               ? active.name
@@ -401,10 +409,13 @@ function Studio() {
     ),
     token = useRef(opened.token);
   const [secured, setSecured] = useState(opened.project.revision);
-  const [panel, setPanel] = useState<"map" | "sounds" | "music">("map"),
+  const [panel, setPanel] = useState<"map" | "sounds" | "music" | "pixels">(
+      "map",
+    ),
     [soundDraftDirty, setSoundDraftDirty] = useState(false);
   const [musicDraftDirty, setMusicDraftDirty] = useState(false);
-  const hasDraft = soundDraftDirty || musicDraftDirty;
+  const [pixelDraftDirty, setPixelDraftDirty] = useState(false);
+  const hasDraft = soundDraftDirty || musicDraftDirty || pixelDraftDirty;
   const bank = useMemo(
     () => project.sounds ?? defaultSoundBank(),
     [project.sounds],
@@ -481,7 +492,7 @@ function Studio() {
     attempt(() => {
       if (hasDraft)
         throw new Error(
-          "Apply or discard audio drafts before importing another project.",
+          "Apply or discard source drafts before importing another project.",
         );
       setStaged(parseLevelProject(text));
     });
@@ -625,6 +636,14 @@ function Studio() {
                 project.
               </p>
             </div>
+            <div hidden={panel !== "pixels"}>
+              <h2>Pixel workspace</h2>
+              <p>16 x 24 / Two layers / Up to four frames</p>
+              <p>
+                Paint source pixels, edit timing and pivot, then apply the clip
+                to one actor.
+              </p>
+            </div>
             <details className="project-details">
               <summary>Project details</summary>
               <label>
@@ -661,8 +680,8 @@ function Studio() {
             </details>
             <p className="scope-note">
               Pilot: fixed board, roster and combat rules. Layered combat SFX
-              are editable. Pixel, multitrack music and full-game packaging
-              tools remain planned.
+              and a pixel clip are editable. Multitrack music and full-game
+              packaging tools remain planned.
             </p>
           </aside>
           <main className="studio-sheet">
@@ -673,16 +692,20 @@ function Studio() {
                     ? "Battlefield editor"
                     : panel === "sounds"
                       ? "Sound effects editor"
-                      : "Music pattern editor"}
+                      : panel === "music"
+                        ? "Music pattern editor"
+                        : "Pixel animation editor"}
                 </h1>
                 <p>
                   {hasDraft
-                    ? "Apply or discard audio drafts before playtesting."
+                    ? "Apply or discard source drafts before playtesting."
                     : panel === "sounds"
                       ? "Edit, audition and apply combat sounds."
                       : panel === "music"
                         ? "Compose a four-beat loop for your battlefield."
-                        : "Shape the battlefield and its sounds, then play your revision."}
+                        : panel === "pixels"
+                          ? "Paint source pixels, time frames and play your clip."
+                          : "Shape the battlefield and its sounds, then play your revision."}
                 </p>
               </div>
               <button
@@ -713,6 +736,12 @@ function Studio() {
                 onClick={() => setPanel("music")}
               >
                 Music
+              </button>
+              <button
+                aria-pressed={panel === "pixels"}
+                onClick={() => setPanel("pixels")}
+              >
+                Pixels
               </button>
             </div>
             <div className="editor-toolbar">
@@ -767,6 +796,14 @@ function Studio() {
                 apply={(pattern) => edit([{ type: "music", pattern }])}
                 onDirty={setMusicDraftDirty}
                 active={panel === "music"}
+              />
+            </div>
+            <div hidden={panel !== "pixels"}>
+              <PixelEditor
+                clip={project.pixels}
+                apply={(clip) => edit([{ type: "pixels", clip }])}
+                onDirty={setPixelDraftDirty}
+                active={panel === "pixels"}
               />
             </div>
             <div className="map-layout" hidden={panel !== "map"}>

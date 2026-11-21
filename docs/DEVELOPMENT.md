@@ -117,3 +117,5 @@ Open studio.html during Vite development. src/studio-project.ts owns the impleme
 The [sound-effects pilot](SOUND_EFFECTS_STUDIO.md) uses studio-sfx.ts for source validation, deterministic PCM/WAV rendering, outcome bindings and the browser audio player. SoundEditor.tsx stages drafts; a sounds edit applies them through the existing project transaction/history path. Preserve optional-source compatibility and avoid consuming combat RNG.
 
 The [music pilot](MUSIC_PATTERN_STUDIO.md) uses studio-music.ts for strict source validation and a deterministic one-bar renderer, MusicEditor.tsx for staged composition, and the shared studio audio player for a single loop beside SFX. Music is optional source in level-project v1; tests cover old projects without it.
+
+The [pixel pilot](PIXEL_ANIMATION_STUDIO.md) uses studio-pixels.ts for typed source edits, validation, composition, packing and source-time frame selection. PixelEditor.tsx owns local drafts/strokes. scene.ts accepts an optional clip for one actor; async production-art loading must never overwrite that actor texture. The normal game passes no custom clip.
