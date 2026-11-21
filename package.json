@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "tsc --noEmit && vite build",
-    "test": "tsx --test src/engine.test.ts src/campaign.test.ts src/supports.test.ts src/advanced.test.ts src/portable.test.ts src/animation.test.ts src/combat-effects.test.ts src/studio-project.test.ts src/studio-sfx.test.ts src/studio-music.test.ts src/studio-pixels.test.ts src/studio-action-clips.test.ts src/studio-pixel-tools.test.ts",
+    "test": "tsx --test src/engine.test.ts src/campaign.test.ts src/supports.test.ts src/advanced.test.ts src/portable.test.ts src/animation.test.ts src/combat-effects.test.ts src/studio-project.test.ts src/studio-sfx.test.ts src/studio-music.test.ts src/studio-pixels.test.ts src/studio-action-clips.test.ts src/studio-pixel-tools.test.ts src/studio-native-sprites.test.ts",
     "art:build": "node scripts/build-animation-art.mjs",
     "art:verify": "node scripts/verify-animation-art.mjs",
     "effects:build": "node scripts/build-effect-art.mjs",

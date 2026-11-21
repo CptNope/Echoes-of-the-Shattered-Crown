@@ -13,6 +13,7 @@ import { jobs, skills } from "./data";
 import { Battlefield, type Mode } from "./scene";
 import { SoundEditor } from "./SoundEditor";
 import { MusicEditor } from "./MusicEditor";
+import { NativeSpriteEditor } from "./NativeSpriteEditor";
 import { PixelEditor } from "./PixelEditor";
 import { renderMusic } from "./studio-music";
 import {
@@ -29,7 +30,7 @@ import {
   exportLevelProject,
   loadProjectCheckpoint,
   saveProjectCheckpoint,
-  PROJECT_LIMIT,
+  NATIVE_PROJECT_LIMIT,
   type LevelProject,
   type ProjectHistory,
   type ProjectEdit,
@@ -196,12 +197,16 @@ function Preview({
         compileLevelProject(project),
         (x, z) => click.current(x, z),
         () => {},
-        project.pixels,
+        project.nativeSprite?.enabled &&
+          project.nativeSprite.actorId === project.pixels?.actorId
+          ? undefined
+          : project.pixels,
         (state) => {
           setCustomAnimation(state);
           if (["walk", "attack", "cast"].includes(state))
             setLastCustomAnimation(state);
         },
+        project.nativeSprite,
       );
       scene.renderer.domElement.setAttribute(
         "aria-label",
@@ -324,16 +329,27 @@ function Preview({
               {project.music.enabled ? "included" : "omitted"}
             </p>
           )}
-          {project.pixels?.enabled && (
-            <p>
-              Custom pixel clip: {project.pixels.actorId} /{" "}
-              {project.pixels.frames.length} frames
-            </p>
-          )}
-          {project.pixels?.enabled && (
+          {project.pixels?.enabled &&
+            !(
+              project.nativeSprite?.enabled &&
+              project.nativeSprite.actorId === project.pixels.actorId
+            ) && (
+              <p>
+                Custom pixel clip: {project.pixels.actorId} /{" "}
+                {project.pixels.frames.length} frames
+              </p>
+            )}
+          {(project.pixels?.enabled || project.nativeSprite?.enabled) && (
             <p>
               Custom animation: {customAnimation} / Last active clip:{" "}
               {lastCustomAnimation}
+            </p>
+          )}
+          {project.nativeSprite?.enabled && (
+            <p>
+              Native sprite: {project.nativeSprite.job} /{" "}
+              {project.nativeSprite.actorId} / {project.nativeSprite.width} ×{" "}
+              {project.nativeSprite.height} / 32 frames
             </p>
           )}
           <h2>
@@ -420,7 +436,7 @@ function Studio() {
   const [message, setMessage] = useState(opened.message),
     [error, setError] = useState("");
   const [saved, setSaved] = useState<number | null>(() =>
-      opened.token === exportLevelProject(opened.project)
+      opened.message === "Local checkpoint opened."
         ? opened.project.revision
         : null,
     ),
@@ -432,7 +448,10 @@ function Studio() {
     [soundDraftDirty, setSoundDraftDirty] = useState(false);
   const [musicDraftDirty, setMusicDraftDirty] = useState(false);
   const [pixelDraftDirty, setPixelDraftDirty] = useState(false);
-  const hasDraft = soundDraftDirty || musicDraftDirty || pixelDraftDirty;
+  const [nativeDraftDirty, setNativeDraftDirty] = useState(false);
+  const [pixelMode, setPixelMode] = useState<"native" | "indexed">("native");
+  const hasDraft =
+    soundDraftDirty || musicDraftDirty || pixelDraftDirty || nativeDraftDirty;
   const bank = useMemo(
     () => project.sounds ?? defaultSoundBank(),
     [project.sounds],
@@ -655,7 +674,7 @@ function Studio() {
             </div>
             <div hidden={panel !== "pixels"}>
               <h2>Pixel workspace</h2>
-              <p>16 x 24 / Two layers / Up to four frames per action</p>
+              <p>Native game sheets or 16 × 24 indexed source</p>
               <p>
                 Paint source pixels, edit timing and pivot, then apply the clip
                 to one actor.
@@ -816,12 +835,40 @@ function Studio() {
               />
             </div>
             <div hidden={panel !== "pixels"}>
-              <PixelEditor
-                clip={project.pixels}
-                apply={(clip) => edit([{ type: "pixels", clip }])}
-                onDirty={setPixelDraftDirty}
-                active={panel === "pixels"}
-              />
+              <div
+                className="pixel-tools"
+                role="group"
+                aria-label="Sprite editor mode"
+              >
+                <button
+                  aria-pressed={pixelMode === "native"}
+                  onClick={() => setPixelMode("native")}
+                >
+                  Game sprites · native resolution
+                </button>
+                <button
+                  aria-pressed={pixelMode === "indexed"}
+                  onClick={() => setPixelMode("indexed")}
+                >
+                  Small indexed sprite
+                </button>
+              </div>
+              <div hidden={pixelMode !== "native"}>
+                <NativeSpriteEditor
+                  source={project.nativeSprite}
+                  apply={(sprite) => edit([{ type: "native-sprite", sprite }])}
+                  onDirty={setNativeDraftDirty}
+                  active={panel === "pixels" && pixelMode === "native"}
+                />
+              </div>
+              <div hidden={pixelMode !== "indexed"}>
+                <PixelEditor
+                  clip={project.pixels}
+                  apply={(clip) => edit([{ type: "pixels", clip }])}
+                  onDirty={setPixelDraftDirty}
+                  active={panel === "pixels" && pixelMode === "indexed"}
+                />
+              </div>
             </div>
             <div className="map-layout" hidden={panel !== "map"}>
               <section className="map-well">
@@ -930,8 +977,10 @@ function Studio() {
                         const file = e.target.files?.[0];
                         e.target.value = "";
                         if (!file) return;
-                        if (file.size > PROJECT_LIMIT) {
-                          setError("Project exceeds the 128 KiB import limit.");
+                        if (file.size > NATIVE_PROJECT_LIMIT) {
+                          setError(
+                            "Project exceeds the 8 MiB native import limit (128 KiB without native source).",
+                          );
                           return;
                         }
                         void file

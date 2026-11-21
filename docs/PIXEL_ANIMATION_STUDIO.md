@@ -6,6 +6,8 @@ The implemented **Pixels** editor paints a small, layered source clip and applie
 
 [Independent action clips](ACTION_CLIP_STUDIO.md) extend this pilot with explicit Idle/Walk/Attack/Cast conversion and 1–4 owned frames per action. Unconverted projects retain the original shared-loop behavior.
 
+For the actual higher-resolution game characters, choose **Game sprites · native resolution**; see the [native sheet editor](NATIVE_SPRITE_STUDIO.md). This guide describes the separate small indexed editor. Native mode supports all eight shipped states and partial alpha without a palette reduction.
+
 ## Edit, animate and play
 
 1. Open the studio and select **Pixels**. The starter lantern sprite is editable source, not an imported production character.
@@ -89,6 +91,6 @@ Old level projects without pixels remain valid. The current studio preserves the
 
 Resizing, arbitrary image-file import, per-frame pivots, attachments, free-form layer counts, partial-alpha paint, extra state/direction clips, tile editing and standalone complete-game export remain planned.
 
-Eight base pixel cases verify source editing and packing. Eight action-clip cases add ownership, timing, compatibility and large-export checks. Six pose-tool cases add fill, transforms, paste and rejection checks. The full suite has 106 tests.
+Eight base pixel cases verify source editing and packing. Eight action-clip cases add ownership, timing, compatibility and large-export checks. Six pose-tool cases add fill, transforms, paste and rejection checks. The full suite has 114 tests.
 
 Browser review should paint and undo a stroke, edit timing and registration, audition, export PNG plus source, import/reopen it, and inspect the selected actor in a real playtest. A flattened PNG or passing schema check alone does not prove a full animation authoring tool.

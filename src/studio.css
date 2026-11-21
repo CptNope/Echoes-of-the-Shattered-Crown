@@ -902,3 +902,87 @@ dialog::backdrop {
     padding-top: 0;
   }
 }
+.native-load,
+.native-settings,
+.native-colors,
+.native-coordinate {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: end;
+  margin: 16px 0;
+}
+.native-load label,
+.native-settings label {
+  min-width: 160px;
+  flex: 1;
+  margin: 0;
+}
+.native-colors label,
+.native-coordinate label {
+  max-width: 140px;
+  margin: 0;
+}
+.native-colors input[type="color"] {
+  width: 80px;
+  padding: 3px;
+}
+.native-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 24px;
+  align-items: start;
+}
+.native-canvas-scroll {
+  overflow: auto;
+  max-height: 600px;
+  max-width: 100%;
+  padding: 12px;
+  background: #edf0e8;
+  border-radius: 8px;
+}
+.native-canvas-scroll canvas {
+  display: block;
+  max-width: none;
+  image-rendering: pixelated;
+  touch-action: none;
+  cursor: crosshair;
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath fill='%23e2e7de' d='M0 0h8v8H0zM8 8h8v8H8z'/%3E%3C/svg%3E");
+  background-size: 16px 16px;
+}
+.native-canvas-scroll canvas:focus-visible {
+  outline: 2px solid #263b31;
+  outline-offset: 2px;
+}
+.native-preview {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  background: #edf0e8;
+}
+@media (max-width: 1100px) {
+  .native-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .native-layout .pixel-inspector {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: start;
+    gap: 16px;
+  }
+}
+@media (max-width: 640px) {
+  .native-settings label,
+  .native-load label {
+    min-width: 130px;
+  }
+  .native-canvas-scroll {
+    max-height: 440px;
+  }
+  .native-colors label,
+  .native-coordinate label {
+    max-width: 120px;
+  }
+}

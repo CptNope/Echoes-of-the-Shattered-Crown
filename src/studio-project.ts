@@ -2,6 +2,10 @@ import { createBattle, type Battle, type Tile } from "./engine";
 import { validateSoundBank, type SoundBank } from "./studio-sfx";
 import { validateMusicPattern, type MusicPattern } from "./studio-music";
 import { validatePixelClip, type PixelClip } from "./studio-pixels";
+import {
+  validateNativeSprite,
+  type NativeSprite,
+} from "./studio-native-sprites";
 
 /** Implemented pilot format; deliberately separate from the proposed full studio schema. */
 export interface LevelProject {
@@ -16,8 +20,11 @@ export interface LevelProject {
   sounds?: SoundBank;
   music?: MusicPattern;
   pixels?: PixelClip;
+  nativeSprite?: NativeSprite;
 }
 export const PROJECT_LIMIT = 128 * 1024;
+export const NATIVE_PROJECT_LIMIT = 8 * 1024 * 1024;
+const LEGACY_PROJECT_LIMIT = PROJECT_LIMIT;
 const template = createBattle();
 export function createLevelProject(): LevelProject {
   return {
@@ -62,6 +69,7 @@ export function validateLevelProject(raw: unknown): LevelProject {
     "sounds",
     "music",
     "pixels",
+    "nativeSprite",
   ]);
   if (raw.format !== "echoes-level-project" || raw.version !== 1)
     fail(
@@ -70,6 +78,7 @@ export function validateLevelProject(raw: unknown): LevelProject {
   if (raw.sounds !== undefined) validateSoundBank(raw.sounds);
   if (raw.music !== undefined) validateMusicPattern(raw.music);
   if (raw.pixels !== undefined) validatePixelClip(raw.pixels);
+  if (raw.nativeSprite !== undefined) validateNativeSprite(raw.nativeSprite);
   if (typeof raw.id !== "string" || !/^[a-zA-Z0-9_-]{1,80}$/.test(raw.id))
     fail("Invalid project identity.");
   if (typeof raw.name !== "string" || !raw.name.trim() || raw.name.length > 80)
@@ -122,23 +131,34 @@ export function validateLevelProject(raw: unknown): LevelProject {
   return structuredClone(raw) as unknown as LevelProject;
 }
 export function parseLevelProject(text: string): LevelProject {
-  if (new TextEncoder().encode(text).length > PROJECT_LIMIT)
-    fail("Project exceeds the 128 KiB import limit.");
+  if (new TextEncoder().encode(text).length > NATIVE_PROJECT_LIMIT)
+    fail("Project exceeds the 128 KiB legacy / 8 MiB native import limit.");
   let raw: unknown;
   try {
     raw = JSON.parse(text);
   } catch {
+    if (new TextEncoder().encode(text).length > LEGACY_PROJECT_LIMIT)
+      fail(
+        "Project exceeds the 128 KiB legacy import limit; larger imports require native sprite source.",
+      );
     fail("Invalid JSON. Choose an exported level project.");
   }
-  return validateLevelProject(raw);
+  const project = validateLevelProject(raw);
+  if (
+    !project.nativeSprite &&
+    new TextEncoder().encode(text).length > LEGACY_PROJECT_LIMIT
+  )
+    fail("Project exceeds the 128 KiB legacy import limit.");
+  return project;
 }
 export function exportLevelProject(project: LevelProject): string {
   const p = validateLevelProject(project),
     pretty = JSON.stringify(p, null, 2) + "\n";
-  if (new TextEncoder().encode(pretty).length <= PROJECT_LIMIT) return pretty;
+  const limit = p.nativeSprite ? NATIVE_PROJECT_LIMIT : LEGACY_PROJECT_LIMIT;
+  if (new TextEncoder().encode(pretty).length <= limit) return pretty;
   const compact = JSON.stringify(p) + "\n";
-  if (new TextEncoder().encode(compact).length > PROJECT_LIMIT)
-    fail("Project exceeds the 128 KiB export limit.");
+  if (new TextEncoder().encode(compact).length > limit)
+    fail("Project exceeds the 128 KiB legacy / 8 MiB native export limit.");
   return compact;
 }
 export type ProjectEdit =
@@ -154,7 +174,8 @@ export type ProjectEdit =
   | { type: "metadata"; name: string; seed: number }
   | { type: "sounds"; bank: SoundBank }
   | { type: "music"; pattern: MusicPattern }
-  | { type: "pixels"; clip: PixelClip };
+  | { type: "pixels"; clip: PixelClip }
+  | { type: "native-sprite"; sprite: NativeSprite };
 /** Atomic batch: reject every operation if any resulting invariant fails. */
 export function editProject(
   project: LevelProject,
@@ -177,6 +198,8 @@ export function editProject(
       if (!actor) fail("Unknown actor.");
       actor.x = e.x;
       actor.z = e.z;
+    } else if (e.type === "native-sprite") {
+      next.nativeSprite = validateNativeSprite(e.sprite);
     } else if (e.type === "pixels") {
       next.pixels = validatePixelClip(e.clip);
     } else if (e.type === "music") {
@@ -266,7 +289,7 @@ export function loadProjectCheckpoint(storage: StudioStorage): {
     if (!text) continue;
     try {
       return {
-        project: parseLevelProject(text),
+        project: parseLevelProject(hydrateCheckpoint(storage, text)),
         message: recovered
           ? "Recovered previous valid checkpoint."
           : "Local checkpoint opened.",
@@ -295,11 +318,29 @@ export function saveProjectCheckpoint(
     fail(
       "Another tab saved this project. Export your edits, then reload before saving.",
     );
-  const text = exportLevelProject(project);
+  const exported = exportLevelProject(project);
+  let text = exported;
+  if (project.nativeSprite) {
+    const assetKey = STUDIO_STORAGE + ".native." + project.nativeSprite.sha256;
+    const existing = storage.getItem(assetKey);
+    if (existing && existing !== project.nativeSprite.image)
+      fail(
+        "Conflicting native image digest. Export the project before continuing.",
+      );
+    if (!existing) storage.setItem(assetKey, project.nativeSprite.image);
+    text =
+      JSON.stringify({
+        ...project,
+        nativeSprite: {
+          ...project.nativeSprite,
+          image: "asset:" + project.nativeSprite.sha256,
+        },
+      }) + "\n";
+  }
   if (current) {
     let valid = false;
     try {
-      parseLevelProject(current);
+      parseLevelProject(hydrateCheckpoint(storage, current));
       valid = true;
     } catch {
       /* Keep valid backup. */
@@ -307,5 +348,22 @@ export function saveProjectCheckpoint(
     if (valid) storage.setItem(STUDIO_STORAGE + ".backup", current);
   }
   storage.setItem(STUDIO_STORAGE, text);
+  return text;
+}
+
+function hydrateCheckpoint(storage: StudioStorage, text: string): string {
+  const raw = JSON.parse(text);
+  if (
+    raw?.nativeSprite &&
+    typeof raw.nativeSprite.image === "string" &&
+    raw.nativeSprite.image === "asset:" + raw.nativeSprite.sha256
+  ) {
+    const image = storage.getItem(
+      STUDIO_STORAGE + ".native." + raw.nativeSprite.sha256,
+    );
+    if (!image) throw Error("Native checkpoint image is missing.");
+    raw.nativeSprite.image = image;
+    return JSON.stringify(raw);
+  }
   return text;
 }

@@ -45,6 +45,6 @@ The existing 128 KiB UTF-8 limit applies to export and import. Rich projects use
 
 ## Verification and limits
 
-Eight added tests cover conversion/independence, strict references, owned operations, timing boundaries, legacy behavior, 16-frame RGBA packing and file limits, atomic project/history round trips, and real physical/magical command classification without extra RNG. The suite has 106 tests.
+Eight added tests cover conversion/independence, strict references, owned operations, timing boundaries, legacy behavior, 16-frame RGBA packing and file limits, atomic project/history round trips, and real physical/magical command classification without extra RNG. The suite has 114 tests.
 
 Browser checks should edit states, audition, export/reimport, then trigger movement, weapon attacks and spells while observing the inspector. Direction editing, multiple actor documents, image-file import and standalone complete-game packaging remain planned.

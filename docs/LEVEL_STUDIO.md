@@ -29,7 +29,7 @@ On phones, use **Show battlefield tools** to open the palette. The board scrolls
 | Edits | Typed atomic batches, expected revision checks, 50 retained undo steps and redo |
 | Preview | Fresh isolated Battle for the selected revision and seed; no company persistence or settlement |
 | Local save | Explicit save; separate studio keys; previous-valid checkpoint fallback |
-| Files | Strict level-project v1 JSON; 128 KiB UTF-8 import limit; unknown fields rejected |
+| Files | Strict level-project v1 JSON; 128 KiB without native source, 8 MiB with embedded native sheet; unknown fields rejected |
 | Distribution | Studio is a built static entry on GitHub Pages |
 | Not yet implemented | Resizing, new actors, objective/rule editors, advanced pixel/multitrack music editing, sampling/recording and full audio graphs, complete playable-game export, full project migrations or collaboration |
 
@@ -77,3 +77,6 @@ The [music-pattern pilot](MUSIC_PATTERN_STUDIO.md) adds one editable sixteen-ste
 The [pixel-animation pilot](PIXEL_ANIMATION_STUDIO.md) adds a two-layer 16x24 clip with frame editing, source timing/pivot, PNG export and one-actor playback. Project JSON retains its optional pixels source alongside music and SFX.
 
 The [action-clip extension](ACTION_CLIP_STUDIO.md) adds explicit Idle/Walk/Attack/Cast ownership and state-driven playback. Existing shared-loop files remain valid; rich projects may export as compact JSON to stay within the same 128 KiB limit.
+
+
+[Native game-sprite editing](NATIVE_SPRITE_STUDIO.md) adds full-resolution imported character sheets as a separate optional nativeSprite source. Native mode takes precedence when both sprite sources target the same actor. Existing sources and original art files remain intact.

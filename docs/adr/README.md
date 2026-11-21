@@ -23,6 +23,8 @@ The initial accepted baseline records are **retrospective** except ADR-0001's ne
 | [ADR-0011](0011-proposed-editable-game-project-and-build-artifacts.md) | Proposed | Studio planning proposal | Propose canonical editable projects and complete-game exports |
 | [ADR-0012](0012-proposed-shared-music-and-sfx-graphs.md) | Proposed | Studio planning proposal | Propose shared editable music, SFX and audio runtime contracts |
 
+| [ADR-0013](0013-native-sprite-sources-and-overrides.md) | Accepted | New implementation decision | Preserve native sprite originals with sparse RGBA overrides |
+
 ## When to create an ADR
 
 | Create a record for | Usually use another document for |

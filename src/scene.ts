@@ -1,3 +1,9 @@
+import { loadNativeSheet } from "./studio-native-art";
+import {
+  nativeDuration,
+  nativeFrameAt,
+  type NativeSprite,
+} from "./studio-native-sprites";
 import * as THREE from "three";
 import {
   type Battle,
@@ -67,6 +73,7 @@ export class Battlefield {
       attackUntil: number;
       sheet: LoadedAnimationSheet | null;
       custom: PixelClip | null;
+      native: NativeSprite | null;
       customState: string | null;
       artJob: Unit["job"];
       artFrame: number;
@@ -109,6 +116,7 @@ export class Battlefield {
     onHover: (x: number, z: number) => void,
     private pixelClip?: PixelClip,
     private onCustomAnimation?: (state: string) => void,
+    private nativeSprite?: NativeSprite,
   ) {
     this.state = state;
     this.onSelect = onSelect;
@@ -404,6 +412,10 @@ export class Battlefield {
         attackUntil: 0,
         sheet: null,
         custom,
+        native:
+          this.nativeSprite?.enabled && this.nativeSprite.actorId === u.id
+            ? this.nativeSprite
+            : null,
         customState: null,
         artJob: u.job,
         artFrame: -1,
@@ -434,8 +446,17 @@ export class Battlefield {
   }
   private requestAnimationArt(u: Unit) {
     if (this.actors.get(u.id)?.custom) return;
-    void loadAnimationSheet(u.job).then((sheet) => {
-      if (!sheet || this.disposed) return;
+    const native = this.actors.get(u.id)?.native;
+    void (
+      native
+        ? loadNativeSheet(native).catch(() => null)
+        : loadAnimationSheet(u.job)
+    ).then((sheet) => {
+      if (!sheet || this.disposed) {
+        if (native && !this.disposed)
+          this.onCustomAnimation?.("Native image unavailable");
+        return;
+      }
       const current = this.state.units.find((v) => v.id === u.id),
         actor = this.actors.get(u.id);
       if (
@@ -446,13 +467,13 @@ export class Battlefield {
         actor.custom
       )
         return;
-      let source = this.animationSources.get(u.job);
+      let source = native ? undefined : this.animationSources.get(u.job);
       if (!source) {
         source = new THREE.Texture(sheet.image);
         source.colorSpace = THREE.SRGBColorSpace;
         source.minFilter = source.magFilter = THREE.LinearFilter;
         source.generateMipmaps = false;
-        this.animationSources.set(u.job, source);
+        if (!native) this.animationSources.set(u.job, source);
         this.resources.push(source);
       }
       const map = source.clone();
@@ -686,9 +707,11 @@ export class Battlefield {
         }
         if (
           time - a.action.start >=
-          (a.custom?.clips
-            ? pixelClipDuration(a.custom, a.action.clip)
-            : clipDuration(a.action.clip))
+          (a.native
+            ? nativeDuration(a.native, a.action.clip)
+            : a.custom?.clips
+              ? pixelClipDuration(a.custom, a.action.clip)
+              : clipDuration(a.action.clip))
         )
           a.action = null;
       }
@@ -747,7 +770,13 @@ export class Battlefield {
           victory: a.outcomeStart,
           downed: a.downStart ?? time,
         };
-        const frame = animationFrame(state, time - starts[state], this.reduced);
+        const frame = a.native
+          ? nativeFrameAt(a.native, state, time - starts[state], this.reduced)
+          : animationFrame(state, time - starts[state], this.reduced);
+        if (a.native && a.customState !== state) {
+          a.customState = state;
+          this.onCustomAnimation?.(state);
+        }
         if (frame !== a.artFrame) {
           const map = a.sprite.material.map!,
             col = frame % 4,

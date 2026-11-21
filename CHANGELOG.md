@@ -4,6 +4,10 @@
 
 ### Added
 
+- Added native-resolution editing of all eight shipped character sheets: 887 × 1774 assets, 32 frames across eight states, original RGBA and foot registration, zoom, brush sizes, erase, exact fill, eyedropper, draft history and source-time audition.
+- Embedded original image bytes plus sparse edits preserve source without palette reduction; full 4 × 8 PNG export and state-driven native actor playtests use the edited source. Native projects allow up to 8 MiB; legacy-only projects retain 128 KiB. Checkpoints deduplicate embedded originals and preserve backup recovery.
+- Added eight native-source tests (114 total), native editor guide and Accepted ADR-0013.
+
 - Added source-layer flood fill and eyedropper, horizontal/vertical flips, cropped one-pixel nudges and palette-aware cel copy/paste across action frames. Changed operations are undoable draft edits; hidden-layer writes and incompatible palette pastes reject.
 - Added six pose-tool tests (106 total), tool behavior tables and an edit-flow diagram. Pixel/project source formats remain unchanged.
 
