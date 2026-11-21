@@ -19,6 +19,32 @@ The implemented **Pixels** editor paints a small, layered source clip and applie
 
 Draft pixel history retains 30 snapshots, independently of the 50-step project history for applied source changes. A new draft edit discards draft redo. Switching editors pauses audition and cancels an unfinished stroke. Invalid brush batches reject atomically. Apply/discard is required before project save/export, import or playtest.
 
+## Faster pose editing
+
+| Tool | Behavior | Scope |
+| --- | --- | --- |
+| Brush | Paint or drag a palette entry; Erase writes index zero | Selected source cel |
+| Flood fill | Replace the four-connected region matching the clicked source index | Selected source cel; no diagonal or row-edge wrapping |
+| Eyedropper | Select the clicked source index, including transparent zero | Reads selected layer, even when hidden; ignores composited/onion colors |
+| Flip horizontally / vertically | Mirror around the fixed canvas center | Selected source cel; pivot and timing stay fixed |
+| Nudge left / right / up / down | Shift exactly one source pixel | Edges crop; empty cells become transparent |
+| Copy / paste layer pixels | Replace all destination pixels, including transparency | One cel; can cross frames, actions and layers |
+
+Choose Brush, Flood fill or Eyedropper above the palette. Click or use Space/Enter on a focused pixel. Only Brush drags. Expand **Transform and copy layer** beside the preview to reuse and adjust poses. Every changed fill, flip, nudge or paste is one draft undo step. An unchanged result adds no draft step. Writes require a visible layer.
+
+The copy buffer is local to the mounted editor session and is never included in JSON, browser checkpoints or the PNG. It captures RGBA palette values rather than unstable indices, maps them to current palette entries on paste and rejects missing colors atomically. Changing a palette color after copying may therefore require copying again. Paste replaces a cel; it does not merge only opaque pixels.
+
+```mermaid
+flowchart LR
+    Tool[Selected tool and source cel] --> Edit[Validated immutable edit]
+    Copy[Session copy of palette colors] --> Map[Map colors to destination palette]
+    Map --> Edit
+    Edit --> Undo[One draft undo step]
+    Undo --> Preview[Shared compositor and preview]
+    Undo --> Apply[Apply project transaction]
+    Apply --> Export[JSON source and PNG derivative]
+```
+
 ## Implemented source contract
 
 | Field | Contract |
@@ -63,6 +89,6 @@ Old level projects without pixels remain valid. The current studio preserves the
 
 Resizing, arbitrary image-file import, per-frame pivots, attachments, free-form layer counts, partial-alpha paint, extra state/direction clips, tile editing and standalone complete-game export remain planned.
 
-Eight base pixel cases verify source editing and packing. Eight action-clip cases add ownership, timing, compatibility and large-export checks. The full suite has 100 tests.
+Eight base pixel cases verify source editing and packing. Eight action-clip cases add ownership, timing, compatibility and large-export checks. Six pose-tool cases add fill, transforms, paste and rejection checks. The full suite has 106 tests.
 
 Browser review should paint and undo a stroke, edit timing and registration, audition, export PNG plus source, import/reopen it, and inspect the selected actor in a real playtest. A flattened PNG or passing schema check alone does not prove a full animation authoring tool.

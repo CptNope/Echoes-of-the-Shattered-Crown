@@ -219,6 +219,21 @@ export function validatePixelClip(raw: unknown): PixelClip {
 }
 export type PixelEdit =
   | {
+      type: "fill";
+      frameId: string;
+      layerId: string;
+      x: number;
+      y: number;
+      color: number;
+    }
+  | {
+      type: "transform";
+      frameId: string;
+      layerId: string;
+      operation: "flip-x" | "flip-y" | "left" | "right" | "up" | "down";
+    }
+  | { type: "paste-cel"; frameId: string; layerId: string; colors: string[] }
+  | {
       type: "paint";
       frameId: string;
       layerId: string;
@@ -235,7 +250,96 @@ export type PixelEdit =
   | { type: "binding"; actorId: string; enabled: boolean };
 export function editPixelClip(source: PixelClip, edit: PixelEdit): PixelClip {
   const next = validatePixelClip(source);
-  if (edit.type === "paint") {
+  if (
+    edit.type === "fill" ||
+    edit.type === "transform" ||
+    edit.type === "paste-cel"
+  ) {
+    const frame = next.frames.find((f) => f.id === edit.frameId),
+      layer = next.layers.findIndex((l) => l.id === edit.layerId);
+    check(
+      frame && layer >= 0 && next.layers[layer].visible,
+      "Choose a visible source layer and valid frame.",
+    );
+    const cel = frame.cels[layer];
+    if (edit.type === "fill") {
+      check(
+        integer(edit.x, 0, 15) &&
+          integer(edit.y, 0, 23) &&
+          integer(edit.color, 0, next.palette.length - 1),
+        "Fill outside the source or palette.",
+      );
+      const start = edit.y * 16 + edit.x,
+        target = cel[start];
+      if (target !== edit.color) {
+        const pending = [start];
+        cel[start] = edit.color;
+        while (pending.length) {
+          const at = pending.pop()!,
+            x = at % 16,
+            y = Math.floor(at / 16);
+          const neighbors = [
+            x > 0 ? at - 1 : -1,
+            x < 15 ? at + 1 : -1,
+            y > 0 ? at - 16 : -1,
+            y < 23 ? at + 16 : -1,
+          ];
+          for (const index of neighbors)
+            if (index >= 0 && cel[index] === target) {
+              cel[index] = edit.color;
+              pending.push(index);
+            }
+        }
+      }
+    } else if (edit.type === "transform") {
+      check(
+        ["flip-x", "flip-y", "left", "right", "up", "down"].includes(
+          edit.operation,
+        ),
+        "Unknown cel transform.",
+      );
+      const pixels = Array<number>(384).fill(0);
+      for (let y = 0; y < 24; y++)
+        for (let x = 0; x < 16; x++) {
+          const toX =
+            edit.operation === "flip-x"
+              ? 15 - x
+              : x +
+                (edit.operation === "left"
+                  ? -1
+                  : edit.operation === "right"
+                    ? 1
+                    : 0);
+          const toY =
+            edit.operation === "flip-y"
+              ? 23 - y
+              : y +
+                (edit.operation === "up"
+                  ? -1
+                  : edit.operation === "down"
+                    ? 1
+                    : 0);
+          if (toX >= 0 && toX < 16 && toY >= 0 && toY < 24)
+            pixels[toY * 16 + toX] = cel[y * 16 + x];
+        }
+      frame.cels[layer] = pixels;
+    } else {
+      check(
+        Array.isArray(edit.colors) && edit.colors.length === 384,
+        "Paste a complete 16 x 24 source cel.",
+      );
+      const palette = next.palette.map((c) => c.toLowerCase());
+      frame.cels[layer] = edit.colors.map((color) => {
+        check(typeof color === "string", "Invalid copied pixel color.");
+        const index = palette.indexOf(color.toLowerCase());
+        check(
+          index >= 0,
+          "Copied colors are missing from this palette. Restore the palette or copy again.",
+        );
+        return index;
+      });
+    }
+  } else if (edit.type === "paint") {
     const frame = next.frames.find((f) => f.id === edit.frameId),
       layer = next.layers.findIndex((l) => l.id === edit.layerId);
     check(

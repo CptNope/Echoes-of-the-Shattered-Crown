@@ -4,7 +4,7 @@
 
 ## Automated rules coverage
 
-Run `npm test`. The script uses `tsx --test src/engine.test.ts src/campaign.test.ts src/supports.test.ts src/advanced.test.ts src/portable.test.ts src/animation.test.ts src/combat-effects.test.ts src/studio-project.test.ts src/studio-sfx.test.ts` and Node's built-in test runner. The current suite has 100 tests; this count is an inventory, not a coverage percentage or balance certification.
+Run `npm test`. The script uses the explicit test-file list in `package.json` and Node's built-in test runner. The current suite has 106 tests; this count is an inventory, not a coverage percentage or balance certification.
 
 | Area             | Assertions represented                                                                                        |
 | ---------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -126,16 +126,21 @@ The eight cases in src/studio-project.test.ts verify source-preserving round tri
 
 ## Implemented sound-effects tests
 
-Eight cases in src/studio-sfx.test.ts cover deterministic PCM/endpoints and source controls, malformed source rejection, every WAV sample/header, project/history preservation, resolved-event deduplication, actual-command RNG isolation and mocked AudioContext lifecycle/voice limits. The suite now has 100 tests. See the [sound-effects pilot](SOUND_EFFECTS_STUDIO.md) for scope and browser checks; mocked Web Audio does not prove device audibility.
+Eight cases in src/studio-sfx.test.ts cover deterministic PCM/endpoints and source controls, malformed source rejection, every WAV sample/header, project/history preservation, resolved-event deduplication, actual-command RNG isolation and mocked AudioContext lifecycle/voice limits. The suite now has 106 tests. See the [sound-effects pilot](SOUND_EFFECTS_STUDIO.md) for scope and browser checks; mocked Web Audio does not prove device audibility.
 
 ## Music-pattern tests
 
-Six music cases cover tempo/step timing, rests and loop endpoints; note/instrument/gain/gate controls; strict source rejection; atomic project/history/round trips; exact WAV samples; and mocked one-loop lifecycle. npm test now runs 100 tests. Browser audition, export/reimport, preview music plus SFX and mute/restart remain integration checks; see the [music guide](MUSIC_PATTERN_STUDIO.md).
+Six music cases cover tempo/step timing, rests and loop endpoints; note/instrument/gain/gate controls; strict source rejection; atomic project/history/round trips; exact WAV samples; and mocked one-loop lifecycle. npm test now runs 106 tests. Browser audition, export/reimport, preview music plus SFX and mute/restart remain integration checks; see the [music guide](MUSIC_PATTERN_STUDIO.md).
 
 ## Pixel-animation tests
 
-Eight cases in src/studio-pixels.test.ts verify strict bounds, atomic strokes/eraser behavior, stable layer/cel and palette composition, independent frame duplication/order/timing, every packed RGBA pixel, project/history/JSON preservation, simulation isolation and registration/binding limits. The suite now has 100 tests. See the [pixel pilot](PIXEL_ANIMATION_STUDIO.md) for browser and scene integration checks.
+Eight cases in src/studio-pixels.test.ts verify strict bounds, atomic strokes/eraser behavior, stable layer/cel and palette composition, independent frame duplication/order/timing, every packed RGBA pixel, project/history/JSON preservation, simulation isolation and registration/binding limits. The suite now has 106 tests. See the [pixel pilot](PIXEL_ANIMATION_STUDIO.md) for browser and scene integration checks.
 
 ## Action-clip tests
 
 Eight cases in src/studio-action-clips.test.ts cover conversion, strict references, owned operations, loop/one-shot boundaries, legacy sources, sixteen-frame source packing and compact export, atomic history/round trips and real-command state classification. npm test runs 100 cases. See the [action-clip guide](ACTION_CLIP_STUDIO.md) for browser checks.
+
+
+## Pixel pose tools
+
+Six cases in src/studio-pixel-tools.test.ts verify four-connected fill and transparent erase, immutable cel isolation, reversible flips, cropped nudges on every edge, palette-aware replacement paste, malformed/hidden-layer rejection and edited source export/reimport. Browser review exercises the tool selector, keyboard activation, draft undo, cross-action copy/paste and actual PNG export.

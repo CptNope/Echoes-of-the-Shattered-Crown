@@ -4,6 +4,9 @@
 
 ### Added
 
+- Added source-layer flood fill and eyedropper, horizontal/vertical flips, cropped one-pixel nudges and palette-aware cel copy/paste across action frames. Changed operations are undoable draft edits; hidden-layer writes and incompatible palette pastes reject.
+- Added six pose-tool tests (106 total), tool behavior tables and an edit-flow diagram. Pixel/project source formats remain unchanged.
+
 - Added independent Idle/Walk/Attack/Cast authoring with explicit source-preserving conversion, owned frame editing and up to sixteen packed frames.
 - Custom actor playback follows real movement and physical/magical actions, with authored one-shot timing and a state inspector. Older shared-loop sources retain their behavior.
 - Added eight action-clip tests (100 total) and compact source-preserving exports when pretty JSON exceeds the existing 128 KiB limit.

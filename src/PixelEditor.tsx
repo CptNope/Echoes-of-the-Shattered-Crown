@@ -55,6 +55,8 @@ export function PixelEditor({
   const source = JSON.stringify(clip ?? defaultPixelClip()),
     [draft, setDraft] = useState<PixelClip>(() => JSON.parse(source));
   const [sequence, setSequence] = useState<PixelState>("idle");
+  const [tool, setTool] = useState<"brush" | "fill" | "pick">("brush");
+  const [copiedCel, setCopiedCel] = useState<string[] | null>(null);
   const [frameId, setFrameId] = useState("frame-1"),
     [layerId, setLayerId] = useState("detail"),
     [color, setColor] = useState(6);
@@ -145,6 +147,7 @@ export function PixelEditor({
     return () => cancelAnimationFrame(id);
   }, [playing, active, reduced, draft, frameIndex, sequence, !!rendered.bytes]);
   function update(next: PixelClip) {
+    if (JSON.stringify(next) === JSON.stringify(draft)) return;
     setPast((p) => [...p, draft].slice(-30));
     setFuture([]);
     setDraft(next);
@@ -178,6 +181,31 @@ export function PixelEditor({
     } catch (e) {
       setMessage(e instanceof Error ? e.message : "Brush rejected.");
     }
+  }
+  function useTool(x: number, y: number) {
+    setCursor({ x, y });
+    if (tool === "pick") {
+      const index = frame.cels[layerIndex][y * 16 + x];
+      setColor(index);
+      setMessage(
+        "Picked " +
+          (index ? "palette color " + index : "transparent eraser") +
+          " from " +
+          layer.id +
+          ".",
+      );
+      return;
+    }
+    if (tool === "fill")
+      command({
+        type: "fill",
+        frameId: frame.id,
+        layerId: layer.id,
+        x,
+        y,
+        color: ink,
+      });
+    else paint(x, y);
   }
   function at(e: React.PointerEvent) {
     const rect = grid.current!.getBoundingClientRect(),
@@ -301,6 +329,27 @@ export function PixelEditor({
       </div>
       <div className="pixel-layout">
         <div>
+          <div className="pixel-tools" role="group" aria-label="Pixel tools">
+            {(
+              [
+                ["brush", "Brush"],
+                ["fill", "Flood fill"],
+                ["pick", "Eyedropper"],
+              ] as const
+            ).map(([id, label]) => (
+              <button
+                key={id}
+                aria-pressed={tool === id}
+                onClick={() => {
+                  finish(true);
+                  setTool(id);
+                }}
+              >
+                {label}
+              </button>
+            ))}
+            <span>{layer.id} layer</span>
+          </div>
           <div className="pixel-palette" aria-label="Palette colors">
             {draft.palette.map((c, i) => (
               <button
@@ -350,13 +399,17 @@ export function PixelEditor({
               aria-label="Pixel canvas"
               onPointerDown={(e) => {
                 if (!rendered.bytes) return;
-                if (!layer.visible) {
+                if (!layer.visible && tool !== "pick") {
                   setMessage("Show the selected layer before painting.");
                   return;
                 }
                 e.preventDefault();
                 const p = at(e);
                 if (!p) return;
+                if (tool !== "brush") {
+                  useTool(p.x, p.y);
+                  return;
+                }
                 stroke.current = draft;
                 points.current.clear();
                 e.currentTarget.setPointerCapture(e.pointerId);
@@ -401,7 +454,7 @@ export function PixelEditor({
                     }
                     style={{ background, opacity: !visible && old ? 0.3 : 1 }}
                     onClick={(e) => {
-                      if (e.detail === 0) paint(x, y);
+                      if (e.detail === 0) useTool(x, y);
                     }}
                     onKeyDown={(e) => {
                       const move: Record<string, [number, number]> = {
@@ -429,8 +482,10 @@ export function PixelEditor({
             </div>
           </div>
           <p className="pixel-help">
-            Paint or drag on the selected layer. Arrow keys move focus; Space
-            paints. Pivot marker uses source coordinates.
+            Brush paints or drags; fill replaces connected color on this source
+            layer; eyedropper reads this layer, including transparency. Arrow
+            keys move focus; Space uses the selected tool. Pivot marker uses
+            source coordinates.
           </p>
         </div>
         <aside className="pixel-inspector">
@@ -480,6 +535,79 @@ export function PixelEditor({
               Show selected frame
             </button>
           </div>
+          <details className="pixel-options">
+            <summary>Transform and copy layer</summary>
+            <p className="pixel-help">
+              Only {layer.id} in the selected frame changes. Nudges crop pixels
+              at the canvas edge. Pivot stays fixed.
+            </p>
+            <div className="actions">
+              {(
+                [
+                  ["flip-x", "Flip horizontally"],
+                  ["flip-y", "Flip vertically"],
+                  ["left", "Nudge left"],
+                  ["right", "Nudge right"],
+                  ["up", "Nudge up"],
+                  ["down", "Nudge down"],
+                ] as const
+              ).map(([operation, label]) => (
+                <button
+                  key={operation}
+                  disabled={!rendered.bytes || !layer.visible}
+                  onClick={() =>
+                    command({
+                      type: "transform",
+                      frameId: frame.id,
+                      layerId: layer.id,
+                      operation,
+                    })
+                  }
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+            <div className="actions">
+              <button
+                disabled={!rendered.bytes}
+                onClick={() => {
+                  setCopiedCel(
+                    frame.cels[layerIndex].map((index) => draft.palette[index]),
+                  );
+                  setMessage(
+                    "Copied " +
+                      layer.id +
+                      " from " +
+                      frame.id +
+                      ". Choose a destination frame and layer, then paste.",
+                  );
+                }}
+              >
+                Copy layer pixels
+              </button>
+              <button
+                disabled={!copiedCel || !rendered.bytes || !layer.visible}
+                onClick={() =>
+                  command({
+                    type: "paste-cel",
+                    frameId: frame.id,
+                    layerId: layer.id,
+                    colors: copiedCel!,
+                  })
+                }
+              >
+                Paste layer pixels
+              </button>
+            </div>
+            <p className="pixel-help">
+              {copiedCel
+                ? "One cel copied in this editor session. Paste replaces destination pixels, including transparency."
+                : "Copy a source cel to reuse it across frames or action clips."}{" "}
+              Missing palette colors reject the paste. The copy buffer is not
+              saved or exported.
+            </p>
+          </details>
           <details className="pixel-options">
             <summary>Layers, onion skin and motion</summary>
             <label>

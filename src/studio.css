@@ -74,6 +74,21 @@
   flex-wrap: wrap;
   margin-bottom: 16px;
 }
+.pixel-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.pixel-tools button[aria-pressed="true"] {
+  background: #e3e8de;
+  border-color: #83977b;
+}
+.pixel-tools span {
+  font-size: 12px;
+  color: #566452;
+}
 .pixel-palette button[aria-pressed="true"] {
   outline: 3px solid #263b31;
   outline-offset: 2px;
