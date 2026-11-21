@@ -129,6 +129,7 @@ function Preview({
     "Choose Move or an ability, then select a tile.",
   );
   const [renderError, setRenderError] = useState("");
+  const [sceneVersion, setSceneVersion] = useState(0);
   const [customAnimation, setCustomAnimation] = useState("idle"),
     [lastCustomAnimation, setLastCustomAnimation] = useState("none");
   const [soundEnabled, setSoundEnabled] = useState(false),
@@ -217,7 +218,7 @@ function Preview({
         "3D preview is unavailable. Use the tactical tile controls below to play.",
       );
     }
-  }, [project]);
+  }, [project, sceneVersion]);
   useEffect(() => {
     view.current?.update(battle, mode, selected);
   }, [battle, mode, selected]);
@@ -259,6 +260,9 @@ function Preview({
               if (soundEnabled && project.music?.enabled)
                 soundPlayer.current?.playLoop(renderMusic(project.music));
               setBattle(compileLevelProject(project));
+              setSceneVersion((v) => v + 1);
+              setCustomAnimation("idle");
+              setLastCustomAnimation("none");
               setMode("inspect");
               setNotice("Preview restarted from the source revision.");
             }}

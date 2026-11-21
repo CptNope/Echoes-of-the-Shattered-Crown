@@ -200,9 +200,11 @@ export function PixelEditor({
     <section className="pixel-editor" aria-label="Pixel animation editor">
       <div className="section-heading">
         <p>
-          {clip
-            ? "Applied pixel source"
-            : "Starter lantern sprite - not yet applied"}{" "}
+          {changed
+            ? "Unapplied pixel draft"
+            : clip
+              ? "Applied pixel source"
+              : "Starter lantern sprite - not yet applied"}{" "}
           · {draft.frames.length} frames · 16 x 24 pixels
         </p>
         <div className="actions">
