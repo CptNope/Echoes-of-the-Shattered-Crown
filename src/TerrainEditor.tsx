@@ -36,9 +36,16 @@ export function TerrainEditor({
     setFuture([]);
   }, [baseline]);
   const changed = JSON.stringify(draft) !== JSON.stringify(baseline);
-  useEffect(() => onDirty(changed), [changed, onDirty]);
   const surface = draft.surfaces[terrain],
     color = Math.min(ink, surface.colors.length - 1);
+  const [hex, setHex] = useState(surface.colors[color]);
+  const hexError = !/^#[a-f0-9]{6}$/i.test(hex);
+  useEffect(
+    () => setHex(surface.colors[color]),
+    [terrain, color, surface.colors[color], baseline],
+  );
+  useEffect(() => onDirty(changed || hexError), [changed, hexError, onDirty]);
+
   function update(next: TerrainMaterials) {
     if (JSON.stringify(next) === JSON.stringify(draft)) return;
     setPast((p) => [...p, draft].slice(-30));
@@ -140,6 +147,28 @@ export function TerrainEditor({
               }}
             />
           </label>
+          <label>
+            Terrain color hex
+            <input
+              value={hex}
+              maxLength={7}
+              spellCheck={false}
+              onChange={(e) => {
+                const value = e.target.value;
+                setHex(value);
+                if (/^#[a-f0-9]{6}$/i.test(value)) {
+                  const next = structuredClone(draft);
+                  next.surfaces[terrain].colors[color] = value.toLowerCase();
+                  update(next);
+                }
+              }}
+            />
+          </label>
+          {hexError && (
+            <p role="alert" className="error">
+              Use a six-digit hex color, such as #a1a58d.
+            </p>
+          )}
           <p>
             Palette edits update the existing material variants. Choose Painted
             top texture to use the authored pixels on the tile’s upper face.
@@ -243,7 +272,7 @@ export function TerrainEditor({
       </div>
       <div className="actions">
         <button
-          disabled={!!source && !changed}
+          disabled={hexError || (!!source && !changed)}
           onClick={() => {
             if (apply(validateMaterials(draft)))
               setMessage("Terrain appearance applied to the project playtest.");
@@ -252,8 +281,9 @@ export function TerrainEditor({
           Apply terrain appearance
         </button>
         <button
-          disabled={!changed}
+          disabled={!changed && !hexError}
           onClick={() => {
+            setHex(baseline.surfaces[terrain].colors[color]);
             setDraft(baseline);
             setPast([]);
             setFuture([]);

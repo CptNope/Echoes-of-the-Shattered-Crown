@@ -907,13 +907,19 @@ function Studio() {
                 <p>
                   {hasDraft
                     ? "Apply or discard source drafts before playtesting."
-                    : panel === "sounds"
-                      ? "Edit, audition and apply combat sounds."
-                      : panel === "music"
-                        ? "Compose a four-beat loop for your battlefield."
-                        : panel === "pixels"
-                          ? "Paint source pixels, time frames and play your clip."
-                          : "Shape the battlefield and its sounds, then play your revision."}
+                    : panel === "terrain"
+                      ? "Edit existing terrain palettes and painted top surfaces."
+                      : panel === "content"
+                        ? "Edit current actors, briefings, contract gates and rewards."
+                        : panel === "game-audio"
+                          ? "Edit the existing game score and command feedback."
+                          : panel === "sounds"
+                            ? "Edit, audition and apply combat sounds."
+                            : panel === "music"
+                              ? "Compose a four-beat loop for your battlefield."
+                              : panel === "pixels"
+                                ? "Paint source pixels, time frames and play your clip."
+                                : "Shape the battlefield and its sounds, then play your revision."}
                 </p>
               </div>
               <button
