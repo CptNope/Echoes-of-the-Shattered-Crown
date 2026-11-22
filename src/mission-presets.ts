@@ -3,9 +3,10 @@ import { createBattle } from "./engine";
 import { encounters, type EncounterId } from "./encounters";
 import { gameContent, validateGameContent } from "./studio-content";
 import { gameRules } from "./studio-rules";
+import { buildEmberMission, type EmberMissionId } from "./ember-missions";
 import { buildGreybank } from "./greybank";
 import type { LevelProject } from "./studio-project";
-export type MissionPresetId = EncounterId | "greybank";
+export type MissionPresetId = EncounterId | "greybank" | EmberMissionId;
 export const MISSION_PRESETS: {
   id: MissionPresetId;
   name: string;
@@ -40,6 +41,18 @@ export const MISSION_PRESETS: {
     name: "The Sluice at Greybank",
     summary:
       "18 by 14 / Tidewarden, two bridges, a shortcut to freeze and four specialists.",
+  },
+  {
+    id: "ashen-weir",
+    name: "The Ashen Weir",
+    summary:
+      "20 by 16 / Emberwarden, split approaches, controlled fire and six defenders.",
+  },
+  {
+    id: "cinder-archive",
+    name: "The Cinder Archive",
+    summary:
+      "24 by 18 / three terraces, a supporting healer and six archive wardens.",
   },
 ];
 const hints: Record<EncounterId, { speaker: string; text: string }[]> = {
@@ -91,8 +104,11 @@ export function loadMissionPreset(
 ): LevelProject {
   if (!MISSION_PRESETS.some((p) => p.id === id))
     throw Error("Unknown mission preset.");
-  if (id === "greybank") {
-    const next = buildGreybank(project);
+  if (id === "greybank" || id === "ashen-weir" || id === "cinder-archive") {
+    const next =
+      id === "greybank"
+        ? buildGreybank(project)
+        : buildEmberMission(project, id);
     if (next.abilityCues)
       next.abilityCues = Object.fromEntries(
         Object.entries(next.abilityCues).filter(([id]) =>

@@ -57,4 +57,4 @@ flowchart LR
 
 Existing version-one projects remain readable. Older builds reject the new optional fields. Duplicate actor assignments, unknown actor syntax, conflicting image digests, unknown ability IDs and invalid VFX/cue names reject atomically. Removing an ability requires clearing its feedback binding first. Balanced mission presets retain assignments and matching feedback IDs, pruning bindings whose custom abilities disappear from the replaced catalog. Native sources may remain unplaced intentionally.
 
-Ten tests in [studio-assets.test.ts](../src/studio-assets.test.ts) cover independent edits, native library bounds, shared-image storage, missing/quota recovery, large portable exports, history, custom identities, cue rejection, cosmetic/gameplay isolation and mission switching. The full suite has 212 tests.
+Ten tests in [studio-assets.test.ts](../src/studio-assets.test.ts) cover independent edits, native library bounds, shared-image storage, missing/quota recovery, large portable exports, history, custom identities, cue rejection, cosmetic/gameplay isolation and mission switching. The full suite has 222 tests.

@@ -5,6 +5,15 @@ import { verifyAnimationArt } from "./verify-animation-art.mjs";
 import { verifyEffectArt } from "./verify-effect-art.mjs";
 
 const base = process.env.BASE_PATH || "/Echoes-of-the-Shattered-Crown/";
+const missionIds = [
+  "shrine",
+  "causeway",
+  "redoubt",
+  "bellkeeper",
+  "greybank",
+  "ashen-weir",
+  "cinder-archive",
+];
 const artPath = "art/company-atlas.png";
 function verifyAtlas(bytes) {
   const b = Buffer.from(bytes);
@@ -60,6 +69,17 @@ async function checkLocal() {
     assert(file.startsWith(root + sep), "Asset escapes build directory");
     assert((await stat(file)).size > 0, `Empty asset: ${path}`);
   }
+  for (const id of missionIds) {
+    const mission = JSON.parse(
+      await readFile(resolve(root, `missions/${id}.json`), "utf8"),
+    );
+    assert.equal(mission.id, `${id}-mission`);
+    assert(
+      mission.tiles.length >= 81 && mission.placements.length >= 8,
+      `Incomplete mission: ${id}`,
+    );
+  }
+  console.log(`Verified ${missionIds.length} editable mission sources`);
   console.log(`Verified ${paths.length} built assets under ${base}`);
   verifyAtlas(await readFile(resolve(root, artPath)));
   console.log("Verified transparent character atlas");
@@ -126,6 +146,20 @@ async function checkLive() {
   );
   verifyAtlas(await artResponse.arrayBuffer());
   console.log("Verified live character atlas");
+  for (const id of missionIds) {
+    const response = await fetch(new URL(`missions/${id}.json`, site), {
+      signal: AbortSignal.timeout(20000),
+      cache: "no-store",
+    });
+    assert(response.ok, `Published mission unavailable: ${id}`);
+    const mission = await response.json();
+    assert.equal(mission.id, `${id}-mission`);
+    assert(
+      mission.tiles.length >= 81 && mission.placements.length >= 8,
+      `Incomplete published mission: ${id}`,
+    );
+  }
+  console.log(`Verified ${missionIds.length} live editable mission sources`);
   await verifyAnimationArt(true);
   await verifyEffectArt(true);
 }

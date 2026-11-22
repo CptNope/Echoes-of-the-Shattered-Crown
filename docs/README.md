@@ -158,3 +158,5 @@ The [advanced authoring contracts](studio/specs/advanced-blueprints.json) deepen
 [Project validation panel](PROJECT_VALIDATION.md): blocking source checks, advisory map/content findings, record navigation and downloadable diagnostic reports.
 
 [Connectivity overlays and grouped findings](CONNECTIVITY_OVERLAYS.md): derived map overview, matching grid highlights, affected actors and barrier inspection.
+
+[Emberwarden mission pack](EMBER_MISSIONS.md): play the 20 by 16 Ashen Weir and 24 by 18 Cinder Archive with an editable class variant, four abilities, six gear pieces and six enemy templates. Select either in the studio mission library.

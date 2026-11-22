@@ -79,7 +79,7 @@ test("preset transaction resets experiments preserves cosmetics and supports his
     h.project.content,
   );
 });
-test("all five published mission files exactly match their canonical presets", () => {
+test("all published mission files exactly match their canonical presets", () => {
   for (const m of MISSION_PRESETS) {
     const expected = editProject(createLevelProject(), 0, [
       { type: "mission-preset", preset: m.id },

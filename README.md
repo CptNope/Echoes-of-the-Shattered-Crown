@@ -14,7 +14,7 @@ An original isometric tactical RPG about a mercenary company, a fractured world,
 
 [Play the Greybank mission](docs/GREYBANK_MISSION.md): an editable 18 by 14 Tidewarden encounter with two bridges, a river shortcut to freeze, four defenders and a first-clear relic. Choose Greybank under Enemy templates / Playable mission presets in the studio.
 
-[Mission preset library](docs/MISSION_LIBRARY.md): all four original encounters and Greybank share a balanced, reversible loader, reusable enemy templates and downloadable editable JSON.
+[Mission preset library](docs/MISSION_LIBRARY.md): all four original encounters, Greybank and two Emberwarden missions share a balanced, reversible loader, reusable enemy templates and downloadable editable JSON.
 
 [Asset library and ability feedback](docs/ASSET_LIBRARY.md): keep multiple native character sheets with independent edits and timing, assign art to custom enemies, and pair each ability with existing VFX and editable sound-bank cues.
 
@@ -326,3 +326,5 @@ The [advanced authoring contracts](docs/studio/specs/advanced-blueprints.json) a
 [Project validation](docs/PROJECT_VALIDATION.md) checks source/runtime/export errors and warns about ground connectivity, spawn exits, ability energy, inactive learning and unusable rewards. Follow findings to their tile or record; export a diagnostic report.
 
 [Connectivity overlays](docs/CONNECTIVITY_OVERLAYS.md) group disconnected enemies by region, show affected/reference ground and barrier edges, and list actors with source-safe inspection controls.
+
+[Emberwarden mission pack](docs/EMBER_MISSIONS.md): play the 20 by 16 Ashen Weir and 24 by 18 Cinder Archive with an editable class variant, four abilities, six gear pieces and six enemy templates. Select either in the studio mission library.

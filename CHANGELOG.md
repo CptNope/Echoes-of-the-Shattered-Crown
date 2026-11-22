@@ -1,5 +1,13 @@
 # Changelog
 
+## Emberwarden mission pack - 2026-11-22
+
+- Added Ashen Weir (20 by 16) and Cinder Archive (24 by 18), each with six defenders, six reusable templates, five briefing lines and a unique first-clear relic.
+- Added the project-scoped Emberwarden class variant, four supported-mechanic abilities and six gear pieces, using native Runewarden artwork.
+- Expanded the shared library to seven generated editable mission sources. Kept standalone contract-slot limits explicit.
+- Added ten content regressions; all 222 tests pass. Recorded three seeded Weir victories and three Archive defeats for difficulty review.
+
+
 ## Multiple sprite assets and paired ability feedback - 2026-11-22
 
 - Added an asset library for up to 24 native actor sheets with independent edits/timing, custom enemy assignment and reversible enable/remove controls.

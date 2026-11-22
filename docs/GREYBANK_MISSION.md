@@ -48,7 +48,7 @@ The causeway contract slot pays 120 gold on victory and grants Sluicekeeper's wa
 
 ## Evidence and remaining work
 
-Six cases in [greybank.test.ts](../src/greybank.test.ts) verify source/geometry, actual freezing and movement, soak/lightning synergy, reset/isolation/history, full deterministic outcomes and once-only settlement, plus the published fixture matching the preset. Run `npm run mission:build` after intentionally changing the preset. The full suite has 212 tests.
+Six cases in [greybank.test.ts](../src/greybank.test.ts) verify source/geometry, actual freezing and movement, soak/lightning synergy, reset/isolation/history, full deterministic outcomes and once-only settlement, plus the published fixture matching the preset. Run `npm run mission:build` after intentionally changing the preset. The full suite has 222 tests.
 
 A controlled AI policy for both sides wins in 39 activations at seed 74319 and 28 at seed 9001; at seed 42 it loses in 46. Every command produces a valid save. These outcomes establish reproducibility and exercise victory/defeat; they do not certify human difficulty. Manual review checks the opening freeze route and the rendered terrain. Further balance passes should record casualties, resource pressure and route choices with human play.
 

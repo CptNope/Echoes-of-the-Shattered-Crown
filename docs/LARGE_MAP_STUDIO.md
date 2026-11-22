@@ -41,6 +41,6 @@ flowchart LR
 
 ## Verification and limits
 
-Ten tests in [studio-large-maps.test.ts](../src/studio-large-maps.test.ts) cover legacy defaults, maximum and rectangular maps, invalid dimensions/missing cells, shrinking and undo, atomic clipped brushes, real movement/attacks past coordinate 8, deterministic monster AI, catalog/content/checkpoint/JSON preservation, encounter reload and navigation/frame/lookup behavior. The complete suite has 212 tests.
+Ten tests in [studio-large-maps.test.ts](../src/studio-large-maps.test.ts) cover legacy defaults, maximum and rectangular maps, invalid dimensions/missing cells, shrinking and undo, atomic clipped brushes, real movement/attacks past coordinate 8, deterministic monster AI, catalog/content/checkpoint/JSON preservation, encounter reload and navigation/frame/lookup behavior. The complete suite has 222 tests.
 
 A larger map may have unreachable routes or a slow battle; validation guarantees structural correctness, not mission balance. Actors, objectives and decoration programs retain existing identities/mechanics. No arbitrary rosters, chunks/streaming, runtime minimap, drag painting, free camera panning, procedural campaign generator or complete campaign export is claimed. Older builds reject the new optional dimensions field. Source remains version 1; this is additive compatibility for the current runtime, not a general migration system.
