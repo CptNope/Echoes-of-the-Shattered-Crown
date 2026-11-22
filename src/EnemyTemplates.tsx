@@ -477,7 +477,7 @@ export function EnemyTemplates({
         ) : (
           <>
             <p>
-              Applied template: {appliedTemplate.name} � {appliedTemplate.id}
+              Applied template: {appliedTemplate.name} / {appliedTemplate.id}
             </p>
             <fieldset>
               <legend>Enemies to compare</legend>
@@ -494,7 +494,7 @@ export function EnemyTemplates({
                       )
                     }
                   />
-                  {a.name} � {a.id}
+                  {a.name} / {a.id}
                 </label>
               ))}
             </fieldset>
@@ -550,7 +550,7 @@ export function EnemyTemplates({
                           differences.map((f) => (
                             <tr key={a.id + f}>
                               <th scope="row">
-                                {a.name} � {a.id}
+                                {a.name} / {a.id}
                               </th>
                               <td>{TEMPLATE_FIELD_LABELS[f]}</td>
                               <td>{describe(a, f)}</td>
@@ -563,7 +563,7 @@ export function EnemyTemplates({
                         ) : (
                           <tr key={a.id}>
                             <th scope="row">
-                              {a.name} � {a.id}
+                              {a.name} / {a.id}
                             </th>
                             <td colSpan={4}>All template fields match.</td>
                           </tr>
@@ -580,7 +580,7 @@ export function EnemyTemplates({
               </p>
             )}
             <p>
-              {targets.length} enemies selected � {changedTargets} will change.{" "}
+              {targets.length} enemies selected / {changedTargets} will change.{" "}
               {changed || blocked
                 ? "Apply or discard drafts before updating instances."
                 : "Review the differences before applying."}
