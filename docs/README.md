@@ -19,6 +19,8 @@ The game baseline is **v0.8.0**. Current implementation guides and future expans
 
 ## Current game reference
 
+[The Sluice at Greybank](GREYBANK_MISSION.md): complete editable Tidewarden mission, tactics, rewards and balance evidence.
+
 [Custom content authoring](CUSTOM_CONTENT_AUTHORING.md): create and duplicate classes, abilities and gear, build enemy templates, spawn hostile actors and play Saltglass Crossing.
 
 [Large-map editing](LARGE_MAP_STUDIO.md): rectangular levels up to 32×32, reversible resize, area brushes, coordinate navigation and camera tools.

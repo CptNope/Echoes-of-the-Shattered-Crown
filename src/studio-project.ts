@@ -1,3 +1,4 @@
+import { buildGreybank } from "./greybank";
 import { buildExpansion } from "./studio-authoring";
 import {
   mapDimensions,
@@ -252,7 +253,8 @@ export type ProjectEdit =
       content: GameContent;
       placements: LevelProject["placements"];
     }
-  | { type: "expansion" };
+  | { type: "expansion" }
+  | { type: "greybank" };
 /** Atomic batch: reject every operation if any resulting invariant fails. */
 export function editProject(
   project: LevelProject,
@@ -265,7 +267,8 @@ export function editProject(
     fail("Use a batch of 1–1024 edits.");
   const next = structuredClone(project);
   for (const e of edits) {
-    if (e.type === "expansion") Object.assign(next, buildExpansion(next));
+    if (e.type === "greybank") Object.assign(next, buildGreybank(next));
+    else if (e.type === "expansion") Object.assign(next, buildExpansion(next));
     else if (e.type === "roster") {
       next.content = validateGameContent(e.content, next.rules);
       next.placements = structuredClone(e.placements);

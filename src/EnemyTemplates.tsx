@@ -155,6 +155,22 @@ export function EnemyTemplates({
         and 32 templates.
       </p>
       <details>
+        <summary>Playable mission: The Sluice at Greybank</summary>
+        <p>
+          An 18 by 14 Tidewarden mission with two bridges, a river shortcut to
+          freeze, four specialist defenders and a first-clear waystone. Replaces
+          the map, combat catalogs, actors, templates, contract data and
+          briefing with a balanced preset. Keeps artwork and audio. Undo
+          restores your previous source.
+        </p>
+        <button
+          disabled={blocked}
+          onClick={() => apply([{ type: "greybank" }])}
+        >
+          Load Greybank mission
+        </button>
+      </details>
+      <details>
         <summary>Guided Saltglass expansion</summary>
         <p>
           Creates Tidewarden, four abilities, six gear pieces and three enemy

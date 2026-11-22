@@ -51,6 +51,6 @@ Overlay selection stores a finding ID, then resolves it against the current repo
 
 ## Verification and limits
 
-Ten new cases in [studio-connectivity.test.ts](../src/studio-connectivity.test.ts) cover one-river/four-enemy grouping, exact region partitions, independent groups, combined barrier reasons, trapped exits, aggregate empty islands, fresh geometry and repair removal, undo/source/report ownership, order independence and 32×32 bounds/index isolation. The full suite has 186 tests.
+Ten new cases in [studio-connectivity.test.ts](../src/studio-connectivity.test.ts) cover one-river/four-enemy grouping, exact region partitions, independent groups, combined barrier reasons, trapped exits, aggregate empty islands, fresh geometry and repair removal, undo/source/report ownership, order independence and 32×32 bounds/index isolation. The full suite has 192 tests.
 
 This is a 2D authoring diagnostic overlay. It does not add overlays to the 3D playtest, provide a free camera or certify a unique causal obstacle, minimal repair, combat reachability or victory. It does not make automatic terrain changes. Multiple warnings may still describe different region problems; grouping by region is deliberately narrower than inferring a shared root cause.

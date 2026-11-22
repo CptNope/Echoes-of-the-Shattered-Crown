@@ -1,5 +1,12 @@
 # Changelog
 
+## The Sluice at Greybank - 2026-11-22
+
+- Added a playable 18 by 14 Tidewarden mission preset with two bridges, a freezeable central river route, terraces and four specialist defenders.
+- Added four briefing lines, a 120-gold contract, 70 victory JP and a once-only movement/speed relic reward.
+- Added a disclosed balanced preset loader that preserves art/audio, plus editable mission JSON and a reproducible generation command.
+- Added six regression cases; all 192 tests pass. Documented two simulated wins and one loss without claiming balance certification.
+
 ## Selective enemy template updates - 2026-11-22
 
 - Added an applied-template comparison table showing placed/template values and Copy/Keep decisions for selected enemies.
