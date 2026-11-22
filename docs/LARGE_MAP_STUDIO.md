@@ -20,7 +20,7 @@ The battlefield editor supports rectangular maps from 9 to 32 tiles per side: up
 | --- | --- |
 | Source | Optional dimensions object with whole-number width/height in 9–32; absent means 9×9 |
 | Terrain | Exactly one unique cell for every coordinate; existing four terrain kinds and elevation 0–2 |
-| Actors | Eight existing identities; valid distinct placements inside boundaries |
+| Actors | Four required heroes and up to twenty enemies; valid distinct placements inside boundaries |
 | Transactions | Up to 1,024 edits, validated atomically; 50 source history entries |
 | JSON limits | 128 KiB legacy maps; 512 KiB explicit dimensions; 8 MiB embedded native art |
 | Runtime | Dimensions copied to Battle; movement, targeting, AI and action-save validation use the same geometry |

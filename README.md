@@ -248,7 +248,7 @@ Start with the [current systems guide](docs/SYSTEMS_GUIDE.md) for end-to-end flo
 
 ## Architecture decisions
 
-The [ADR section](docs/adr/README.md) records durable architectural choices, alternatives, consequences and revisit conditions. It includes a [template](docs/adr/template.md), nine Accepted records (eight retrospectively documenting the current implementation) and three Proposed contracts for variable maps, editable game packages and shared music/SFX authoring. Original decision dates are left unknown where history was not recorded.
+The [ADR section](docs/adr/README.md) records durable architectural choices, alternatives, consequences and revisit conditions. It includes a [template](docs/adr/template.md), sixteen Accepted records and three Proposed contracts for variable maps, editable game packages and shared music/SFX authoring. Original decision dates are left unknown where history was not recorded.
 
 Use the [open decision register](docs/roadmap/DECISION_REGISTER.md) for roadmap questions and ADRs for concrete architecture choices/history. Proposed records do not change the current game or save format. Run npm run docs:adr for numbering, metadata, index and supersession checks; the command also runs through docs:verify in Actions.
 

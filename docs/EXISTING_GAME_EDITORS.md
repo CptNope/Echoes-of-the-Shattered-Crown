@@ -8,11 +8,11 @@ The working studio loads current game sources and applies validated project over
 
 | Area | Working source/editor | Runtime proof | Remaining boundary |
 | --- | --- | --- | --- |
-| Levels | Battlefield loads shrine, causeway, redoubt and bellkeeper from createBattle | Tiles, elevations, collision, actor names/jobs/resources and boss encounter identity compile into the real engine | Resizable 9–32-side rectangular maps; eight fixed identities; one level source open at a time |
+| Levels | Battlefield loads shrine, causeway, redoubt and bellkeeper from createBattle | Tiles, elevations, collision, actor names/jobs/resources and boss encounter identity compile into the real engine | Resizable 9–32-side rectangular maps; four heroes plus up to twenty enemies; one level source open at a time |
 | Terrain materials | Terrain textures loads the shared renderer palette for grass, stone, water and ice | Procedural color variants and optional painted 16 × 16 top images feed the 3D tile materials, including terrain changes | Prop models, walls, lighting, scenery, import of external textures and variable texture sizes remain future work |
 | Existing character art | Pixels native mode loads all eight actual 887 × 1774 sheets and 32 frames | Edited registered actor texture and state timing in the scene | One native actor override; flattened runtime source, no original master layers |
 | Indexed pixel sketches | Separate small layered sprite workspace | Actor override in playtest | Starter source is a review asset, not a converted native sheet |
-| Characters / enemy NPCs | Game content loads the eight current encounter actors | Name, primary/secondary job, health, energy, starting JP, learned secondary skills and optional equipment compile into battle units | No new identity/team, neutral NPC interaction, social schedules or spawn-wave editor |
+| Characters / enemy NPCs | Game content loads shipped actors; enemy templates create additional hostile identities | Name, primary/secondary job, health, energy, starting JP, learned secondary skills and optional equipment compile into battle units | New enemy IDs and snapshot templates; neutral NPC interaction, new allies, social schedules and spawn waves remain future work |
 | Dialogue | Ordered lines seeded from each existing contract description and Sera's shipped opening quote | Project dialogue appears before combat; combat/AI waits for Begin battle or Skip | Linear encounter briefing; branching choices, flags, quest states, shops and localization remain planned |
 | Contract progression | All four current names, descriptions, objective labels, rewards, prerequisites and first-clear items | Actual contractOpen and returnToCamp functions evaluate source gates/rewards; combat uses authored victory JP | Objective text does not change defeat-all victory; no job-curve, learning-cost or complete campaign editor |
 | Original game music / feedback | Game audio loads the exact original sixteen frequencies, 650 ms spacing, lead/bass and 440/280 Hz command tones | Main AudioScore and project preview use the same source and player | Project JSON source; score recording/multitrack/WAV export remain planned |
@@ -47,7 +47,7 @@ Progression edits preserve four stable encounter IDs. Unknown prerequisites and 
 | Source field | Meaning |
 | --- | --- |
 | encounter | Optional current level identity; omitted legacy projects mean shrine |
-| content | Four contract records, dialogue per contract, current eight-actor source and victory JP |
+| content | Four contract records, dialogue per contract, active actor source, optional enemy templates and victory JP |
 | materials | Shared procedural colors and optional 16 × 16 painted top images |
 | rules | Optional existing job, skill and gear catalog; used by compiled battles and gear validation |
 | gameAudio | Original score/command-tone parameters, including all sixteen precise frequencies |

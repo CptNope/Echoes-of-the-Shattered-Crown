@@ -23,11 +23,11 @@ On phones, use **Show battlefield tools** to open the palette. The board scrolls
 | Area | Current behavior |
 | --- | --- |
 | Board | 9–32 tiles per side; exactly width × height unique cells; grass/stone/water/ice; elevation 0–2 |
-| Actors | Eight existing encounter actor identities; placement and source name/job/resources/learning editable |
+| Actors | Four company heroes plus up to twenty enemies; editable instances and reusable templates |
 | Placement | Reject overlapping actors and blocked/water deployment tiles |
 | Rules/objective | Existing combat formulas, skills, initiative, AI and defeat-all objective |
 | Edits | Typed atomic batches, expected revision checks, 50 retained undo steps and redo |
-| Preview | Fresh isolated Battle for the selected revision and seed; no company persistence or settlement |
+| Preview | Fresh isolated Battle for the selected revision and seed; isolated company and settlement; no player-save mutation |
 | Local save | Explicit save; separate studio keys; previous-valid checkpoint fallback |
 | Files | Strict level-project v1 JSON; 128 KiB legacy maps / 512 KiB maps with explicit dimensions / 8 MiB with embedded native sheet; unknown fields rejected |
 | Distribution | Studio is a built static entry on GitHub Pages |
