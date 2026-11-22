@@ -25,11 +25,13 @@ export function NativeSpriteEditor({
   apply,
   onDirty,
   active,
+  actors,
 }: {
   source: NativeSprite | undefined;
   apply: (s: NativeSprite) => boolean;
   onDirty: (d: boolean) => void;
   active: boolean;
+  actors?: { id: string; name: string }[];
 }) {
   const [draft, setDraft] = useState(source),
     [base, setBase] = useState<Uint8ClampedArray | null>(null);
@@ -254,9 +256,16 @@ export function NativeSpriteEditor({
                 if (draft) update({ ...draft, actorId: e.target.value });
               }}
             >
-              {PIXEL_ACTORS.map((id) => (
-                <option key={id}>{id}</option>
-              ))}
+              {(actors ?? PIXEL_ACTORS.map((id) => ({ id, name: id }))).map(
+                ({ id, name }) => (
+                  <option key={id} value={id}>
+                    {name} / {id}
+                  </option>
+                ),
+              )}
+              {actors && !actors.some((a) => a.id === actor) && (
+                <option value={actor}>{actor} / not placed</option>
+              )}
             </select>
           </label>
           <button

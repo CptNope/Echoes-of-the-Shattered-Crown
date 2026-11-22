@@ -1,3 +1,4 @@
+import type { AbilityCues } from "./studio-assets";
 import { mapDimensions } from "./map-layout";
 import { baseSkillId } from "./data";
 import { skills, type SkillId } from "./data";
@@ -89,6 +90,7 @@ export function effectSeed(cue: ActionCue): number {
 export function planCombatEffect(
   cue: ActionCue,
   battle: Battle,
+  cues?: AbilityCues,
 ): EffectPlan | null {
   const actor = battle.units.find((u) => u.id === cue.unit),
     target = cue.target;
@@ -116,7 +118,8 @@ export function planCombatEffect(
       return u ? [{ x: u.x, z: u.z }] : [];
     });
   return {
-    skill: baseSkillId(cue.skill, battle.rules?.skills),
+    skill:
+      cues?.[cue.skill]?.effect ?? baseSkillId(cue.skill, battle.rules?.skills),
     origin: { x: actor.x, z: actor.z },
     target: { ...target },
     tiles,

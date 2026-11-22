@@ -1,3 +1,4 @@
+import type { AbilityCues } from "./studio-assets";
 import { baseJobId } from "./data";
 import { mapDimensions, mapFrame } from "./map-layout";
 import {
@@ -122,8 +123,9 @@ export class Battlefield {
     onHover: (x: number, z: number) => void,
     private pixelClip?: PixelClip,
     private onCustomAnimation?: (state: string) => void,
-    private nativeSprite?: NativeSprite,
+    private nativeSprite?: NativeSprite | NativeSprite[],
     private materials?: TerrainMaterials,
+    private abilityCues?: AbilityCues,
   ) {
     this.state = state;
     this.focus = mapFrame(mapDimensions(state));
@@ -178,6 +180,7 @@ export class Battlefield {
     this.combatEffects = new CombatEffects(
       this.scene,
       (x, z) => tileAt(this.state, Math.round(x), Math.round(z))!.h * 0.43,
+      this.abilityCues,
     );
     for (const u of state.units) this.requestAnimationArt(u);
     void loadSpriteArt().then((ready) => {
@@ -500,9 +503,12 @@ export class Battlefield {
         sheet: null,
         custom,
         native:
-          this.nativeSprite?.enabled && this.nativeSprite.actorId === u.id
+          (Array.isArray(this.nativeSprite)
             ? this.nativeSprite
-            : null,
+            : this.nativeSprite
+              ? [this.nativeSprite]
+              : []
+          ).find((s) => s.enabled && s.actorId === u.id) ?? null,
         customState: null,
         artJob: u.job,
         artFrame: -1,

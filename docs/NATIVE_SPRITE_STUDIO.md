@@ -4,6 +4,8 @@
 
 The **Pixels → Game sprites · native resolution** mode edits artwork already shipped in the game. It loads all eight job sheets at 887 × 1774, with 32 frames across idle, walk, attack, cast, hurt, guard, victory and downed. Frames are 221 or 222 pixels wide/high because the original sheet dimensions do not divide evenly. No resizing, palette reduction or alpha threshold is applied.
 
+[The asset library](ASSET_LIBRARY.md) now keeps up to 24 native actor assignments. Pixels / Stored native sprite selects an assignment; New sheet assignment creates another. Applying preserves every other actor. Legacy single-sheet projects remain readable and migrate to the array when the library is used.
+
 ## Load and edit
 
 1. Choose a game character sheet and preview actor, then **Load game sheet**. The loader verifies the asset against its manifest SHA-256 and checks decoded dimensions. This creates an unapplied draft.
@@ -25,11 +27,11 @@ The **Pixels → Game sprites · native resolution** mode edits artwork already 
 | Geometry | Four columns and eight rows; crop boundaries use rounded proportional source coordinates |
 | States | Four fixed frames per state; independent source durations |
 | Registration | Original idle height and 32 foot offsets; not inferred again from edited pixels |
-| Actor binding | One native override for a chosen shrine actor; does not change the actor's job or stats |
+| Actor binding | One assignment per actor, including custom enemy IDs; does not change jobs or stats |
 | Composition | Original decoded pixels plus sparse RGBA replacements |
 | Playtest | Existing atlas UVs, display scale, team tint and all eight state priorities |
 | Coexistence | Native source wins when enabled and targeting the same actor as the small indexed source |
-| Source limits | 8 MiB UTF-8 with native source; 128 KiB for projects without it |
+| Source limits | 8 MiB legacy native source; 32 MiB native library; 128 KiB legacy or 512 KiB expanded maps without native sources |
 | Local checkpoint | Shared original image keyed by digest plus compact primary/backup sources |
 | Portable export | Original image embedded in every exported JSON; no local checkpoint references |
 

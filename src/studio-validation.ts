@@ -10,7 +10,7 @@ import {
   validateLevelProject,
   exportLevelProject,
   parseLevelProject,
-  NATIVE_PROJECT_LIMIT,
+  NATIVE_LIBRARY_LIMIT,
 } from "./studio-project";
 import { createBattle, availableSkills, validateSave } from "./engine";
 export type ValidationTarget =
@@ -406,7 +406,7 @@ export function analyzeProjectText(text: string): ProjectValidation {
     return analyzeProject(parseLevelProject(text));
   } catch (e) {
     let report: ProjectValidation | undefined;
-    if (new TextEncoder().encode(text).length <= NATIVE_PROJECT_LIMIT)
+    if (new TextEncoder().encode(text).length <= NATIVE_LIBRARY_LIMIT)
       try {
         report = analyzeProject(JSON.parse(text));
       } catch {

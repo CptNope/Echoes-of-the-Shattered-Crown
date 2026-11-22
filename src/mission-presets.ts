@@ -1,3 +1,4 @@
+import { skills } from "./data";
 import { createBattle } from "./engine";
 import { encounters, type EncounterId } from "./encounters";
 import { gameContent, validateGameContent } from "./studio-content";
@@ -90,7 +91,16 @@ export function loadMissionPreset(
 ): LevelProject {
   if (!MISSION_PRESETS.some((p) => p.id === id))
     throw Error("Unknown mission preset.");
-  if (id === "greybank") return buildGreybank(project);
+  if (id === "greybank") {
+    const next = buildGreybank(project);
+    if (next.abilityCues)
+      next.abilityCues = Object.fromEntries(
+        Object.entries(next.abilityCues).filter(([id]) =>
+          Object.hasOwn(next.rules!.skills, id),
+        ),
+      );
+    return next;
+  }
   const battle = createBattle(project.seed, id),
     content = gameContent(id, battle.units);
   content.enemyTemplates = content.actors
@@ -119,5 +129,14 @@ export function loadMissionPreset(
     placements: battle.units.map(({ id, x, z }) => ({ id, x, z })),
     rules: gameRules(),
     content: validateGameContent(content),
+    ...(project.abilityCues
+      ? {
+          abilityCues: Object.fromEntries(
+            Object.entries(project.abilityCues).filter(([id]) =>
+              Object.hasOwn(skills, id),
+            ),
+          ),
+        }
+      : {}),
   };
 }

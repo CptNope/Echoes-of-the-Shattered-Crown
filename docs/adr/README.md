@@ -39,6 +39,8 @@ The initial accepted baseline records are **retrospective** except ADR-0001's ne
 
 | [ADR-0020](0020-shared-balanced-mission-presets.md) | Accepted | New implementation decision | Load canonical balanced missions through one preset factory |
 
+| [ADR-0021](0021-multiple-native-assets-and-cosmetic-cues.md) | Accepted | New implementation decision | Store multiple native assignments and cosmetic ability cue pairs |
+
 ## When to create an ADR
 
 | Create a record for | Usually use another document for |

@@ -19,6 +19,8 @@ The game baseline is **v0.8.0**. Current implementation guides and future expans
 
 ## Current game reference
 
+[Asset library and ability feedback](ASSET_LIBRARY.md): multiple native sprite assignments and cosmetic per-ability VFX/sound pairs.
+
 [Mission preset library](MISSION_LIBRARY.md): migrated original missions, shared loading semantics, template identities and regression evidence.
 
 [The Sluice at Greybank](GREYBANK_MISSION.md): complete editable Tidewarden mission, tactics, rewards and balance evidence.

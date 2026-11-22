@@ -1,3 +1,10 @@
+import {
+  nativeSources,
+  validateNativeLibrary,
+  validateAbilityCues,
+  upsertNative,
+  type AbilityCues,
+} from "./studio-assets";
 import { loadMissionPreset, type MissionPresetId } from "./mission-presets";
 import { buildExpansion } from "./studio-authoring";
 import {
@@ -37,6 +44,8 @@ export interface LevelProject {
   music?: MusicPattern;
   pixels?: PixelClip;
   nativeSprite?: NativeSprite;
+  nativeSprites?: NativeSprite[];
+  abilityCues?: AbilityCues;
   encounter?: EncounterId;
   content?: GameContent;
   materials?: TerrainMaterials;
@@ -47,6 +56,7 @@ export interface LevelProject {
 export const PROJECT_LIMIT = 128 * 1024;
 export const LARGE_PROJECT_LIMIT = 512 * 1024;
 export const NATIVE_PROJECT_LIMIT = 8 * 1024 * 1024;
+export const NATIVE_LIBRARY_LIMIT = 32 * 1024 * 1024;
 const LEGACY_PROJECT_LIMIT = PROJECT_LIMIT;
 const template = createBattle();
 export function createLevelProject(
@@ -100,6 +110,8 @@ export function validateLevelProject(raw: unknown): LevelProject {
     "music",
     "pixels",
     "nativeSprite",
+    "nativeSprites",
+    "abilityCues",
     "encounter",
     "content",
     "materials",
@@ -125,6 +137,13 @@ export function validateLevelProject(raw: unknown): LevelProject {
   if (raw.music !== undefined) validateMusicPattern(raw.music);
   if (raw.pixels !== undefined) validatePixelClip(raw.pixels);
   if (raw.nativeSprite !== undefined) validateNativeSprite(raw.nativeSprite);
+  if (raw.nativeSprites !== undefined) validateNativeLibrary(raw.nativeSprites);
+  if (raw.nativeSprite !== undefined && raw.nativeSprites !== undefined)
+    fail(
+      "Use either a native sprite library or the legacy assignment, not both.",
+    );
+  if (raw.abilityCues !== undefined)
+    validateAbilityCues(raw.abilityCues, rules);
   if (typeof raw.id !== "string" || !/^[a-zA-Z0-9_-]{1,80}$/.test(raw.id))
     fail("Invalid project identity.");
   if (typeof raw.name !== "string" || !raw.name.trim() || raw.name.length > 80)
@@ -186,9 +205,9 @@ export function validateLevelProject(raw: unknown): LevelProject {
   return structuredClone(raw) as unknown as LevelProject;
 }
 export function parseLevelProject(text: string): LevelProject {
-  if (new TextEncoder().encode(text).length > NATIVE_PROJECT_LIMIT)
+  if (new TextEncoder().encode(text).length > NATIVE_LIBRARY_LIMIT)
     fail(
-      "Project exceeds the 128 KiB legacy / 512 KiB expanded-map / 8 MiB native import limit.",
+      "Project exceeds the 128 KiB legacy / 512 KiB expanded-map / 8 MiB native / 32 MiB library import limit.",
     );
   let raw: unknown;
   try {
@@ -202,7 +221,13 @@ export function parseLevelProject(text: string): LevelProject {
   }
   const project = validateLevelProject(raw);
   if (
+    !project.nativeSprites &&
+    new TextEncoder().encode(text).length > NATIVE_PROJECT_LIMIT
+  )
+    fail("Project exceeds the 8 MiB native import limit.");
+  if (
     !project.nativeSprite &&
+    !project.nativeSprites &&
     new TextEncoder().encode(text).length >
       (project.dimensions ? LARGE_PROJECT_LIMIT : LEGACY_PROJECT_LIMIT)
   )
@@ -214,16 +239,18 @@ export function parseLevelProject(text: string): LevelProject {
 export function exportLevelProject(project: LevelProject): string {
   const p = validateLevelProject(project),
     pretty = JSON.stringify(p, null, 2) + "\n";
-  const limit = p.nativeSprite
-    ? NATIVE_PROJECT_LIMIT
-    : p.dimensions
-      ? LARGE_PROJECT_LIMIT
-      : LEGACY_PROJECT_LIMIT;
+  const limit = p.nativeSprites
+    ? NATIVE_LIBRARY_LIMIT
+    : p.nativeSprite
+      ? NATIVE_PROJECT_LIMIT
+      : p.dimensions
+        ? LARGE_PROJECT_LIMIT
+        : LEGACY_PROJECT_LIMIT;
   if (new TextEncoder().encode(pretty).length <= limit) return pretty;
   const compact = JSON.stringify(p) + "\n";
   if (new TextEncoder().encode(compact).length > limit)
     fail(
-      "Project exceeds the 128 KiB legacy / 512 KiB expanded-map / 8 MiB native export limit.",
+      "Project exceeds the 128 KiB legacy / 512 KiB expanded-map / 8 MiB native / 32 MiB library export limit.",
     );
   return compact;
 }
@@ -243,6 +270,8 @@ export type ProjectEdit =
   | { type: "music"; pattern: MusicPattern }
   | { type: "pixels"; clip: PixelClip }
   | { type: "native-sprite"; sprite: NativeSprite }
+  | { type: "native-library"; sprites: NativeSprite[] }
+  | { type: "ability-cues"; cues: AbilityCues }
   | { type: "load-encounter"; encounter: EncounterId }
   | { type: "content"; content: GameContent }
   | { type: "materials"; materials: TerrainMaterials }
@@ -333,8 +362,14 @@ export function editProject(
       if (!actor) fail("Unknown actor.");
       actor.x = e.x;
       actor.z = e.z;
+    } else if (e.type === "native-library") {
+      next.nativeSprites = validateNativeLibrary(e.sprites);
+      delete next.nativeSprite;
+    } else if (e.type === "ability-cues") {
+      next.abilityCues = validateAbilityCues(e.cues, next.rules);
     } else if (e.type === "native-sprite") {
-      next.nativeSprite = validateNativeSprite(e.sprite);
+      if (next.nativeSprites) next.nativeSprites = upsertNative(next, e.sprite);
+      else next.nativeSprite = validateNativeSprite(e.sprite);
     } else if (e.type === "pixels") {
       next.pixels = validatePixelClip(e.clip);
     } else if (e.type === "music") {
@@ -486,22 +521,19 @@ export function saveProjectCheckpoint(
     );
   const exported = exportLevelProject(project);
   let text = exported;
-  if (project.nativeSprite) {
-    const assetKey = STUDIO_STORAGE + ".native." + project.nativeSprite.sha256;
-    const existing = storage.getItem(assetKey);
-    if (existing && existing !== project.nativeSprite.image)
-      fail(
-        "Conflicting native image digest. Export the project before continuing.",
-      );
-    if (!existing) storage.setItem(assetKey, project.nativeSprite.image);
-    text =
-      JSON.stringify({
-        ...project,
-        nativeSprite: {
-          ...project.nativeSprite,
-          image: "asset:" + project.nativeSprite.sha256,
-        },
-      }) + "\n";
+  if (nativeSources(project).length) {
+    const compact = structuredClone(project);
+    for (const sprite of nativeSources(compact)) {
+      const assetKey = STUDIO_STORAGE + ".native." + sprite.sha256;
+      const existing = storage.getItem(assetKey);
+      if (existing && existing !== sprite.image)
+        fail(
+          "Conflicting native image digest. Export the project before continuing.",
+        );
+      if (!existing) storage.setItem(assetKey, sprite.image);
+      sprite.image = "asset:" + sprite.sha256;
+    }
+    text = JSON.stringify(compact) + "\n";
   }
   if (current) {
     let valid = false;
@@ -519,17 +551,20 @@ export function saveProjectCheckpoint(
 
 function hydrateCheckpoint(storage: StudioStorage, text: string): string {
   const raw = JSON.parse(text);
-  if (
-    raw?.nativeSprite &&
-    typeof raw.nativeSprite.image === "string" &&
-    raw.nativeSprite.image === "asset:" + raw.nativeSprite.sha256
-  ) {
-    const image = storage.getItem(
-      STUDIO_STORAGE + ".native." + raw.nativeSprite.sha256,
-    );
-    if (!image) throw Error("Native checkpoint image is missing.");
-    raw.nativeSprite.image = image;
-    return JSON.stringify(raw);
+  for (const sprite of [
+    ...(raw?.nativeSprite ? [raw.nativeSprite] : []),
+    ...(Array.isArray(raw?.nativeSprites) ? raw.nativeSprites : []),
+  ]) {
+    if (
+      typeof sprite?.image === "string" &&
+      sprite.image === "asset:" + sprite.sha256
+    ) {
+      const image = storage.getItem(
+        STUDIO_STORAGE + ".native." + sprite.sha256,
+      );
+      if (!image) throw Error("Native checkpoint image is missing.");
+      sprite.image = image;
+    }
   }
-  return text;
+  return JSON.stringify(raw);
 }

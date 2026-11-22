@@ -92,3 +92,6 @@ See [existing-game editing](EXISTING_GAME_EDITORS.md) for real encounter imports
 [Project validation](PROJECT_VALIDATION.md) recomputes for applied revisions. Errors block playtesting; ground connectivity and content warnings are advisory. Rejected imports have separate findings and never replace the current project.
 
 [Connectivity overlays](CONNECTIVITY_OVERLAYS.md) explain selected ground-region warnings in a full-map overview and the editable grid. Clear/focus/inspection are view operations; repairs remain explicit author edits.
+
+
+[Asset library](ASSET_LIBRARY.md) adds optional nativeSprites and abilityCues source fields. Array libraries export up to 32 MiB; legacy nativeSprite files keep their existing limit.

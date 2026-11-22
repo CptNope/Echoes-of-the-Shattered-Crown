@@ -1,5 +1,12 @@
 # Changelog
 
+## Multiple sprite assets and paired ability feedback - 2026-11-22
+
+- Added an asset library for up to 24 native actor sheets with independent edits/timing, custom enemy assignment and reversible enable/remove controls.
+- Added legacy migration, shared-original checkpoint storage and self-contained native-library exports up to 32 MiB.
+- Added scoped per-ability VFX-family and shared sound-cue pairs, including terrain-only cast feedback, while keeping gameplay definitions unchanged.
+- Added ten regressions; all 212 tests pass. Updated coverage guides and ADR-0021.
+
 ## Original mission preset migration - 2026-11-22
 
 - Unified the original four encounters and Greybank under one reversible balanced preset loader with per-mission JSON downloads.

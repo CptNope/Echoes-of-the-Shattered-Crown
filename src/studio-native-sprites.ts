@@ -54,7 +54,8 @@ export function validateNativeSprite(value: unknown): NativeSprite {
       typeof p.job === "string" &&
       typeof p.actorId === "string" &&
       Object.hasOwn(jobs, p.job) &&
-      PIXEL_ACTORS.includes(p.actorId as any) &&
+      (PIXEL_ACTORS.includes(p.actorId as any) ||
+        /^enemy-[a-z][a-z0-9-]{0,55}$/.test(p.actorId)) &&
       typeof p.enabled === "boolean",
     "Invalid native sprite identity.",
   );

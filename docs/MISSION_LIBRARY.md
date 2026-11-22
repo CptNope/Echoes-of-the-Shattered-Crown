@@ -44,7 +44,7 @@ Original enemy instance IDs stay `sentinel`, `cinder`, `wraith` and `cantor`. Th
 
 ## Verification and balance review
 
-Ten tests cover the migrated sources, shipped stat/roster/progression parity, documented corner changes, generated fixtures, history/JSON recovery, all original battle outcomes, Orren's awakening, first-clear rewards and atomic rejection. The complete suite has 202 tests. All five reports have zero errors and warnings.
+Ten tests cover the migrated sources, shipped stat/roster/progression parity, documented corner changes, generated fixtures, history/JSON recovery, all original battle outcomes, Orren's awakening, first-clear rewards and atomic rejection. The complete suite has 212 tests. All five reports have zero errors and warnings.
 
 | Preset | Controlled policy result at seed 74319 | Activations | Surviving allies |
 | --- | --- | --- | --- |

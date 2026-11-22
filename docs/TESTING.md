@@ -4,7 +4,7 @@
 
 ## Automated rules coverage
 
-Run `npm test`. The script uses the explicit test-file list in `package.json` and Node's built-in test runner. The current suite has 202 tests; this count is an inventory, not a coverage percentage or balance certification.
+Run `npm test`. The script uses the explicit test-file list in `package.json` and Node's built-in test runner. The current suite has 212 tests; this count is an inventory, not a coverage percentage or balance certification.
 
 | Area             | Assertions represented                                                                                        |
 | ---------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -126,15 +126,15 @@ The eight cases in src/studio-project.test.ts verify source-preserving round tri
 
 ## Implemented sound-effects tests
 
-Eight cases in src/studio-sfx.test.ts cover deterministic PCM/endpoints and source controls, malformed source rejection, every WAV sample/header, project/history preservation, resolved-event deduplication, actual-command RNG isolation and mocked AudioContext lifecycle/voice limits. The suite now has 202 tests. See the [sound-effects pilot](SOUND_EFFECTS_STUDIO.md) for scope and browser checks; mocked Web Audio does not prove device audibility.
+Eight cases in src/studio-sfx.test.ts cover deterministic PCM/endpoints and source controls, malformed source rejection, every WAV sample/header, project/history preservation, resolved-event deduplication, actual-command RNG isolation and mocked AudioContext lifecycle/voice limits. The suite now has 212 tests. See the [sound-effects pilot](SOUND_EFFECTS_STUDIO.md) for scope and browser checks; mocked Web Audio does not prove device audibility.
 
 ## Music-pattern tests
 
-Six music cases cover tempo/step timing, rests and loop endpoints; note/instrument/gain/gate controls; strict source rejection; atomic project/history/round trips; exact WAV samples; and mocked one-loop lifecycle. npm test now runs 202 tests. Browser audition, export/reimport, preview music plus SFX and mute/restart remain integration checks; see the [music guide](MUSIC_PATTERN_STUDIO.md).
+Six music cases cover tempo/step timing, rests and loop endpoints; note/instrument/gain/gate controls; strict source rejection; atomic project/history/round trips; exact WAV samples; and mocked one-loop lifecycle. npm test now runs 212 tests. Browser audition, export/reimport, preview music plus SFX and mute/restart remain integration checks; see the [music guide](MUSIC_PATTERN_STUDIO.md).
 
 ## Pixel-animation tests
 
-Eight cases in src/studio-pixels.test.ts verify strict bounds, atomic strokes/eraser behavior, stable layer/cel and palette composition, independent frame duplication/order/timing, every packed RGBA pixel, project/history/JSON preservation, simulation isolation and registration/binding limits. The suite now has 202 tests. See the [pixel pilot](PIXEL_ANIMATION_STUDIO.md) for browser and scene integration checks.
+Eight cases in src/studio-pixels.test.ts verify strict bounds, atomic strokes/eraser behavior, stable layer/cel and palette composition, independent frame duplication/order/timing, every packed RGBA pixel, project/history/JSON preservation, simulation isolation and registration/binding limits. The suite now has 212 tests. See the [pixel pilot](PIXEL_ANIMATION_STUDIO.md) for browser and scene integration checks.
 
 ## Action-clip tests
 
@@ -148,17 +148,17 @@ Six cases in src/studio-pixel-tools.test.ts verify four-connected fill and trans
 
 ## Native game sprites
 
-Eight cases in src/studio-native-sprites.test.ts cover all eight shipped source assets and 32-frame geometry, every extracted RGBA byte from a decoded native sheet, atomic sparse paint/alpha, exact connected fill, malformed source rejection, all eight state timings, self-contained JSON/history and deduplicated checkpoint recovery with stale/quota errors. The full suite has 202 tests. Browser acceptance additionally requires loading a real game sheet, editing at zoom, stroke undo, timing/audition, native actor playtest and exported-source reopening. Pixel equality in code tests is not a browser/performance certification.
+Eight cases in src/studio-native-sprites.test.ts cover all eight shipped source assets and 32-frame geometry, every extracted RGBA byte from a decoded native sheet, atomic sparse paint/alpha, exact connected fill, malformed source rejection, all eight state timings, self-contained JSON/history and deduplicated checkpoint recovery with stale/quota errors. The full suite has 212 tests. Browser acceptance additionally requires loading a real game sheet, editing at zoom, stroke undo, timing/audition, native actor playtest and exported-source reopening. Pixel equality in code tests is not a browser/performance certification.
 
 
 ## Existing game data integration
 
-Ten cases in src/studio-existing-data.test.ts cover exact imports of four encounters; actor-to-engine compilation; reversible source loading; invalid identity, dialogue and progression rejection; actual once-only JP/gold/relic/gate outcomes; exact terrain source/texture pixels; combined project round trips; and original audio source/player timing with lifecycle cancellation. The complete suite has 202 tests. Browser review must additionally verify rendering and actual editable controls; mocked sound checks do not certify device audibility.
+Ten cases in src/studio-existing-data.test.ts cover exact imports of four encounters; actor-to-engine compilation; reversible source loading; invalid identity, dialogue and progression rejection; actual once-only JP/gold/relic/gate outcomes; exact terrain source/texture pixels; combined project round trips; and original audio source/player timing with lifecycle cancellation. The complete suite has 212 tests. Browser review must additionally verify rendering and actual editable controls; mocked sound checks do not certify device audibility.
 
 
 ## Catalog override parity
 
-Ten cases in src/studio-rules.test.ts verify exact baseline catalogs, isolation, real stat/movement/initiative changes, command costs/range/power, effect/animation classification, edited monster AI, shop/equip/deployment, learning/unlock/mastery, strict rejection, actor loadout compatibility and round-trip/undo/removal/legacy behavior. Total suite: 202 tests. Browser verification must additionally exercise real editor forms and downloaded sources.
+Ten cases in src/studio-rules.test.ts verify exact baseline catalogs, isolation, real stat/movement/initiative changes, command costs/range/power, effect/animation classification, edited monster AI, shop/equip/deployment, learning/unlock/mastery, strict rejection, actor loadout compatibility and round-trip/undo/removal/legacy behavior. Total suite: 212 tests. Browser verification must additionally exercise real editor forms and downloaded sources.
 
 ## Larger map checks
 
@@ -177,7 +177,10 @@ Ten cases in [studio-connectivity.test.ts](../src/studio-connectivity.test.ts) c
 Fifteen cases in [studio-authoring.test.ts](../src/studio-authoring.test.ts) cover custom identities/bases, reference guards, template snapshots, atomic spawning, limits, scoped mechanics and presentation, saves, campaign loadouts and deterministic victory settlement. See [custom authoring](CUSTOM_CONTENT_AUTHORING.md) for fixture limitations and browser acceptance.
 
 
-Five additional template-update cases verify selective multi-actor transfers, identity/placement/dialogue preservation, comparison semantics, incompatible loadout rejection without partial writes, independent nested data, optional equipment clearing and source/history recovery. Run from the repository root because native-art fixtures use public asset paths. Total suite: 202 tests.
+Five additional template-update cases verify selective multi-actor transfers, identity/placement/dialogue preservation, comparison semantics, incompatible loadout rejection without partial writes, independent nested data, optional equipment clearing and source/history recovery. Run from the repository root because native-art fixtures use public asset paths. Total suite: 212 tests.
 
 
-Ten cases in [mission-presets.test.ts](../src/mission-presets.test.ts) cover four source migrations, roster/stat/progression parity, the three isolated scenery-corner repairs, five generated fixtures, source/history isolation, complete deterministic outcomes, Orren awakening, reward settlement and rejected requests. The full suite has 202 tests. Outcomes include losses and are not a balance certification.
+Ten cases in [mission-presets.test.ts](../src/mission-presets.test.ts) cover four source migrations, roster/stat/progression parity, the three isolated scenery-corner repairs, five generated fixtures, source/history isolation, complete deterministic outcomes, Orren awakening, reward settlement and rejected requests. The full suite has 212 tests. Outcomes include losses and are not a balance certification.
+
+
+Ten cases in [studio-assets.test.ts](../src/studio-assets.test.ts) cover legacy-to-library migration, independent pixels/timings, actor/count/digest rejection, shared-image checkpoints and missing/quota recovery, exports beyond 8 MiB, undo/redo, scoped cue validation, gameplay-isolated VFX and sounds, and preset pruning. Full suite: 212 tests.

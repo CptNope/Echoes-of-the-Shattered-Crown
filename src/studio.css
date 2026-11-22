@@ -1465,3 +1465,13 @@ dialog::backdrop {
   flex: 0 0 1rem;
   margin: 0.15rem 0 0;
 }
+
+.asset-assignments {
+  list-style: none;
+  padding: 0;
+}
+.asset-assignments li {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--line, #d8dcd3);
+  overflow-wrap: anywhere;
+}

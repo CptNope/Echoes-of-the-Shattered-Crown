@@ -65,6 +65,6 @@ Actor gear must use a matching slot and valid job proficiency. Optional rules in
 
 ## Verification and remaining work
 
-Ten new tests cover exact shipped imports and source isolation, real health/movement/initiative, command cost/range/power, animation/effect footprint, monster AI with edited native skills, real purchase/equip/deployment, learning/unlock/mastery, rejection, actor loadout constraints, JSON/undo/reset and legacy fallback. The full suite has 202 tests. Runtime tests use controlled fixtures; browser checks additionally verify forms, actual playtest actions and downloaded-source recovery.
+Ten new tests cover exact shipped imports and source isolation, real health/movement/initiative, command cost/range/power, animation/effect footprint, monster AI with edited native skills, real purchase/equip/deployment, learning/unlock/mastery, rejection, actor loadout constraints, JSON/undo/reset and legacy fallback. The full suite has 212 tests. Runtime tests use controlled fixtures; browser checks additionally verify forms, actual playtest actions and downloaded-source recovery.
 
 Still planned: variable company/neutral actor identities, neutral NPC interactions, branching quests/dialogue, support-definition editing, new AI programs, formula scripting, job-level/learning-cost curves, arbitrary effect graphs, equipment artwork and complete playable-plus-editable game export. The shared catalog seam makes these follow-on tools possible; it does not mark the complete studio roadmap finished.

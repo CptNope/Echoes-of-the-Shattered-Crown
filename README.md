@@ -16,6 +16,8 @@ An original isometric tactical RPG about a mercenary company, a fractured world,
 
 [Mission preset library](docs/MISSION_LIBRARY.md): all four original encounters and Greybank share a balanced, reversible loader, reusable enemy templates and downloadable editable JSON.
 
+[Asset library and ability feedback](docs/ASSET_LIBRARY.md): keep multiple native character sheets with independent edits and timing, assign art to custom enemies, and pair each ability with existing VFX and editable sound-bank cues.
+
 ![The Lantern Company at the shrine of Veyr](docs/assets/battlefield.jpg)
 
 > **Current edition: 0.8 — Steel and spellcraft.** Lead four companions through four linked contracts, build eight-job loadouts with thirteen active abilities and permanent supports, and challenge the Bellkeeper. Automatic recovery and portable JSON backups keep company and battle progress between sessions. Eight job sheets now provide 256 frames for idle, walk, attack, cast, hurt, guard, victory and downed states. Three effect atlases add 96 spell and attack frames plus bounded particles for all thirteen abilities. The full story campaign remains future work.
@@ -252,7 +254,7 @@ Start with the [current systems guide](docs/SYSTEMS_GUIDE.md) for end-to-end flo
 
 ## Architecture decisions
 
-The [ADR section](docs/adr/README.md) records durable architectural choices, alternatives, consequences and revisit conditions. It includes a [template](docs/adr/template.md), seventeen Accepted records and three Proposed contracts for variable maps, editable game packages and shared music/SFX authoring. Original decision dates are left unknown where history was not recorded.
+The [ADR section](docs/adr/README.md) records durable architectural choices, alternatives, consequences and revisit conditions. It includes a [template](docs/adr/template.md), eighteen Accepted records and three Proposed contracts for variable maps, editable game packages and shared music/SFX authoring. Original decision dates are left unknown where history was not recorded.
 
 Use the [open decision register](docs/roadmap/DECISION_REGISTER.md) for roadmap questions and ADRs for concrete architecture choices/history. Proposed records do not change the current game or save format. Run npm run docs:adr for numbering, metadata, index and supersession checks; the command also runs through docs:verify in Actions.
 
@@ -260,7 +262,7 @@ Use the [open decision register](docs/roadmap/DECISION_REGISTER.md) for roadmap 
 
 Version 0.8 extends the company-management milestone: four linked contracts, permanent secondary-skill learning, equipment and carried progression. Phase 2 now includes mastery and three support slots for the existing eight jobs; each advanced job now has an additional distinct active ability; the remaining job roster and further skill-board depth are still planned. Phase 3's world map, branching story, recruitment and town systems remain planned.
 
-The suite has **202 tests**, including full deterministic simulations of all four maps, economic and equipment invariants, rewards and v1 migration. Browser checks cover file export/import, closed-tab recovery, all eight job sprites, boss awakening, first-clear relic settlement, buying/equipping, manual save/load, migrated resource preservation, learning across a job change, result settlement and second-contract deployment. Result/learning checks use isolated local fixtures, not a claim of a full manual campaign playthrough. Physical mobile devices, Safari, gamepad hardware and 60 FPS remain uncertified. See [testing](docs/TESTING.md).
+The suite has **212 tests**, including full deterministic simulations of all four maps, economic and equipment invariants, rewards and v1 migration. Browser checks cover file export/import, closed-tab recovery, all eight job sprites, boss awakening, first-clear relic settlement, buying/equipping, manual save/load, migrated resource preservation, learning across a job change, result settlement and second-contract deployment. Result/learning checks use isolated local fixtures, not a claim of a full manual campaign playthrough. Physical mobile devices, Safari, gamepad hardware and 60 FPS remain uncertified. See [testing](docs/TESTING.md).
 
 ## Expansion plan
 

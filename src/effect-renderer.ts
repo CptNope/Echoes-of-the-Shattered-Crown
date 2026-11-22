@@ -1,3 +1,4 @@
+import type { AbilityCues } from "./studio-assets";
 import * as THREE from "three";
 import type { Battle } from "./engine";
 import { loadEffectAtlas } from "./effect-art";
@@ -64,6 +65,7 @@ export class CombatEffects {
   constructor(
     scene: THREE.Scene,
     private height: (x: number, z: number) => number,
+    private cues?: AbilityCues,
   ) {
     scene.add(this.group);
     this.group.name = "Combat effects";
@@ -159,7 +161,7 @@ export class CombatEffects {
     );
   }
   emit(cue: ActionCue, battle: Battle, now: number, reduced: boolean) {
-    const plan = planCombatEffect(cue, battle);
+    const plan = planCombatEffect(cue, battle, this.cues);
     if (!plan || this.disposed) return;
     this.serial++;
     this.stats.casts++;

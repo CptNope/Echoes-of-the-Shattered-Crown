@@ -1,3 +1,9 @@
+import { AssetLibrary } from "./AssetLibrary";
+import {
+  nativeSources,
+  upsertNative,
+  abilitySoundEvents,
+} from "./studio-assets";
 import { previewExpedition } from "./studio-authoring";
 import { EnemyTemplates } from "./EnemyTemplates";
 import { ConnectivityMap } from "./ConnectivityOverlay";
@@ -47,11 +53,7 @@ import { MusicEditor } from "./MusicEditor";
 import { NativeSpriteEditor } from "./NativeSpriteEditor";
 import { PixelEditor } from "./PixelEditor";
 import { renderMusic } from "./studio-music";
-import {
-  defaultSoundBank,
-  resolvedSoundEvents,
-  StudioSfxPlayer,
-} from "./studio-sfx";
+import { defaultSoundBank, StudioSfxPlayer } from "./studio-sfx";
 import {
   createLevelProject,
   applyProjectEdits,
@@ -268,9 +270,18 @@ function Preview({
     [],
   );
   useEffect(() => {
-    const events = resolvedSoundEvents(previousCue.current, battle.lastAction);
+    const events = abilitySoundEvents(
+      previousCue.current,
+      battle.lastAction,
+      project.abilityCues,
+    );
     previousCue.current = battle.lastAction;
-    if (!soundEnabled || (project.gameAudio?.enabled && !project.sounds))
+    if (
+      !soundEnabled ||
+      (project.gameAudio?.enabled &&
+        !project.sounds &&
+        !project.abilityCues?.[battle.lastAction?.skill ?? "strike"])
+    )
       return;
     for (const event of events) {
       const played = soundPlayer.current?.play(
@@ -327,8 +338,9 @@ function Preview({
         compileLevelProject(project),
         (x, z) => click.current(x, z),
         () => {},
-        project.nativeSprite?.enabled &&
-          project.nativeSprite.actorId === project.pixels?.actorId
+        nativeSources(project).some(
+          (s) => s.enabled && s.actorId === project.pixels?.actorId,
+        )
           ? undefined
           : project.pixels,
         (state) => {
@@ -336,8 +348,9 @@ function Preview({
           if (["walk", "attack", "cast"].includes(state))
             setLastCustomAnimation(state);
         },
-        project.nativeSprite,
+        nativeSources(project),
         project.materials,
+        project.abilityCues,
       );
       scene.renderer.domElement.setAttribute(
         "aria-label",
@@ -546,28 +559,29 @@ function Preview({
             </p>
           )}
           {project.pixels?.enabled &&
-            !(
-              project.nativeSprite?.enabled &&
-              project.nativeSprite.actorId === project.pixels.actorId
+            !nativeSources(project).some(
+              (s) => s.enabled && s.actorId === project.pixels?.actorId,
             ) && (
               <p>
                 Custom pixel clip: {project.pixels.actorId} /{" "}
                 {project.pixels.frames.length} frames
               </p>
             )}
-          {(project.pixels?.enabled || project.nativeSprite?.enabled) && (
+          {(project.pixels?.enabled ||
+            nativeSources(project).some((s) => s.enabled)) && (
             <p>
               Custom animation: {customAnimation} / Last active clip:{" "}
               {lastCustomAnimation}
             </p>
           )}
-          {project.nativeSprite?.enabled && (
-            <p>
-              Native sprite: {project.nativeSprite.job} /{" "}
-              {project.nativeSprite.actorId} / {project.nativeSprite.width} ×{" "}
-              {project.nativeSprite.height} / 32 frames
-            </p>
-          )}
+          {nativeSources(project)
+            .filter((s) => s.enabled)
+            .map((s) => (
+              <p key={s.actorId}>
+                Native sprite: {s.job} / {s.actorId} / {s.width} by {s.height} /
+                32 frames
+              </p>
+            ))}
           <h2>
             {battle.result === "playing"
               ? active.name
@@ -742,6 +756,7 @@ function Studio() {
       | "game-audio"
       | "enemies"
       | "rules"
+      | "assets"
     >("map"),
     [soundDraftDirty, setSoundDraftDirty] = useState(false);
   const [musicDraftDirty, setMusicDraftDirty] = useState(false);
@@ -757,7 +772,12 @@ function Studio() {
   );
   const [rulesDirty, setRulesDirty] = useState(false);
   const [enemyDirty, setEnemyDirty] = useState(false);
+  const [assetDirty, setAssetDirty] = useState(false);
+  const [nativeSelection, setNativeSelection] = useState<string>(
+    () => nativeSources(opened.project)[0]?.actorId ?? "",
+  );
   const hasDraft =
+    assetDirty ||
     enemyDirty ||
     rulesDirty ||
     contentDirty ||
@@ -1049,6 +1069,7 @@ function Studio() {
                   "game-audio",
                   "rules",
                   "enemies",
+                  "assets",
                 ].includes(panel)
               }
             >
@@ -1135,44 +1156,48 @@ function Studio() {
             <div className="section-heading">
               <div>
                 <h1>
-                  {panel === "enemies"
-                    ? "Enemy templates and spawning"
-                    : panel === "map"
-                      ? "Battlefield editor"
-                      : panel === "rules"
-                        ? "Gear, ability and job overrides"
-                        : panel === "terrain"
-                          ? "Terrain appearance editor"
-                          : panel === "content"
-                            ? "Game content editor"
-                            : panel === "game-audio"
-                              ? "Existing game audio"
-                              : panel === "sounds"
-                                ? "Sound effects editor"
-                                : panel === "music"
-                                  ? "Music pattern editor"
-                                  : "Pixel animation editor"}
+                  {panel === "assets"
+                    ? "Assets and ability feedback"
+                    : panel === "enemies"
+                      ? "Enemy templates and spawning"
+                      : panel === "map"
+                        ? "Battlefield editor"
+                        : panel === "rules"
+                          ? "Gear, ability and job overrides"
+                          : panel === "terrain"
+                            ? "Terrain appearance editor"
+                            : panel === "content"
+                              ? "Game content editor"
+                              : panel === "game-audio"
+                                ? "Existing game audio"
+                                : panel === "sounds"
+                                  ? "Sound effects editor"
+                                  : panel === "music"
+                                    ? "Music pattern editor"
+                                    : "Pixel animation editor"}
                 </h1>
                 <p>
                   {hasDraft
                     ? "Apply or discard source drafts before playtesting."
-                    : panel === "enemies"
-                      ? "Create reusable enemy templates and place new hostile actors."
-                      : panel === "rules"
-                        ? "Create and edit scoped gear, abilities and class definitions."
-                        : panel === "terrain"
-                          ? "Edit existing terrain palettes and painted top surfaces."
-                          : panel === "content"
-                            ? "Edit current actors, briefings, contract gates and rewards."
-                            : panel === "game-audio"
-                              ? "Edit the existing game score and command feedback."
-                              : panel === "sounds"
-                                ? "Edit, audition and apply combat sounds."
-                                : panel === "music"
-                                  ? "Compose a four-beat loop for your battlefield."
-                                  : panel === "pixels"
-                                    ? "Paint source pixels, time frames and play your clip."
-                                    : "Shape the battlefield and its sounds, then play your revision."}
+                    : panel === "assets"
+                      ? "Assign character sheets and pair ability visuals with sounds."
+                      : panel === "enemies"
+                        ? "Create reusable enemy templates and place new hostile actors."
+                        : panel === "rules"
+                          ? "Create and edit scoped gear, abilities and class definitions."
+                          : panel === "terrain"
+                            ? "Edit existing terrain palettes and painted top surfaces."
+                            : panel === "content"
+                              ? "Edit current actors, briefings, contract gates and rewards."
+                              : panel === "game-audio"
+                                ? "Edit the existing game score and command feedback."
+                                : panel === "sounds"
+                                  ? "Edit, audition and apply combat sounds."
+                                  : panel === "music"
+                                    ? "Compose a four-beat loop for your battlefield."
+                                    : panel === "pixels"
+                                      ? "Paint source pixels, time frames and play your clip."
+                                      : "Shape the battlefield and its sounds, then play your revision."}
                 </p>
               </div>
               <button
@@ -1202,6 +1227,7 @@ function Studio() {
                 [
                   ["rules", "Gear, abilities & jobs"],
                   ["enemies", "Enemy templates"],
+                  ["assets", "Assets & ability feedback"],
                   ["terrain", "Terrain textures"],
                   ["content", "NPCs, dialogue & progression"],
                   ["game-audio", "Game audio"],
@@ -1288,6 +1314,19 @@ function Studio() {
                 }}
               />
             )}
+            <div hidden={panel !== "assets"}>
+              <AssetLibrary
+                project={project}
+                apply={edit}
+                onDirty={setAssetDirty}
+                blocked={hasDraft}
+                editSprite={(id) => {
+                  setNativeSelection(id);
+                  setPixelMode("native");
+                  setPanel("pixels");
+                }}
+              />
+            </div>
             <div hidden={panel !== "enemies"}>
               <EnemyTemplates
                 project={project}
@@ -1367,9 +1406,47 @@ function Studio() {
                 </button>
               </div>
               <div hidden={pixelMode !== "native"}>
+                <label>
+                  Stored native sprite
+                  <select
+                    disabled={hasDraft}
+                    value={
+                      nativeSources(project).some(
+                        (s) => s.actorId === nativeSelection,
+                      )
+                        ? nativeSelection
+                        : ""
+                    }
+                    onChange={(e) => setNativeSelection(e.target.value)}
+                  >
+                    <option value="">New sheet assignment</option>
+                    {nativeSources(project).map((s) => (
+                      <option key={s.actorId} value={s.actorId}>
+                        {s.actorId} / {s.job}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <p>
+                  Applying keeps other actors' sheets. Assigning an actor that
+                  already has a sheet replaces only that actor's assignment.
+                  Total project export limit: 32 MiB for the library.
+                </p>
                 <NativeSpriteEditor
-                  source={project.nativeSprite}
-                  apply={(sprite) => edit([{ type: "native-sprite", sprite }])}
+                  source={nativeSources(project).find(
+                    (s) => s.actorId === nativeSelection,
+                  )}
+                  actors={actors.map((a) => ({ id: a.id, name: a.name }))}
+                  apply={(sprite) => {
+                    const ok = edit([
+                      {
+                        type: "native-library",
+                        sprites: upsertNative(project, sprite),
+                      },
+                    ]);
+                    if (ok) setNativeSelection(sprite.actorId);
+                    return ok;
+                  }}
                   onDirty={setNativeDraftDirty}
                   active={panel === "pixels" && pixelMode === "native"}
                 />
