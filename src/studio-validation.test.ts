@@ -162,7 +162,8 @@ test("broken actor, gear, dialogue and contract references produce addressed err
       r.findings.some((f) => f.id.startsWith(prefix)),
       prefix,
     );
-  assert(r.errors >= 6);
+  assert.equal(r.errors, 6);
+  assert.equal(analyzeProjectText(JSON.stringify(p)).errors, 6);
   assert(!r.canPlaytest);
   assert(r.findings.every((f) => f.fix && f.path));
 });
@@ -203,7 +204,7 @@ test("import diagnostics enforce parser limits and never certify rejected or fut
   ]) {
     const r = analyzeProjectText(text);
     assert(!r.canPlaytest);
-    assert.equal(r.findings[0].id, "import-invalid");
+    assert(["import-invalid", "source-invalid"].includes(r.findings[0].id));
   }
   const p = flat();
   p.tiles.filter((t) => t.x === 6).forEach((t) => (t.terrain = "water"));

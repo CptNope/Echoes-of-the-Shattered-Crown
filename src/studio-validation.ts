@@ -259,16 +259,17 @@ export function analyzeProject(raw: unknown): ProjectValidation {
     project = validateLevelProject(raw);
     checks.push("source-schema-and-references");
   } catch (e) {
-    // Keep the schema message even when a more precise reference finding was collected.
-    add(
-      "source-invalid",
-      "error",
-      "Source failed validation",
-      message(e),
-      "Correct the indicated source field. Rejected imports do not replace the open project.",
-      "project",
-      { area: "project" },
-    );
+    // Prefer addressed findings over duplicate whole-document rejection messages.
+    if (!findings.some((f) => f.severity === "error"))
+      add(
+        "source-invalid",
+        "error",
+        "Source failed validation",
+        message(e),
+        "Correct the indicated source field. Rejected imports do not replace the open project.",
+        "project",
+        { area: "project" },
+      );
     return finish();
   }
   try {
@@ -403,7 +404,8 @@ export function analyzeProject(raw: unknown): ProjectValidation {
         "warning",
         `${u.name} has inactive learned abilities`,
         unused.map((id) => catalog[id].name).join(", ") +
-          " are not available through the current primary/secondary job pairing.",
+          (unused.length === 1 ? " is" : " are") +
+          " not available through the current primary/secondary job pairing.",
         "Choose the matching secondary job or keep these lessons intentionally for a later job change.",
         "content.actors." + u.id + ".learned",
         { area: "content", section: "actors", id: u.id },
@@ -490,6 +492,7 @@ export function analyzeProjectText(text: string): ProjectValidation {
       } catch {
         /* malformed JSON */
       }
+    if (report?.errors) return report;
     const finding: ProjectFinding = {
       id: "import-invalid",
       severity: "error",
