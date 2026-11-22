@@ -148,3 +148,5 @@ When code and a guide disagree, inspect the implementation and fix the mismatch.
 The [advanced authoring contracts](studio/specs/advanced-blueprints.json) deepen rules/AI, campaign/economy/UI, VFX/environment, project versioning/merges and toolkit release evidence. Eleven blueprints and ten illustrative examples now form the studio implementation handoff. All editor contracts remain proposed.
 
 [Project validation panel](PROJECT_VALIDATION.md): blocking source checks, advisory map/content findings, record navigation and downloadable diagnostic reports.
+
+[Connectivity overlays and grouped findings](CONNECTIVITY_OVERLAYS.md): derived map overview, matching grid highlights, affected actors and barrier inspection.

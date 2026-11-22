@@ -132,3 +132,5 @@ Existing game source adapters live in studio-content.ts, studio-materials.ts and
 The scoped catalog source lives in studio-rules.ts and optional project/battle rules. Never mutate imported defaults or mirror engine formulas in forms. Pass rules into unitStats/availableSkills, use the scoped skill table for targeting/commands/AI, and preserve the same gear/job context in campaign operations and display labels. See [catalog ownership](RULE_CATALOG_STUDIO.md) and [ADR-0015](adr/0015-scoped-rule-catalogs.md).
 
 Authoring diagnostics live in [studio-validation.ts](../src/studio-validation.ts). Keep structural/runtime failures blocking and heuristic gameplay checks advisory. Findings carry typed source addresses; navigation must not edit data. See [validation ownership](PROJECT_VALIDATION.md) and ADR-0017.
+
+Static connectivity geometry is centralized in [studio-connectivity.ts](../src/studio-connectivity.ts). Keep region ordering canonical and view selection derived from current findings. Never persist overlay arrays in editable source; see [the overlay guide](CONNECTIVITY_OVERLAYS.md).

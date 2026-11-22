@@ -3,6 +3,7 @@ import {
   exportValidationReport,
   type ProjectValidation,
   type ValidationTarget,
+  type ProjectFinding,
 } from "./studio-validation";
 export function ValidationPanel({
   report,
@@ -14,7 +15,7 @@ export function ValidationPanel({
 }: {
   report: ProjectValidation;
   title?: string;
-  onInspect?: (target: ValidationTarget) => void;
+  onInspect?: (target: ValidationTarget, finding?: ProjectFinding) => void;
   disabled?: boolean;
   pending?: boolean;
   onDismiss?: () => void;
@@ -104,21 +105,36 @@ export function ValidationPanel({
                     <h3>{f.title}</h3>
                   </div>
                   <p>{f.detail}</p>
+                  {f.mapOverlay && f.mapOverlay.affectedActors.length > 0 && (
+                    <p>
+                      <strong>Affected actors:</strong>{" "}
+                      {f.mapOverlay.affectedActors
+                        .map((a) => a.name)
+                        .join(", ")}
+                    </p>
+                  )}
                   <p>
                     <strong>Fix:</strong> {f.fix}
                   </p>
                   {onInspect && (
                     <button
                       disabled={disabled}
-                      onClick={() => onInspect(f.target)}
+                      aria-label={
+                        f.mapOverlay
+                          ? "Show map regions: " + f.title
+                          : undefined
+                      }
+                      onClick={() => onInspect(f.target, f)}
                     >
-                      {f.target.area === "map"
-                        ? `Inspect tile ${f.target.x}, ${f.target.z}`
-                        : f.target.area === "content"
-                          ? `Inspect ${f.target.section === "actors" ? "actor" : f.target.section === "dialogue" ? "dialogue" : "contract"} ${f.target.id}`
-                          : f.target.area === "rules"
-                            ? `Inspect ${f.target.section === "skills" ? "ability" : f.target.section === "gear" ? "gear" : "job"} ${f.target.id}`
-                            : "Inspect project source"}
+                      {f.mapOverlay
+                        ? "Show map regions"
+                        : f.target.area === "map"
+                          ? `Inspect tile ${f.target.x}, ${f.target.z}`
+                          : f.target.area === "content"
+                            ? `Inspect ${f.target.section === "actors" ? "actor" : f.target.section === "dialogue" ? "dialogue" : "contract"} ${f.target.id}`
+                            : f.target.area === "rules"
+                              ? `Inspect ${f.target.section === "skills" ? "ability" : f.target.section === "gear" ? "gear" : "job"} ${f.target.id}`
+                              : "Inspect project source"}
                     </button>
                   )}
                 </li>

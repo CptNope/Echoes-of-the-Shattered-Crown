@@ -1,8 +1,15 @@
+import { ConnectivityMap } from "./ConnectivityOverlay";
+import {
+  activeConnectivityFinding,
+  overlayCellIndex,
+  type ConnectivityOverlay,
+} from "./studio-connectivity";
 import { ValidationPanel } from "./ValidationPanel";
 import {
   analyzeProject,
   analyzeProjectText,
   type ProjectValidation,
+  type ProjectFinding,
   type ValidationFocusRequest,
   type ValidationTarget,
 } from "./studio-validation";
@@ -70,6 +77,7 @@ function Board({
   allowed,
   actorSources,
   focusRequest,
+  connectivity,
 }: {
   tiles: LevelProject["tiles"];
   placements: LevelProject["placements"];
@@ -78,8 +86,13 @@ function Board({
   allowed?: Set<string>;
   actorSources?: { id: string; name: string; team: "ally" | "enemy" }[];
   focusRequest?: ValidationFocusRequest;
+  connectivity?: ConnectivityOverlay;
 }) {
   const actors = actorSources ?? defaultActors;
+  const overlayIndex = useMemo(
+    () => overlayCellIndex(connectivity),
+    [connectivity],
+  );
   const dimensions = {
     width: Math.max(...tiles.map((t) => t.x)) + 1,
     height: Math.max(...tiles.map((t) => t.z)) + 1,
@@ -158,6 +171,7 @@ function Board({
           {[...tiles]
             .sort((a, b) => a.z - b.z || a.x - b.x)
             .map((t) => {
+              const overlayInfo = overlayIndex.get(t.x + "," + t.z);
               const actor = placements.find((p) => p.x === t.x && p.z === t.z);
               const unit = actors.find((u) => u.id === actor?.id);
               return (
@@ -179,9 +193,14 @@ function Board({
                     ", elevation " +
                     t.h +
                     (t.blocked ? ", blocked" : "") +
-                    (unit ? ", " + unit.name : "")
+                    (unit ? ", " + unit.name : "") +
+                    (overlayInfo?.description
+                      ? ", " + overlayInfo.description
+                      : "")
                   }
                   aria-pressed={chosen.x === t.x && chosen.z === t.z}
+                  data-connectivity={overlayInfo?.role ?? undefined}
+                  title={overlayInfo?.description || undefined}
                   data-cell={t.x + "," + t.z}
                   data-allowed={allowed?.has(t.x + "," + t.z)}
                   onKeyDown={(e) => {
@@ -675,6 +694,17 @@ function Studio() {
   const project = history.project;
   const validation = useMemo(() => analyzeProject(project), [project]);
   const [focusRequest, setFocusRequest] = useState<ValidationFocusRequest>();
+  const [selectedFindingId, setSelectedFindingId] = useState<string | null>(
+    null,
+  );
+  const [overlayFocusSerial, setOverlayFocusSerial] = useState(0);
+  const activeFinding = activeConnectivityFinding(
+    validation.findings,
+    selectedFindingId,
+  );
+  useEffect(() => {
+    if (selectedFindingId && !activeFinding) setSelectedFindingId(null);
+  }, [selectedFindingId, activeFinding]);
   const [rejectedReport, setRejectedReport] =
     useState<ProjectValidation | null>(null);
   const dimensions = mapDimensions(project);
@@ -807,8 +837,27 @@ function Studio() {
     }
     if (tool === "actor") edit([{ type: "place", id: actor, x, z }]);
   }
-  function inspectFinding(target: ValidationTarget) {
+  function inspectOverlayCell(x: number, z: number) {
     if (hasDraft) return;
+    setPanel("map");
+    setTool("inspect");
+    setCell({ x, z });
+    setFocusRequest((previous) => ({
+      serial: (previous?.serial ?? 0) + 1,
+      target: { area: "map", x, z },
+    }));
+  }
+  function inspectFinding(target: ValidationTarget, finding?: ProjectFinding) {
+    if (hasDraft) return;
+    setSelectedFindingId(finding?.mapOverlay ? finding.id : null);
+    if (finding?.mapOverlay) {
+      setOverlayFocusSerial((n) => n + 1);
+      setFocusRequest(undefined);
+      setPanel("map");
+      setTool("inspect");
+      if (target.area === "map") setCell({ x: target.x, z: target.z });
+      return;
+    }
     if (target.area === "map") {
       setPanel("map");
       setTool("inspect");
@@ -1408,7 +1457,21 @@ function Studio() {
                     first. Undo restores the full map.
                   </p>
                 </section>
+                {activeFinding && (
+                  <ConnectivityMap
+                    finding={activeFinding}
+                    focusSerial={overlayFocusSerial}
+                    disabled={hasDraft}
+                    project={project}
+                    onInspect={inspectOverlayCell}
+                    onClear={() => {
+                      setSelectedFindingId(null);
+                      if (!hasDraft) inspectOverlayCell(cell.x, cell.z);
+                    }}
+                  />
+                )}
                 <Board
+                  connectivity={activeFinding?.mapOverlay}
                   tiles={project.tiles}
                   actorSources={actors}
                   placements={project.placements}

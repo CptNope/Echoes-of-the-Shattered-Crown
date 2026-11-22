@@ -42,33 +42,34 @@ test("all four shipped sources pass schema export and compiled-battle checks", (
     0,
   );
 });
-test("water barriers flag each separated enemy as a warning, not a completion verdict", () => {
+test("water barriers group separated enemies by region without a completion verdict", () => {
   const p = flat();
   p.tiles.filter((t) => t.x === 6).forEach((t) => (t.terrain = "water"));
   const r = analyzeProject(p);
   assert.equal(r.errors, 0);
   assert(r.canPlaytest);
   assert.equal(
-    r.findings.filter((f) => f.id.startsWith("unreachable:")).length,
-    4,
+    r.findings.filter((f) => f.id.startsWith("disconnected-enemies:")).length,
+    1,
   );
-  const f = r.findings.find((f) => f.id === "unreachable:sentinel")!;
+  const f = r.findings.find((f) => f.id === "disconnected-enemies:7,0")!;
+  assert.equal(f.mapOverlay?.affectedActors.length, 4);
   assert.deepEqual(f.target, { area: "map", x: 9, z: 1 });
   assert.match(f.fix, /ranged/);
 });
 test("ground traversal respects elevation steps and frozen crossings", () => {
   const p = flat();
   p.tiles.filter((t) => t.x === 6).forEach((t) => (t.h = 2));
-  assert(ids(p).includes("unreachable:sentinel"));
+  assert(ids(p).includes("disconnected-enemies:7,0"));
   p.tiles
     .filter((t) => t.x === 6)
     .forEach((t) => {
       t.h = 1;
       t.terrain = "ice";
     });
-  assert(!ids(p).includes("unreachable:sentinel"));
+  assert(!ids(p).includes("disconnected-enemies:7,0"));
   p.tiles.filter((t) => t.x === 6).forEach((t) => (t.blocked = true));
-  assert(ids(p).includes("unreachable:sentinel"));
+  assert(ids(p).includes("disconnected-enemies:7,0"));
 });
 test("trapped spawns point to the actor tile and clear when a ground exit opens", () => {
   const p = flat();

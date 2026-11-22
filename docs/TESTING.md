@@ -4,7 +4,7 @@
 
 ## Automated rules coverage
 
-Run `npm test`. The script uses the explicit test-file list in `package.json` and Node's built-in test runner. The current suite has 156 tests; this count is an inventory, not a coverage percentage or balance certification.
+Run `npm test`. The script uses the explicit test-file list in `package.json` and Node's built-in test runner. The current suite has 166 tests; this count is an inventory, not a coverage percentage or balance certification.
 
 | Area             | Assertions represented                                                                                        |
 | ---------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -126,15 +126,15 @@ The eight cases in src/studio-project.test.ts verify source-preserving round tri
 
 ## Implemented sound-effects tests
 
-Eight cases in src/studio-sfx.test.ts cover deterministic PCM/endpoints and source controls, malformed source rejection, every WAV sample/header, project/history preservation, resolved-event deduplication, actual-command RNG isolation and mocked AudioContext lifecycle/voice limits. The suite now has 156 tests. See the [sound-effects pilot](SOUND_EFFECTS_STUDIO.md) for scope and browser checks; mocked Web Audio does not prove device audibility.
+Eight cases in src/studio-sfx.test.ts cover deterministic PCM/endpoints and source controls, malformed source rejection, every WAV sample/header, project/history preservation, resolved-event deduplication, actual-command RNG isolation and mocked AudioContext lifecycle/voice limits. The suite now has 166 tests. See the [sound-effects pilot](SOUND_EFFECTS_STUDIO.md) for scope and browser checks; mocked Web Audio does not prove device audibility.
 
 ## Music-pattern tests
 
-Six music cases cover tempo/step timing, rests and loop endpoints; note/instrument/gain/gate controls; strict source rejection; atomic project/history/round trips; exact WAV samples; and mocked one-loop lifecycle. npm test now runs 156 tests. Browser audition, export/reimport, preview music plus SFX and mute/restart remain integration checks; see the [music guide](MUSIC_PATTERN_STUDIO.md).
+Six music cases cover tempo/step timing, rests and loop endpoints; note/instrument/gain/gate controls; strict source rejection; atomic project/history/round trips; exact WAV samples; and mocked one-loop lifecycle. npm test now runs 166 tests. Browser audition, export/reimport, preview music plus SFX and mute/restart remain integration checks; see the [music guide](MUSIC_PATTERN_STUDIO.md).
 
 ## Pixel-animation tests
 
-Eight cases in src/studio-pixels.test.ts verify strict bounds, atomic strokes/eraser behavior, stable layer/cel and palette composition, independent frame duplication/order/timing, every packed RGBA pixel, project/history/JSON preservation, simulation isolation and registration/binding limits. The suite now has 156 tests. See the [pixel pilot](PIXEL_ANIMATION_STUDIO.md) for browser and scene integration checks.
+Eight cases in src/studio-pixels.test.ts verify strict bounds, atomic strokes/eraser behavior, stable layer/cel and palette composition, independent frame duplication/order/timing, every packed RGBA pixel, project/history/JSON preservation, simulation isolation and registration/binding limits. The suite now has 166 tests. See the [pixel pilot](PIXEL_ANIMATION_STUDIO.md) for browser and scene integration checks.
 
 ## Action-clip tests
 
@@ -148,17 +148,17 @@ Six cases in src/studio-pixel-tools.test.ts verify four-connected fill and trans
 
 ## Native game sprites
 
-Eight cases in src/studio-native-sprites.test.ts cover all eight shipped source assets and 32-frame geometry, every extracted RGBA byte from a decoded native sheet, atomic sparse paint/alpha, exact connected fill, malformed source rejection, all eight state timings, self-contained JSON/history and deduplicated checkpoint recovery with stale/quota errors. The full suite has 156 tests. Browser acceptance additionally requires loading a real game sheet, editing at zoom, stroke undo, timing/audition, native actor playtest and exported-source reopening. Pixel equality in code tests is not a browser/performance certification.
+Eight cases in src/studio-native-sprites.test.ts cover all eight shipped source assets and 32-frame geometry, every extracted RGBA byte from a decoded native sheet, atomic sparse paint/alpha, exact connected fill, malformed source rejection, all eight state timings, self-contained JSON/history and deduplicated checkpoint recovery with stale/quota errors. The full suite has 166 tests. Browser acceptance additionally requires loading a real game sheet, editing at zoom, stroke undo, timing/audition, native actor playtest and exported-source reopening. Pixel equality in code tests is not a browser/performance certification.
 
 
 ## Existing game data integration
 
-Ten cases in src/studio-existing-data.test.ts cover exact imports of four encounters; actor-to-engine compilation; reversible source loading; invalid identity, dialogue and progression rejection; actual once-only JP/gold/relic/gate outcomes; exact terrain source/texture pixels; combined project round trips; and original audio source/player timing with lifecycle cancellation. The complete suite has 156 tests. Browser review must additionally verify rendering and actual editable controls; mocked sound checks do not certify device audibility.
+Ten cases in src/studio-existing-data.test.ts cover exact imports of four encounters; actor-to-engine compilation; reversible source loading; invalid identity, dialogue and progression rejection; actual once-only JP/gold/relic/gate outcomes; exact terrain source/texture pixels; combined project round trips; and original audio source/player timing with lifecycle cancellation. The complete suite has 166 tests. Browser review must additionally verify rendering and actual editable controls; mocked sound checks do not certify device audibility.
 
 
 ## Catalog override parity
 
-Ten cases in src/studio-rules.test.ts verify exact baseline catalogs, isolation, real stat/movement/initiative changes, command costs/range/power, effect/animation classification, edited monster AI, shop/equip/deployment, learning/unlock/mastery, strict rejection, actor loadout compatibility and round-trip/undo/removal/legacy behavior. Total suite: 156 tests. Browser verification must additionally exercise real editor forms and downloaded sources.
+Ten cases in src/studio-rules.test.ts verify exact baseline catalogs, isolation, real stat/movement/initiative changes, command costs/range/power, effect/animation classification, edited monster AI, shop/equip/deployment, learning/unlock/mastery, strict rejection, actor loadout compatibility and round-trip/undo/removal/legacy behavior. Total suite: 166 tests. Browser verification must additionally exercise real editor forms and downloaded sources.
 
 ## Larger map checks
 
@@ -167,3 +167,7 @@ Ten cases in [studio-large-maps.test.ts](../src/studio-large-maps.test.ts) exerc
 ## Project validation checks
 
 Twelve cases in [studio-validation.test.ts](../src/studio-validation.test.ts) cover shipped sources, graph barriers/ice/elevation, spawn exits, empty regions, scoped availability/resources, learned/reward compatibility, addressed references and placement errors, export budgets, bounded import rejection and deterministic source-safe reports. Browser acceptance additionally verifies finding navigation, repair/recompute, import isolation, report downloads and responsive presentation. See the [validation guide](PROJECT_VALIDATION.md).
+
+## Connectivity grouping and overlay checks
+
+Ten cases in [studio-connectivity.test.ts](../src/studio-connectivity.test.ts) cover shared/independent region groups, exact cell partitions, barrier reason deduplication, trapped/empty regions, fresh topology, repair/undo, report/source ownership, stable ordering and maximum map bounds. Existing validation assertions now expect grouped enemy warnings. Browser checks additionally compare overview/grid roles, affected lists, focus/clear controls and repair/undo behavior.

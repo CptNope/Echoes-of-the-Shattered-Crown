@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-11-22 — Grouped connectivity warnings and map overlays
+
+- Group disconnected enemies by shared ground region and list affected actors instead of repeating one warning per enemy.
+- Add full-map diagnostic overview and matching editable-grid roles for affected/reference ground and adjacent barrier edges; classify water, collision and elevation reasons.
+- Add affected-actor focus, barrier cycling and clear-overlay controls. Resolve selected geometry from current findings; refresh after source edits and clear resolved findings without persisting view data.
+- Keep static-graph findings advisory and distinguish boundary inspection candidates from proven causes or repairs.
+- Add ten tests (166 total), overlay guide and ADR-0018; update validation and authoring documentation.
+
+
 ## 2026-11-22 — Project validation and finding navigation
 
 - Add applied-revision validation with blocking schema/runtime/export failures and advisory ground connectivity, trapped/isolated spawn, energy, inactive learning, zero-power and unusable reward findings.

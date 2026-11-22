@@ -1,3 +1,7 @@
+import {
+  connectivityFindings,
+  type ConnectivityOverlay,
+} from "./studio-connectivity";
 import { jobs, skills, type JobId } from "./data";
 import { equipment, canEquip } from "./equipment";
 import { encounters } from "./encounters";
@@ -8,12 +12,7 @@ import {
   parseLevelProject,
   NATIVE_PROJECT_LIMIT,
 } from "./studio-project";
-import {
-  createBattle,
-  availableSkills,
-  validateSave,
-  type Tile,
-} from "./engine";
+import { createBattle, availableSkills, validateSave } from "./engine";
 export type ValidationTarget =
   | { area: "map"; x: number; z: number }
   | {
@@ -29,6 +28,7 @@ export interface ValidationFocusRequest {
   target: ValidationTarget;
 }
 export interface ProjectFinding {
+  mapOverlay?: ConnectivityOverlay;
   id: string;
   severity: "error" | "warning";
   title: string;
@@ -301,78 +301,8 @@ export function analyzeProject(raw: unknown): ProjectValidation {
       { area: "project" },
     );
   else checks.push("compiled-battle");
-  // Static ground connectivity: no occupancy, movement budgets, ranged targeting or skill simulation.
-  const ground = new Map(
-    battle.tiles
-      .filter((t) => !t.blocked && t.terrain !== "water")
-      .map((t) => [t.x + "," + t.z, t]),
-  );
-  const region = new Map<string, number>(),
-    regions: Tile[][] = [];
-  for (const [key, start] of ground) {
-    if (region.has(key)) continue;
-    const id = regions.length,
-      queue = [start];
-    region.set(key, id);
-    for (let index = 0; index < queue.length; index++) {
-      const from = queue[index];
-      for (const [dx, dz] of [
-        [-1, 0],
-        [1, 0],
-        [0, -1],
-        [0, 1],
-      ]) {
-        const k = from.x + dx + "," + (from.z + dz),
-          to = ground.get(k);
-        if (to && !region.has(k) && Math.abs(to.h - from.h) <= 1) {
-          region.set(k, id);
-          queue.push(to);
-        }
-      }
-    }
-    regions.push(queue);
-  }
-  const allies = battle.units.filter((u) => u.team === "ally"),
-    allyRegions = new Set(allies.map((u) => region.get(u.x + "," + u.z))),
-    occupiedRegions = new Set(
-      battle.units.map((u) => region.get(u.x + "," + u.z)),
-    );
+  findings.push(...connectivityFindings(battle));
   for (const u of battle.units) {
-    const id = region.get(u.x + "," + u.z)!,
-      target: ValidationTarget = { area: "map", x: u.x, z: u.z };
-    if (regions[id].length === 1)
-      add(
-        "trapped:" + u.id,
-        "warning",
-        `${u.name} has no ground exit`,
-        `The spawn at ${u.x}, ${u.z} has no adjacent open tile within one elevation step.`,
-        "Open a neighboring tile, reduce the elevation gap, or move the actor. Ranged abilities may still work.",
-        "placements." + u.id,
-        target,
-      );
-    else if (u.team === "enemy" && !allyRegions.has(id))
-      add(
-        "unreachable:" + u.id,
-        "warning",
-        `${u.name} is separated from every ally`,
-        "No continuous ground route connects this enemy to an allied spawn; the current objective requires defeating all enemies.",
-        "Inspect water, collision and elevation barriers. Add a route or verify ranged/terrain-changing abilities in playtest.",
-        "placements." + u.id,
-        target,
-      );
-    else if (
-      u.team === "ally" &&
-      allies.filter((a) => region.get(a.x + "," + a.z) === id).length === 1
-    )
-      add(
-        "isolated:" + u.id,
-        "warning",
-        `${u.name} starts apart from the company`,
-        "No continuous ground route connects this ally to another allied spawn.",
-        "Join the regions or confirm that this split deployment is intentional.",
-        "placements." + u.id,
-        target,
-      );
     const list = availableSkills(u, battle.rules);
     const noDamage = !list.some(
       (id) =>
@@ -410,20 +340,6 @@ export function analyzeProject(raw: unknown): ProjectValidation {
         "content.actors." + u.id + ".learned",
         { area: "content", section: "actors", id: u.id },
       );
-  }
-  const unused = regions.filter((_, id) => !occupiedRegions.has(id));
-  if (unused.length) {
-    const at = unused[0][0],
-      emptyTileCount = unused.reduce((n, r) => n + r.length, 0);
-    add(
-      "empty-regions",
-      "warning",
-      `${unused.length} ground region${unused.length === 1 ? " has" : "s have"} no actor spawn`,
-      `${emptyTileCount} open ${emptyTileCount === 1 ? "tile lies" : "tiles lie"} in disconnected regions without a spawn.`,
-      "Inspect whether these islands are intentional scenery or need a bridge, elevation step or deployment point.",
-      "tiles",
-      { area: "map", x: at.x, z: at.z },
-    );
   }
   checks.push("static-ground-connectivity");
   for (const sk of Object.values(catalog)) {

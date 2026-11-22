@@ -74,11 +74,13 @@ The adapters copy existing source; they do not mutate imported module globals. P
 
 ## Verification
 
-Ten integration/model tests cover exact four-map imports, reversible encounter loading, actor-to-runtime compilation, invalid references/cycles, actual JP/gold/relic/gate behavior, exact terrain colors/RGBA, rejection, cross-editor JSON round trips, original audio frequencies and real AudioScore timing/cancellation with mocked Web Audio. The suite has 156 tests. UI acceptance additionally checks actual loading, editing, source reopening, terrain appearance, briefing gating and audio controls in the published studio.
+Ten integration/model tests cover exact four-map imports, reversible encounter loading, actor-to-runtime compilation, invalid references/cycles, actual JP/gold/relic/gate behavior, exact terrain colors/RGBA, rejection, cross-editor JSON round trips, original audio frequencies and real AudioScore timing/cancellation with mocked Web Audio. The suite has 166 tests. UI acceptance additionally checks actual loading, editing, source reopening, terrain appearance, briefing gating and audio controls in the published studio.
 
 
-The [catalog extension](RULE_CATALOG_STUDIO.md) adds ten runtime parity tests and optional actor loadouts. The complete suite now has 156 tests.
+The [catalog extension](RULE_CATALOG_STUDIO.md) adds ten runtime parity tests and optional actor loadouts. The complete suite now has 166 tests.
 
 The [large-map extension](LARGE_MAP_STUDIO.md) adds bounded rectangular maps, brushes and camera/navigation tools with ten additional runtime and persistence tests.
 
 The [project validation panel](PROJECT_VALIDATION.md) adds source/runtime/export error gates, static-ground and catalog/content warnings, typed record/tile navigation and separate rejected-import reports. It does not certify mission completion.
+
+[Grouped connectivity overlays](CONNECTIVITY_OVERLAYS.md) now show affected/reference ground, adjacent barrier edges and affected actor lists. Shared enemy regions produce one warning; distinct regions remain separate. These views do not alter gameplay or source.

@@ -1263,3 +1263,144 @@ dialog::backdrop {
     max-height: 380px;
   }
 }
+
+/* The same derived map roles drive the overview and editable tile grid. */
+.connectivity-overlay {
+  margin: 0 0 22px;
+  padding: 16px 0;
+  border-top: 1px solid #d1d9cb;
+  border-bottom: 1px solid #d1d9cb;
+}
+.connectivity-overlay:focus {
+  outline: 2px solid #536a55;
+  outline-offset: 4px;
+}
+.connectivity-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.connectivity-heading h2 {
+  font-size: 16px;
+  margin: 0 0 8px;
+}
+.connectivity-heading p {
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0;
+}
+.connectivity-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+.connectivity-overview {
+  display: block;
+  width: 100%;
+  max-height: 340px;
+  background: #edf1e8;
+}
+.connectivity-caption {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #51614d;
+  margin: 12px 0;
+}
+.connectivity-legend {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 14px;
+}
+.connectivity-legend li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  margin-bottom: 8px;
+  font-variant-numeric: tabular-nums;
+}
+.connectivity-legend span {
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.legend-affected {
+  background: #e6c877;
+  border: 1px solid #946f23;
+}
+.legend-reference {
+  background: #c3d6bf;
+  border: 1px dashed #536a55;
+}
+.legend-barrier {
+  border: 1px solid #954626;
+  color: #954626;
+  font-size: 14px;
+}
+.connectivity-details h3 {
+  font-size: 13px;
+  margin: 14px 0 10px;
+}
+.connectivity-actors {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+}
+.connectivity-actors li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 8px;
+}
+.connectivity-actors button {
+  font-size: 12px;
+}
+.connectivity-actors span {
+  font-size: 12px;
+  color: #51614d;
+  font-variant-numeric: tabular-nums;
+}
+.tile[data-connectivity="affected"] {
+  background: #e6c877;
+  border: 2px solid #946f23;
+}
+.tile[data-connectivity="reference"] {
+  background: #c3d6bf;
+  border: 1px dashed #536a55;
+}
+.tile[data-connectivity="barrier"] {
+  border: 2px solid #954626;
+}
+.tile[data-connectivity="barrier"]::after {
+  content: "×";
+  position: absolute;
+  top: 0;
+  left: 1px;
+  font-size: 12px;
+  line-height: 12px;
+  color: #954626;
+  background: #fff;
+}
+@media (max-width: 1100px) {
+  .connectivity-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(200px, 1fr);
+  }
+}
+@media (max-width: 640px) {
+  .connectivity-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .connectivity-heading {
+    flex-wrap: wrap;
+  }
+  .connectivity-overview {
+    max-height: 300px;
+  }
+}

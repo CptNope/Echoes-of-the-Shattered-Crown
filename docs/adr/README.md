@@ -33,6 +33,8 @@ The initial accepted baseline records are **retrospective** except ADR-0001's ne
 
 | [ADR-0017](0017-authoring-validation-and-navigation.md) | Accepted | New implementation decision | Separate blocking source validation from advisory authoring checks |
 
+| [ADR-0018](0018-derived-connectivity-overlays.md) | Accepted | New implementation decision | Derive grouped connectivity overlays from the current report |
+
 ## When to create an ADR
 
 | Create a record for | Usually use another document for |
