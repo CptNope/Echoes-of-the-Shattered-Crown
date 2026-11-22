@@ -475,6 +475,9 @@ export const STUDIO_STORAGE = "echoes.level-studio.v1";
 export interface StudioStorage {
   getItem(k: string): string | null;
   setItem(k: string, v: string): void;
+  readonly length?: number;
+  key?(index: number): string | null;
+  removeItem?(key: string): void;
 }
 export function loadProjectCheckpoint(storage: StudioStorage): {
   project: LevelProject | null;
@@ -520,6 +523,7 @@ export function saveProjectCheckpoint(
       "Another tab saved this project. Export your edits, then reload before saving.",
     );
   const exported = exportLevelProject(project);
+  pruneNativeCheckpointCache(storage, project);
   let text = exported;
   if (nativeSources(project).length) {
     const compact = structuredClone(project);
@@ -547,6 +551,37 @@ export function saveProjectCheckpoint(
   }
   storage.setItem(STUDIO_STORAGE, text);
   return text;
+}
+
+/** Evict only orphaned derived cache entries; both recovery sources remain protected. */
+function pruneNativeCheckpointCache(
+  storage: StudioStorage,
+  incoming: LevelProject,
+) {
+  if (!storage.key || !storage.removeItem || typeof storage.length !== "number")
+    return;
+  const keep = new Set(nativeSources(incoming).map((s) => s.sha256));
+  try {
+    for (const key of [STUDIO_STORAGE, STUDIO_STORAGE + ".backup"]) {
+      const text = storage.getItem(key);
+      if (!text) continue;
+      const recovered = parseLevelProject(hydrateCheckpoint(storage, text));
+      for (const sprite of nativeSources(recovered)) keep.add(sprite.sha256);
+    }
+    const prefix = STUDIO_STORAGE + ".native.",
+      orphaned: string[] = [];
+    for (let i = 0; i < storage.length; i++) {
+      const key = storage.key(i);
+      if (key?.startsWith(prefix)) {
+        const digest = key.slice(prefix.length);
+        if (/^[a-f0-9]{64}$/.test(digest) && !keep.has(digest))
+          orphaned.push(key);
+      }
+    }
+    for (const key of orphaned) storage.removeItem(key);
+  } catch {
+    /* Cache cleanup is optional; ordinary save/recovery semantics still apply. */
+  }
 }
 
 function hydrateCheckpoint(storage: StudioStorage, text: string): string {

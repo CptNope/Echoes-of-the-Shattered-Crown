@@ -81,7 +81,7 @@ flowchart LR
 
 ## Acceptance and balance evidence
 
-Ten new regressions cover the complete roster, both new native sources, ice crossing and movement, guard and revival, pursuit consumption, reversible source ownership, first-clear settlement, fixture equality and seeded outcomes. All 242 tests pass. Source fixtures are generated for nine missions. Both original character projects remain separate and reproducible.
+Ten new regressions cover the complete roster, both new native sources, ice crossing and movement, guard and revival, pursuit consumption, reversible source ownership, first-clear settlement, fixture equality and seeded outcomes. All 244 tests pass. Source fixtures are generated for nine missions. Both original character projects remain separate and reproducible.
 
 | Seed | AI-for-both-teams outcome | Activations | Surviving allies |
 | --- | --- | --- | --- |
@@ -90,3 +90,5 @@ Ten new regressions cover the complete roster, both new native sources, ice cros
 | 42 | Defeat | 31 | 0 |
 
 All intermediate saves validate and each run leaves the source unchanged. The policy is a regression/difficulty signal, not a full human balance certification. It does not coordinate multi-unit exposure setups. Human full-clear playtesting and additional difficulty tuning remain follow-up work.
+
+Two additional cache regressions protect source ownership while reclaiming orphaned derived native images. Published editing exposed accumulated browser cache pressure; the save path now preserves incoming/current/backup sources while reclaiming only unreferenced image entries. Portable JSON remains the reliable path when the active library itself exceeds browser storage.

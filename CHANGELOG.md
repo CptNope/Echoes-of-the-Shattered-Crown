@@ -6,8 +6,10 @@
 - Added six abilities, two weapons, Rimeplate armor and the first-clear Vigil compass.
 - Added the 22 by 18 Frostglass Vigil mission, bringing all four custom playable profiles together against six defenders. Nine mission sources now export from the shared library.
 - Added two original PNG masters and 64 new frames; twelve registered sheets now provide 384 cells. Unified custom source IDs across renderer/editor/build/verification and made workbench counts and height data-driven.
-- Added ten regressions; all 242 tests pass. Recorded one seeded victory and two defeats without claiming human balance certification.
+- Added ten content regressions and two cache/recovery regressions; all 244 tests pass. Recorded one seeded victory and two defeats without claiming human balance certification.
 
+
+- Reclaim only orphaned native-image cache entries before saving; protect incoming artwork and both valid checkpoint sources. Stale tokens or damaged recovery sources do not trigger eviction.
 
 ## Glass and ash character pack - 2026-11-22
 

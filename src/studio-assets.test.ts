@@ -271,3 +271,80 @@ test("preset changes retain sheet assignments and prune feedback for removed cus
     strike: { effect: "frost", sound: "buff" },
   });
 });
+
+test("checkpoint cache eviction makes room while protecting active and backup native sources", () => {
+  const mem = new Map<string, string>();
+  let limit = Infinity;
+  const st = {
+    get length() {
+      return mem.size;
+    },
+    key: (i: number) => [...mem.keys()][i] ?? null,
+    getItem: (k: string) => mem.get(k) ?? null,
+    removeItem: (k: string) => {
+      mem.delete(k);
+    },
+    setItem: (k: string, v: string) => {
+      const size =
+        [...mem]
+          .filter(([id]) => id !== k)
+          .reduce((n, [id, value]) => n + id.length + value.length, 0) +
+        k.length +
+        v.length;
+      if (size > limit) throw Error("quota");
+      mem.set(k, v);
+    },
+  };
+  const p = createLevelProject();
+  p.nativeSprite = sheet();
+  let token = saveProjectCheckpoint(st, p, null);
+  const next = structuredClone(p);
+  next.revision++;
+  next.nativeSprite = { ...sheet(), sha256: "b".repeat(64) };
+  token = saveProjectCheckpoint(st, next, token);
+  const oldKey = STUDIO_STORAGE + ".native." + p.nativeSprite.sha256,
+    activeKey = STUDIO_STORAGE + ".native." + "b".repeat(64),
+    orphan = STUDIO_STORAGE + ".native." + "a".repeat(64);
+  st.setItem(orphan, "orphan".repeat(10000));
+  st.setItem("unrelated.user.source", "keep me");
+  st.setItem(
+    STUDIO_STORAGE + ".native.manual",
+    "keep unknown namespace member",
+  );
+  limit = [...mem].reduce((n, [k, v]) => n + k.length + v.length, 0);
+  const third = structuredClone(next);
+  third.revision++;
+  third.name = "A longer checkpoint title";
+  const saved = saveProjectCheckpoint(st, third, token);
+  assert.equal(st.getItem(orphan), null);
+  assert(st.getItem(oldKey));
+  assert(st.getItem(activeKey));
+  assert.equal(st.getItem("unrelated.user.source"), "keep me");
+  assert(st.getItem(STUDIO_STORAGE + ".native.manual"));
+  assert.equal(loadProjectCheckpoint(st).project!.name, third.name);
+  assert.equal(st.getItem(STUDIO_STORAGE), saved);
+});
+
+test("damaged or stale checkpoints cannot evict native cache while attempting a save", () => {
+  const mem = new Map<string, string>(),
+    st = {
+      get length() {
+        return mem.size;
+      },
+      key: (i: number) => [...mem.keys()][i] ?? null,
+      getItem: (k: string) => mem.get(k) ?? null,
+      setItem: (k: string, v: string) => {
+        mem.set(k, v);
+      },
+      removeItem: (k: string) => {
+        mem.delete(k);
+      },
+    };
+  const key = STUDIO_STORAGE + ".native." + "c".repeat(64);
+  st.setItem(key, "retained");
+  st.setItem(STUDIO_STORAGE, "broken");
+  assert.throws(() => saveProjectCheckpoint(st, createLevelProject(), null));
+  assert.equal(st.getItem(key), "retained");
+  saveProjectCheckpoint(st, createLevelProject(), "broken");
+  assert.equal(st.getItem(key), "retained");
+});
