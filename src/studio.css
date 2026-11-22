@@ -1422,3 +1422,26 @@ dialog::backdrop {
 .record-authoring h2 {
   font-size: 16px;
 }
+
+.template-comparison {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.template-comparison table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+.template-comparison caption {
+  text-align: left;
+  padding: 0.75rem 0;
+}
+.template-comparison th,
+.template-comparison td {
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line, #d8dcd3);
+  padding: 0.65rem;
+  overflow-wrap: anywhere;
+  min-width: 6rem;
+}

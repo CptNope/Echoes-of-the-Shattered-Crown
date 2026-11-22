@@ -158,6 +158,87 @@ export function removeEnemy(
     placements: placements.filter((p) => p.id !== id),
   };
 }
+/** Explicit field transfer; no persisted template link or implicit propagation. */
+export const TEMPLATE_FIELDS = [
+  "name",
+  "job",
+  "secondary",
+  "baseHp",
+  "maxMp",
+  "learned",
+  "jp",
+  "equipment",
+] as const;
+export type TemplateField = (typeof TEMPLATE_FIELDS)[number];
+export const TEMPLATE_FIELD_LABELS: Record<TemplateField, string> = {
+  name: "Name",
+  job: "Primary job",
+  secondary: "Secondary job",
+  baseHp: "Base health",
+  maxMp: "Energy",
+  learned: "Learned abilities",
+  jp: "Job points",
+  equipment: "Equipment",
+};
+export function templateDifferences(
+  actor: ActorSource,
+  template: ActorSource,
+): TemplateField[] {
+  const value = (a: ActorSource, field: TemplateField): unknown => {
+    if (field === "equipment")
+      return ["weapon", "armor", "relic"].map(
+        (slot) =>
+          (a.equipment ?? emptyLoadout())[
+            slot as keyof ReturnType<typeof emptyLoadout>
+          ],
+      );
+    if (field === "learned") return [...a.learned].sort();
+    if (field === "jp")
+      return Object.entries(a.jp)
+        .filter(([, v]) => v !== 0)
+        .sort(([a], [b]) => a.localeCompare(b));
+    return a[field];
+  };
+  return TEMPLATE_FIELDS.filter(
+    (f) =>
+      JSON.stringify(value(actor, f)) !== JSON.stringify(value(template, f)),
+  );
+}
+export function applyEnemyTemplate(
+  content: GameContent,
+  templateId: string,
+  actorIds: string[],
+  fields: TemplateField[],
+  rules?: RuleCatalog,
+): GameContent {
+  validateGameContent(content, rules);
+  const template = content.enemyTemplates?.find((t) => t.id === templateId);
+  if (!template) throw Error("Choose an applied enemy template.");
+  if (!actorIds.length || new Set(actorIds).size !== actorIds.length)
+    throw Error("Choose distinct enemy instances to update.");
+  if (
+    !fields.length ||
+    new Set(fields).size !== fields.length ||
+    fields.some((f) => !TEMPLATE_FIELDS.includes(f))
+  )
+    throw Error("Choose distinct supported template fields.");
+  for (const id of actorIds) {
+    if (
+      ["sera", "ilya", "corin", "mae"].includes(id) ||
+      !content.actors.some((a) => a.id === id)
+    )
+      throw Error("Template updates require existing hostile actors.");
+  }
+  const next = structuredClone(content);
+  for (const actor of next.actors.filter((a) => actorIds.includes(a.id))) {
+    for (const field of fields) {
+      if (field === "equipment" && template.equipment === undefined)
+        delete actor.equipment;
+      else Object.assign(actor, { [field]: structuredClone(template[field]) });
+    }
+  }
+  return validateGameContent(next, rules);
+}
 /** Guided example uses the same create/copy/template helpers as the forms. */
 export function buildExpansion(project: LevelProject): LevelProject {
   const p = structuredClone(project);

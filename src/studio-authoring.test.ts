@@ -11,6 +11,8 @@ import {
   createEnemyTemplate,
   spawnEnemy,
   removeEnemy,
+  applyEnemyTemplate,
+  templateDifferences,
 } from "./studio-authoring";
 import { gameRules, validateRules } from "./studio-rules";
 import { gameContent, validateGameContent } from "./studio-content";
@@ -369,4 +371,137 @@ test("Saltglass reaches a valid terminal outcome and isolated reward settlement"
   assert(validateExpedition(settled));
   assert(settled.company.completed.includes("causeway"));
   assert.equal(exportLevelProject(p), before);
+});
+
+test("template field updates preserve identity positions and individual overrides", () => {
+  const p = expansion(),
+    c = p.content!,
+    before = exportLevelProject(p);
+  c.actors.find((a) => a.id === "enemy-brineguard-1")!.name =
+    "Crossing captain";
+  const old = structuredClone(c),
+    t = c.enemyTemplates![0];
+  t.baseHp = 180;
+  t.maxMp = 70;
+  const next = applyEnemyTemplate(
+    c,
+    t.id,
+    ["enemy-brineguard-1", "enemy-rimeweaver-1"],
+    ["baseHp", "maxMp"],
+    p.rules,
+  );
+  for (const id of ["enemy-brineguard-1", "enemy-rimeweaver-1"]) {
+    const a = next.actors.find((a) => a.id === id)!,
+      original = old.actors.find((a) => a.id === id)!;
+    assert.deepEqual(a, { ...original, baseHp: 180, maxMp: 70 });
+  }
+  assert.equal(c.actors[4].baseHp, old.actors[4].baseHp);
+  const out = editProject(p, p.revision, [{ type: "content", content: next }]);
+  assert.deepEqual(out.placements, p.placements);
+  assert.deepEqual(out.content!.dialogue, c.dialogue);
+  assert(validateSave(compileLevelProject(out)));
+});
+test("template comparison treats set order empty equipment and zero JP consistently", () => {
+  const c = expansion().content!,
+    a = structuredClone(c.enemyTemplates![0]),
+    b = structuredClone(a);
+  b.id = "enemy-other";
+  b.learned.reverse();
+  b.jp = { ...b.jp, vanguard: 0 };
+  a.jp = Object.fromEntries(Object.entries(b.jp).filter(([, v]) => v !== 0));
+  delete a.equipment;
+  b.equipment = { relic: null, armor: null, weapon: null };
+  assert.deepEqual(templateDifferences(a, b), []);
+  b.baseHp++;
+  assert.deepEqual(templateDifferences(a, b), ["baseHp"]);
+});
+test("template update rejects heroes missing targets bad fields and invalid combinations atomically", () => {
+  const p = expansion(),
+    c = p.content!,
+    original = structuredClone(c),
+    t = c.enemyTemplates![0].id;
+  for (const ids of [
+    [],
+    ["sera"],
+    ["enemy-missing"],
+    ["enemy-brineguard-1", "enemy-brineguard-1"],
+  ])
+    assert.throws(() => applyEnemyTemplate(c, t, ids, ["baseHp"], p.rules));
+  for (const fields of [[], ["id"], ["baseHp", "baseHp"]])
+    assert.throws(() =>
+      applyEnemyTemplate(c, t, ["enemy-brineguard-1"], fields as any, p.rules),
+    );
+  assert.throws(() =>
+    applyEnemyTemplate(
+      c,
+      "enemy-missing",
+      ["enemy-brineguard-1"],
+      ["baseHp"],
+      p.rules,
+    ),
+  );
+  c.actors.find((a) => a.id === "enemy-rimeweaver-1")!.equipment = {
+    weapon: "cedarrod",
+    armor: null,
+    relic: null,
+  };
+  validateGameContent(c, p.rules);
+  const changed = structuredClone(c);
+  assert.throws(() =>
+    applyEnemyTemplate(
+      c,
+      t,
+      ["enemy-brineguard-1", "enemy-rimeweaver-1"],
+      ["job"],
+      p.rules,
+    ),
+  );
+  assert.deepEqual(c, changed);
+  assert.deepEqual(c.enemyTemplates, original.enemyTemplates);
+});
+test("template equipment and learned transfers own arrays and clear optional equipment", () => {
+  const p = expansion(),
+    c = p.content!,
+    t = c.enemyTemplates![0];
+  c.actors[4].equipment = {
+    weapon: "custom-tidal-trident",
+    armor: null,
+    relic: null,
+  };
+  delete t.equipment;
+  const next = applyEnemyTemplate(
+    c,
+    t.id,
+    [c.actors[4].id],
+    ["equipment", "learned", "jp"],
+    p.rules,
+  );
+  assert.equal(next.actors[4].equipment, undefined);
+  next.actors[4].learned.push("strike");
+  next.actors[4].jp.vanguard = 99;
+  assert(!t.learned.includes("strike"));
+  assert.notEqual(t.jp.vanguard, 99);
+});
+test("template batch update round trips and undo restores every instance", () => {
+  const p = expansion();
+  p.content!.enemyTemplates![0].baseHp = 190;
+  const h = applyProjectEdits({ project: p, past: [], future: [] }, [
+    {
+      type: "content",
+      content: applyEnemyTemplate(
+        p.content!,
+        p.content!.enemyTemplates![0].id,
+        ["enemy-brineguard-1", "enemy-rimeweaver-1"],
+        ["baseHp"],
+        p.rules,
+      ),
+    },
+  ]);
+  assert.deepEqual(parseLevelProject(exportLevelProject(h.project)), h.project);
+  const undo = travelProjectHistory(h, "undo");
+  assert.deepEqual(undo.project.content, p.content);
+  assert.equal(
+    travelProjectHistory(undo, "redo").project.content!.actors[4].baseHp,
+    190,
+  );
 });

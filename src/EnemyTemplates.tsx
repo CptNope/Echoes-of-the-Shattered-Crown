@@ -8,6 +8,11 @@ import {
   createEnemyTemplate,
   spawnEnemy,
   removeEnemy,
+  applyEnemyTemplate,
+  templateDifferences,
+  TEMPLATE_FIELDS,
+  TEMPLATE_FIELD_LABELS,
+  type TemplateField,
 } from "./studio-authoring";
 import { jobs, skills, type JobId } from "./data";
 import { equipment, canEquip, emptyLoadout, type GearId } from "./equipment";
@@ -35,9 +40,15 @@ export function EnemyTemplates({
     [x, setX] = useState(10),
     [z, setZ] = useState(5),
     [removeId, setRemoveId] = useState(""),
-    [message, setMessage] = useState("");
+    [message, setMessage] = useState(""),
+    [targets, setTargets] = useState<string[]>([]),
+    [transferFields, setTransferFields] = useState<TemplateField[]>([
+      "baseHp",
+      "maxMp",
+    ]);
   useEffect(() => {
     setDraft(baseline);
+    setTargets([]);
     setSelected((old) =>
       baseline.enemyTemplates?.some((t) => t.id === old)
         ? old
@@ -79,11 +90,67 @@ export function EnemyTemplates({
   const enemies = baseline.actors.filter(
     (a) => !["sera", "ilya", "corin", "mae"].includes(a.id),
   );
+  const appliedTemplate = baseline.enemyTemplates?.find(
+    (t) => t.id === selected,
+  );
+  const transfer = useMemo(() => {
+    if (!targets.length || !transferFields.length || !appliedTemplate)
+      return { content: null, error: "" };
+    try {
+      return {
+        content: applyEnemyTemplate(
+          baseline,
+          selected,
+          targets,
+          transferFields,
+          project.rules,
+        ),
+        error: "",
+      };
+    } catch (e) {
+      return {
+        content: null,
+        error: e instanceof Error ? e.message : "Invalid template update.",
+      };
+    }
+  }, [
+    baseline,
+    selected,
+    targets,
+    transferFields,
+    project.rules,
+    appliedTemplate,
+  ]);
+  const changedTargets = transfer.content
+    ? targets.filter((id) =>
+        templateDifferences(
+          baseline.actors.find((a) => a.id === id)!,
+          appliedTemplate!,
+        ).some((f) => transferFields.includes(f)),
+      ).length
+    : 0;
+  const describe = (a: ActorSource, f: TemplateField): string => {
+    if (f === "job" || f === "secondary") return jc[a[f]].name;
+    if (f === "learned")
+      return a.learned.map((id) => sc[id].name).join(", ") || "None";
+    if (f === "jp")
+      return (
+        Object.entries(a.jp)
+          .map(([id, n]) => `${jc[id as JobId].name}: ${n}`)
+          .join(", ") || "None"
+      );
+    if (f === "equipment")
+      return Object.values(a.equipment ?? emptyLoadout())
+        .map((id) => (id ? gc[id as GearId].name : "None"))
+        .join(" / ");
+    return String(a[f]);
+  };
   return (
     <section aria-label="Enemy template editor">
       <p>
         Templates are reusable spawn snapshots. Template edits affect future
-        spawns; edit existing instances under Characters and NPCs. The four
+        spawns. Compare and explicitly update selected instances below, or edit
+        individual instances under NPCs, dialogue & progression. The four
         company heroes remain fixed; each level supports up to twenty enemies
         and 32 templates.
       </p>
@@ -390,6 +457,152 @@ export function EnemyTemplates({
         >
           Remove enemy instance
         </button>
+      </section>
+      <section
+        className="record-authoring"
+        aria-label="Template comparison and updates"
+      >
+        <h2>Compare and update placed enemies</h2>
+        <p>
+          Choose an applied template above, then select enemies and fields to
+          copy. Unchecked fields, stable IDs, teams, dialogue and map positions
+          stay intact. This is a one-time update; future template edits do not
+          propagate.
+        </p>
+        {!appliedTemplate ? (
+          <p>
+            Create and apply an enemy template to compare it with placed
+            enemies.
+          </p>
+        ) : (
+          <>
+            <p>
+              Applied template: {appliedTemplate.name} � {appliedTemplate.id}
+            </p>
+            <fieldset>
+              <legend>Enemies to compare</legend>
+              {enemies.map((a) => (
+                <label key={a.id}>
+                  <input
+                    type="checkbox"
+                    checked={targets.includes(a.id)}
+                    onChange={(e) =>
+                      setTargets(
+                        e.target.checked
+                          ? [...targets, a.id]
+                          : targets.filter((id) => id !== a.id),
+                      )
+                    }
+                  />
+                  {a.name} � {a.id}
+                </label>
+              ))}
+            </fieldset>
+            <fieldset>
+              <legend>Fields to copy</legend>
+              {TEMPLATE_FIELDS.map((f) => (
+                <label key={f}>
+                  <input
+                    type="checkbox"
+                    checked={transferFields.includes(f)}
+                    onChange={(e) =>
+                      setTransferFields(
+                        e.target.checked
+                          ? [...transferFields, f]
+                          : transferFields.filter((v) => v !== f),
+                      )
+                    }
+                  />
+                  {TEMPLATE_FIELD_LABELS[f]}
+                </label>
+              ))}
+            </fieldset>
+            {targets.length > 0 && (
+              <div
+                className="template-comparison"
+                role="region"
+                aria-label="Template differences"
+                tabIndex={0}
+              >
+                <table>
+                  <caption>
+                    Differences from {appliedTemplate.name}. Only checked fields
+                    will be copied.
+                  </caption>
+                  <thead>
+                    <tr>
+                      <th scope="col">Enemy</th>
+                      <th scope="col">Field</th>
+                      <th scope="col">Placed value</th>
+                      <th scope="col">Template value</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {enemies
+                      .filter((a) => targets.includes(a.id))
+                      .map((a) => {
+                        const differences = templateDifferences(
+                          a,
+                          appliedTemplate,
+                        );
+                        return differences.length ? (
+                          differences.map((f) => (
+                            <tr key={a.id + f}>
+                              <th scope="row">
+                                {a.name} � {a.id}
+                              </th>
+                              <td>{TEMPLATE_FIELD_LABELS[f]}</td>
+                              <td>{describe(a, f)}</td>
+                              <td>{describe(appliedTemplate, f)}</td>
+                              <td>
+                                {transferFields.includes(f) ? "Copy" : "Keep"}
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr key={a.id}>
+                            <th scope="row">
+                              {a.name} � {a.id}
+                            </th>
+                            <td colSpan={4}>All template fields match.</td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
+              </div>
+            )}
+            {transfer.error && (
+              <p role="alert">
+                {transfer.error} Adjust the selected fields or loadouts; no
+                instances have changed.
+              </p>
+            )}
+            <p>
+              {targets.length} enemies selected � {changedTargets} will change.{" "}
+              {changed || blocked
+                ? "Apply or discard drafts before updating instances."
+                : "Review the differences before applying."}
+            </p>
+            <button
+              disabled={
+                blocked || changed || !transfer.content || changedTargets === 0
+              }
+              onClick={() => {
+                if (
+                  transfer.content &&
+                  apply([{ type: "content", content: transfer.content }])
+                )
+                  setMessage(
+                    `Updated ${changedTargets} enemy instances. Undo restores their previous fields.`,
+                  );
+              }}
+            >
+              Apply selected template fields
+            </button>
+          </>
+        )}
       </section>
       <p role="status">{message}</p>
     </section>

@@ -1,5 +1,11 @@
 # Changelog
 
+## Selective enemy template updates � 2026-11-22
+
+- Added an applied-template comparison table showing placed/template values and Copy/Keep decisions for selected enemies.
+- Added explicit multi-enemy updates of chosen fields, with names and identity/position preserved by default, full-candidate validation and one-step undo.
+- Added five regression cases for selective copying, semantic differences, atomic rejection and recovery. All 186 tests pass.
+
 ## Custom content authoring — 2026-11-22
 
 - Added stable custom class, ability and gear records with create/duplicate controls, shipped archetype bindings and reference-aware deletion.
