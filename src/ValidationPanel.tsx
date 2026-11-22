@@ -33,7 +33,8 @@ export function ValidationPanel({
         <div>
           <h2>{title}</h2>
           <p className="validation-counts">
-            {report.errors} errors · {report.warnings} warnings
+            {report.errors} {report.errors === 1 ? "error" : "errors"} ·{" "}
+            {report.warnings} {report.warnings === 1 ? "warning" : "warnings"}
             {report.revision !== null ? ` · Revision ${report.revision}` : ""}
           </p>
         </div>

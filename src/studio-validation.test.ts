@@ -94,7 +94,7 @@ test("unoccupied disconnected islands aggregate with a concrete inspection coord
   p.tiles.find((t) => t.x === 6 && t.z === 6)!.h = 2;
   const f = analyzeProject(p).findings.find((f) => f.id === "empty-regions")!;
   assert.deepEqual(f.target, { area: "map", x: 6, z: 6 });
-  assert.match(f.detail, /1 open tiles/);
+  assert.match(f.detail, /1 open tile lies/);
   assert.equal(analyzeProject(p).errors, 0);
 });
 test("energy and direct-offense warnings use the actual scoped availability list", () => {

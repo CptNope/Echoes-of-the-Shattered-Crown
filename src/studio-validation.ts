@@ -411,12 +411,13 @@ export function analyzeProject(raw: unknown): ProjectValidation {
   }
   const unused = regions.filter((_, id) => !occupiedRegions.has(id));
   if (unused.length) {
-    const at = unused[0][0];
+    const at = unused[0][0],
+      emptyTileCount = unused.reduce((n, r) => n + r.length, 0);
     add(
       "empty-regions",
       "warning",
       `${unused.length} ground region${unused.length === 1 ? " has" : "s have"} no actor spawn`,
-      `${unused.reduce((n, r) => n + r.length, 0)} open tiles are in disconnected regions without a spawn.`,
+      `${emptyTileCount} open ${emptyTileCount === 1 ? "tile lies" : "tiles lie"} in disconnected regions without a spawn.`,
       "Inspect whether these islands are intentional scenery or need a bridge, elevation step or deployment point.",
       "tiles",
       { area: "map", x: at.x, z: at.z },
