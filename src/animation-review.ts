@@ -141,10 +141,15 @@ Promise.all(
   }),
 ).then(() => {
   el("status").textContent =
-    sheets.size + " / 8 sheets loaded · 256 frames · 887 × 1774 RGBA sources";
+    sheets.size +
+    " / " +
+    ids.length +
+    " sheets loaded · " +
+    ids.length * 32 +
+    " frames · RGBA sources";
 });
 el("record").onclick = () => {
-  if (recording || sheets.size !== 8) return;
+  if (recording || sheets.size !== ids.length) return;
   const mime = [
     "video/webm;codecs=vp9",
     "video/webm;codecs=vp8",
@@ -189,7 +194,7 @@ el("record").onclick = () => {
     el("record-status").textContent =
       "Preview ready: " +
       recordedStates.size +
-      " / 8 states rendered, all eight jobs.";
+      " / 8 states rendered, all ten sheets.";
   };
   recorder.start();
   setTimeout(() => recorder.stop(), 12000);
