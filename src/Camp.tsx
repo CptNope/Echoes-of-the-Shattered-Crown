@@ -14,10 +14,21 @@ import {
   type Dispatch,
   type SetStateAction,
 } from "react";
-import { jobs, skills, jobLevel, unlocked, type JobId } from "./data";
+import {
+  jobs as baselineJobs,
+  skills as baselineSkills,
+  jobLevel,
+  unlocked,
+  type JobId,
+} from "./data";
 import { createBattle, unitStats, availableSkills } from "./engine";
 import { encounters, type EncounterId } from "./encounters";
-import { equipment, canEquip, type GearId, type GearSlot } from "./equipment";
+import {
+  equipment as baselineEquipment,
+  canEquip,
+  type GearId,
+  type GearSlot,
+} from "./equipment";
 import {
   type Expedition,
   createExpedition,
@@ -90,8 +101,8 @@ function MapPreview({ id }: { id: EncounterId }) {
     </svg>
   );
 }
-const gearDescription = (id: GearId) =>
-  Object.entries(equipment[id].bonuses)
+const gearDescription = (id: GearId, catalog = baselineEquipment) =>
+  Object.entries(catalog[id].bonuses)
     .map(([k, v]) => `${v > 0 ? "+" : ""}${v} ${k === "hp" ? "HP" : k}`)
     .join(" · ");
 
@@ -114,6 +125,9 @@ export function Camp({
   notice: string;
   dismiss: () => void;
 }) {
+  const jobs = game.battle.rules?.jobs ?? baselineJobs,
+    skills = game.battle.rules?.skills ?? baselineSkills,
+    equipment = game.battle.rules?.gear ?? baselineEquipment;
   const [tab, setTab] = useState<
     "contracts" | "company" | "training" | "outfitter"
   >("contracts");
@@ -131,8 +145,8 @@ export function Camp({
     [message, setMessage] = useState("");
   const c = game.company,
     m = c.members.find((m) => m.id === selected) ?? c.members[0],
-    u = memberUnit(m),
-    stats = unitStats(u),
+    u = memberUnit(m, game.battle.rules),
+    stats = unitStats(u, game.battle.rules),
     mission = encounters[contract];
   useEffect(() => {
     setSchool(m.job);
@@ -251,7 +265,7 @@ export function Camp({
                 className={m.id === member.id ? "active" : ""}
                 onClick={() => selectMember(member.id)}
               >
-                <Portrait u={memberUnit(member)} size={46} />
+                <Portrait u={memberUnit(member, game.battle.rules)} size={46} />
                 <span>
                   <b>{member.name}</b>
                   <small>
@@ -441,10 +455,10 @@ export function Camp({
                         <option
                           key={j.id}
                           value={j.id}
-                          disabled={!unlocked(j.id, m.jp)}
+                          disabled={!unlocked(j.id, m.jp, jobs)}
                         >
                           {j.name}
-                          {unlocked(j.id, m.jp) ? "" : " · locked"}
+                          {unlocked(j.id, m.jp, jobs) ? "" : " · locked"}
                         </option>
                       ))}
                     </select>
@@ -465,7 +479,7 @@ export function Camp({
                           key={j.id}
                           value={j.id}
                           disabled={
-                            j.id !== m.secondary && !unlocked(j.id, m.jp)
+                            j.id !== m.secondary && !unlocked(j.id, m.jp, jobs)
                           }
                         >
                           {j.name} ·{" "}
@@ -477,7 +491,7 @@ export function Camp({
                   </label>
                   <h4>Available in battle</h4>
                   <ul className="camp-skill-list">
-                    {availableSkills(u).map((id) => (
+                    {availableSkills(u, game.battle.rules).map((id) => (
                       <li key={id}>
                         <span>{skills[id].name}</span>
                         <small>
@@ -524,14 +538,14 @@ export function Camp({
                               key={item.id}
                               value={item.id}
                               disabled={
-                                !canEquip(m.job, item.id) ||
+                                !canEquip(m.job, item.id, equipment) ||
                                 (m.equipment[slot] !== item.id &&
                                   allocated(c, item.id) >=
                                     (c.inventory[item.id] ?? 0))
                               }
                             >
                               {item.name}
-                              {!canEquip(m.job, item.id)
+                              {!canEquip(m.job, item.id, equipment)
                                 ? " · incompatible"
                                 : m.equipment[slot] !== item.id &&
                                     allocated(c, item.id) >=
@@ -542,7 +556,9 @@ export function Camp({
                           ))}
                       </select>
                       {m.equipment[slot] && (
-                        <small>{gearDescription(m.equipment[slot]!)}</small>
+                        <small>
+                          {gearDescription(m.equipment[slot]!, equipment)}
+                        </small>
                       )}
                     </label>
                   ))}
@@ -572,7 +588,7 @@ export function Camp({
               <div className="training-layout">
                 <div className="training-jobs">
                   {Object.values(jobs).map((j) => {
-                    const open = unlocked(j.id, m.jp);
+                    const open = unlocked(j.id, m.jp, jobs);
                     return (
                       <button
                         key={j.id}
@@ -601,7 +617,7 @@ export function Camp({
                     <span>{spendableJP(m, school)} spendable JP</span>
                   </div>
                   <p>{jobs[school].role}</p>
-                  {!unlocked(school, m.jp) && (
+                  {!unlocked(school, m.jp, jobs) && (
                     <p className="training-lock">
                       Requires{" "}
                       {Object.entries(jobs[school].requires)
@@ -624,7 +640,7 @@ export function Camp({
                         <button
                           disabled={
                             known ||
-                            !unlocked(school, m.jp) ||
+                            !unlocked(school, m.jp, jobs) ||
                             spendableJP(m, school) < learningCost
                           }
                           onClick={() => {
@@ -641,7 +657,9 @@ export function Camp({
                   })}
                   <div className="mastery-board">
                     <h4>
-                      {mastered(m, school) ? "Job mastered" : "Path to mastery"}
+                      {mastered(m, school, jobs)
+                        ? "Job mastered"
+                        : "Path to mastery"}
                     </h4>
                     <p>
                       Earn {masteryJP} lifetime JP and permanently learn every
@@ -661,7 +679,7 @@ export function Camp({
                           <button
                             disabled={
                               (m.learnedSupport ?? []).includes(item.id) ||
-                              !mastered(m, school) ||
+                              !mastered(m, school, jobs) ||
                               spendableJP(m, school) < supportCost
                             }
                             onClick={() => {
@@ -751,7 +769,7 @@ export function Camp({
                         <small>{item.slot}</small>
                       </h3>
                       <p>{item.description}</p>
-                      <span>{gearDescription(item.id)}</span>
+                      <span>{gearDescription(item.id, equipment)}</span>
                       {item.jobs && (
                         <small className="gear-proficiency">
                           {item.jobs.map((id) => jobs[id].name).join(" · ")}

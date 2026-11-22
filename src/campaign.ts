@@ -1,3 +1,4 @@
+import type { RuleCatalog } from "./studio-rules";
 import {
   supports,
   mastered,
@@ -78,7 +79,7 @@ export const contractOpen = (
   catalog = encounters,
 ) => !catalog[id].requires || c.completed.includes(catalog[id].requires!);
 
-export function memberUnit(m: Member): Unit {
+export function memberUnit(m: Member, rules?: RuleCatalog): Unit {
   const u: Unit = {
     ...structuredClone(m),
     team: "ally",
@@ -94,7 +95,7 @@ export function memberUnit(m: Member): Unit {
     acted: false,
     status: { burn: 0, slow: 0, exposed: 0, soaked: 0 },
   };
-  u.maxHp = unitStats(u).hp;
+  u.maxHp = unitStats(u, rules).hp;
   u.hp = u.maxHp;
   return u;
 }
@@ -136,10 +137,17 @@ export function depart(game: Expedition, id: EncounterId): Expedition {
   if (game.stage !== "camp" || !contractOpen(game.company, id)) return game;
   const next = structuredClone(game),
     battle = createBattle(74319 + game.company.deployments * 97, id);
+  if (game.battle.rules) battle.rules = structuredClone(game.battle.rules);
   battle.units = battle.units.map((u) => {
     if (u.team !== "ally") return u;
     const m = next.company.members.find((m) => m.id === u.id)!;
-    return { ...memberUnit(m), x: u.x, z: u.z, next: u.next, facing: u.facing };
+    return {
+      ...memberUnit(m, battle.rules),
+      x: u.x,
+      z: u.z,
+      next: u.next,
+      facing: u.facing,
+    };
   });
   next.company.deployments++;
   next.battle = battle;
@@ -189,8 +197,8 @@ export function train(
   if (
     game.stage !== "camp" ||
     !m ||
-    !unlocked(job, m.jp) ||
-    !jobs[job].skills.includes(skill) ||
+    !unlocked(job, m.jp, game.battle.rules?.jobs) ||
+    !(game.battle.rules?.jobs ?? jobs)[job].skills.includes(skill) ||
     m.learned.includes(skill) ||
     spendableJP(m, job) < learningCost
   )
@@ -211,8 +219,9 @@ export function setMemberJob(
   if (
     game.stage !== "camp" ||
     !m ||
-    !unlocked(job, m.jp) ||
-    (secondary !== m.secondary && !unlocked(secondary, m.jp))
+    !unlocked(job, m.jp, game.battle.rules?.jobs) ||
+    (secondary !== m.secondary &&
+      !unlocked(secondary, m.jp, game.battle.rules?.jobs))
   )
     return game;
   const next = structuredClone(game),
@@ -221,7 +230,8 @@ export function setMemberJob(
   target.secondary = secondary;
   for (const slot of ["weapon", "armor", "relic"] as const) {
     const item = target.equipment[slot];
-    if (item && !canEquip(job, item)) target.equipment[slot] = null;
+    if (item && !canEquip(job, item, game.battle.rules?.gear))
+      target.equipment[slot] = null;
   }
   return next;
 }
@@ -235,8 +245,8 @@ export function equip(
   if (game.stage !== "camp" || !m || m.equipment[slot] === item) return game;
   if (
     item &&
-    (equipment[item].slot !== slot ||
-      !canEquip(m.job, item) ||
+    ((game.battle.rules?.gear ?? equipment)[item].slot !== slot ||
+      !canEquip(m.job, item, game.battle.rules?.gear) ||
       allocated(game.company, item) >= (game.company.inventory[item] ?? 0))
   )
     return game;
@@ -247,13 +257,13 @@ export function equip(
 export function purchase(game: Expedition, item: GearId): Expedition {
   if (
     game.stage !== "camp" ||
-    equipment[item].rewardOnly ||
-    game.company.gold < equipment[item].price ||
+    (game.battle.rules?.gear ?? equipment)[item].rewardOnly ||
+    game.company.gold < (game.battle.rules?.gear ?? equipment)[item].price ||
     (game.company.inventory[item] ?? 0) >= 99
   )
     return game;
   const next = structuredClone(game);
-  next.company.gold -= equipment[item].price;
+  next.company.gold -= (game.battle.rules?.gear ?? equipment)[item].price;
   next.company.inventory[item] = (next.company.inventory[item] ?? 0) + 1;
   return next;
 }
@@ -300,8 +310,9 @@ export function validateExpedition(raw: unknown): raw is Expedition {
     for (const m of c.members) {
       if (!ids.includes(m.id)) return false;
       const probe = createBattle();
+      if (g.battle.rules) probe.rules = g.battle.rules;
       probe.units[ids.indexOf(m.id)] = {
-        ...memberUnit(m),
+        ...memberUnit(m, g.battle.rules),
         x: probe.units[ids.indexOf(m.id)].x,
         z: probe.units[ids.indexOf(m.id)].z,
       };
@@ -379,7 +390,7 @@ export function learnSupport(
   if (
     game.stage !== "camp" ||
     !m ||
-    !mastered(m, item.job) ||
+    !mastered(m, item.job, game.battle.rules?.jobs) ||
     (m.learnedSupport ?? []).includes(id) ||
     spendableJP(m, item.job) < supportCost
   )

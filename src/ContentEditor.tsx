@@ -1,3 +1,5 @@
+import type { RuleCatalog } from "./studio-rules";
+import { canEquip, emptyLoadout, type Loadout } from "./equipment";
 import React, { useEffect, useMemo, useState } from "react";
 import {
   ENCOUNTER_IDS,
@@ -14,8 +16,10 @@ export function ContentEditor({
   encounter,
   apply,
   onDirty,
+  rules,
 }: {
   source: GameContent | undefined;
+  rules?: RuleCatalog;
   encounter: EncounterId;
   apply: (p: GameContent) => boolean;
   onDirty: (d: boolean) => void;
@@ -38,12 +42,12 @@ export function ContentEditor({
   useEffect(() => onDirty(changed), [changed, onDirty]);
   const error = useMemo(() => {
     try {
-      validateGameContent(draft);
+      validateGameContent(draft, rules);
       return "";
     } catch (e) {
       return e instanceof Error ? e.message : "Invalid content.";
     }
-  }, [draft]);
+  }, [draft, rules]);
   const person = draft.actors.find((a) => a.id === actor)!,
     c = draft.contracts[contract],
     lines = draft.dialogue[contract];
@@ -120,7 +124,7 @@ export function ContentEditor({
                     editActor({ [field]: e.target.value as JobId })
                   }
                 >
-                  {Object.entries(jobs).map(([id, j]) => (
+                  {Object.entries(rules?.jobs ?? jobs).map(([id, j]) => (
                     <option key={id} value={id}>
                       {j.name}
                     </option>
@@ -162,9 +166,41 @@ export function ContentEditor({
                 }
               />
             </label>
+            {(["weapon", "armor", "relic"] as const).map((slot) => (
+              <label key={slot}>
+                Starting {slot}
+                <select
+                  value={person.equipment?.[slot] ?? ""}
+                  onChange={(e) =>
+                    editActor({
+                      equipment: {
+                        ...(person.equipment ?? emptyLoadout()),
+                        [slot]: e.target.value || null,
+                      } as Loadout,
+                    })
+                  }
+                >
+                  <option value="">None</option>
+                  {Object.values(rules?.gear ?? equipment)
+                    .filter((item) => item.slot === slot)
+                    .map((item) => (
+                      <option
+                        key={item.id}
+                        value={item.id}
+                        disabled={!canEquip(person.job, item.id, rules?.gear)}
+                      >
+                        {item.name}
+                        {canEquip(person.job, item.id, rules?.gear)
+                          ? ""
+                          : " · incompatible job"}
+                      </option>
+                    ))}
+                </select>
+              </label>
+            ))}
             <details>
               <summary>Learned secondary abilities</summary>
-              {Object.entries(skills).map(([id, s]) => (
+              {Object.entries(rules?.skills ?? skills).map(([id, s]) => (
                 <label className="check-row" key={id}>
                   <input
                     type="checkbox"
@@ -391,11 +427,13 @@ export function ContentEditor({
                     }}
                   >
                     <option value="">None</option>
-                    {Object.entries(equipment).map(([id, item]) => (
-                      <option key={id} value={id}>
-                        {item.name}
-                      </option>
-                    ))}
+                    {Object.entries(rules?.gear ?? equipment).map(
+                      ([id, item]) => (
+                        <option key={id} value={id}>
+                          {item.name}
+                        </option>
+                      ),
+                    )}
                   </select>
                 </label>
                 <label>
@@ -483,7 +521,7 @@ export function ContentEditor({
         <button
           disabled={!!error || (!!source && !changed)}
           onClick={() => {
-            if (apply(validateGameContent(draft)))
+            if (apply(validateGameContent(draft, rules)))
               setMessage(
                 "Existing game content applied. Save or export the project to keep it.",
               );

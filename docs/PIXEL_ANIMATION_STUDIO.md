@@ -91,6 +91,6 @@ Old level projects without pixels remain valid. The current studio preserves the
 
 Resizing, arbitrary image-file import, per-frame pivots, attachments, free-form layer counts, partial-alpha paint, extra state/direction clips, tile editing and standalone complete-game export remain planned.
 
-Eight base pixel cases verify source editing and packing. Eight action-clip cases add ownership, timing, compatibility and large-export checks. Six pose-tool cases add fill, transforms, paste and rejection checks. The full suite has 124 tests.
+Eight base pixel cases verify source editing and packing. Eight action-clip cases add ownership, timing, compatibility and large-export checks. Six pose-tool cases add fill, transforms, paste and rejection checks. The full suite has 134 tests.
 
 Browser review should paint and undo a stroke, edit timing and registration, audition, export PNG plus source, import/reopen it, and inspect the selected actor in a real playtest. A flattened PNG or passing schema check alone does not prove a full animation authoring tool.

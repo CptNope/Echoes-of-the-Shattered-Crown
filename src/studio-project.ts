@@ -1,3 +1,4 @@
+import { validateRules, type RuleCatalog } from "./studio-rules";
 import { encounters, type EncounterId } from "./encounters";
 import {
   gameContent,
@@ -33,6 +34,7 @@ export interface LevelProject {
   content?: GameContent;
   materials?: TerrainMaterials;
   gameAudio?: GameAudio;
+  rules?: RuleCatalog;
 }
 export const PROJECT_LIMIT = 128 * 1024;
 export const NATIVE_PROJECT_LIMIT = 8 * 1024 * 1024;
@@ -93,6 +95,7 @@ export function validateLevelProject(raw: unknown): LevelProject {
     "content",
     "materials",
     "gameAudio",
+    "rules",
   ]);
   if (raw.format !== "echoes-level-project" || raw.version !== 1)
     fail(
@@ -104,7 +107,8 @@ export function validateLevelProject(raw: unknown): LevelProject {
       !Object.hasOwn(encounters, raw.encounter))
   )
     fail("Unknown source encounter.");
-  if (raw.content !== undefined) validateGameContent(raw.content);
+  const rules = raw.rules === undefined ? undefined : validateRules(raw.rules);
+  if (raw.content !== undefined) validateGameContent(raw.content, rules);
   if (raw.materials !== undefined) validateMaterials(raw.materials);
   if (raw.gameAudio !== undefined) validateGameAudio(raw.gameAudio);
   if (raw.sounds !== undefined) validateSoundBank(raw.sounds);
@@ -211,7 +215,8 @@ export type ProjectEdit =
   | { type: "load-encounter"; encounter: EncounterId }
   | { type: "content"; content: GameContent }
   | { type: "materials"; materials: TerrainMaterials }
-  | { type: "game-audio"; audio: GameAudio };
+  | { type: "game-audio"; audio: GameAudio }
+  | { type: "rules"; rules: RuleCatalog | null };
 /** Atomic batch: reject every operation if any resulting invariant fails. */
 export function editProject(
   project: LevelProject,
@@ -236,8 +241,11 @@ export function editProject(
         ...(existing ?? gameContent(e.encounter)),
         actors: gameContent(e.encounter).actors,
       };
+    } else if (e.type === "rules") {
+      if (e.rules === null) delete next.rules;
+      else next.rules = validateRules(e.rules);
     } else if (e.type === "content")
-      next.content = validateGameContent(e.content);
+      next.content = validateGameContent(e.content, next.rules);
     else if (e.type === "materials")
       next.materials = validateMaterials(e.materials);
     else if (e.type === "game-audio")
@@ -311,6 +319,7 @@ export function travelProjectHistory(
 export function compileLevelProject(project: LevelProject): Battle {
   const p = validateLevelProject(project),
     battle = createBattle(p.seed, p.encounter ?? "shrine");
+  if (p.rules) battle.rules = structuredClone(p.rules);
   battle.tiles = p.tiles.map((t) => ({ ...t, burn: 0 }));
   for (const u of battle.units)
     Object.assign(
@@ -322,7 +331,7 @@ export function compileLevelProject(project: LevelProject): Battle {
     for (const u of battle.units) {
       const source = p.content.actors.find((a) => a.id === u.id)!;
       Object.assign(u, structuredClone(source));
-      u.maxHp = unitStats(u).hp;
+      u.maxHp = unitStats(u, battle.rules).hp;
       u.hp = u.maxHp;
       u.mp = u.maxMp;
     }

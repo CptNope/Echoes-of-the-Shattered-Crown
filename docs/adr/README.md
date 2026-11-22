@@ -27,6 +27,8 @@ The initial accepted baseline records are **retrospective** except ADR-0001's ne
 
 | [ADR-0014](0014-existing-game-source-adapters.md) | Accepted | New implementation decision | Adapt existing game sources into editable project previews |
 
+| [ADR-0015](0015-scoped-rule-catalogs.md) | Accepted | New implementation decision | Resolve editable catalogs through explicit runtime context |
+
 ## When to create an ADR
 
 | Create a record for | Usually use another document for |

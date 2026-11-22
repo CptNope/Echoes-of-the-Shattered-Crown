@@ -127,3 +127,6 @@ The [native sprite mode](NATIVE_SPRITE_STUDIO.md) uses studio-native-sprites.ts 
 
 
 Existing game source adapters live in studio-content.ts, studio-materials.ts and game-audio.ts. ContentEditor, TerrainEditor and GameAudioEditor stage source rather than mutate module globals. The engine accepts bounded optional victoryJP, campaign gate/settlement functions accept a catalog for isolated previews, and AudioScore consumes the same default source as the game-audio editor. See [coverage/contracts](EXISTING_GAME_EDITORS.md) and [ADR-0014](adr/0014-existing-game-source-adapters.md).
+
+
+The scoped catalog source lives in studio-rules.ts and optional project/battle rules. Never mutate imported defaults or mirror engine formulas in forms. Pass rules into unitStats/availableSkills, use the scoped skill table for targeting/commands/AI, and preserve the same gear/job context in campaign operations and display labels. See [catalog ownership](RULE_CATALOG_STUDIO.md) and [ADR-0015](adr/0015-scoped-rule-catalogs.md).

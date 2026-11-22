@@ -83,3 +83,6 @@ The [action-clip extension](ACTION_CLIP_STUDIO.md) adds explicit Idle/Walk/Attac
 
 
 See [existing-game editing](EXISTING_GAME_EDITORS.md) for real encounter imports, editable terrain appearance, actor/dialogue/contract controls and original audio source. Objective labels remain text over the existing defeat-all rule; branching NPC/quest and full rule/campaign tools remain planned.
+
+
+[Catalog overrides](RULE_CATALOG_STUDIO.md) add editable existing gear, abilities and jobs, with optional actor equipment and actual shared runtime consumption. Source rules can be removed to return to defaults when actor loadouts remain compatible.

@@ -312,7 +312,11 @@ export const jobs: Record<JobId, Job> = {
   },
 };
 export const jobLevel = (jp: number) => 1 + Math.floor(jp / 60);
-export const unlocked = (id: JobId, jp: Partial<Record<JobId, number>>) =>
-  Object.entries(jobs[id].requires).every(
+export const unlocked = (
+  id: JobId,
+  jp: Partial<Record<JobId, number>>,
+  catalog = jobs,
+) =>
+  Object.entries(catalog[id].requires).every(
     ([j, n]) => jobLevel(jp[j as JobId] ?? 0) >= n,
   );

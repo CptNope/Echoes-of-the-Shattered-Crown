@@ -19,6 +19,8 @@ The game baseline is **v0.8.0**. Current implementation guides and future expans
 
 ## Current game reference
 
+[Gear, ability and job catalog editor](RULE_CATALOG_STUDIO.md): existing definitions, actor equipment and scoped engine/AI/campaign overrides.
+
 [Existing-game editor audit and guide](EXISTING_GAME_EDITORS.md): exact current coverage for levels, terrain textures, characters, dialogue, progression, audio and remaining toolkit gaps.
 
 [Native game-sprite editor](NATIVE_SPRITE_STUDIO.md): edit the eight shipped character sheets at their existing resolution, preserve all eight states and export the complete PNG plus editable project.

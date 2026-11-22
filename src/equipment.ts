@@ -133,9 +133,9 @@ export const emptyLoadout = (): Loadout => ({
   armor: null,
   relic: null,
 });
-export const canEquip = (job: JobId, id: GearId) =>
-  !equipment[id].jobs || equipment[id].jobs!.includes(job);
-export function gearBonuses(loadout: Loadout): Bonuses {
+export const canEquip = (job: JobId, id: GearId, catalog = equipment) =>
+  !catalog[id].jobs || catalog[id].jobs!.includes(job);
+export function gearBonuses(loadout: Loadout, catalog = equipment): Bonuses {
   const total: Bonuses = {
     attack: 0,
     armor: 0,
@@ -146,7 +146,7 @@ export function gearBonuses(loadout: Loadout): Bonuses {
   };
   for (const id of Object.values(loadout))
     if (id)
-      for (const [stat, value] of Object.entries(equipment[id].bonuses))
+      for (const [stat, value] of Object.entries(catalog[id].bonuses))
         total[stat as keyof Bonuses] += value;
   return total;
 }

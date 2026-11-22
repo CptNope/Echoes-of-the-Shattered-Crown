@@ -1094,3 +1094,16 @@ dialog::backdrop {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+.content-fields textarea,
+.dialogue-row textarea {
+  font-family: inherit;
+  min-height: 100px;
+}
+.catalog-editor .content-fields {
+  margin: 24px 0;
+}
+.catalog-editor h2 {
+  font-size: 16px;
+  margin-top: 24px;
+}

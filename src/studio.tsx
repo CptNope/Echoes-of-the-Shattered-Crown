@@ -1,3 +1,4 @@
+import { RulesEditor } from "./RulesEditor";
 import { ContentEditor } from "./ContentEditor";
 import { TerrainEditor } from "./TerrainEditor";
 import { GameAudioEditor } from "./GameAudioEditor";
@@ -273,6 +274,7 @@ function Preview({
     }, 450);
     return () => clearTimeout(timer);
   }, [battle, briefingOpen]);
+  const skillCatalog = battle.rules?.skills ?? skills;
   const active = activeUnit(battle),
     enabled =
       !briefingOpen && battle.result === "playing" && active.team === "ally";
@@ -282,7 +284,13 @@ function Preview({
         mode === "move"
           ? reachable(battle, active).has(t.x + "," + t.z)
           : mode !== "inspect" &&
-            canTarget(battle, active, skills[mode], t.x, t.z),
+            canTarget(
+              battle,
+              active,
+              (battle.rules?.skills ?? skills)[mode],
+              t.x,
+              t.z,
+            ),
       )
       .map((t) => t.x + "," + t.z),
   );
@@ -469,16 +477,17 @@ function Preview({
             >
               Move
             </button>
-            {availableSkills(active).map((id) => (
+            {availableSkills(active, battle.rules).map((id) => (
               <button
                 key={id}
                 disabled={
-                  !enabled || active.acted || active.mp < skills[id].cost
+                  !enabled || active.acted || active.mp < skillCatalog[id].cost
                 }
                 aria-pressed={mode === id}
                 onClick={() => setMode(id)}
               >
-                {skills[id].name} <span>{skills[id].cost} energy</span>
+                {skillCatalog[id].name}{" "}
+                <span>{skillCatalog[id].cost} energy</span>
               </button>
             ))}
             <button
@@ -585,6 +594,7 @@ function Studio() {
       | "terrain"
       | "content"
       | "game-audio"
+      | "rules"
     >("map"),
     [soundDraftDirty, setSoundDraftDirty] = useState(false);
   const [musicDraftDirty, setMusicDraftDirty] = useState(false);
@@ -598,7 +608,9 @@ function Studio() {
   const [loadEncounter, setLoadEncounter] = useState<EncounterId>(
     project.encounter ?? "shrine",
   );
+  const [rulesDirty, setRulesDirty] = useState(false);
   const hasDraft =
+    rulesDirty ||
     contentDirty ||
     terrainDirty ||
     gameAudioDirty ||
@@ -806,7 +818,11 @@ function Studio() {
                   : "Select a tile to apply this tool. Each click is one undoable edit."}
               </p>
             </div>
-            <div hidden={!["terrain", "content", "game-audio"].includes(panel)}>
+            <div
+              hidden={
+                !["terrain", "content", "game-audio", "rules"].includes(panel)
+              }
+            >
               <h2>Existing game sources</h2>
               <p>
                 Four encounters, native terrain colors, actor rosters,
@@ -892,34 +908,38 @@ function Studio() {
                 <h1>
                   {panel === "map"
                     ? "Battlefield editor"
-                    : panel === "terrain"
-                      ? "Terrain appearance editor"
-                      : panel === "content"
-                        ? "Game content editor"
-                        : panel === "game-audio"
-                          ? "Existing game audio"
-                          : panel === "sounds"
-                            ? "Sound effects editor"
-                            : panel === "music"
-                              ? "Music pattern editor"
-                              : "Pixel animation editor"}
+                    : panel === "rules"
+                      ? "Gear, ability and job overrides"
+                      : panel === "terrain"
+                        ? "Terrain appearance editor"
+                        : panel === "content"
+                          ? "Game content editor"
+                          : panel === "game-audio"
+                            ? "Existing game audio"
+                            : panel === "sounds"
+                              ? "Sound effects editor"
+                              : panel === "music"
+                                ? "Music pattern editor"
+                                : "Pixel animation editor"}
                 </h1>
                 <p>
                   {hasDraft
                     ? "Apply or discard source drafts before playtesting."
-                    : panel === "terrain"
-                      ? "Edit existing terrain palettes and painted top surfaces."
-                      : panel === "content"
-                        ? "Edit current actors, briefings, contract gates and rewards."
-                        : panel === "game-audio"
-                          ? "Edit the existing game score and command feedback."
-                          : panel === "sounds"
-                            ? "Edit, audition and apply combat sounds."
-                            : panel === "music"
-                              ? "Compose a four-beat loop for your battlefield."
-                              : panel === "pixels"
-                                ? "Paint source pixels, time frames and play your clip."
-                                : "Shape the battlefield and its sounds, then play your revision."}
+                    : panel === "rules"
+                      ? "Override the shipped gear, abilities and job definitions."
+                      : panel === "terrain"
+                        ? "Edit existing terrain palettes and painted top surfaces."
+                        : panel === "content"
+                          ? "Edit current actors, briefings, contract gates and rewards."
+                          : panel === "game-audio"
+                            ? "Edit the existing game score and command feedback."
+                            : panel === "sounds"
+                              ? "Edit, audition and apply combat sounds."
+                              : panel === "music"
+                                ? "Compose a four-beat loop for your battlefield."
+                                : panel === "pixels"
+                                  ? "Paint source pixels, time frames and play your clip."
+                                  : "Shape the battlefield and its sounds, then play your revision."}
                 </p>
               </div>
               <button
@@ -941,6 +961,7 @@ function Studio() {
               </button>
               {(
                 [
+                  ["rules", "Gear, abilities & jobs"],
                   ["terrain", "Terrain textures"],
                   ["content", "NPCs, dialogue & progression"],
                   ["game-audio", "Game audio"],
@@ -1011,6 +1032,13 @@ function Studio() {
                 {error}
               </p>
             )}
+            <div hidden={panel !== "rules"}>
+              <RulesEditor
+                source={project.rules}
+                apply={(rules) => edit([{ type: "rules", rules }])}
+                onDirty={setRulesDirty}
+              />
+            </div>
             <div hidden={panel !== "terrain"}>
               <TerrainEditor
                 source={project.materials}
@@ -1022,6 +1050,7 @@ function Studio() {
             <div hidden={panel !== "content"}>
               <ContentEditor
                 source={project.content}
+                rules={project.rules}
                 encounter={project.encounter ?? "shrine"}
                 apply={(content) => edit([{ type: "content", content }])}
                 onDirty={setContentDirty}

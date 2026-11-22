@@ -37,8 +37,11 @@ export function animationFrame(
   } else frame = c.loop ? frame % 4 : Math.min(3, frame);
   return c.row * 4 + frame;
 }
-export const actionClip = (skill: SkillId): "attack" | "cast" =>
-  skills[skill].element === "physical" ? "attack" : "cast";
+export const actionClip = (
+  skill: SkillId,
+  catalog = skills,
+): "attack" | "cast" =>
+  catalog[skill].element === "physical" ? "attack" : "cast";
 export function chooseAnimation(s: {
   hp: number;
   walking: boolean;

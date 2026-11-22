@@ -551,9 +551,12 @@ export class Battlefield {
       else if (
         mode !== "inspect" &&
         mode !== "move" &&
-        canTarget(state, u, skills[mode], t.x, t.z)
+        canTarget(state, u, (state.rules?.skills ?? skills)[mode], t.x, t.z)
       )
-        color = skills[mode].kind === "damage" ? 0xe4ae76 : 0x8dc7ac;
+        color =
+          (state.rules?.skills ?? skills)[mode].kind === "damage"
+            ? 0xe4ae76
+            : 0x8dc7ac;
       if (selected?.x === t.x && selected.z === t.z) {
         color = 0xf9e1a1;
         opacity = 0.7;
@@ -615,7 +618,7 @@ export class Battlefield {
       const event = state.lastAction,
         oldEvent = old.lastAction;
       if (event && event.unit === v.id && actionCueChanged(oldEvent, event)) {
-        const clip = actionClip(event.skill);
+        const clip = actionClip(event.skill, state.rules?.skills);
         actor.action = { clip, start: null, cue: event };
         actor.attackUntil = now + clipDuration(clip);
       }

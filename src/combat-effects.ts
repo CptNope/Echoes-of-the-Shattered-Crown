@@ -101,7 +101,7 @@ export function planCombatEffect(
     target.z > 8
   )
     return null;
-  const sk = skills[cue.skill],
+  const sk = (battle.rules?.skills ?? skills)[cue.skill],
     tiles = battle.tiles
       .filter(
         (t) => Math.abs(t.x - target.x) + Math.abs(t.z - target.z) <= sk.radius,

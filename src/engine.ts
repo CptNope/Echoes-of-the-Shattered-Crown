@@ -1,3 +1,4 @@
+import { validateRules, type RuleCatalog } from "./studio-rules";
 import {
   supportBonuses,
   hasSupport,
@@ -69,6 +70,7 @@ export interface Battle {
   log: string[];
   rewarded: boolean;
   victoryJP?: number;
+  rules?: RuleCatalog;
   bossAwakened?: boolean;
   lastAction?: {
     unit: string;
@@ -92,9 +94,9 @@ export const tileAt = (s: Battle, x: number, z: number) =>
 export const activeUnit = (s: Battle) =>
   s.units.find((u) => u.id === s.active)!;
 export const living = (s: Battle) => s.units.filter((u) => u.hp > 0);
-export function unitStats(u: Unit) {
-  const j = jobs[u.job],
-    b = gearBonuses(u.equipment),
+export function unitStats(u: Unit, rules?: RuleCatalog) {
+  const j = (rules?.jobs ?? jobs)[u.job],
+    b = gearBonuses(u.equipment, rules?.gear),
     p = supportBonuses(u);
   return {
     move: Math.max(1, j.move + b.move + p.move),
@@ -102,7 +104,7 @@ export function unitStats(u: Unit) {
     attack: Math.max(0, j.attack + b.attack + p.attack),
     armor: Math.max(0, j.armor + b.armor + p.armor),
     magic: Math.max(0, j.magic + b.magic + p.magic),
-    hp: u.baseHp + b.hp + p.hp,
+    hp: Math.max(1, u.baseHp + b.hp + p.hp),
   };
 }
 export function createBattle(
@@ -311,7 +313,7 @@ export function reachable(s: Battle, u: Unit): Map<string, number> {
         continue;
       const c = costs.get(key(p.x, p.z))! + 1 + (t.h > from.h ? 1 : 0);
       if (
-        c <= unitStats(u).move &&
+        c <= unitStats(u, s.rules).move &&
         (costs.get(key(t.x, t.z)) ?? Infinity) > c
       ) {
         costs.set(key(t.x, t.z), c);
@@ -340,12 +342,13 @@ export function lineOfSight(
   }
   return true;
 }
-export function availableSkills(u: Unit): SkillId[] {
+export function availableSkills(u: Unit, rules?: RuleCatalog): SkillId[] {
+  const catalog = rules?.jobs ?? jobs;
   return [
     ...new Set<SkillId>([
       "strike",
-      ...jobs[u.job].skills,
-      ...jobs[u.secondary].skills.filter((id) => u.learned.includes(id)),
+      ...catalog[u.job].skills,
+      ...catalog[u.secondary].skills.filter((id) => u.learned.includes(id)),
       "rally",
     ]),
   ];
@@ -409,8 +412,8 @@ export function preview(
   const physical = sk.element === "physical";
   let amount =
     sk.power +
-    (physical ? unitStats(a).attack : unitStats(a).magic) -
-    unitStats(b).armor -
+    (physical ? unitStats(a, s.rules).attack : unitStats(a, s.rules).magic) -
+    unitStats(b, s.rules).armor -
     formation +
     Math.max(-6, Math.min(8, height * 4)) +
     (flank ? 6 : 0) +
@@ -499,8 +502,11 @@ export function command(state: Battle, c: Command): Battle {
     u.moved = true;
     note(s, `${u.name} repositions.`);
   } else if (c.type === "skill") {
-    const sk = skills[c.skill];
-    if (!availableSkills(u).includes(c.skill) || !canTarget(s, u, sk, c.x, c.z))
+    const sk = (s.rules?.skills ?? skills)[c.skill];
+    if (
+      !availableSkills(u, s.rules).includes(c.skill) ||
+      !canTarget(s, u, sk, c.x, c.z)
+    )
       return state;
     u.mp -= sk.cost;
     s.lastAction = {
@@ -622,7 +628,8 @@ export function command(state: Battle, c: Command): Battle {
       const st = k as keyof Unit["status"];
       u.status[st] = Math.max(0, u.status[st] - 1);
     });
-    u.next += Math.round(1000 / unitStats(u).speed) + (u.status.slow ? 30 : 0);
+    u.next +=
+      Math.round(1000 / unitStats(u, s.rules).speed) + (u.status.slow ? 30 : 0);
     result(s);
     if (s.result === "playing") {
       const next = living(s).sort(
@@ -674,8 +681,8 @@ export function aiTurn(state: Battle): Battle {
   u = activeUnit(s);
   let action:
     { skill: SkillId; x: number; z: number; score: number } | undefined;
-  for (const id of availableSkills(u).filter((id) => id !== "rally")) {
-    const sk = skills[id];
+  for (const id of availableSkills(u, s.rules).filter((id) => id !== "rally")) {
+    const sk = (s.rules?.skills ?? skills)[id];
     for (const t of s.tiles) {
       if (!canTarget(s, u, sk, t.x, t.z)) continue;
       let score = 0;
@@ -690,9 +697,9 @@ export function aiTurn(state: Battle): Battle {
             living(s).some(
               (a) =>
                 a.team === u.team &&
-                a.mp >= skills.surge.cost &&
-                availableSkills(a).includes("surge") &&
-                distance(a, v) <= skills.surge.range,
+                a.mp >= (s.rules?.skills ?? skills).surge.cost &&
+                availableSkills(a, s.rules).includes("surge") &&
+                distance(a, v) <= (s.rules?.skills ?? skills).surge.range,
             )
           )
             score += 6;
@@ -730,17 +737,17 @@ export function changeJob(
     !u ||
     u.team !== "ally" ||
     state.turn !== 1 ||
-    !unlocked(job, u.jp) ||
-    (secondary !== u.secondary && !unlocked(secondary, u.jp))
+    !unlocked(job, u.jp, s.rules?.jobs) ||
+    (secondary !== u.secondary && !unlocked(secondary, u.jp, s.rules?.jobs))
   )
     return state;
   u.job = job;
   u.secondary = secondary;
   for (const slot of ["weapon", "armor", "relic"] as const) {
     const item = u.equipment[slot];
-    if (item && !canEquip(job, item)) u.equipment[slot] = null;
+    if (item && !canEquip(job, item, s.rules?.gear)) u.equipment[slot] = null;
   }
-  u.maxHp = unitStats(u).hp;
+  u.maxHp = unitStats(u, s.rules).hp;
   u.hp = Math.min(u.hp, u.maxHp);
   return s;
 }
@@ -754,6 +761,7 @@ export function validateSave(raw: unknown): raw is Battle {
 function validBattle(raw: unknown): raw is Battle {
   if (!raw || typeof raw !== "object") return false;
   const s = raw as Battle;
+  if (s.rules !== undefined) validateRules(s.rules);
   if (
     s.victoryJP !== undefined &&
     (!Number.isInteger(s.victoryJP) || s.victoryJP < 0 || s.victoryJP > 999)
@@ -850,8 +858,8 @@ function validBattle(raw: unknown): raw is Battle {
           return (
             id === null ||
             (Object.hasOwn(equipment, id) &&
-              equipment[id].slot === slot &&
-              canEquip(u.job, id))
+              (s.rules?.gear ?? equipment)[id].slot === slot &&
+              canEquip(u.job, id, s.rules?.gear))
           );
         }) &&
         ["ally", "enemy"].includes(u.team) &&

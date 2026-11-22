@@ -4,6 +4,10 @@
 
 ### Added
 
+- Added scoped overrides for all 13 current abilities, 8 jobs and 10 gear definitions, plus existing actor weapon/armor/relic loadouts.
+- Combat, AI, movement, initiative, animation/effect footprint, shop/equip/deployment and learning/unlock/mastery resolve the same catalog context; legacy callers keep shipped defaults and module globals remain immutable.
+- Added typed catalog forms, isolated real-shop trials, source validation/removal and ten parity tests (134 total). Updated coverage and added Accepted ADR-0015. New IDs, support/formula/AI-program editors and complete-game packaging remain planned.
+
 - Added real encounter loading for all four existing maps, preserving authored art/audio and copying the actual roster, map cells and encounter identity.
 - Added shared-source terrain materials with painted top textures, current character/enemy editing, linear dialogue seeded from existing briefings, contract prerequisites/rewards/items and victory JP, plus a real isolated progression settlement.
 - Added original-game audio editing with shared source defaults/player; separate pattern and layered-SFX pilots remain available. Added ten integration tests (124 total), an implementation coverage audit and Accepted ADR-0014.

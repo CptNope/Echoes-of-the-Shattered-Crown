@@ -1,3 +1,5 @@
+import type { RuleCatalog } from "./studio-rules";
+import { canEquip, type Loadout } from "./equipment";
 import { createBattle, type Unit } from "./engine";
 import {
   encounters,
@@ -16,7 +18,7 @@ export interface DialogueLine {
 export type ActorSource = Pick<
   Unit,
   "id" | "name" | "job" | "secondary" | "baseHp" | "maxMp" | "learned" | "jp"
->;
+> & { equipment?: Loadout };
 export interface GameContent {
   version: 1;
   contracts: Record<EncounterId, Encounter>;
@@ -75,7 +77,10 @@ const text = (v: unknown, max: number) =>
   typeof v === "string" && v.trim().length > 0 && v.length <= max;
 const int = (v: unknown, min: number, max: number) =>
   Number.isInteger(v) && Number(v) >= min && Number(v) <= max;
-export function validateGameContent(raw: unknown): GameContent {
+export function validateGameContent(
+  raw: unknown,
+  rules?: RuleCatalog,
+): GameContent {
   check(obj(raw), "Expected game content.");
   fields(raw, ["version", "contracts", "actors", "dialogue", "victoryJP"]);
   check(
@@ -122,7 +127,7 @@ export function validateGameContent(raw: unknown): GameContent {
       "Unknown first-clear item.",
     );
     const visited = new Set<string>([id]);
-    let at:unknown = c.requires;
+    let at: unknown = c.requires;
     while (at !== null) {
       check(
         typeof at === "string" && !visited.has(at),
@@ -151,6 +156,7 @@ export function validateGameContent(raw: unknown): GameContent {
       "maxMp",
       "learned",
       "jp",
+      "equipment",
     ]);
     check(
       typeof a.id === "string" &&
@@ -165,6 +171,24 @@ export function validateGameContent(raw: unknown): GameContent {
         int(a.maxMp, 0, 999),
       "Invalid actor fields.",
     );
+    if (a.equipment !== undefined) {
+      check(
+        obj(a.equipment) && Object.keys(a.equipment).length === 3,
+        "Keep weapon, armor and relic loadout slots.",
+      );
+      for (const slot of ["weapon", "armor", "relic"]) {
+        const item = a.equipment[slot],
+          catalog = rules?.gear ?? equipment;
+        check(
+          item === null ||
+            (typeof item === "string" &&
+              Object.hasOwn(catalog, item) &&
+              catalog[item as keyof typeof catalog].slot === slot &&
+              canEquip(a.job as JobId, item as keyof typeof catalog, catalog)),
+          "Actor gear must match its slot and job proficiency.",
+        );
+      }
+    }
     used.add(a.id);
     check(
       Array.isArray(a.learned) &&

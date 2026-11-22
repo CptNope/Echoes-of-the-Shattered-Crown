@@ -12,13 +12,14 @@ The working studio loads current game sources and applies validated project over
 | Terrain materials | Terrain textures loads the shared renderer palette for grass, stone, water and ice | Procedural color variants and optional painted 16 × 16 top images feed the 3D tile materials, including terrain changes | Prop models, walls, lighting, scenery, import of external textures and variable texture sizes remain future work |
 | Existing character art | Pixels native mode loads all eight actual 887 × 1774 sheets and 32 frames | Edited registered actor texture and state timing in the scene | One native actor override; flattened runtime source, no original master layers |
 | Indexed pixel sketches | Separate small layered sprite workspace | Actor override in playtest | Starter source is a review asset, not a converted native sheet |
-| Characters / enemy NPCs | Game content loads the eight current encounter actors | Name, primary/secondary job, health, energy, starting JP and learned secondary skills compile into battle units | No new identity/team, neutral NPC interaction, social schedules or spawn-wave editor |
+| Characters / enemy NPCs | Game content loads the eight current encounter actors | Name, primary/secondary job, health, energy, starting JP, learned secondary skills and optional equipment compile into battle units | No new identity/team, neutral NPC interaction, social schedules or spawn-wave editor |
 | Dialogue | Ordered lines seeded from each existing contract description and Sera's shipped opening quote | Project dialogue appears before combat; combat/AI waits for Begin battle or Skip | Linear encounter briefing; branching choices, flags, quest states, shops and localization remain planned |
-| Contract progression | All four current names, descriptions, objective labels, rewards, prerequisites and first-clear items | Actual contractOpen and returnToCamp functions evaluate source gates/rewards; combat uses authored victory JP | Objective text does not change defeat-all victory; no job-curve, learning-cost, equipment-catalog or complete campaign editor |
+| Contract progression | All four current names, descriptions, objective labels, rewards, prerequisites and first-clear items | Actual contractOpen and returnToCamp functions evaluate source gates/rewards; combat uses authored victory JP | Objective text does not change defeat-all victory; no job-curve, learning-cost or complete campaign editor |
 | Original game music / feedback | Game audio loads the exact original sixteen frequencies, 650 ms spacing, lead/bass and 440/280 Hz command tones | Main AudioScore and project preview use the same source and player | Project JSON source; score recording/multitrack/WAV export remain planned |
 | New music patterns | Existing sixteen-step sketch editor | Source-rendered one-bar WAV and project preview loop | Separate composition; enabled original-game score takes precedence |
 | Layered outcome SFX | Existing hit/miss/heal/buff authoring bank | Authored PCM/WAV and resolved-event preview bindings | Additional project source; the original game has two command feedback tones rather than a shipped four-outcome bank |
-| Skills, jobs, equipment, supports, AI formulas | Source catalogs currently live in code | Existing runtime rules remain active | No general purpose authoring controls yet |
+| Gear, abilities and jobs | [Catalog editor](RULE_CATALOG_STUDIO.md) copies all current definitions and actor loadouts | Actual stats, commands, AI, movement, prices, equip, deployment, learning, unlock and mastery use scoped source | Fixed existing IDs and implemented mechanics; new IDs/formulas remain planned |
+| Support definitions and AI programs | Source implementations remain in code | Current support behavior and AI scoring remain active, consuming authored job/ability data | No support/AI-program authoring controls yet |
 | Full game distribution | Project JSON and native/terrain PNG/audio derivatives | Reopen and edit compatible sources in the current studio | No complete playable-plus-editable bundle or automatic production-asset replacement |
 
 ## Load the actual level
@@ -48,6 +49,7 @@ Progression edits preserve four stable encounter IDs. Unknown prerequisites and 
 | encounter | Optional current level identity; omitted legacy projects mean shrine |
 | content | Four contract records, dialogue per contract, current eight-actor source and victory JP |
 | materials | Shared procedural colors and optional 16 × 16 painted top images |
+| rules | Optional existing job, skill and gear catalog; used by compiled battles and gear validation |
 | gameAudio | Original score/command-tone parameters, including all sixteen precise frequencies |
 | sounds / music | Additional outcome bank and one-bar pattern source |
 | pixels / nativeSprite | Indexed/native source overrides; native wins when both target one actor |
@@ -72,4 +74,7 @@ The adapters copy existing source; they do not mutate imported module globals. P
 
 ## Verification
 
-Ten integration/model tests cover exact four-map imports, reversible encounter loading, actor-to-runtime compilation, invalid references/cycles, actual JP/gold/relic/gate behavior, exact terrain colors/RGBA, rejection, cross-editor JSON round trips, original audio frequencies and real AudioScore timing/cancellation with mocked Web Audio. The suite has 124 tests. UI acceptance additionally checks actual loading, editing, source reopening, terrain appearance, briefing gating and audio controls in the published studio.
+Ten integration/model tests cover exact four-map imports, reversible encounter loading, actor-to-runtime compilation, invalid references/cycles, actual JP/gold/relic/gate behavior, exact terrain colors/RGBA, rejection, cross-editor JSON round trips, original audio frequencies and real AudioScore timing/cancellation with mocked Web Audio. The suite has 134 tests. UI acceptance additionally checks actual loading, editing, source reopening, terrain appearance, briefing gating and audio controls in the published studio.
+
+
+The [catalog extension](RULE_CATALOG_STUDIO.md) adds ten runtime parity tests and optional actor loadouts. The complete suite now has 134 tests.

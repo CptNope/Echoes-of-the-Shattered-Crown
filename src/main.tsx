@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
 import {
-  jobs,
-  skills,
+  jobs as baselineJobs,
+  skills as baselineSkills,
   jobLevel,
   unlocked,
   type JobId,
@@ -139,6 +139,8 @@ function App() {
     };
   }, [game, recoveryReady, storageDisabled]);
   const battle = game.battle;
+  const jobs = battle.rules?.jobs ?? baselineJobs,
+    skills = battle.rules?.skills ?? baselineSkills;
   const mission = encounters[battle.encounter];
   const boss =
     battle.encounter === "bellkeeper"
@@ -694,11 +696,14 @@ function App() {
             >
               <span className="command-symbol">↗</span>
               <span>
-                Move<small>{unitStats(actor).move} movement · climb 1</small>
+                Move
+                <small>
+                  {unitStats(actor, battle.rules).move} movement · climb 1
+                </small>
               </span>
               <kbd>M</kbd>
             </button>
-            {availableSkills(actor)
+            {availableSkills(actor, battle.rules)
               .filter((id) => id !== "rally")
               .map((id, i) => (
                 <button
@@ -805,7 +810,7 @@ function App() {
             >
               Move
             </button>
-            {availableSkills(actor).map((id) => (
+            {availableSkills(actor, battle.rules).map((id) => (
               <button
                 key={id}
                 className={mode === id ? "active" : ""}
@@ -1137,7 +1142,7 @@ function App() {
                 </div>
                 <div className="job-grid">
                   {Object.values(jobs).map((j) => {
-                    const open = unlocked(j.id, m.jp);
+                    const open = unlocked(j.id, m.jp, battle.rules?.jobs);
                     return (
                       <article
                         key={j.id}

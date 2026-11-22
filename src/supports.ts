@@ -100,10 +100,10 @@ export const emptySupports = (): SupportSlots => ({
   reaction: null,
   movement: null,
 });
-export const mastered = (m: SupportProfile, job: JobId) =>
-  unlocked(job, m.jp) &&
+export const mastered = (m: SupportProfile, job: JobId, catalog = jobs) =>
+  unlocked(job, m.jp, catalog) &&
   (m.jp[job] ?? 0) >= masteryJP &&
-  jobs[job].skills.every((id) => m.learned.includes(id));
+  catalog[job].skills.every((id) => m.learned.includes(id));
 export function hasSupport(m: SupportProfile, id: SupportId) {
   return (
     m.supportSlots?.[supports[id].slot] === id &&
