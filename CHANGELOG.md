@@ -1,6 +1,6 @@
 # Changelog
 
-## Selective enemy template updates � 2026-11-22
+## Selective enemy template updates - 2026-11-22
 
 - Added an applied-template comparison table showing placed/template values and Copy/Keep decisions for selected enemies.
 - Added explicit multi-enemy updates of chosen fields, with names and identity/position preserved by default, full-candidate validation and one-step undo.
