@@ -47,12 +47,22 @@ export async function verifyAnimationArt(live = false, dist = false) {
       "runewarden",
       "stormherald",
       "chronoweaver",
+      "custom-glass-ranger",
+      "custom-ash-cantor",
     ].sort(),
   );
   const sharp = live ? null : (await import("sharp")).default;
   let total = 0;
   for (const [job, s] of Object.entries(m.sheets)) {
     assert.equal(s.file, "art/animations/" + job + ".webp");
+    if (job.startsWith("custom-")) {
+      const master = await get(`art/characters/${job}.png`);
+      assert.equal(master.subarray(1, 4).toString(), "PNG");
+      assert.equal(
+        createHash("sha256").update(master).digest("hex"),
+        s.sourceSha256,
+      );
+    }
     const b = await get(s.file);
     assert.equal(b.length, s.bytes);
     total += b.length;
@@ -104,7 +114,7 @@ export async function verifyAnimationArt(live = false, dist = false) {
     }
   }
   console.log(
-    "Verified 8 sheets / 256 unique cells / " +
+    `Verified ${Object.keys(m.sheets).length} sheets / ${Object.keys(m.sheets).length * 32} unique cells / ` +
       total +
       " bytes" +
       (live ? " on Pages" : " with decoded alpha and frame hashes"),

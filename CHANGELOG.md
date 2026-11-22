@@ -1,5 +1,13 @@
 # Changelog
 
+## Glass and ash character pack - 2026-11-22
+
+- Added Glass Ranger and Ash Cantor project classes, six abilities and two weapons, with Tamsin Valehart and Orris Fen playable profiles and named rivals Vessa Flintglass and Brother Caldrin.
+- Added two original transparent PNG masters and compiled 32-frame WebP sheets. Expanded native editing, renderer art selection and animation review to ten artwork sources / 320 frames.
+- Added The Lantern Parley to the eight-mission source library, retaining the current four party slots and standalone progression limits.
+- Added ten regressions; all 232 tests pass. Documented automated defeats and the removal of a showcase wall-corner stalemate.
+
+
 ## Emberwarden mission pack - 2026-11-22
 
 - Added Ashen Weir (20 by 16) and Cinder Archive (24 by 18), each with six defenders, six reusable templates, five briefing lines and a unique first-clear relic.

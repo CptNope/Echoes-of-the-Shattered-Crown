@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { jobs, type JobId } from "./data";
+import { type JobId } from "./data";
+import { CHARACTER_ART } from "./character-art";
 import { animationStates, type AnimationState } from "./animation";
 import { PIXEL_ACTORS } from "./studio-pixels";
 import {
@@ -228,7 +229,7 @@ export function NativeSpriteEditor({
         <summary>
           Game sheet library
           {draft
-            ? " · " + jobs[draft.job].name + " / " + draft.actorId
+            ? " · " + CHARACTER_ART[draft.job] + " / " + draft.actorId
             : " · choose original artwork"}
         </summary>
         <div className="native-load">
@@ -239,9 +240,9 @@ export function NativeSpriteEditor({
               value={job}
               onChange={(e) => setJob(e.target.value as JobId)}
             >
-              {Object.keys(jobs).map((j) => (
+              {Object.keys(CHARACTER_ART).map((j) => (
                 <option key={j} value={j}>
-                  {jobs[j as JobId].name}
+                  {CHARACTER_ART[j]}
                 </option>
               ))}
             </select>
@@ -301,7 +302,8 @@ export function NativeSpriteEditor({
         <p className="pixel-help">
           Load a shipped character sheet, then edit its actual pixels. All eight
           states and the original transparency are retained. Loading creates a
-          draft; Apply updates this actor’s assignment and keeps the other sheets.
+          draft; Apply updates this actor’s assignment and keeps the other
+          sheets.
         </p>
       </details>
       {draft && (
@@ -311,8 +313,8 @@ export function NativeSpriteEditor({
               {changed
                 ? "Unapplied native sprite draft"
                 : "Applied native sprite"}{" "}
-              · {jobs[draft.job].name} · {draft.width} × {draft.height} sheet ·
-              32 frames
+              · {CHARACTER_ART[draft.job]} · {draft.width} × {draft.height}{" "}
+              sheet · 32 frames
             </p>
             <div className="actions">
               <button

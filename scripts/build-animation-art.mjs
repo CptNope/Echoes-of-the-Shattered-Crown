@@ -11,30 +11,44 @@ const jobs = [
   "runewarden",
   "stormherald",
   "chronoweaver",
+  "custom-glass-ranger",
+  "custom-ash-cantor",
 ];
 const root = resolve("public/art/animations"),
-  source = resolve(process.argv[2] ?? "../echoes-animation-masters");
+  source = resolve(
+    process.argv.slice(2).find((a) => !a.startsWith("--")) ??
+      "../echoes-animation-masters",
+  );
 await mkdir(root, { recursive: true });
 const hash = (b) => createHash("sha256").update(b).digest("hex");
-const manifest = {
-  version: 1,
-  columns: 4,
-  rows: 8,
-  framesPerState: 4,
-  states: [
-    "idle",
-    "walk",
-    "attack",
-    "cast",
-    "hurt",
-    "guard",
-    "victory",
-    "downed",
-  ],
-  sheets: {},
-};
-for (const job of jobs) {
-  const png = await readFile(resolve(source, job + ".png"));
+const manifest = process.argv.includes("--characters-only")
+  ? JSON.parse(await readFile(resolve(root, "manifest.json"), "utf8"))
+  : {
+      version: 1,
+      columns: 4,
+      rows: 8,
+      framesPerState: 4,
+      states: [
+        "idle",
+        "walk",
+        "attack",
+        "cast",
+        "hurt",
+        "guard",
+        "victory",
+        "downed",
+      ],
+      sheets: {},
+    };
+for (const job of jobs.filter(
+  (j) => !process.argv.includes("--characters-only") || j.startsWith("custom-"),
+)) {
+  const png = await readFile(
+    resolve(
+      job.startsWith("custom-") ? "public/art/characters" : source,
+      job + ".png",
+    ),
+  );
   await sharp(png)
     .webp({ quality: 90, alphaQuality: 100, effort: 6 })
     .toFile(resolve(root, job + ".webp"));

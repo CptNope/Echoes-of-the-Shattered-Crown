@@ -13,6 +13,7 @@ const missionIds = [
   "greybank",
   "ashen-weir",
   "cinder-archive",
+  "lantern-parley",
 ];
 const artPath = "art/company-atlas.png";
 function verifyAtlas(bytes) {

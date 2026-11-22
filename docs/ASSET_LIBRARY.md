@@ -6,7 +6,7 @@ Open **Assets & ability feedback** in the studio. Native sheets are assigned ind
 
 ## Character sheet library
 
-Use **Add character sheet** to open Pixels / native mode on a new assignment. Choose the actor and one of the eight shipped game sheets, load it, edit pixels or timings, then Apply. Applying preserves other assignments and replaces only a matching target actor. To copy an existing edit to another actor, select that actor in Preview actor and apply; the old assignment remains.
+Use **Add character sheet** to open Pixels / native mode on a new assignment. Choose the actor and one of the ten registered game sheets, load it, edit pixels or timings, then Apply. Applying preserves other assignments and replaces only a matching target actor. To copy an existing edit to another actor, select that actor in Preview actor and apply; the old assignment remains.
 
 **Stored native sprite** chooses an existing assignment for editing. The asset library lists each actor, source class, dimensions, enabled state and 32-frame count. Edit, disable/enable or remove an assignment through its buttons. Removal is an undoable project edit and falls back to normal class artwork or an applicable indexed override. Unplaced assignments remain stored when switching missions; the renderer only binds placed actors.
 
@@ -58,3 +58,5 @@ flowchart LR
 Existing version-one projects remain readable. Older builds reject the new optional fields. Duplicate actor assignments, unknown actor syntax, conflicting image digests, unknown ability IDs and invalid VFX/cue names reject atomically. Removing an ability requires clearing its feedback binding first. Balanced mission presets retain assignments and matching feedback IDs, pruning bindings whose custom abilities disappear from the replaced catalog. Native sources may remain unplaced intentionally.
 
 Ten tests in [studio-assets.test.ts](../src/studio-assets.test.ts) cover independent edits, native library bounds, shared-image storage, missing/quota recovery, large portable exports, history, custom identities, cue rejection, cosmetic/gameplay isolation and mission switching. The full suite has 222 tests.
+
+The [character pack](CHARACTER_CLASS_PACK.md) adds dedicated Glass Ranger and Ash Cantor sources. Artwork IDs are validated independently from project class catalogs; unsupported custom class artwork still falls back to its gameplay base.

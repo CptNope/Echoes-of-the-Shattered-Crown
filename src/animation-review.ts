@@ -1,4 +1,5 @@
-import { jobs, skills, type JobId, type SkillId } from "./data";
+import { CHARACTER_ART } from "./character-art";
+import { skills, type JobId, type SkillId } from "./data";
 import { effectRecipes } from "./combat-effects";
 import { loadEffectAtlas } from "./effect-art";
 import { animationStates, animationFrame } from "./animation";
@@ -7,14 +8,14 @@ import { Battlefield } from "./scene";
 import { createBattle, command, type Battle } from "./engine";
 const el = <T extends HTMLElement>(id: string) =>
   document.getElementById(id) as T;
-const ids = Object.keys(jobs) as JobId[],
+const ids = Object.keys(CHARACTER_ART) as JobId[],
   select = el<HTMLSelectElement>("job"),
   reduced = el<HTMLInputElement>("reduced");
 reduced.checked = matchMedia("(prefers-reduced-motion: reduce)").matches;
 for (const id of ids) {
   const option = document.createElement("option");
   option.value = id;
-  option.textContent = jobs[id].name;
+  option.textContent = CHARACTER_ART[id];
   select.append(option);
 }
 const sheets = new Map<JobId, LoadedAnimationSheet>(),
@@ -98,7 +99,7 @@ function draw(now: number) {
     );
   });
   ctx.fillStyle = "#e3e8d9";
-  ctx.fillRect(0, 0, 1024, 768);
+  ctx.fillRect(0, 0, 1024, show.height);
   const state = animationStates[Math.floor(elapsed / 1500) % 8];
   if (recording) recordedStates.add(state);
   ctx.fillStyle = "#263b32";
@@ -119,13 +120,13 @@ function draw(now: number) {
       );
     ctx.font = "18px Georgia";
     ctx.fillStyle = "#263b32";
-    ctx.fillText(jobs[id].name, x + 18, y + 285);
+    ctx.fillText(CHARACTER_ART[id], x + 18, y + 285);
   });
   ctx.font = "16px system-ui";
   ctx.fillText(
-    "8 jobs · 8 states · 4 frames per state / original generated artwork",
+    "10 sheets · 8 states · 4 frames per state / original generated artwork",
     28,
-    742,
+    show.height - 18,
   );
 }
 function loop(now: number) {

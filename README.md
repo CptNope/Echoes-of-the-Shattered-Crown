@@ -328,3 +328,5 @@ The [advanced authoring contracts](docs/studio/specs/advanced-blueprints.json) a
 [Connectivity overlays](docs/CONNECTIVITY_OVERLAYS.md) group disconnected enemies by region, show affected/reference ground and barrier edges, and list actors with source-safe inspection controls.
 
 [Emberwarden mission pack](docs/EMBER_MISSIONS.md): play the 20 by 16 Ashen Weir and 24 by 18 Cinder Archive with an editable class variant, four abilities, six gear pieces and six enemy templates. Select either in the studio mission library.
+
+[Glass and ash character pack](docs/CHARACTER_CLASS_PACK.md): Tamsin the Glass Ranger, Orris the Ash Cantor, two named rivals, six abilities, dedicated editable 32-frame sheets and The Lantern Parley showcase mission.

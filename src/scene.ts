@@ -1,4 +1,5 @@
 import type { AbilityCues } from "./studio-assets";
+import { animationArtId } from "./character-art";
 import { baseJobId } from "./data";
 import { mapDimensions, mapFrame } from "./map-layout";
 import {
@@ -548,7 +549,7 @@ export class Battlefield {
     void (
       native
         ? loadNativeSheet(native).catch(() => null)
-        : loadAnimationSheet(baseJobId(u.job, this.state.rules?.jobs))
+        : loadAnimationSheet(animationArtId(u.job, this.state.rules?.jobs))
     ).then((sheet) => {
       if (!sheet || this.disposed) {
         if (native && !this.disposed)
@@ -567,7 +568,9 @@ export class Battlefield {
         return;
       let source = native
         ? undefined
-        : this.animationSources.get(baseJobId(u.job, this.state.rules?.jobs));
+        : this.animationSources.get(
+            animationArtId(u.job, this.state.rules?.jobs),
+          );
       if (!source) {
         source = new THREE.Texture(sheet.image);
         source.colorSpace = THREE.SRGBColorSpace;

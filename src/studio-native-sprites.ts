@@ -4,7 +4,8 @@ import {
   type AnimationState,
   type AnimationSheet,
 } from "./animation";
-import { jobs, type JobId } from "./data";
+import { type JobId } from "./data";
+import { CHARACTER_ART } from "./character-art";
 import { PIXEL_ACTORS } from "./studio-pixels";
 export interface NativeSprite {
   version: 1;
@@ -53,7 +54,7 @@ export function validateNativeSprite(value: unknown): NativeSprite {
     p.version === 1 &&
       typeof p.job === "string" &&
       typeof p.actorId === "string" &&
-      Object.hasOwn(jobs, p.job) &&
+      Object.hasOwn(CHARACTER_ART, p.job) &&
       (PIXEL_ACTORS.includes(p.actorId as any) ||
         /^enemy-[a-z][a-z0-9-]{0,55}$/.test(p.actorId)) &&
       typeof p.enabled === "boolean",

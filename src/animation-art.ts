@@ -1,6 +1,6 @@
 import type { JobId } from "./data";
 import type { AnimationManifest, AnimationSheet } from "./animation";
-const revision = "0.7.0";
+const revision = "characters-1";
 let manifestPromise: Promise<AnimationManifest | null> | null = null;
 export interface LoadedAnimationSheet {
   image: HTMLImageElement;

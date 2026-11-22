@@ -4,9 +4,11 @@ import { encounters, type EncounterId } from "./encounters";
 import { gameContent, validateGameContent } from "./studio-content";
 import { gameRules } from "./studio-rules";
 import { buildEmberMission, type EmberMissionId } from "./ember-missions";
+import { buildEnvoyMission } from "./envoy-mission";
 import { buildGreybank } from "./greybank";
 import type { LevelProject } from "./studio-project";
-export type MissionPresetId = EncounterId | "greybank" | EmberMissionId;
+export type MissionPresetId =
+  EncounterId | "greybank" | EmberMissionId | "lantern-parley";
 export const MISSION_PRESETS: {
   id: MissionPresetId;
   name: string;
@@ -53,6 +55,12 @@ export const MISSION_PRESETS: {
     name: "The Cinder Archive",
     summary:
       "24 by 18 / three terraces, a supporting healer and six archive wardens.",
+  },
+  {
+    id: "lantern-parley",
+    name: "The Lantern Parley",
+    summary:
+      "20 by 16 / Tamsin the Glass Ranger, Orris the Ash Cantor and two named rival envoys.",
   },
 ];
 const hints: Record<EncounterId, { speaker: string; text: string }[]> = {
@@ -104,11 +112,18 @@ export function loadMissionPreset(
 ): LevelProject {
   if (!MISSION_PRESETS.some((p) => p.id === id))
     throw Error("Unknown mission preset.");
-  if (id === "greybank" || id === "ashen-weir" || id === "cinder-archive") {
+  if (
+    id === "greybank" ||
+    id === "ashen-weir" ||
+    id === "cinder-archive" ||
+    id === "lantern-parley"
+  ) {
     const next =
       id === "greybank"
         ? buildGreybank(project)
-        : buildEmberMission(project, id);
+        : id === "lantern-parley"
+          ? buildEnvoyMission(project)
+          : buildEmberMission(project, id);
     if (next.abilityCues)
       next.abilityCues = Object.fromEntries(
         Object.entries(next.abilityCues).filter(([id]) =>
