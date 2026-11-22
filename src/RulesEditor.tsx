@@ -1,4 +1,5 @@
-import React, { useEffect, useMemo, useState } from "react";
+import type { ValidationFocusRequest } from "./studio-validation";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { gameRules, validateRules, type RuleCatalog } from "./studio-rules";
 import type { Skill, SkillId, Job, JobId } from "./data";
 import { canEquip, type Gear, GearId } from "./equipment";
@@ -7,11 +8,14 @@ export function RulesEditor({
   source,
   apply,
   onDirty,
+  focusRequest,
 }: {
   source: RuleCatalog | undefined;
+  focusRequest?: ValidationFocusRequest;
   apply: (s: RuleCatalog | null) => boolean;
   onDirty: (d: boolean) => void;
 }) {
+  const sectionRef = useRef<HTMLElement>(null);
   const baseline = useMemo(() => source ?? gameRules(), [source]),
     [draft, setDraft] = useState(baseline),
     [tab, setTab] = useState("skills"),
@@ -23,6 +27,21 @@ export function RulesEditor({
   useEffect(() => {
     setDraft(baseline);
   }, [baseline]);
+  useEffect(() => {
+    const target = focusRequest?.target;
+    if (target?.area !== "rules") return;
+    setTab(target.section);
+    if (target.section === "skills" && Object.hasOwn(draft.skills, target.id))
+      setSkillId(target.id as SkillId);
+    if (target.section === "jobs" && Object.hasOwn(draft.jobs, target.id))
+      setJobId(target.id as JobId);
+    if (target.section === "gear" && Object.hasOwn(draft.gear, target.id))
+      setGearId(target.id as GearId);
+  }, [focusRequest]);
+  useEffect(() => {
+    if (focusRequest?.target.area === "rules")
+      sectionRef.current?.querySelector<HTMLSelectElement>("select")?.focus();
+  }, [focusRequest, tab, skillId, jobId, gearId]);
   const changed = JSON.stringify(draft) !== JSON.stringify(baseline);
   useEffect(() => onDirty(changed), [changed, onDirty]);
   const error = useMemo(() => {
@@ -56,6 +75,7 @@ export function RulesEditor({
   }
   return (
     <section
+      ref={sectionRef}
       className="catalog-editor"
       aria-label="Gear abilities and job catalog editor"
     >

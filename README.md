@@ -256,7 +256,7 @@ Use the [open decision register](docs/roadmap/DECISION_REGISTER.md) for roadmap 
 
 Version 0.8 extends the company-management milestone: four linked contracts, permanent secondary-skill learning, equipment and carried progression. Phase 2 now includes mastery and three support slots for the existing eight jobs; each advanced job now has an additional distinct active ability; the remaining job roster and further skill-board depth are still planned. Phase 3's world map, branching story, recruitment and town systems remain planned.
 
-The suite has **144 tests**, including full deterministic simulations of all four maps, economic and equipment invariants, rewards and v1 migration. Browser checks cover file export/import, closed-tab recovery, all eight job sprites, boss awakening, first-clear relic settlement, buying/equipping, manual save/load, migrated resource preservation, learning across a job change, result settlement and second-contract deployment. Result/learning checks use isolated local fixtures, not a claim of a full manual campaign playthrough. Physical mobile devices, Safari, gamepad hardware and 60 FPS remain uncertified. See [testing](docs/TESTING.md).
+The suite has **156 tests**, including full deterministic simulations of all four maps, economic and equipment invariants, rewards and v1 migration. Browser checks cover file export/import, closed-tab recovery, all eight job sprites, boss awakening, first-clear relic settlement, buying/equipping, manual save/load, migrated resource preservation, learning across a job change, result settlement and second-contract deployment. Result/learning checks use isolated local fixtures, not a claim of a full manual campaign playthrough. Physical mobile devices, Safari, gamepad hardware and 60 FPS remain uncertified. See [testing](docs/TESTING.md).
 
 ## Expansion plan
 
@@ -316,3 +316,5 @@ Artwork and musical material were authored for this project. Packages and fonts 
 The [advanced authoring contracts](docs/studio/specs/advanced-blueprints.json) add rules/AI formulas, campaign/economy/UI editing, VFX/material/environment tools, project migration/merge behavior and five toolkit release gates. Four more checked examples link these contracts to the existing requirements, work items and acceptance cases. They remain proposals; the game runtime stays v0.8.
 
 [Large-map studio](docs/LARGE_MAP_STUDIO.md): resize existing levels up to 32×32, paint 3×3/5×5 regions, navigate coordinates and fit/focus the playtest camera.
+
+[Project validation](docs/PROJECT_VALIDATION.md) checks source/runtime/export errors and warns about ground connectivity, spawn exits, ability energy, inactive learning and unusable rewards. Follow findings to their tile or record; export a diagnostic report.

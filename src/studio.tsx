@@ -1,3 +1,11 @@
+import { ValidationPanel } from "./ValidationPanel";
+import {
+  analyzeProject,
+  analyzeProjectText,
+  type ProjectValidation,
+  type ValidationFocusRequest,
+  type ValidationTarget,
+} from "./studio-validation";
 import { mapDimensions, adjacentCell, brushCells } from "./map-layout";
 import { RulesEditor } from "./RulesEditor";
 import { ContentEditor } from "./ContentEditor";
@@ -61,6 +69,7 @@ function Board({
   chosen,
   allowed,
   actorSources,
+  focusRequest,
 }: {
   tiles: LevelProject["tiles"];
   placements: LevelProject["placements"];
@@ -68,6 +77,7 @@ function Board({
   chosen: Cell;
   allowed?: Set<string>;
   actorSources?: { id: string; name: string; team: "ally" | "enemy" }[];
+  focusRequest?: ValidationFocusRequest;
 }) {
   const actors = actorSources ?? defaultActors;
   const dimensions = {
@@ -84,6 +94,10 @@ function Board({
       ?.focus();
   }
 
+  useEffect(() => {
+    if (focusRequest?.target.area === "map")
+      focusTile(focusRequest.target.x, focusRequest.target.z);
+  }, [focusRequest]);
   return (
     <div className="board-workspace">
       <div className="map-navigation">
@@ -659,6 +673,10 @@ function Studio() {
     future: [],
   });
   const project = history.project;
+  const validation = useMemo(() => analyzeProject(project), [project]);
+  const [focusRequest, setFocusRequest] = useState<ValidationFocusRequest>();
+  const [rejectedReport, setRejectedReport] =
+    useState<ProjectValidation | null>(null);
   const dimensions = mapDimensions(project);
   const [mapWidth, setMapWidth] = useState(String(dimensions.width)),
     [mapHeight, setMapHeight] = useState(String(dimensions.height)),
@@ -730,6 +748,10 @@ function Studio() {
   const [source, setSource] = useState(""),
     [staged, setStaged] = useState<LevelProject | null>(null);
   const importDialog = useRef<HTMLDialogElement>(null);
+  const stagedValidation = useMemo(
+    () => (staged ? analyzeProject(staged) : null),
+    [staged],
+  );
   const dirty = secured !== project.revision || hasDraft;
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -785,12 +807,42 @@ function Studio() {
     }
     if (tool === "actor") edit([{ type: "place", id: actor, x, z }]);
   }
+  function inspectFinding(target: ValidationTarget) {
+    if (hasDraft) return;
+    if (target.area === "map") {
+      setPanel("map");
+      setTool("inspect");
+      setCell({ x: target.x, z: target.z });
+    } else if (target.area === "content" || target.area === "rules")
+      setPanel(target.area);
+    else {
+      const details = document.getElementById(
+        "project-source",
+      ) as HTMLDetailsElement | null;
+      if (details) {
+        details.open = true;
+        details.querySelector("textarea")?.focus();
+      }
+    }
+    setFocusRequest((previous) => ({
+      serial: (previous?.serial ?? 0) + 1,
+      target,
+    }));
+  }
   function stage(text: string) {
     attempt(() => {
       if (hasDraft)
         throw new Error(
           "Apply or discard source drafts before importing another project.",
         );
+      const report = analyzeProjectText(text);
+      if (report.errors) {
+        setRejectedReport(report);
+        throw new Error(
+          "Import rejected. Review the import validation findings; your open project is unchanged.",
+        );
+      }
+      setRejectedReport(null);
       setStaged(parseLevelProject(text));
     });
   }
@@ -1061,9 +1113,15 @@ function Studio() {
               </div>
               <button
                 className="primary"
-                disabled={hasDraft}
+                disabled={hasDraft || !validation.canPlaytest}
                 onClick={() =>
-                  attempt(() => setPreview(structuredClone(project)))
+                  attempt(() => {
+                    if (!validation.canPlaytest)
+                      throw Error(
+                        "Resolve project validation errors before playtesting.",
+                      );
+                    setPreview(structuredClone(project));
+                  })
                 }
               >
                 Playtest revision {project.revision}
@@ -1149,9 +1207,26 @@ function Studio() {
                 {error}
               </p>
             )}
+            <ValidationPanel
+              report={validation}
+              onInspect={inspectFinding}
+              disabled={hasDraft}
+              pending={hasDraft}
+            />
+            {rejectedReport && (
+              <ValidationPanel
+                title="Import validation"
+                report={rejectedReport}
+                onDismiss={() => {
+                  setRejectedReport(null);
+                  setError("");
+                }}
+              />
+            )}
             <div hidden={panel !== "rules"}>
               <RulesEditor
                 source={project.rules}
+                focusRequest={focusRequest}
                 apply={(rules) => edit([{ type: "rules", rules }])}
                 onDirty={setRulesDirty}
               />
@@ -1167,6 +1242,7 @@ function Studio() {
             <div hidden={panel !== "content"}>
               <ContentEditor
                 source={project.content}
+                focusRequest={focusRequest}
                 rules={project.rules}
                 encounter={project.encounter ?? "shrine"}
                 apply={(content) => edit([{ type: "content", content }])}
@@ -1338,6 +1414,7 @@ function Studio() {
                   placements={project.placements}
                   select={choose}
                   chosen={cell}
+                  focusRequest={focusRequest}
                 />
                 <p className="map-caption">
                   North ↑ · Coordinates start at 0 · Tile numbers show elevation
@@ -1454,7 +1531,7 @@ function Studio() {
                 </div>
               </div>
               <p role="status">{message}</p>
-              <details>
+              <details id="project-source">
                 <summary>Inspect or paste project JSON</summary>
                 <label>
                   Level project JSON
@@ -1466,7 +1543,11 @@ function Studio() {
                 </label>
                 <div className="actions">
                   <button
-                    onClick={() => setSource(exportLevelProject(project))}
+                    onClick={() =>
+                      attempt(() =>
+                        setSource(JSON.stringify(project, null, 2) + "\n"),
+                      )
+                    }
                   >
                     Show current source
                   </button>
@@ -1489,6 +1570,12 @@ function Studio() {
             Seed {staged.seed}
           </p>
         )}
+        {stagedValidation && (
+          <ValidationPanel
+            title="Imported project validation"
+            report={stagedValidation}
+          />
+        )}
         <p>
           This replaces the open project and clears undo history. Export unsaved
           work before continuing.
@@ -1503,8 +1590,9 @@ function Studio() {
             Cancel
           </button>
           <button
+            disabled={!staged || !!stagedValidation?.errors}
             onClick={() => {
-              if (!staged) return;
+              if (!staged || stagedValidation?.errors) return;
               setHistory({ project: staged, past: [], future: [] });
               setSaved(null);
               setMessage(

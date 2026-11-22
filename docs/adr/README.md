@@ -31,6 +31,8 @@ The initial accepted baseline records are **retrospective** except ADR-0001's ne
 
 | [ADR-0016](0016-bounded-rectangular-maps.md) | Accepted | New implementation decision | Support bounded rectangular maps through optional dimensions |
 
+| [ADR-0017](0017-authoring-validation-and-navigation.md) | Accepted | New implementation decision | Separate blocking source validation from advisory authoring checks |
+
 ## When to create an ADR
 
 | Create a record for | Usually use another document for |

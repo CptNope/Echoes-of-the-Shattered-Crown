@@ -88,3 +88,5 @@ See [existing-game editing](EXISTING_GAME_EDITORS.md) for real encounter imports
 [Catalog overrides](RULE_CATALOG_STUDIO.md) add editable existing gear, abilities and jobs, with optional actor equipment and actual shared runtime consumption. Source rules can be removed to return to defaults when actor loadouts remain compatible.
 
 [Large-map editing](LARGE_MAP_STUDIO.md) documents resizing, clipped brushes, map navigation, camera fitting and compatible source/save validation.
+
+[Project validation](PROJECT_VALIDATION.md) recomputes for applied revisions. Errors block playtesting; ground connectivity and content warnings are advisory. Rejected imports have separate findings and never replace the current project.

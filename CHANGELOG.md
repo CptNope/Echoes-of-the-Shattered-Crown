@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-11-22 — Project validation and finding navigation
+
+- Add applied-revision validation with blocking schema/runtime/export failures and advisory ground connectivity, trapped/isolated spawn, energy, inactive learning, zero-power and unusable reward findings.
+- Add severity filters, suggested fixes, tile/actor/catalog navigation and deterministic report JSON export. Finding navigation preserves source and history.
+- Keep rejected-import diagnostics separate from the open project; stage valid imports with their own validation summary.
+- Preserve pending-draft guards and block playtesting revisions with errors. Allow JSON inspection even when source exceeds its export budget.
+- Add twelve tests (156 total), a validation guide and ADR-0017; update README, coverage and authoring guides.
+
+
 ## 2026-11-22 — Expanded maps and navigation
 
 - Resize existing encounters to 9–32 tiles per side (up to 1,024 tiles), preserving northwest coordinates, terrain and placements; reject actor clipping and support undo.

@@ -1,6 +1,7 @@
+import type { ValidationFocusRequest } from "./studio-validation";
 import type { RuleCatalog } from "./studio-rules";
 import { canEquip, emptyLoadout, type Loadout } from "./equipment";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   ENCOUNTER_IDS,
   gameContent,
@@ -17,13 +18,16 @@ export function ContentEditor({
   apply,
   onDirty,
   rules,
+  focusRequest,
 }: {
   source: GameContent | undefined;
   rules?: RuleCatalog;
+  focusRequest?: ValidationFocusRequest;
   encounter: EncounterId;
   apply: (p: GameContent) => boolean;
   onDirty: (d: boolean) => void;
 }) {
+  const sectionRef = useRef<HTMLElement>(null);
   const baseline = useMemo(
       () => source ?? gameContent(encounter),
       [source, encounter],
@@ -38,6 +42,22 @@ export function ContentEditor({
     setDraft(baseline);
     setContract(encounter);
   }, [baseline, encounter]);
+  useEffect(() => {
+    const target = focusRequest?.target;
+    if (target?.area !== "content") return;
+    setTab(target.section);
+    if (
+      target.section === "actors" &&
+      draft.actors.some((a) => a.id === target.id)
+    )
+      setActor(target.id);
+    else if (Object.hasOwn(draft.contracts, target.id))
+      setContract(target.id as EncounterId);
+  }, [focusRequest]);
+  useEffect(() => {
+    if (focusRequest?.target.area === "content")
+      sectionRef.current?.querySelector<HTMLSelectElement>("select")?.focus();
+  }, [focusRequest, tab, actor, contract]);
   const changed = JSON.stringify(draft) !== JSON.stringify(baseline);
   useEffect(() => onDirty(changed), [changed, onDirty]);
   const error = useMemo(() => {
@@ -71,7 +91,7 @@ export function ContentEditor({
   }
   const company = { ...createExpedition().company, completed };
   return (
-    <section aria-label="Existing game content editor">
+    <section ref={sectionRef} aria-label="Existing game content editor">
       <p className="source-caption">
         Source: the four shipped contracts and the {encounter} encounter roster.
         Edits use the existing combat, contract-gate and reward functions.
