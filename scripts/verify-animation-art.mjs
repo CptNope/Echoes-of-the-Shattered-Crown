@@ -4,6 +4,12 @@ import { createHash } from "node:crypto";
 import { resolve, sep } from "node:path";
 import { pathToFileURL } from "node:url";
 export async function verifyAnimationArt(live = false, dist = false) {
+  const characterSources = JSON.parse(
+    await readFile(
+      new URL("../src/character-sources.json", import.meta.url),
+      "utf8",
+    ),
+  );
   const root = resolve(dist ? "dist" : "public");
   const site = process.env.PAGES_URL;
   const get = async (path) => {
@@ -47,8 +53,7 @@ export async function verifyAnimationArt(live = false, dist = false) {
       "runewarden",
       "stormherald",
       "chronoweaver",
-      "custom-glass-ranger",
-      "custom-ash-cantor",
+      ...characterSources.map((s) => s.id),
     ].sort(),
   );
   const sharp = live ? null : (await import("sharp")).default;

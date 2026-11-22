@@ -11,6 +11,7 @@ const el = <T extends HTMLElement>(id: string) =>
 const ids = Object.keys(CHARACTER_ART) as JobId[],
   select = el<HTMLSelectElement>("job"),
   reduced = el<HTMLInputElement>("reduced");
+el("art-heading").textContent = ids.length + " sheets. Eight states.";
 reduced.checked = matchMedia("(prefers-reduced-motion: reduce)").matches;
 for (const id of ids) {
   const option = document.createElement("option");
@@ -80,6 +81,7 @@ function paint(
 }
 const show = el<HTMLCanvasElement>("showcase"),
   ctx = show.getContext("2d")!;
+show.height = 90 + Math.ceil(ids.length / 4) * 345;
 function draw(now: number) {
   if (recording) elapsed = Math.max(0, performance.now() - recordStart);
   else if (playing) elapsed += Math.max(0, Math.min(50, now - previous));
@@ -124,7 +126,8 @@ function draw(now: number) {
   });
   ctx.font = "16px system-ui";
   ctx.fillText(
-    "10 sheets · 8 states · 4 frames per state / original generated artwork",
+    ids.length +
+      " sheets · 8 states · 4 frames per state / original generated artwork",
     28,
     show.height - 18,
   );
@@ -194,7 +197,9 @@ el("record").onclick = () => {
     el("record-status").textContent =
       "Preview ready: " +
       recordedStates.size +
-      " / 8 states rendered, all ten sheets.";
+      " / 8 states rendered, all " +
+      ids.length +
+      " sheets.";
   };
   recorder.start();
   setTimeout(() => recorder.stop(), 12000);

@@ -4,11 +4,16 @@ import { encounters, type EncounterId } from "./encounters";
 import { gameContent, validateGameContent } from "./studio-content";
 import { gameRules } from "./studio-rules";
 import { buildEmberMission, type EmberMissionId } from "./ember-missions";
+import { buildFrostglassMission } from "./frostglass-mission";
 import { buildEnvoyMission } from "./envoy-mission";
 import { buildGreybank } from "./greybank";
 import type { LevelProject } from "./studio-project";
 export type MissionPresetId =
-  EncounterId | "greybank" | EmberMissionId | "lantern-parley";
+  | EncounterId
+  | "greybank"
+  | EmberMissionId
+  | "lantern-parley"
+  | "frostglass-vigil";
 export const MISSION_PRESETS: {
   id: MissionPresetId;
   name: string;
@@ -61,6 +66,12 @@ export const MISSION_PRESETS: {
     name: "The Lantern Parley",
     summary:
       "20 by 16 / Tamsin the Glass Ranger, Orris the Ash Cantor and two named rival envoys.",
+  },
+  {
+    id: "frostglass-vigil",
+    name: "The Frostglass Vigil",
+    summary:
+      "22 by 18 / four custom party profiles, Frost Sentinel, Dawn Duelist and six outpost defenders.",
   },
 ];
 const hints: Record<EncounterId, { speaker: string; text: string }[]> = {
@@ -116,14 +127,17 @@ export function loadMissionPreset(
     id === "greybank" ||
     id === "ashen-weir" ||
     id === "cinder-archive" ||
-    id === "lantern-parley"
+    id === "lantern-parley" ||
+    id === "frostglass-vigil"
   ) {
     const next =
-      id === "greybank"
-        ? buildGreybank(project)
-        : id === "lantern-parley"
-          ? buildEnvoyMission(project)
-          : buildEmberMission(project, id);
+      id === "frostglass-vigil"
+        ? buildFrostglassMission(project)
+        : id === "greybank"
+          ? buildGreybank(project)
+          : id === "lantern-parley"
+            ? buildEnvoyMission(project)
+            : buildEmberMission(project, id);
     if (next.abilityCues)
       next.abilityCues = Object.fromEntries(
         Object.entries(next.abilityCues).filter(([id]) =>

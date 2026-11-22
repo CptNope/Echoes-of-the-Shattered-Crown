@@ -330,3 +330,5 @@ The [advanced authoring contracts](docs/studio/specs/advanced-blueprints.json) a
 [Emberwarden mission pack](docs/EMBER_MISSIONS.md): play the 20 by 16 Ashen Weir and 24 by 18 Cinder Archive with an editable class variant, four abilities, six gear pieces and six enemy templates. Select either in the studio mission library.
 
 [Glass and ash character pack](docs/CHARACTER_CLASS_PACK.md): Tamsin the Glass Ranger, Orris the Ash Cantor, two named rivals, six abilities, dedicated editable 32-frame sheets and The Lantern Parley showcase mission.
+
+[Frostglass Vigil content pack](docs/FROSTGLASS_CONTENT.md): Nera the Frost Sentinel and Joren the Dawn Duelist join Tamsin and Orris in a 22 by 18 mission, with six more abilities, four gear pieces and two editable 32-frame sheets.

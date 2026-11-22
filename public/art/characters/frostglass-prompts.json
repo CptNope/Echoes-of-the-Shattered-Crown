@@ -1,0 +1,17 @@
+{
+  "tool": "Built-in image_gen",
+  "generatedOn": "2026-11-22",
+  "actualLayout": "4 columns x 8 rows, 887x1774 transparent RGBA",
+  "assets": [
+    {
+      "id": "custom-frost-sentinel",
+      "character": "Nera Coldmere",
+      "prompt": "Use case: stylized-concept. Asset type: production-ready transparent tactical RPG sprite sheet. EXACTLY four columns and eight rows, 32 separate full-body poses, evenly spaced in equal rectangular cells. Portrait canvas about 1024x2048, cells square. Character Nera Coldmere, adult woman Frost Sentinel with dark brown skin, pale silver braided hair, slate-blue plate armor over cream quilted cloth, small ice-blue shoulder mantle, sturdy boots, a compact round silver shield and short crystal-tipped spear. Strong readable guardian silhouette. Detailed hand-painted classic isometric RPG miniature, fine pixel-like edges, restrained highlights, three-quarter front view facing lower-right. Consistent costume, proportions, weapon and scale in all cells. Row1 idle breathing four unique frames; row2 walking four-frame step cycle; row3 spear attack windup thrust contact recovery; row4 ice magic cast prepare lift shield compact ice glow release; row5 hurt recoil four frames; row6 shield guard four frames; row7 victory spear salute four frames; row8 fall/downed sequence four frames ending lying prone. Every pose entirely in its cell with generous padding, spear and shield fully inside bounds, same foot baseline in first seven rows. True transparent alpha background, no checkerboard painting, labels, text, numbers, grids, borders, shadows or environment. Clean sprite art ready for game slicing. 32 individual distinct poses; avoid extra effects that cross cell boundaries."
+    },
+    {
+      "id": "custom-dawn-duelist",
+      "character": "Joren Ashbrook",
+      "prompt": "Use case: stylized-concept. Asset type: production-ready transparent tactical RPG sprite sheet. EXACTLY four columns and eight rows, 32 separate full-body poses, evenly spaced in equal rectangular cells. Portrait canvas about 1024x2048, cells square. Character Joren Ashbrook, adult man Dawn Duelist, warm olive skin, wavy dark hair tied back, ivory and muted gold fitted coat over brown leather armor, short sun-yellow scarf, slim boots, single elegant curved bronze saber and a small offhand parrying dagger. Agile readable swordsman silhouette. Detailed hand-painted classic isometric RPG miniature, fine pixel-like edges, restrained highlights, three-quarter front view facing lower-right. Consistent costume, proportions, weapons and scale in all cells. Row1 idle breathing four unique frames; row2 walking four-frame step cycle; row3 saber attack windup slash contact recovery; row4 magical feint prepare point blade small golden shimmer release; row5 hurt recoil four frames; row6 defensive parry four frames; row7 victory saber salute four frames; row8 fall/downed sequence four frames ending lying prone. Every pose entirely in its cell with generous padding, both blades fully inside bounds, same foot baseline in first seven rows. True transparent alpha background, no checkerboard painting, labels, text, numbers, grids, borders, shadows or environment. Clean sprite art ready for game slicing. 32 individual distinct poses; avoid extra effects that cross cell boundaries."
+    }
+  ]
+}

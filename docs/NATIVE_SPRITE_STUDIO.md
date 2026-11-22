@@ -63,3 +63,5 @@ The native source allowance is bounded. A heavily repainted sheet can exceed the
 Eight new automated cases verify original bytes, all sheet rectangles, exact decoded RGBA extraction, alpha/erase/atomicity, connected fill, rejection, state timing, portable history and checkpoint failure/recovery. See [testing](TESTING.md) for the complete current suite and integration boundary.
 
 Two dedicated artwork sources are now available alongside the eight original job sheets: [Glass Ranger and Ash Cantor](CHARACTER_CLASS_PACK.md). They work with the same native pixel and timing tools and can be assigned to current actors, including named custom enemies.
+
+[Frost Sentinel and Dawn Duelist](FROSTGLASS_CONTENT.md) add two more sources. The shared character registry now supplies four custom sheets alongside eight original sheets, all using the same native editing and timing tools.

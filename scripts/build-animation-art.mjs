@@ -2,6 +2,12 @@ import sharp from "sharp";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { resolve } from "node:path";
 import { createHash } from "node:crypto";
+const characterSources = JSON.parse(
+  await readFile(
+    new URL("../src/character-sources.json", import.meta.url),
+    "utf8",
+  ),
+);
 const jobs = [
   "vanguard",
   "dancer",
@@ -11,8 +17,7 @@ const jobs = [
   "runewarden",
   "stormherald",
   "chronoweaver",
-  "custom-glass-ranger",
-  "custom-ash-cantor",
+  ...characterSources.map((s) => s.id),
 ];
 const root = resolve("public/art/animations"),
   source = resolve(

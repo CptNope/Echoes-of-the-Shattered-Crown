@@ -42,11 +42,11 @@ Original enemy instance IDs stay `sentinel`, `cinder`, `wraith` and `cantor`. Th
 
 ## Reproduction and optimization
 
-`npm run mission:build` regenerates all eight JSON sources from the same factory used by the UI. Generated IDs and seed 74319 are stable; fixture tests detect drift. The older Greybank-only generator remains compatible. Original preset construction reuses the already-created battle's unit data when adapting content, avoiding a second baseline battle generation. The legacy encounter adapter also creates its content snapshot once. No frame-rate or memory improvement is claimed without a benchmark.
+`npm run mission:build` regenerates all nine JSON sources from the same factory used by the UI. Generated IDs and seed 74319 are stable; fixture tests detect drift. The older Greybank-only generator remains compatible. Original preset construction reuses the already-created battle's unit data when adapting content, avoiding a second baseline battle generation. The legacy encounter adapter also creates its content snapshot once. No frame-rate or memory improvement is claimed without a benchmark.
 
 ## Verification and balance review
 
-Ten tests cover the migrated sources, shipped stat/roster/progression parity, documented corner changes, generated fixtures, history/JSON recovery, all original battle outcomes, Orren's awakening, first-clear rewards and atomic rejection. The complete suite has 232 tests. All eight reports have zero errors and warnings.
+Ten tests cover the migrated sources, shipped stat/roster/progression parity, documented corner changes, generated fixtures, history/JSON recovery, all original battle outcomes, Orren's awakening, first-clear rewards and atomic rejection. The complete suite has 242 tests. All nine reports have zero errors and warnings.
 
 | Preset | Controlled policy result at seed 74319 | Activations | Surviving allies |
 | --- | --- | --- | --- |
@@ -63,3 +63,5 @@ The next campaign milestone is a multi-mission project with distinct mission IDs
 The two Emberwarden presets use `redoubt` in their own standalone sources; neither invokes Orren's sentinel phase. See the [mission pack](EMBER_MISSIONS.md) for authored catalogs, seeded wins/losses and current limits.
 
 [The Lantern Parley](../public/missions/lantern-parley.json) is a 20 by 16 character showcase with two playable profiles, two named rivals, six enemies and a six-line briefing. See the [character pack](CHARACTER_CLASS_PACK.md) for party-slot and artwork details.
+
+[The Frostglass Vigil](../public/missions/frostglass-vigil.json) brings four custom playable profiles to a 22 by 18 board with six defenders, a six-line briefing and a unique first-clear compass. See its [content guide](FROSTGLASS_CONTENT.md).

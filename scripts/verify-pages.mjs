@@ -14,6 +14,7 @@ const missionIds = [
   "ashen-weir",
   "cinder-archive",
   "lantern-parley",
+  "frostglass-vigil",
 ];
 const artPath = "art/company-atlas.png";
 function verifyAtlas(bytes) {
