@@ -21,7 +21,7 @@ import {
   canEquip,
   type Loadout,
 } from "./equipment";
-import { encounters, type EncounterId } from "./encounters";
+import { encounters, encounterOpening, type EncounterId } from "./encounters";
 export interface Tile {
   x: number;
   z: number;
@@ -68,6 +68,7 @@ export interface Battle {
   result: "playing" | "victory" | "defeat";
   log: string[];
   rewarded: boolean;
+  victoryJP?: number;
   bossAwakened?: boolean;
   lastAction?: {
     unit: string;
@@ -280,7 +281,7 @@ export function createBattle(
     result: "playing",
     log: [
       `${encounters[encounter].name}: ${encounters[encounter].objective}.`,
-      "Sera: “A crown is only a promise. Let’s see who it was made to.”",
+      `Sera: “${encounterOpening.text}”`,
     ],
     rewarded: false,
   };
@@ -469,11 +470,11 @@ function result(s: Battle) {
     s.units
       .filter((u) => u.team === "ally")
       .forEach((u) => {
-        u.jp[u.job] = (u.jp[u.job] ?? 0) + 60;
+        u.jp[u.job] = (u.jp[u.job] ?? 0) + (s.victoryJP ?? 60);
       });
     note(
       s,
-      "Veyr is secure. Each companion earns 60 JP. The shard answers with a heartbeat.",
+      `Veyr is secure. Each companion earns ${s.victoryJP ?? 60} JP. The shard answers with a heartbeat.`,
     );
   }
 }
@@ -753,6 +754,11 @@ export function validateSave(raw: unknown): raw is Battle {
 function validBattle(raw: unknown): raw is Battle {
   if (!raw || typeof raw !== "object") return false;
   const s = raw as Battle;
+  if (
+    s.victoryJP !== undefined &&
+    (!Number.isInteger(s.victoryJP) || s.victoryJP < 0 || s.victoryJP > 999)
+  )
+    return false;
   if (
     s.version !== 2 ||
     !Object.hasOwn(encounters, s.encounter) ||

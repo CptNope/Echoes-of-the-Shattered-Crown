@@ -53,3 +53,8 @@ export const encounters: Record<EncounterId, Encounter> = {
     firstClearRelic: "crownseal",
   },
 };
+
+export const encounterOpening = {
+  speaker: "sera",
+  text: "A crown is only a promise. Let’s see who it was made to.",
+} as const;

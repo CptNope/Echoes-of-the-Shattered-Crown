@@ -25,6 +25,8 @@ The initial accepted baseline records are **retrospective** except ADR-0001's ne
 
 | [ADR-0013](0013-native-sprite-sources-and-overrides.md) | Accepted | New implementation decision | Preserve native sprite originals with sparse RGBA overrides |
 
+| [ADR-0014](0014-existing-game-source-adapters.md) | Accepted | New implementation decision | Adapt existing game sources into editable project previews |
+
 ## When to create an ADR
 
 | Create a record for | Usually use another document for |

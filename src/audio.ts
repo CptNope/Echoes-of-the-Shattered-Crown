@@ -1,16 +1,32 @@
+import { gameAudio, validateGameAudio, type GameAudio } from "./game-audio";
 // Original procedural glass-and-strings sketch. No samples or external recordings.
 export class AudioScore {
   ctx: AudioContext | null = null;
   timer: ReturnType<typeof setInterval> | null = null;
   step = 0;
-  volume = 0.12;
+  private generation = 0;
+  private disposed = false;
+  volume: number;
+  source: GameAudio;
+  constructor(source = gameAudio()) {
+    this.source = validateGameAudio(source);
+    this.volume = this.source.volume;
+  }
+  feedback(kind: "skill" | "move") {
+    this.tone(
+      kind === "skill" ? this.source.skillHz : this.source.moveHz,
+      this.source.feedbackMs / 1000,
+      "triangle",
+      this.source.feedbackGain,
+    );
+  }
   tone(
     frequency: number,
     duration: number,
     type: OscillatorType = "sine",
     gain = 0.15,
   ) {
-    if (!this.ctx) return;
+    if (!this.ctx || this.disposed || gain * this.volume <= 0) return;
     const c = this.ctx,
       o = c.createOscillator(),
       g = c.createGain();
@@ -24,29 +40,41 @@ export class AudioScore {
     o.stop(c.currentTime + duration);
   }
   async start() {
+    if (this.disposed || !this.source.enabled) return;
+    const generation = ++this.generation;
     if (!this.ctx) this.ctx = new AudioContext();
     await this.ctx.resume();
+    if (this.disposed || generation !== this.generation) return;
     if (this.timer) return;
-    const notes = [
-      220, 261.63, 329.63, 293.66, 196, 246.94, 293.66, 261.63, 174.61, 220,
-      261.63, 329.63, 196, 246.94, 293.66, 392,
-    ];
+    const notes = this.source.notes;
     const play = () => {
-      this.tone(notes[this.step % notes.length], 1.8, "triangle", 0.45);
+      this.tone(
+        notes[this.step % notes.length],
+        this.source.noteMs / 1000,
+        this.source.waveform,
+        this.source.leadGain,
+      );
       if (this.step % 4 === 0)
-        this.tone(notes[this.step % notes.length] / 2, 3.5, "sine", 0.8);
+        this.tone(
+          notes[this.step % notes.length] / 2,
+          this.source.bassMs / 1000,
+          "sine",
+          this.source.bassGain,
+        );
       this.step++;
     };
     play();
-    this.timer = setInterval(play, 650);
+    this.timer = setInterval(play, this.source.stepMs);
   }
   stop() {
+    this.generation++;
     if (this.timer) clearInterval(this.timer);
     this.timer = null;
-    void this.ctx?.suspend();
+    if (this.ctx?.state !== "closed") void this.ctx?.suspend().catch(() => {});
   }
   dispose() {
+    this.disposed = true;
     this.stop();
-    void this.ctx?.close();
+    if (this.ctx?.state !== "closed") void this.ctx?.close().catch(() => {});
   }
 }

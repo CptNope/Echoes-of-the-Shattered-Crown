@@ -203,7 +203,7 @@ function App() {
     setBattle(next);
     setSelected(null);
     setMode("inspect");
-    score.current?.tone(c.type === "skill" ? 440 : 280, 0.15, "triangle", 0.5);
+    score.current?.feedback(c.type === "skill" ? "skill" : "move");
   };
   selectRef.current = (x, z) => {
     setSelected({ x, z });

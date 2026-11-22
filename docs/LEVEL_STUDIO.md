@@ -2,7 +2,7 @@
 
 [Documentation index](README.md) · [Full studio plan](studio/README.md) · [Play the studio](https://cptnope.github.io/Echoes-of-the-Shattered-Crown/studio.html)
 
-The level studio is implemented at `studio.html`, available from camp and battle navigation. It edits a fixed shrine battlefield and [layered combat SFX](SOUND_EFFECTS_STUDIO.md), then playtests the result with the existing engine, actor sprites and combat effects. It implements parts of STSL-01/02/03/04; neither prototype slice nor the full authoring toolkit is complete.
+The level studio is implemented at `studio.html`, available from camp and battle navigation. It loads and edits any of the four existing fixed-size encounter battlefields and [layered combat SFX](SOUND_EFFECTS_STUDIO.md), then playtests the result with the existing engine, actor sprites and combat effects. It implements parts of STSL-01/02/03/04; neither prototype slice nor the full authoring toolkit is complete.
 
 ## Edit and play
 
@@ -23,7 +23,7 @@ On phones, use **Show battlefield tools** to open the palette. The board scrolls
 | Area | Current behavior |
 | --- | --- |
 | Board | 9×9; exactly 81 unique cells; grass/stone/water/ice; elevation 0–2 |
-| Actors | Eight shrine-template actors; placement editable, jobs/stats/content fixed |
+| Actors | Eight existing encounter actor identities; placement and source name/job/resources/learning editable |
 | Placement | Reject overlapping actors and blocked/water deployment tiles |
 | Rules/objective | Existing combat formulas, skills, initiative, AI and defeat-all objective |
 | Edits | Typed atomic batches, expected revision checks, 50 retained undo steps and redo |
@@ -52,7 +52,7 @@ flowchart LR
 
 ## Implemented file contract
 
-`src/studio-project.ts` owns the implemented format. The discriminator is `echoes-level-project`, version 1. Root fields are format, version, id, revision, name, seed, tiles, placements and optional sounds/music/pixels. Tile records contain x/z/h/terrain/blocked; placement records contain id/x/z. Source has no health, status, campaign reward or ongoing-battle fields.
+`src/studio-project.ts` owns the implemented format. The discriminator is `echoes-level-project`, version 1. Root fields are format, version, id, revision, name, seed, tiles, placements and optional sounds/music/pixels/nativeSprite/encounter/content/materials/gameAudio. Tile records contain x/z/h/terrain/blocked; placement records contain id/x/z. Optional content carries initial actor resources and contract reward definitions; ongoing health/status/turn snapshots remain separate.
 
 This format is separate from player backups and the proposal examples under docs/studio/specs. Import rejects those formats and future fields rather than silently discarding editable data. A level JSON needs this compatible runtime/studio; it is not a standalone playable game or the planned Complete game artifact.
 
@@ -80,3 +80,6 @@ The [action-clip extension](ACTION_CLIP_STUDIO.md) adds explicit Idle/Walk/Attac
 
 
 [Native game-sprite editing](NATIVE_SPRITE_STUDIO.md) adds full-resolution imported character sheets as a separate optional nativeSprite source. Native mode takes precedence when both sprite sources target the same actor. Existing sources and original art files remain intact.
+
+
+See [existing-game editing](EXISTING_GAME_EDITORS.md) for real encounter imports, editable terrain appearance, actor/dialogue/contract controls and original audio source. Objective labels remain text over the existing defeat-all rule; branching NPC/quest and full rule/campaign tools remain planned.

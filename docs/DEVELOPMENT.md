@@ -124,3 +124,6 @@ Action clips bind stable frame IDs to four states in studio-pixels.ts. Keep atla
 
 
 The [native sprite mode](NATIVE_SPRITE_STUDIO.md) uses studio-native-sprites.ts for strict metadata, frame rects, sparse RGBA edits and state timing; studio-native-art.ts handles verified image loading/decoding and canvas compilation. NativeSpriteEditor.tsx uses a zoomable canvas rather than one DOM node per pixel. The project embeds the original WebP and sparse overrides. Checkpoints deduplicate original bytes by digest; exports always hydrate/embed them. scene.ts reuses original UVs, scale and per-frame feet registration, with native source durations. See [ADR-0013](adr/0013-native-sprite-sources-and-overrides.md).
+
+
+Existing game source adapters live in studio-content.ts, studio-materials.ts and game-audio.ts. ContentEditor, TerrainEditor and GameAudioEditor stage source rather than mutate module globals. The engine accepts bounded optional victoryJP, campaign gate/settlement functions accept a catalog for isolated previews, and AudioScore consumes the same default source as the game-audio editor. See [coverage/contracts](EXISTING_GAME_EDITORS.md) and [ADR-0014](adr/0014-existing-game-source-adapters.md).

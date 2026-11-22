@@ -1,3 +1,15 @@
+import { ContentEditor } from "./ContentEditor";
+import { TerrainEditor } from "./TerrainEditor";
+import { GameAudioEditor } from "./GameAudioEditor";
+import { AudioScore } from "./audio";
+import { encounters, type EncounterId } from "./encounters";
+import {
+  createExpedition,
+  returnToCamp,
+  contractOpen,
+  type Expedition,
+} from "./campaign";
+import { gameContent } from "./studio-content";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
@@ -37,7 +49,7 @@ import {
 } from "./studio-project";
 import "./studio.css";
 
-const actors = compileLevelProject(createLevelProject()).units;
+const defaultActors = compileLevelProject(createLevelProject()).units;
 const terrains = ["grass", "stone", "water", "ice"] as const;
 type Cell = { x: number; z: number };
 function Board({
@@ -46,13 +58,16 @@ function Board({
   select,
   chosen,
   allowed,
+  actorSources,
 }: {
   tiles: LevelProject["tiles"];
   placements: LevelProject["placements"];
   select: (x: number, z: number) => void;
   chosen: Cell;
   allowed?: Set<string>;
+  actorSources?: { id: string; name: string; team: "ally" | "enemy" }[];
 }) {
+  const actors = actorSources ?? defaultActors;
   return (
     <div className="tile-grid" aria-label="Battlefield tiles">
       {[...tiles]
@@ -124,6 +139,17 @@ function Preview({
   close: () => void;
 }) {
   const [battle, setBattle] = useState(() => compileLevelProject(project));
+  const lines = project.content?.dialogue[project.encounter ?? "shrine"] ?? [];
+  const [briefing, setBriefing] = useState(0),
+    [settled, setSettled] = useState<Expedition | null>(null);
+  const briefingOpen = briefing < lines.length;
+  const nativeScore = useRef<AudioScore | null>(null);
+  useEffect(
+    () => () => {
+      nativeScore.current?.dispose();
+    },
+    [],
+  );
   const [mode, setMode] = useState<Mode>("inspect"),
     [selected, setSelected] = useState<Cell>({ x: 2, z: 5 });
   const [notice, setNotice] = useState(
@@ -146,7 +172,8 @@ function Preview({
   useEffect(() => {
     const events = resolvedSoundEvents(previousCue.current, battle.lastAction);
     previousCue.current = battle.lastAction;
-    if (!soundEnabled) return;
+    if (!soundEnabled || (project.gameAudio?.enabled && !project.sounds))
+      return;
     for (const event of events) {
       const played = soundPlayer.current?.play(
         project.sounds ?? defaultSoundBank(),
@@ -164,6 +191,7 @@ function Preview({
   const latest = useRef({ battle, mode });
   latest.current = { battle, mode };
   const select = (x: number, z: number) => {
+    if (briefingOpen) return;
     setSelected({ x, z });
     const current = latest.current;
     if (
@@ -184,6 +212,10 @@ function Preview({
       );
     else {
       setBattle(next);
+      if (soundEnabled)
+        nativeScore.current?.feedback(
+          current.mode === "move" ? "move" : "skill",
+        );
       setMode("inspect");
       setNotice(next.log.at(-1)!);
     }
@@ -207,6 +239,7 @@ function Preview({
             setLastCustomAnimation(state);
         },
         project.nativeSprite,
+        project.materials,
       );
       scene.renderer.domElement.setAttribute(
         "aria-label",
@@ -228,16 +261,21 @@ function Preview({
     view.current?.update(battle, mode, selected);
   }, [battle, mode, selected]);
   useEffect(() => {
-    if (battle.result !== "playing" || activeUnit(battle).team !== "enemy")
+    if (
+      briefingOpen ||
+      battle.result !== "playing" ||
+      activeUnit(battle).team !== "enemy"
+    )
       return;
     const timer = setTimeout(() => {
       setBattle((b) => aiTurn(b));
       setMode("inspect");
     }, 450);
     return () => clearTimeout(timer);
-  }, [battle]);
+  }, [battle, briefingOpen]);
   const active = activeUnit(battle),
-    enabled = battle.result === "playing" && active.team === "ally";
+    enabled =
+      !briefingOpen && battle.result === "playing" && active.team === "ally";
   const allowed = new Set(
     battle.tiles
       .filter((t) =>
@@ -261,9 +299,23 @@ function Preview({
         <div className="actions">
           <button
             onClick={() => {
+              nativeScore.current?.dispose();
+              nativeScore.current = null;
+              if (soundEnabled && project.gameAudio?.enabled) {
+                nativeScore.current = new AudioScore(project.gameAudio);
+                void nativeScore.current
+                  .start()
+                  .catch(() => setSoundNotice("Audio restart unavailable."));
+              }
               soundPlayer.current?.stop();
-              if (soundEnabled && project.music?.enabled)
+              if (
+                soundEnabled &&
+                !project.gameAudio?.enabled &&
+                project.music?.enabled
+              )
                 soundPlayer.current?.playLoop(renderMusic(project.music));
+              setBriefing(0);
+              setSettled(null);
               setBattle(compileLevelProject(project));
               setSceneVersion((v) => v + 1);
               setCustomAnimation("idle");
@@ -277,6 +329,32 @@ function Preview({
           <button onClick={close}>Return to editor</button>
         </div>
       </div>
+      {briefingOpen && (
+        <section className="briefing-panel" aria-label="Project dialogue">
+          <p>
+            Briefing {briefing + 1} / {lines.length} ·{" "}
+            {project.content?.contracts[battle.encounter].name}
+          </p>
+          <h2>
+            {lines[briefing].speaker === "narrator"
+              ? "Narrator"
+              : project.content?.actors.find(
+                  (a) => a.id === lines[briefing].speaker,
+                )?.name}
+          </h2>
+          <p>{lines[briefing].text}</p>
+          <div className="actions">
+            <button onClick={() => setBriefing((n) => n + 1)}>
+              {briefing === lines.length - 1
+                ? "Begin battle"
+                : "Next dialogue line"}
+            </button>
+            <button onClick={() => setBriefing(lines.length)}>
+              Skip briefing
+            </button>
+          </div>
+        </section>
+      )}
       <div className="preview-layout">
         <div>
           <div className="scene-host" ref={host} />
@@ -285,6 +363,7 @@ function Preview({
             <summary>Tactical tile controls · keyboard accessible</summary>
             <Board
               tiles={battle.tiles}
+              actorSources={battle.units}
               placements={battle.units.filter((u) => u.hp > 0)}
               select={select}
               chosen={selected}
@@ -297,6 +376,8 @@ function Preview({
             aria-pressed={soundEnabled}
             onClick={async () => {
               if (soundEnabled) {
+                nativeScore.current?.dispose();
+                nativeScore.current = null;
                 soundPlayer.current?.stop();
                 setSoundEnabled(false);
                 setSoundNotice("Preview sound is muted.");
@@ -305,13 +386,18 @@ function Preview({
               try {
                 soundPlayer.current ??= new StudioSfxPlayer();
                 await soundPlayer.current.unlock();
-                if (project.music?.enabled)
+                if (project.gameAudio?.enabled) {
+                  nativeScore.current = new AudioScore(project.gameAudio);
+                  await nativeScore.current.start();
+                } else if (project.music?.enabled)
                   soundPlayer.current.playLoop(renderMusic(project.music));
                 setSoundEnabled(true);
                 setSoundNotice(
-                  project.music?.enabled
-                    ? "Preview sound enabled. Project music is looping."
-                    : "Preview sound enabled. Waiting for a resolved combat event.",
+                  project.gameAudio?.enabled
+                    ? "Preview uses the existing-game score and command tones."
+                    : project.music?.enabled
+                      ? "Preview sound enabled. Project music is looping."
+                      : "Preview sound enabled. Waiting for a resolved combat event.",
                 );
               } catch (e) {
                 setSoundNotice(
@@ -323,7 +409,12 @@ function Preview({
             {soundEnabled ? "Mute preview sound" : "Enable preview sound"}
           </button>
           <p role="status">{soundNotice}</p>
-          {project.music && (
+          {project.gameAudio?.enabled && (
+            <p>
+              Game score: {project.gameAudio.stepMs} ms per note · source audio
+            </p>
+          )}
+          {project.music && !project.gameAudio?.enabled && (
             <p>
               Project music: {project.music.tempo} BPM /{" "}
               {project.music.enabled ? "included" : "omitted"}
@@ -393,6 +484,7 @@ function Preview({
             <button
               disabled={!enabled}
               onClick={() => {
+                if (soundEnabled) nativeScore.current?.feedback("move");
                 setBattle((b) => command(b, { type: "end" }));
                 setMode("inspect");
               }}
@@ -401,6 +493,49 @@ function Preview({
             </button>
           </div>
           <p role="status">{notice}</p>
+          {project.content && battle.result === "victory" && (
+            <section aria-label="Preview progression settlement">
+              <button
+                disabled={!!settled}
+                onClick={() =>
+                  setSettled(
+                    returnToCamp(
+                      {
+                        ...createExpedition(),
+                        stage: "battle",
+                        battle: structuredClone(battle),
+                      },
+                      project.content!.contracts,
+                    ),
+                  )
+                }
+              >
+                Settle preview victory
+              </button>
+              {settled && (
+                <>
+                  <p>
+                    Preview treasury: {settled.company.gold} gold ·{" "}
+                    {settled.company.completed.join(", ")} cleared
+                  </p>
+                  <ul>
+                    {Object.keys(project.content.contracts).map((id) => (
+                      <li key={id}>
+                        {project.content!.contracts[id as EncounterId].name}:{" "}
+                        {contractOpen(
+                          settled.company,
+                          id as EncounterId,
+                          project.content!.contracts,
+                        )
+                          ? "Open"
+                          : "Locked"}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+            </section>
+          )}
           <h2>Battle log</h2>
           <ol className="battle-log">
             {battle.log.slice(-6).map((line, i) => (
@@ -442,16 +577,35 @@ function Studio() {
     ),
     token = useRef(opened.token);
   const [secured, setSecured] = useState(opened.project.revision);
-  const [panel, setPanel] = useState<"map" | "sounds" | "music" | "pixels">(
-      "map",
-    ),
+  const [panel, setPanel] = useState<
+      | "map"
+      | "sounds"
+      | "music"
+      | "pixels"
+      | "terrain"
+      | "content"
+      | "game-audio"
+    >("map"),
     [soundDraftDirty, setSoundDraftDirty] = useState(false);
   const [musicDraftDirty, setMusicDraftDirty] = useState(false);
   const [pixelDraftDirty, setPixelDraftDirty] = useState(false);
   const [nativeDraftDirty, setNativeDraftDirty] = useState(false);
   const [pixelMode, setPixelMode] = useState<"native" | "indexed">("native");
+  const [contentDirty, setContentDirty] = useState(false),
+    [terrainDirty, setTerrainDirty] = useState(false),
+    [gameAudioDirty, setGameAudioDirty] = useState(false);
+  const actors = useMemo(() => compileLevelProject(project).units, [project]);
+  const [loadEncounter, setLoadEncounter] = useState<EncounterId>(
+    project.encounter ?? "shrine",
+  );
   const hasDraft =
-    soundDraftDirty || musicDraftDirty || pixelDraftDirty || nativeDraftDirty;
+    contentDirty ||
+    terrainDirty ||
+    gameAudioDirty ||
+    soundDraftDirty ||
+    musicDraftDirty ||
+    pixelDraftDirty ||
+    nativeDraftDirty;
   const bank = useMemo(
     () => project.sounds ?? defaultSoundBank(),
     [project.sounds],
@@ -583,7 +737,7 @@ function Studio() {
             </button>
             <div hidden={panel !== "map"}>
               <h2>Battlefield tools</h2>
-              <p>9 × 9 · shrine template</p>
+              <p>9 × 9 · {project.encounter ?? "shrine"} source</p>
               <div className="tool-list">
                 {[
                   ["inspect", "Inspect tile"],
@@ -652,6 +806,16 @@ function Studio() {
                   : "Select a tile to apply this tool. Each click is one undoable edit."}
               </p>
             </div>
+            <div hidden={!["terrain", "content", "game-audio"].includes(panel)}>
+              <h2>Existing game sources</h2>
+              <p>
+                Four encounters, native terrain colors, actor rosters,
+                briefings, reward gates and original score parameters.
+              </p>
+              <p>
+                Apply source edits, then playtest the same project revision.
+              </p>
+            </div>
             <div hidden={panel !== "sounds"}>
               <h2>Sound workspace</h2>
               <p>Four combat bindings · Up to four layers per cue</p>
@@ -716,9 +880,10 @@ function Studio() {
               </button>
             </details>
             <p className="scope-note">
-              Pilot: fixed board, roster and combat rules. Layered combat SFX
-              and a pixel clip are editable. Multitrack music and full-game
-              packaging tools remain planned.
+              Project edits feed isolated playtests. Load existing encounters,
+              materials, characters, briefings, contract rewards and source
+              audio. Full campaign packaging and advanced rule/quest editors
+              remain planned.
             </p>
           </aside>
           <main className="studio-sheet">
@@ -727,11 +892,17 @@ function Studio() {
                 <h1>
                   {panel === "map"
                     ? "Battlefield editor"
-                    : panel === "sounds"
-                      ? "Sound effects editor"
-                      : panel === "music"
-                        ? "Music pattern editor"
-                        : "Pixel animation editor"}
+                    : panel === "terrain"
+                      ? "Terrain appearance editor"
+                      : panel === "content"
+                        ? "Game content editor"
+                        : panel === "game-audio"
+                          ? "Existing game audio"
+                          : panel === "sounds"
+                            ? "Sound effects editor"
+                            : panel === "music"
+                              ? "Music pattern editor"
+                              : "Pixel animation editor"}
                 </h1>
                 <p>
                   {hasDraft
@@ -762,6 +933,21 @@ function Studio() {
               >
                 Battlefield
               </button>
+              {(
+                [
+                  ["terrain", "Terrain textures"],
+                  ["content", "NPCs, dialogue & progression"],
+                  ["game-audio", "Game audio"],
+                ] as const
+              ).map(([id, label]) => (
+                <button
+                  key={id}
+                  aria-pressed={panel === id}
+                  onClick={() => setPanel(id)}
+                >
+                  {label}
+                </button>
+              ))}
               <button
                 aria-pressed={panel === "sounds"}
                 onClick={() => setPanel("sounds")}
@@ -784,7 +970,7 @@ function Studio() {
             <div className="editor-toolbar">
               <div className="actions">
                 <button
-                  disabled={!history.past.length}
+                  disabled={!history.past.length || hasDraft}
                   onClick={() =>
                     attempt(() => {
                       setHistory(travelProjectHistory(history, "undo"));
@@ -795,7 +981,7 @@ function Studio() {
                   Undo
                 </button>
                 <button
-                  disabled={!history.future.length}
+                  disabled={!history.future.length || hasDraft}
                   onClick={() =>
                     attempt(() => {
                       setHistory(travelProjectHistory(history, "redo"));
@@ -819,6 +1005,30 @@ function Studio() {
                 {error}
               </p>
             )}
+            <div hidden={panel !== "terrain"}>
+              <TerrainEditor
+                source={project.materials}
+                apply={(materials) => edit([{ type: "materials", materials }])}
+                onDirty={setTerrainDirty}
+                active={panel === "terrain"}
+              />
+            </div>
+            <div hidden={panel !== "content"}>
+              <ContentEditor
+                source={project.content}
+                encounter={project.encounter ?? "shrine"}
+                apply={(content) => edit([{ type: "content", content }])}
+                onDirty={setContentDirty}
+              />
+            </div>
+            <div hidden={panel !== "game-audio"}>
+              <GameAudioEditor
+                source={project.gameAudio}
+                apply={(audio) => edit([{ type: "game-audio", audio }])}
+                onDirty={setGameAudioDirty}
+                active={panel === "game-audio"}
+              />
+            </div>
             <div hidden={panel !== "sounds"}>
               <SoundEditor
                 active={panel === "sounds"}
@@ -871,10 +1081,43 @@ function Studio() {
                 />
               </div>
             </div>
+            {panel === "map" && (
+              <section className="encounter-source">
+                <label>
+                  Existing game encounter
+                  <select
+                    value={loadEncounter}
+                    onChange={(e) =>
+                      setLoadEncounter(e.target.value as EncounterId)
+                    }
+                  >
+                    {Object.entries(encounters).map(([id, c]) => (
+                      <option key={id} value={id}>
+                        {c.name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <button
+                  disabled={hasDraft}
+                  onClick={() =>
+                    edit([{ type: "load-encounter", encounter: loadEncounter }])
+                  }
+                >
+                  Load existing encounter
+                </button>
+                <p>
+                  Loads actual tiles, heights and the encounter’s actor data.
+                  Replaces this level source; art/audio and the contract catalog
+                  stay in the project. Undo restores the previous level.
+                </p>
+              </section>
+            )}
             <div className="map-layout" hidden={panel !== "map"}>
               <section className="map-well">
                 <Board
                   tiles={project.tiles}
+                  actorSources={actors}
                   placements={project.placements}
                   select={choose}
                   chosen={cell}

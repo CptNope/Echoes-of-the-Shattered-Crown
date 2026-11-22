@@ -1,4 +1,12 @@
-import { createBattle, type Battle, type Tile } from "./engine";
+import { encounters, type EncounterId } from "./encounters";
+import {
+  gameContent,
+  validateGameContent,
+  type GameContent,
+} from "./studio-content";
+import { validateMaterials, type TerrainMaterials } from "./studio-materials";
+import { validateGameAudio, type GameAudio } from "./game-audio";
+import { createBattle, unitStats, type Battle, type Tile } from "./engine";
 import { validateSoundBank, type SoundBank } from "./studio-sfx";
 import { validateMusicPattern, type MusicPattern } from "./studio-music";
 import { validatePixelClip, type PixelClip } from "./studio-pixels";
@@ -21,27 +29,38 @@ export interface LevelProject {
   music?: MusicPattern;
   pixels?: PixelClip;
   nativeSprite?: NativeSprite;
+  encounter?: EncounterId;
+  content?: GameContent;
+  materials?: TerrainMaterials;
+  gameAudio?: GameAudio;
 }
 export const PROJECT_LIMIT = 128 * 1024;
 export const NATIVE_PROJECT_LIMIT = 8 * 1024 * 1024;
 const LEGACY_PROJECT_LIMIT = PROJECT_LIMIT;
 const template = createBattle();
-export function createLevelProject(): LevelProject {
+export function createLevelProject(
+  encounter: EncounterId = "shrine",
+): LevelProject {
+  const baseline = createBattle(74319, encounter);
   return {
     format: "echoes-level-project",
     version: 1,
     id: crypto.randomUUID(),
     revision: 0,
-    name: "Veyr — field study",
+    name:
+      encounter === "shrine"
+        ? "Veyr — field study"
+        : encounters[encounter].name,
+    ...(encounter !== "shrine" ? { encounter } : {}),
     seed: 74319,
-    tiles: template.tiles.map(({ x, z, h, terrain, blocked }) => ({
+    tiles: baseline.tiles.map(({ x, z, h, terrain, blocked }) => ({
       x,
       z,
       h,
       terrain,
       blocked,
     })),
-    placements: template.units.map(({ id, x, z }) => ({ id, x, z })),
+    placements: baseline.units.map(({ id, x, z }) => ({ id, x, z })),
   };
 }
 function fail(message: string): never {
@@ -70,11 +89,24 @@ export function validateLevelProject(raw: unknown): LevelProject {
     "music",
     "pixels",
     "nativeSprite",
+    "encounter",
+    "content",
+    "materials",
+    "gameAudio",
   ]);
   if (raw.format !== "echoes-level-project" || raw.version !== 1)
     fail(
       "Unsupported format. Import a level project v1, not a player save or studio proposal.",
     );
+  if (
+    raw.encounter !== undefined &&
+    (typeof raw.encounter !== "string" ||
+      !Object.hasOwn(encounters, raw.encounter))
+  )
+    fail("Unknown source encounter.");
+  if (raw.content !== undefined) validateGameContent(raw.content);
+  if (raw.materials !== undefined) validateMaterials(raw.materials);
+  if (raw.gameAudio !== undefined) validateGameAudio(raw.gameAudio);
   if (raw.sounds !== undefined) validateSoundBank(raw.sounds);
   if (raw.music !== undefined) validateMusicPattern(raw.music);
   if (raw.pixels !== undefined) validatePixelClip(raw.pixels);
@@ -175,7 +207,11 @@ export type ProjectEdit =
   | { type: "sounds"; bank: SoundBank }
   | { type: "music"; pattern: MusicPattern }
   | { type: "pixels"; clip: PixelClip }
-  | { type: "native-sprite"; sprite: NativeSprite };
+  | { type: "native-sprite"; sprite: NativeSprite }
+  | { type: "load-encounter"; encounter: EncounterId }
+  | { type: "content"; content: GameContent }
+  | { type: "materials"; materials: TerrainMaterials }
+  | { type: "game-audio"; audio: GameAudio };
 /** Atomic batch: reject every operation if any resulting invariant fails. */
 export function editProject(
   project: LevelProject,
@@ -187,7 +223,26 @@ export function editProject(
   if (!edits.length || edits.length > 81) fail("Use a batch of 1–81 edits.");
   const next = structuredClone(project);
   for (const e of edits) {
-    if (e.type === "tile") {
+    if (e.type === "load-encounter") {
+      if (!Object.hasOwn(encounters, e.encounter))
+        fail("Unknown source encounter.");
+      const source = createLevelProject(e.encounter),
+        existing = next.content;
+      next.encounter = e.encounter;
+      next.name = encounters[e.encounter].name;
+      next.tiles = source.tiles;
+      next.placements = source.placements;
+      next.content = {
+        ...(existing ?? gameContent(e.encounter)),
+        actors: gameContent(e.encounter).actors,
+      };
+    } else if (e.type === "content")
+      next.content = validateGameContent(e.content);
+    else if (e.type === "materials")
+      next.materials = validateMaterials(e.materials);
+    else if (e.type === "game-audio")
+      next.gameAudio = validateGameAudio(e.audio);
+    else if (e.type === "tile") {
       const tile = next.tiles.find((t) => t.x === e.x && t.z === e.z);
       if (!tile) fail("Tile outside the 9×9 board.");
       if (e.terrain !== undefined) tile.terrain = e.terrain;
@@ -255,18 +310,31 @@ export function travelProjectHistory(
 /** Fresh isolated battle; authoring data never receives combat mutations/rewards. */
 export function compileLevelProject(project: LevelProject): Battle {
   const p = validateLevelProject(project),
-    battle = createBattle(p.seed);
+    battle = createBattle(p.seed, p.encounter ?? "shrine");
   battle.tiles = p.tiles.map((t) => ({ ...t, burn: 0 }));
   for (const u of battle.units)
     Object.assign(
       u,
       p.placements.find((x) => x.id === u.id)!,
     );
+  if (p.content) {
+    battle.victoryJP = p.content.victoryJP;
+    for (const u of battle.units) {
+      const source = p.content.actors.find((a) => a.id === u.id)!;
+      Object.assign(u, structuredClone(source));
+      u.maxHp = unitStats(u).hp;
+      u.hp = u.maxHp;
+      u.mp = u.maxMp;
+    }
+  }
   battle.log = [
     p.name +
       " · preview revision " +
       p.revision +
-      ". Defeat all enemies. No campaign rewards.",
+      ". " +
+      (p.content?.contracts[battle.encounter].objective ??
+        encounters[battle.encounter].objective) +
+      ". Isolated project preview.",
   ];
   return battle;
 }

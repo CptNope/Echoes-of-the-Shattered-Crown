@@ -4,6 +4,10 @@
 
 ### Added
 
+- Added real encounter loading for all four existing maps, preserving authored art/audio and copying the actual roster, map cells and encounter identity.
+- Added shared-source terrain materials with painted top textures, current character/enemy editing, linear dialogue seeded from existing briefings, contract prerequisites/rewards/items and victory JP, plus a real isolated progression settlement.
+- Added original-game audio editing with shared source defaults/player; separate pattern and layered-SFX pilots remain available. Added ten integration tests (124 total), an implementation coverage audit and Accepted ADR-0014.
+
 - Added native-resolution editing of all eight shipped character sheets: 887 × 1774 assets, 32 frames across eight states, original RGBA and foot registration, zoom, brush sizes, erase, exact fill, eyedropper, draft history and source-time audition.
 - Embedded original image bytes plus sparse edits preserve source without palette reduction; full 4 × 8 PNG export and state-driven native actor playtests use the edited source. Native projects allow up to 8 MiB; legacy-only projects retain 128 KiB. Checkpoints deduplicate embedded originals and preserve backup recovery.
 - Added eight native-source tests (114 total), native editor guide and Accepted ADR-0013.

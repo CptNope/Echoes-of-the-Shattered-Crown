@@ -19,6 +19,8 @@ The game baseline is **v0.8.0**. Current implementation guides and future expans
 
 ## Current game reference
 
+[Existing-game editor audit and guide](EXISTING_GAME_EDITORS.md): exact current coverage for levels, terrain textures, characters, dialogue, progression, audio and remaining toolkit gaps.
+
 [Native game-sprite editor](NATIVE_SPRITE_STUDIO.md): edit the eight shipped character sheets at their existing resolution, preserve all eight states and export the complete PNG plus editable project.
 
 [Action-clip editor](ACTION_CLIP_STUDIO.md): independent idle/walk/attack/cast frames and real-action playback, with legacy source compatibility.

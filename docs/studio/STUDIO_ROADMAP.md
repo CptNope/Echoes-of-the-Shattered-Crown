@@ -1,5 +1,7 @@
 # Studio milestones and tooling backlog
 
+Working source adapters now also cover [existing maps, terrain appearance, actors, linear briefings, contract rewards/gates and original audio](../EXISTING_GAME_EDITORS.md). Their explicit limits remain partial toolkit implementation.
+
 Working pilots now cover [level editing](../LEVEL_STUDIO.md), [layered SFX](../SOUND_EFFECTS_STUDIO.md), [music patterns](../MUSIC_PATTERN_STUDIO.md) and [pixel-animation source](../PIXEL_ANIMATION_STUDIO.md). These implement parts of STSL-01/02/03/04; full slice exits, all tooling work items and complete-game export gates remain unfulfilled.
 
 [Studio index](README.md) · [Original game backlog](../roadmap/BACKLOG.md) · [Acceptance](ACCEPTANCE_AND_ROUNDTRIP.md)

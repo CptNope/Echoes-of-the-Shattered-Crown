@@ -1,3 +1,9 @@
+import {
+  terrainColor,
+  terrainRgba,
+  type TerrainMaterials,
+  type TerrainId,
+} from "./studio-materials";
 import { loadNativeSheet } from "./studio-native-art";
 import {
   nativeDuration,
@@ -8,6 +14,7 @@ import * as THREE from "three";
 import {
   type Battle,
   type Unit,
+  type Tile,
   key,
   reachable,
   activeUnit,
@@ -44,11 +51,6 @@ function pixelCanvas(clip: PixelClip): HTMLCanvasElement {
   return canvas;
 }
 export type Mode = "inspect" | "move" | SkillId;
-const palette = {
-  grass: [0x7d9161, 0x879b6c, 0x74895d, 0x8b9a6a],
-  stone: [0xa1a58d, 0xabad96, 0x999e88],
-  water: [0x548e91, 0x5e9899, 0x659da0],
-};
 function texture(c: HTMLCanvasElement) {
   const t = new THREE.CanvasTexture(c);
   t.magFilter = THREE.NearestFilter;
@@ -108,6 +110,7 @@ export class Battlefield {
   onSelect: (x: number, z: number) => void;
   private last = 0;
   private resources: THREE.Texture[] = [];
+  private terrainTextures = new Map<TerrainId, THREE.Texture>();
   private animationSources = new Map<Unit["job"], THREE.Texture>();
   constructor(
     public host: HTMLElement,
@@ -117,6 +120,7 @@ export class Battlefield {
     private pixelClip?: PixelClip,
     private onCustomAnimation?: (state: string) => void,
     private nativeSprite?: NativeSprite,
+    private materials?: TerrainMaterials,
   ) {
     this.state = state;
     this.onSelect = onSelect;
@@ -200,6 +204,47 @@ export class Battlefield {
     this.root.add(m);
     return m;
   }
+  private applyTerrain(mesh: THREE.Mesh, t: Tile) {
+    const id = t.terrain,
+      color = terrainColor(id, t.x, t.z, this.materials),
+      surface = this.materials?.surfaces[id];
+    const original = (
+      Array.isArray(mesh.material) ? mesh.material[0] : mesh.material
+    ) as THREE.MeshStandardMaterial;
+    let list: Array<THREE.MeshStandardMaterial>;
+    if (Array.isArray(mesh.material))
+      list = mesh.material as THREE.MeshStandardMaterial[];
+    else {
+      list = Array.from({ length: 6 }, (_, i) =>
+        i === 2 ? original.clone() : original,
+      );
+      mesh.material = list;
+    }
+    for (const mat of list) mat.color.set(color);
+    const top = list[2];
+    top.map = null;
+    if (surface?.painted) {
+      let map = this.terrainTextures.get(id);
+      if (!map) {
+        const canvas = document.createElement("canvas");
+        canvas.width = canvas.height = 16;
+        canvas
+          .getContext("2d")!
+          .putImageData(
+            new ImageData(terrainRgba(this.materials!, id), 16, 16),
+            0,
+            0,
+          );
+        map = texture(canvas);
+        this.terrainTextures.set(id, map);
+        this.resources.push(map);
+      }
+      top.color.set(0xffffff);
+      top.map = map;
+    }
+    top.needsUpdate = true;
+    mesh.userData.appearanceTerrain = id;
+  }
   private buildTerrain() {
     for (const t of this.state.tiles) {
       const x = t.x - 4,
@@ -215,14 +260,10 @@ export class Battlefield {
         (y - 1.25) / 2 - 0.07,
         z,
       );
-      const color =
-        t.terrain === "water"
-          ? palette.water[n]
-          : t.terrain === "stone"
-            ? palette.stone[n]
-            : palette.grass[(t.x * 3 + t.z) % 4];
+      const color = terrainColor(t.terrain, t.x, t.z, this.materials);
       const top = this.box(0.975, 0.12, 0.975, color, x, y, z);
       top.userData = { x: t.x, z: t.z };
+      this.applyTerrain(top, t);
       this.tiles.push(top);
       if (t.terrain === "water") {
         for (let i = 0; i < 2; i++)
@@ -539,8 +580,8 @@ export class Battlefield {
       const mesh = this.tiles.find(
         (m) => m.userData.x === t.x && m.userData.z === t.z,
       )!;
-      if (t.terrain === "ice")
-        (mesh.material as THREE.MeshStandardMaterial).color.set(0xb8d8cc);
+      if (mesh.userData.appearanceTerrain !== t.terrain)
+        this.applyTerrain(mesh, t);
     }
     const ring = new THREE.Mesh(
       new THREE.RingGeometry(0.32, 0.4, 4),

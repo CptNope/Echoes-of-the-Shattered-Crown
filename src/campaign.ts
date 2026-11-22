@@ -72,8 +72,11 @@ export const spendableJP = (m: Member, job: JobId) =>
   (m.jp[job] ?? 0) - (m.jpSpent[job] ?? 0);
 export const allocated = (c: Company, id: GearId) =>
   c.members.filter((m) => Object.values(m.equipment).includes(id)).length;
-export const contractOpen = (c: Company, id: EncounterId) =>
-  !encounters[id].requires || c.completed.includes(encounters[id].requires!);
+export const contractOpen = (
+  c: Company,
+  id: EncounterId,
+  catalog = encounters,
+) => !catalog[id].requires || c.completed.includes(catalog[id].requires!);
 
 export function memberUnit(m: Member): Unit {
   const u: Unit = {
@@ -143,17 +146,20 @@ export function depart(game: Expedition, id: EncounterId): Expedition {
   next.stage = "battle";
   return next;
 }
-export function returnToCamp(game: Expedition): Expedition {
+export function returnToCamp(
+  game: Expedition,
+  catalog = encounters,
+): Expedition {
   if (game.stage !== "battle" || game.battle.result === "playing") return game;
   const next = structuredClone(game);
   next.company.members = next.battle.units
     .filter((u) => u.team === "ally")
     .map(toMember);
   if (game.battle.result === "victory") {
-    next.company.gold += encounters[game.battle.encounter].reward;
+    next.company.gold += catalog[game.battle.encounter].reward;
     next.company.victories++;
     if (!next.company.completed.includes(game.battle.encounter)) {
-      const relic = encounters[game.battle.encounter].firstClearRelic;
+      const relic = catalog[game.battle.encounter].firstClearRelic;
       if (relic)
         next.company.inventory[relic] = Math.min(
           99,
