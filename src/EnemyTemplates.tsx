@@ -146,7 +146,7 @@ export function EnemyTemplates({
     return String(a[f]);
   };
   return (
-    <section aria-label="Enemy template editor">
+    <section className="enemy-templates" aria-label="Enemy template editor">
       <p>
         Templates are reusable spawn snapshots. Template edits affect future
         spawns. Compare and explicitly update selected instances below, or edit
