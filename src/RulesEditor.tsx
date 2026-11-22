@@ -1,3 +1,11 @@
+import {
+  createCatalogRecord,
+  deleteCatalogRecord,
+  recordReferences,
+  type RecordSection,
+} from "./studio-authoring";
+import type { GameContent } from "./studio-content";
+import { jobs as shippedJobs, skills as shippedSkills } from "./data";
 import type { ValidationFocusRequest } from "./studio-validation";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { gameRules, validateRules, type RuleCatalog } from "./studio-rules";
@@ -9,12 +17,15 @@ export function RulesEditor({
   apply,
   onDirty,
   focusRequest,
+  content,
 }: {
   source: RuleCatalog | undefined;
+  content?: GameContent;
   focusRequest?: ValidationFocusRequest;
   apply: (s: RuleCatalog | null) => boolean;
   onDirty: (d: boolean) => void;
 }) {
+  const [recordId, setRecordId] = useState("custom-new-record");
   const sectionRef = useRef<HTMLElement>(null);
   const baseline = useMemo(() => source ?? gameRules(), [source]),
     [draft, setDraft] = useState(baseline),
@@ -26,6 +37,9 @@ export function RulesEditor({
     [gold, setGold] = useState(140);
   useEffect(() => {
     setDraft(baseline);
+    if (!Object.hasOwn(baseline.skills, skillId)) setSkillId("strike");
+    if (!Object.hasOwn(baseline.jobs, jobId)) setJobId("vanguard");
+    if (!Object.hasOwn(baseline.gear, gearId)) setGearId("ironblade");
   }, [baseline]);
   useEffect(() => {
     const target = focusRequest?.target;
@@ -52,9 +66,39 @@ export function RulesEditor({
       return e instanceof Error ? e.message : "Invalid catalog.";
     }
   }, [draft]);
-  const skill = draft.skills[skillId],
-    job = draft.jobs[jobId],
-    gear = draft.gear[gearId];
+  const skill = draft.skills[skillId] ?? draft.skills.strike,
+    job = draft.jobs[jobId] ?? draft.jobs.vanguard,
+    gear = draft.gear[gearId] ?? draft.gear.ironblade;
+  const selected = tab === "skills" ? skillId : tab === "jobs" ? jobId : gearId;
+  const references = recordReferences(
+    draft,
+    tab as RecordSection,
+    selected,
+    content,
+  );
+  function selectRecord(id: string) {
+    if (tab === "skills") setSkillId(id as SkillId);
+    else if (tab === "jobs") setJobId(id as JobId);
+    else setGearId(id as GearId);
+  }
+  function createRecord(copy: boolean) {
+    try {
+      const next = createCatalogRecord(
+        draft,
+        tab as RecordSection,
+        recordId,
+        copy ? selected : undefined,
+      );
+      setDraft(next);
+      selectRecord(recordId);
+      setMessage(
+        "Custom draft created. Edit its fields, then Apply catalog overrides.",
+      );
+    } catch (e) {
+      setMessage(e instanceof Error ? e.message : "Creation failed.");
+    }
+  }
+
   function editSkill(patch: Partial<Skill>) {
     setDraft((p) => ({
       ...p,
@@ -80,9 +124,10 @@ export function RulesEditor({
       aria-label="Gear abilities and job catalog editor"
     >
       <p className="source-caption">
-        Source: all 13 shipped abilities, 8 jobs and 10 gear entries. Applied
-        definitions drive combat, movement, AI, learning, gear bonuses and shop
-        prices through the shared runtime.
+        {Object.keys(draft.jobs).length} classes ·{" "}
+        {Object.keys(draft.skills).length} abilities ·{" "}
+        {Object.keys(draft.gear).length} gear records. Custom records use stable
+        IDs and shipped mechanics/art archetypes.
       </p>
       <div className="pixel-tools" role="group" aria-label="Catalog sections">
         {[
@@ -94,6 +139,68 @@ export function RulesEditor({
             {label}
           </button>
         ))}
+      </div>
+      <div className="record-authoring" aria-label="Record creation">
+        <label>
+          New record ID
+          <input
+            value={recordId}
+            maxLength={47}
+            onChange={(e) => setRecordId(e.target.value)}
+          />
+        </label>
+        <div className="actions">
+          <button onClick={() => createRecord(false)}>Create new record</button>
+          <button onClick={() => createRecord(true)}>
+            Duplicate selected record
+          </button>
+          <button
+            disabled={!selected.startsWith("custom-") || references.length > 0}
+            onClick={() => {
+              try {
+                setDraft(
+                  deleteCatalogRecord(
+                    draft,
+                    tab as RecordSection,
+                    selected,
+                    content,
+                  ),
+                );
+                selectRecord(
+                  tab === "skills"
+                    ? "strike"
+                    : tab === "jobs"
+                      ? "vanguard"
+                      : "ironblade",
+                );
+                setMessage(
+                  "Custom record removed from the draft. Apply to commit.",
+                );
+              } catch (e) {
+                setMessage(e instanceof Error ? e.message : "Delete failed.");
+              }
+            }}
+          >
+            Delete custom record
+          </button>
+        </div>
+        <p>
+          IDs stay fixed after creation; names remain editable. Delete is
+          available only when no class, actor, template, proficiency or reward
+          references this record.
+        </p>
+        <details>
+          <summary>Record references ({references.length})</summary>
+          {references.length ? (
+            <ul>
+              {references.map((ref, i) => (
+                <li key={i}>{ref}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>No current references.</p>
+          )}
+        </details>
       </div>
       {tab === "skills" ? (
         <>
@@ -111,6 +218,23 @@ export function RulesEditor({
             </select>
           </label>
           <div className="content-fields">
+            {skillId.startsWith("custom-") && (
+              <label>
+                Ability mechanics and VFX base
+                <select
+                  value={skill.baseSkill}
+                  onChange={(e) =>
+                    editSkill({ baseSkill: e.target.value as any })
+                  }
+                >
+                  {Object.values(shippedSkills).map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {s.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            )}
             <label>
               Ability name
               <input
@@ -389,6 +513,21 @@ export function RulesEditor({
             </select>
           </label>
           <div className="content-fields">
+            {jobId.startsWith("custom-") && (
+              <label>
+                Class archetype and sprite
+                <select
+                  value={job.baseJob}
+                  onChange={(e) => editJob({ baseJob: e.target.value as any })}
+                >
+                  {Object.values(shippedJobs).map((j) => (
+                    <option key={j.id} value={j.id}>
+                      {j.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            )}
             <label>
               Job name
               <input
@@ -521,8 +660,8 @@ export function RulesEditor({
       <p>
         Stable IDs and existing animation bindings are preserved. Changing a
         gear slot/proficiency can conflict with a current actor loadout; unequip
-        that item first. New IDs, arbitrary scripts and complete-game packaging
-        remain future work.
+        that item first. Custom IDs are supported; arbitrary scripts, new art
+        programs and complete-game packaging remain future work.
       </p>
     </section>
   );

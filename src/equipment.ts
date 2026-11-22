@@ -1,6 +1,6 @@
 import type { JobId } from "./data";
 
-export type GearId =
+export type BuiltinGearId =
   | "ironblade"
   | "twinsteel"
   | "cedarrod"
@@ -11,6 +11,7 @@ export type GearId =
   | "copperfocus"
   | "watchcharm"
   | "crownseal";
+export type GearId = BuiltinGearId | `custom-${string}`;
 export type GearSlot = "weapon" | "armor" | "relic";
 export type Loadout = Record<GearSlot, GearId | null>;
 export interface Bonuses {

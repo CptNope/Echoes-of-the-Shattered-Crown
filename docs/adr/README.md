@@ -35,6 +35,8 @@ The initial accepted baseline records are **retrospective** except ADR-0001's ne
 
 | [ADR-0018](0018-derived-connectivity-overlays.md) | Accepted | New implementation decision | Derive grouped connectivity overlays from the current report |
 
+| [ADR-0019](0019-bounded-custom-records-and-enemy-templates.md) | Accepted | New implementation decision | Bind custom records to shipped mechanics and spawn template snapshots |
+
 ## When to create an ADR
 
 | Create a record for | Usually use another document for |
@@ -96,7 +98,7 @@ flowchart LR
     Change --> Successor[New successor ADR]
 ```
 
-Current example: [ADR-0010](0010-proposed-variable-board-and-roster-contract.md) references open D-01/D-02/D-12 and the [production-slice audit](../roadmap/PRODUCTION_SLICES.md). It remains Proposed for the broader variable-roster and engine contract. [ADR-0016](0016-bounded-rectangular-maps.md) separately adopts bounded rectangular maps with optional dimensions; the eight-unit roster remains fixed.
+Current example: [ADR-0010](0010-proposed-variable-board-and-roster-contract.md) references open D-01/D-02/D-12 and the [production-slice audit](../roadmap/PRODUCTION_SLICES.md). It remains Proposed for the broader variable-roster and engine contract. [ADR-0016](0016-bounded-rectangular-maps.md) separately adopts bounded rectangular maps with optional dimensions; [ADR-0019](0019-bounded-custom-records-and-enemy-templates.md) adds bounded hostile rosters and custom catalog IDs. General company/NPC identity and engine contracts remain future work.
 
 ## Integrity checks
 

@@ -1,3 +1,4 @@
+import { baseJobId, baseSkillId } from "./data";
 import {
   mapDimensions,
   validMapDimensions,
@@ -379,7 +380,7 @@ export function canTarget(
     t.blocked ||
     u.acted ||
     u.mp < sk.cost ||
-    (sk.id === "rally" && s.momentum < 3) ||
+    (baseSkillId(sk.id, s.rules?.skills) === "rally" && s.momentum < 3) ||
     distance(u, t) > sk.range ||
     !lineOfSight(s, u, t)
   )
@@ -414,7 +415,7 @@ export function preview(
     (v) =>
       v.id !== b.id &&
       v.team === b.team &&
-      v.job === "vanguard" &&
+      baseJobId(v.job, s.rules?.jobs) === "vanguard" &&
       distance(v, b) <= 1,
   )
     ? 4
@@ -530,7 +531,7 @@ export function command(state: Battle, c: Command): Battle {
       outcomes: [],
     };
     u.acted = true;
-    if (c.skill === "rally") s.momentum -= 3;
+    if (baseSkillId(c.skill, s.rules?.skills) === "rally") s.momentum -= 3;
     u.facing =
       Math.abs(c.x - u.x) >= Math.abs(c.z - u.z)
         ? [Math.sign(c.x - u.x) || u.facing[0], 0]
@@ -556,7 +557,7 @@ export function command(state: Battle, c: Command): Battle {
           v.status.burn = 0;
           note(
             s,
-            `${u.name} protects ${v.name} with Oathguard: 45% reduction until their next activation; burn cleansed.`,
+            `${u.name} protects ${v.name} with ${sk.name}: 45% reduction until their next activation; burn cleansed.`,
           );
         } else {
           v.next = Math.max(0, v.next - 35);
@@ -575,12 +576,13 @@ export function command(state: Battle, c: Command): Battle {
           v.status.slow = 2;
           v.status.soaked = 2;
         }
-        if (sk.id === "veil") v.status.exposed = 2;
+        if (baseSkillId(sk.id, s.rules?.skills) === "veil")
+          v.status.exposed = 2;
         if (sk.effect === "consumeExposure") v.status.exposed = 0;
         if (sk.effect === "soak") v.status.soaked = 3;
         if (sk.effect === "delay" && v.hp > 0) {
           v.next += 30;
-          note(s, `${v.name} loses 30 timeline ticks to Stolen hour.`);
+          note(s, `${v.name} loses 30 timeline ticks to ${sk.name}.`);
         }
         note(
           s,
@@ -598,7 +600,7 @@ export function command(state: Battle, c: Command): Battle {
         if (
           v.hp > 0 &&
           u.hp > 0 &&
-          sk.id === "strike" &&
+          baseSkillId(sk.id, s.rules?.skills) === "strike" &&
           distance(u, v) <= 1 &&
           hasSupport(v, "reprisal")
         ) {
@@ -607,10 +609,10 @@ export function command(state: Battle, c: Command): Battle {
         }
         if (u.team === "ally") s.momentum = Math.min(5, s.momentum + 1);
         if (
-          sk.id === "strike" &&
+          baseSkillId(sk.id, s.rules?.skills) === "strike" &&
           u.hp > 0 &&
           v.hp > 0 &&
-          v.job === "dancer" &&
+          baseJobId(v.job, s.rules?.jobs) === "dancer" &&
           distance(u, v) <= 1
         ) {
           u.hp = Math.max(0, u.hp - 9);
@@ -694,7 +696,9 @@ export function aiTurn(state: Battle): Battle {
   u = activeUnit(s);
   let action:
     { skill: SkillId; x: number; z: number; score: number } | undefined;
-  for (const id of availableSkills(u, s.rules).filter((id) => id !== "rally")) {
+  for (const id of availableSkills(u, s.rules).filter(
+    (id) => baseSkillId(id, s.rules?.skills) !== "rally",
+  )) {
     const sk = (s.rules?.skills ?? skills)[id];
     for (const t of s.tiles) {
       if (!canTarget(s, u, sk, t.x, t.z)) continue;
@@ -788,7 +792,7 @@ function validBattle(raw: unknown): raw is Battle {
     !Object.hasOwn(encounters, s.encounter) ||
     (s.lastAction !== undefined &&
       (!s.lastAction ||
-        !Object.hasOwn(skills, s.lastAction.skill) ||
+        !Object.hasOwn(s.rules?.skills ?? skills, s.lastAction.skill) ||
         !Number.isInteger(s.lastAction.turn) ||
         s.lastAction.turn < 1 ||
         s.lastAction.turn > s.turn ||
@@ -804,7 +808,7 @@ function validBattle(raw: unknown): raw is Battle {
             ))) ||
         (s.lastAction.outcomes !== undefined &&
           (!Array.isArray(s.lastAction.outcomes) ||
-            s.lastAction.outcomes.length > 8 ||
+            s.lastAction.outcomes.length > 24 ||
             new Set(s.lastAction.outcomes.map((o) => o.unit)).size !==
               s.lastAction.outcomes.length ||
             s.lastAction.outcomes.some(
@@ -825,7 +829,8 @@ function validBattle(raw: unknown): raw is Battle {
     !Array.isArray(s.tiles) ||
     s.tiles.length !== dimensions.width * dimensions.height ||
     !Array.isArray(s.units) ||
-    s.units.length !== 8 ||
+    s.units.length < 4 ||
+    s.units.length > 24 ||
     !Array.isArray(s.log) ||
     !s.log.every((v) => typeof v === "string")
   )
@@ -849,7 +854,10 @@ function validBattle(raw: unknown): raw is Battle {
   )
     return false;
   return (
-    new Set(s.units.map((u) => u.id)).size === 8 &&
+    new Set(s.units.map((u) => u.id)).size === s.units.length &&
+    ["sera", "ilya", "corin", "mae"].every((id) =>
+      s.units.some((u) => u.id === id && u.team === "ally"),
+    ) &&
     s.units.some(
       (u) => u.id === s.active && (u.hp > 0 || s.result !== "playing"),
     ) &&
@@ -857,19 +865,25 @@ function validBattle(raw: unknown): raw is Battle {
       (u) =>
         typeof u.id === "string" &&
         u.id.length > 0 &&
+        u.id.length <= 80 &&
+        (["sera", "ilya", "corin", "mae"].includes(u.id)
+          ? u.team === "ally"
+          : (["sentinel", "cinder", "wraith", "cantor"].includes(u.id) ||
+              /^enemy-[a-z][a-z0-9-]{0,55}$/.test(u.id)) &&
+            u.team === "enemy") &&
         typeof u.name === "string" &&
-        Object.hasOwn(jobs, u.job) &&
-        Object.hasOwn(jobs, u.secondary) &&
+        Object.hasOwn(s.rules?.jobs ?? jobs, u.job) &&
+        Object.hasOwn(s.rules?.jobs ?? jobs, u.secondary) &&
         validSupports(u) &&
         Number.isFinite(u.baseHp) &&
         u.baseHp > 0 &&
         Array.isArray(u.learned) &&
-        u.learned.every((id) => Object.hasOwn(skills, id)) &&
+        u.learned.every((id) => Object.hasOwn(s.rules?.skills ?? skills, id)) &&
         new Set(u.learned).size === u.learned.length &&
         u.jpSpent &&
         Object.entries(u.jpSpent).every(
           ([j, n]) =>
-            Object.hasOwn(jobs, j) &&
+            Object.hasOwn(s.rules?.jobs ?? jobs, j) &&
             Number.isFinite(n) &&
             n! >= 0 &&
             n! <= (u.jp[j as JobId] ?? 0),
@@ -879,7 +893,7 @@ function validBattle(raw: unknown): raw is Battle {
           const id = u.equipment[slot];
           return (
             id === null ||
-            (Object.hasOwn(equipment, id) &&
+            (Object.hasOwn(s.rules?.gear ?? equipment, id) &&
               (s.rules?.gear ?? equipment)[id].slot === slot &&
               canEquip(u.job, id, s.rules?.gear))
           );
@@ -913,7 +927,10 @@ function validBattle(raw: unknown): raw is Battle {
         ) &&
         u.jp &&
         Object.entries(u.jp).every(
-          ([k, v]) => Object.hasOwn(jobs, k) && Number.isFinite(v) && v! >= 0,
+          ([k, v]) =>
+            Object.hasOwn(s.rules?.jobs ?? jobs, k) &&
+            Number.isFinite(v) &&
+            v! >= 0,
         ),
     )
   );

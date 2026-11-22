@@ -13,7 +13,7 @@
 | Gear | Name, description, slot, price, reward-only flag, proficiency jobs, six bonuses | Spawned actor stats, player equip rules, shop purchase, deployment and source/save validation |
 | Actor loadout | Weapon, armor, relic | Current ally/enemy spawn; validated against the active gear catalog and primary job |
 
-The source IDs remain fixed to the current game. Editing these definitions does not create new animation sheets, effect programs or item IDs. The native sprite and terrain editors remain responsible for artwork.
+Shipped IDs remain mandatory. [Custom content authoring](CUSTOM_CONTENT_AUTHORING.md) supports additional stable IDs: up to 48 classes, 128 abilities and 128 gear records in total. Custom classes and abilities bind to an existing archetype for mechanics and presentation. Creation does not generate new art or effect programs.
 
 ## Author, apply and test
 
@@ -59,12 +59,12 @@ The main battle/camp interfaces also resolve an optional battle catalog for labe
 | Gear HP / movement bonuses | −100–500 / −8–8 |
 | Other gear bonuses | −99–99 |
 | Actor HP after bonuses | Clamped to at least one; maximum resources reset only for fresh compilation |
-| File limits | Existing 128 KiB project limit without embedded native art; 8 MiB with it |
+| File limits | 128 KiB legacy, 512 KiB explicit dimensions, 8 MiB native art |
 
 Actor gear must use a matching slot and valid job proficiency. Optional rules in battle/player backups receive the same catalog validation. Old projects/battles without rules remain valid. Large descriptions or other rich sources can reach the explicit file limit; export never truncates definitions.
 
 ## Verification and remaining work
 
-Ten new tests cover exact shipped imports and source isolation, real health/movement/initiative, command cost/range/power, animation/effect footprint, monster AI with edited native skills, real purchase/equip/deployment, learning/unlock/mastery, rejection, actor loadout constraints, JSON/undo/reset and legacy fallback. The full suite has 166 tests. Runtime tests use controlled fixtures; browser checks additionally verify forms, actual playtest actions and downloaded-source recovery.
+Ten new tests cover exact shipped imports and source isolation, real health/movement/initiative, command cost/range/power, animation/effect footprint, monster AI with edited native skills, real purchase/equip/deployment, learning/unlock/mastery, rejection, actor loadout constraints, JSON/undo/reset and legacy fallback. The full suite has 181 tests. Runtime tests use controlled fixtures; browser checks additionally verify forms, actual playtest actions and downloaded-source recovery.
 
-Still planned: adding/deleting arbitrary IDs, variable boards/rosters, neutral NPC interactions, branching quests/dialogue, support-definition editing, new AI programs, formula scripting, job-level/learning-cost curves, arbitrary effect graphs, equipment artwork and complete playable-plus-editable game export. The shared catalog seam makes these follow-on tools possible; it does not mark the complete studio roadmap finished.
+Still planned: variable company/neutral actor identities, neutral NPC interactions, branching quests/dialogue, support-definition editing, new AI programs, formula scripting, job-level/learning-cost curves, arbitrary effect graphs, equipment artwork and complete playable-plus-editable game export. The shared catalog seam makes these follow-on tools possible; it does not mark the complete studio roadmap finished.

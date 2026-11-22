@@ -31,7 +31,7 @@ On phones, use **Show battlefield tools** to open the palette. The board scrolls
 | Local save | Explicit save; separate studio keys; previous-valid checkpoint fallback |
 | Files | Strict level-project v1 JSON; 128 KiB legacy maps / 512 KiB maps with explicit dimensions / 8 MiB with embedded native sheet; unknown fields rejected |
 | Distribution | Studio is a built static entry on GitHub Pages |
-| Not yet implemented | New actors, new objective/formula programs, advanced pixel/multitrack music editing, sampling/recording and full audio graphs, complete playable-game export, full project migrations or collaboration |
+| Not yet implemented | New ally/neutral NPC identities, new objective/formula programs, advanced pixel/multitrack music editing, sampling/recording and full audio graphs, complete playable-game export, full project migrations or collaboration |
 
 Undo and redo restore document data while increasing the revision. A new edit after undo discards the redo branch. Invalid batches leave the entire previous document intact. Undo history is session-only; files/checkpoints retain the current source, not the history.
 

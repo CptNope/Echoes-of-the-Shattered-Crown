@@ -65,7 +65,7 @@ During a battle, the company profile is the pre-deployment baseline; the battle'
 
 ## Validation and limitations
 
-The engine validates known jobs, skills, gear slots/proficiencies, JP spending, status counters, coordinates, resources and fixed board/roster counts. Expedition validation additionally checks companion identities, gold/count bounds, completion IDs, and that profile/field equipment allocations do not exceed owned quantities. Malformed shapes are caught and rejected. These are application compatibility checks, not a public upload-security schema.
+The engine validates known jobs, skills, gear slots/proficiencies, JP spending, status counters, coordinates, resources and bounded board dimensions and roster identities/counts. Expedition validation additionally checks companion identities, gold/count bounds, completion IDs, and that profile/field equipment allocations do not exceed owned quantities. Malformed shapes are caught and rejected. These are application compatibility checks, not a public upload-security schema.
 
 ## Storage limitations
 

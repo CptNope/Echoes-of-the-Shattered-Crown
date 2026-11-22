@@ -18,11 +18,12 @@ export interface DialogueLine {
 export type ActorSource = Pick<
   Unit,
   "id" | "name" | "job" | "secondary" | "baseHp" | "maxMp" | "learned" | "jp"
-> & { equipment?: Loadout };
+> & { equipment?: Loadout; team?: "enemy" };
 export interface GameContent {
   version: 1;
   contracts: Record<EncounterId, Encounter>;
   actors: ActorSource[];
+  enemyTemplates?: ActorSource[];
   dialogue: Record<EncounterId, DialogueLine[]>;
   victoryJP: number;
 }
@@ -82,7 +83,14 @@ export function validateGameContent(
   rules?: RuleCatalog,
 ): GameContent {
   check(obj(raw), "Expected game content.");
-  fields(raw, ["version", "contracts", "actors", "dialogue", "victoryJP"]);
+  fields(raw, [
+    "version",
+    "contracts",
+    "actors",
+    "dialogue",
+    "victoryJP",
+    "enemyTemplates",
+  ]);
   check(
     raw.version === 1 && int(raw.victoryJP, 0, 999),
     "Invalid content version or victory JP.",
@@ -123,7 +131,7 @@ export function validateGameContent(
     check(
       c.firstClearRelic === undefined ||
         (typeof c.firstClearRelic === "string" &&
-          Object.hasOwn(equipment, c.firstClearRelic)),
+          Object.hasOwn(rules?.gear ?? equipment, c.firstClearRelic)),
       "Unknown first-clear item.",
     );
     const visited = new Set<string>([id]);
@@ -139,13 +147,37 @@ export function validateGameContent(
       at = parent.requires;
     }
   }
-  const ids = createBattle().units.map((u) => u.id);
+  const builtin = createBattle().units.map((u) => u.id);
+  const jobCatalog = rules?.jobs ?? jobs,
+    skillCatalog = rules?.skills ?? skills;
   check(
-    Array.isArray(raw.actors) && raw.actors.length === 8,
-    "Keep all eight encounter actor identities.",
+    Array.isArray(raw.actors) &&
+      raw.actors.length >= 4 &&
+      raw.actors.length <= 24 &&
+      ["sera", "ilya", "corin", "mae"].every((id) =>
+        (raw.actors as unknown[]).some((a) => obj(a) && a.id === id),
+      ),
+    "Keep the four company heroes and up to twenty enemies.",
   );
+  check(
+    raw.enemyTemplates === undefined ||
+      (Array.isArray(raw.enemyTemplates) && raw.enemyTemplates.length <= 32),
+    "Use at most 32 enemy templates.",
+  );
+  for (const t of (raw.enemyTemplates as unknown[]) ?? [])
+    check(
+      obj(t) &&
+        typeof t.id === "string" &&
+        /^enemy-[a-z][a-z0-9-]{0,55}$/.test(t.id) &&
+        t.team === "enemy",
+      "Invalid enemy template identity.",
+    );
+  const ids = raw.actors.filter(obj).map((a) => String(a.id));
   const used = new Set();
-  for (const a of raw.actors) {
+  for (const a of [
+    ...raw.actors,
+    ...((raw.enemyTemplates as unknown[]) ?? []),
+  ]) {
     check(obj(a), "Invalid actor source.");
     fields(a, [
       "id",
@@ -157,16 +189,22 @@ export function validateGameContent(
       "learned",
       "jp",
       "equipment",
+      "team",
     ]);
     check(
       typeof a.id === "string" &&
-        ids.includes(a.id) &&
+        (builtin.includes(a.id) || /^enemy-[a-z][a-z0-9-]{0,55}$/.test(a.id)) &&
+        (builtin.includes(a.id)
+          ? a.team === undefined ||
+            (a.team === "enemy" &&
+              !["sera", "ilya", "corin", "mae"].includes(a.id))
+          : a.team === "enemy") &&
         !used.has(a.id) &&
         text(a.name, 80) &&
         typeof a.job === "string" &&
-        Object.hasOwn(jobs, a.job) &&
+        Object.hasOwn(jobCatalog, a.job) &&
         typeof a.secondary === "string" &&
-        Object.hasOwn(jobs, a.secondary) &&
+        Object.hasOwn(jobCatalog, a.secondary) &&
         int(a.baseHp, 1, 999) &&
         int(a.maxMp, 0, 999),
       "Invalid actor fields.",
@@ -194,14 +232,14 @@ export function validateGameContent(
       Array.isArray(a.learned) &&
         new Set(a.learned).size === a.learned.length &&
         a.learned.every(
-          (s) => typeof s === "string" && Object.hasOwn(skills, s),
+          (s) => typeof s === "string" && Object.hasOwn(skillCatalog, s),
         ),
       "Unknown or duplicate learned skill.",
     );
     check(
       obj(a.jp) &&
         Object.entries(a.jp).every(
-          ([job, jp]) => Object.hasOwn(jobs, job) && int(jp, 0, 9999),
+          ([job, jp]) => Object.hasOwn(jobCatalog, job) && int(jp, 0, 9999),
         ),
       "Invalid starting job points.",
     );

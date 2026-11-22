@@ -1,3 +1,5 @@
+import { previewExpedition } from "./studio-authoring";
+import { EnemyTemplates } from "./EnemyTemplates";
 import { ConnectivityMap } from "./ConnectivityOverlay";
 import {
   activeConnectivityFinding,
@@ -625,7 +627,7 @@ function Preview({
                   setSettled(
                     returnToCamp(
                       {
-                        ...createExpedition(),
+                        ...previewExpedition(battle),
                         stage: "battle",
                         battle: structuredClone(battle),
                       },
@@ -738,6 +740,7 @@ function Studio() {
       | "terrain"
       | "content"
       | "game-audio"
+      | "enemies"
       | "rules"
     >("map"),
     [soundDraftDirty, setSoundDraftDirty] = useState(false);
@@ -753,7 +756,9 @@ function Studio() {
     project.encounter ?? "shrine",
   );
   const [rulesDirty, setRulesDirty] = useState(false);
+  const [enemyDirty, setEnemyDirty] = useState(false);
   const hasDraft =
+    enemyDirty ||
     rulesDirty ||
     contentDirty ||
     terrainDirty ||
@@ -1038,7 +1043,13 @@ function Studio() {
             </div>
             <div
               hidden={
-                !["terrain", "content", "game-audio", "rules"].includes(panel)
+                ![
+                  "terrain",
+                  "content",
+                  "game-audio",
+                  "rules",
+                  "enemies",
+                ].includes(panel)
               }
             >
               <h2>Existing game sources</h2>
@@ -1124,21 +1135,23 @@ function Studio() {
             <div className="section-heading">
               <div>
                 <h1>
-                  {panel === "map"
-                    ? "Battlefield editor"
-                    : panel === "rules"
-                      ? "Gear, ability and job overrides"
-                      : panel === "terrain"
-                        ? "Terrain appearance editor"
-                        : panel === "content"
-                          ? "Game content editor"
-                          : panel === "game-audio"
-                            ? "Existing game audio"
-                            : panel === "sounds"
-                              ? "Sound effects editor"
-                              : panel === "music"
-                                ? "Music pattern editor"
-                                : "Pixel animation editor"}
+                  {panel === "enemies"
+                    ? "Enemy templates and spawning"
+                    : panel === "map"
+                      ? "Battlefield editor"
+                      : panel === "rules"
+                        ? "Gear, ability and job overrides"
+                        : panel === "terrain"
+                          ? "Terrain appearance editor"
+                          : panel === "content"
+                            ? "Game content editor"
+                            : panel === "game-audio"
+                              ? "Existing game audio"
+                              : panel === "sounds"
+                                ? "Sound effects editor"
+                                : panel === "music"
+                                  ? "Music pattern editor"
+                                  : "Pixel animation editor"}
                 </h1>
                 <p>
                   {hasDraft
@@ -1186,6 +1199,7 @@ function Studio() {
               {(
                 [
                   ["rules", "Gear, abilities & jobs"],
+                  ["enemies", "Enemy templates"],
                   ["terrain", "Terrain textures"],
                   ["content", "NPCs, dialogue & progression"],
                   ["game-audio", "Game audio"],
@@ -1272,9 +1286,18 @@ function Studio() {
                 }}
               />
             )}
+            <div hidden={panel !== "enemies"}>
+              <EnemyTemplates
+                project={project}
+                apply={edit}
+                onDirty={setEnemyDirty}
+                blocked={hasDraft}
+              />
+            </div>
             <div hidden={panel !== "rules"}>
               <RulesEditor
                 source={project.rules}
+                content={project.content}
                 focusRequest={focusRequest}
                 apply={(rules) => edit([{ type: "rules", rules }])}
                 onDirty={setRulesDirty}
@@ -1518,7 +1541,7 @@ function Studio() {
                   can climb one elevation step.
                 </p>
                 <p>
-                  All eight actors need separate, unblocked land or ice tiles.
+                  All roster actors need separate, unblocked land or ice tiles.
                 </p>
                 <a href="animation-review.html">Open animation workbench ↗</a>
               </aside>

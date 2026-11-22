@@ -293,7 +293,7 @@ export function validateExpedition(raw: unknown): raw is Expedition {
       !c.inventory ||
       !Object.entries(c.inventory).every(
         ([id, n]) =>
-          Object.hasOwn(equipment, id) &&
+          Object.hasOwn(g.battle.rules?.gear ?? equipment, id) &&
           Number.isInteger(n) &&
           n! >= 0 &&
           n! <= 99,
@@ -318,7 +318,9 @@ export function validateExpedition(raw: unknown): raw is Expedition {
       };
       if (!validateSave(probe)) return false;
     }
-    for (const item of Object.keys(equipment) as GearId[])
+    for (const item of Object.keys(
+      g.battle.rules?.gear ?? equipment,
+    ) as GearId[])
       if (allocated(c, item) > (c.inventory[item] ?? 0)) return false;
     // A restored battle may have dropped incompatible equipment after a job swap,
     // but it cannot introduce equipment the company did not own at deployment.
@@ -328,7 +330,9 @@ export function validateExpedition(raw: unknown): raw is Expedition {
       !ids.every((id) => fieldMembers.some((u) => u.id === id))
     )
       return false;
-    for (const item of Object.keys(equipment) as GearId[])
+    for (const item of Object.keys(
+      g.battle.rules?.gear ?? equipment,
+    ) as GearId[])
       if (
         fieldMembers.filter((u) => Object.values(u.equipment).includes(item))
           .length > (c.inventory[item] ?? 0)

@@ -1,4 +1,4 @@
-export type JobId =
+export type BuiltinJobId =
   | "vanguard"
   | "dancer"
   | "arcanist"
@@ -7,7 +7,8 @@ export type JobId =
   | "runewarden"
   | "stormherald"
   | "chronoweaver";
-export type SkillId =
+export type JobId = BuiltinJobId | `custom-${string}`;
+export type BuiltinSkillId =
   | "strike"
   | "cleave"
   | "ember"
@@ -21,8 +22,10 @@ export type SkillId =
   | "aegis"
   | "raincall"
   | "delay";
+export type SkillId = BuiltinSkillId | `custom-${string}`;
 export type Element = "physical" | "fire" | "ice" | "lightning" | "spirit";
 export interface Skill {
+  baseSkill?: BuiltinSkillId;
   id: SkillId;
   name: string;
   cost: number;
@@ -193,6 +196,7 @@ export const skills: Record<SkillId, Skill> = {
   },
 };
 export interface Job {
+  baseJob?: BuiltinJobId;
   id: JobId;
   name: string;
   role: string;
@@ -318,5 +322,19 @@ export const unlocked = (
   catalog = jobs,
 ) =>
   Object.entries(catalog[id].requires).every(
-    ([j, n]) => jobLevel(jp[j as JobId] ?? 0) >= n,
+    ([j, n]) => jobLevel(jp[j as JobId] ?? 0) >= n!,
   );
+
+/** Scoped custom records inherit a shipped mechanics/presentation archetype. */
+export function baseJobId(id: JobId, catalog = jobs): BuiltinJobId {
+  return (
+    catalog[id]?.baseJob ??
+    (Object.hasOwn(jobs, id) ? (id as BuiltinJobId) : "vanguard")
+  );
+}
+export function baseSkillId(id: SkillId, catalog = skills): BuiltinSkillId {
+  return (
+    catalog[id]?.baseSkill ??
+    (Object.hasOwn(skills, id) ? (id as BuiltinSkillId) : "strike")
+  );
+}

@@ -1,5 +1,13 @@
 # Changelog
 
+## Custom content authoring — 2026-11-22
+
+- Added stable custom class, ability and gear records with create/duplicate controls, shipped archetype bindings and reference-aware deletion.
+- Added editable enemy templates and atomic hostile spawning/removal with shared history, validation, checkpoint and JSON recovery.
+- Added the guided Saltglass Crossing: Tidewarden, four abilities, six gear pieces, three enemy variants and a 16×12 encounter.
+- Extended scoped combat, AI, presentation, saves, shop, equipment and progression to custom IDs. Fixed effect target bounds on larger maps and isolated preview settlement ownership.
+- Added fifteen regression cases; all 181 tests pass.
+
 ## 2026-11-22 — Grouped connectivity warnings and map overlays
 
 - Group disconnected enemies by shared ground region and list affected actors instead of repeating one warning per enemy.

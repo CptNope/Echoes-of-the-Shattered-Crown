@@ -1,3 +1,5 @@
+import { mapDimensions } from "./map-layout";
+import { baseSkillId } from "./data";
 import { skills, type SkillId } from "./data";
 import type { Battle } from "./engine";
 import type { ActionCue } from "./animation";
@@ -96,9 +98,9 @@ export function planCombatEffect(
     !Number.isInteger(target.x) ||
     !Number.isInteger(target.z) ||
     target.x < 0 ||
-    target.x > 8 ||
+    target.x >= mapDimensions(battle).width ||
     target.z < 0 ||
-    target.z > 8
+    target.z >= mapDimensions(battle).height
   )
     return null;
   const sk = (battle.rules?.skills ?? skills)[cue.skill],
@@ -114,7 +116,7 @@ export function planCombatEffect(
       return u ? [{ x: u.x, z: u.z }] : [];
     });
   return {
-    skill: cue.skill,
+    skill: baseSkillId(cue.skill, battle.rules?.skills),
     origin: { x: actor.x, z: actor.z },
     target: { ...target },
     tiles,

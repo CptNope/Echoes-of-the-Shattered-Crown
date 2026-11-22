@@ -94,7 +94,11 @@ export function analyzeProject(raw: unknown): ProjectValidation {
     const jobCatalog = rules && record(rules.jobs) ? rules.jobs : jobs;
     const skillCatalog = rules && record(rules.skills) ? rules.skills : skills;
     const gearCatalog = rules && record(rules.gear) ? rules.gear : equipment;
-    const actorIds = new Set(createBattle().units.map((u) => u.id));
+    const actorIds = new Set(
+      Array.isArray(content?.actors)
+        ? content.actors.filter(record).map((a) => String(a.id))
+        : createBattle().units.map((u) => u.id),
+    );
     if (
       Array.isArray(raw.placements) &&
       Array.isArray(raw.tiles) &&
@@ -180,7 +184,7 @@ export function analyzeProject(raw: unknown): ProjectValidation {
             if (id === null) continue;
             const gear =
               typeof id === "string"
-                ? gearCatalog[id as keyof typeof gearCatalog]
+                ? (gearCatalog as Record<string, unknown>)[id]
                 : null;
             if (
               !record(gear) ||

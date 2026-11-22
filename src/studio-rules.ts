@@ -43,9 +43,16 @@ function identities(
 ): asserts raw is Record<string, Record<string, unknown>> {
   check(
     object(raw) &&
-      Object.keys(raw).length === Object.keys(base).length &&
-      Object.keys(base).every((k) => Object.hasOwn(raw, k) && object(raw[k])),
-    "Keep the existing " + name + " identities.",
+      Object.keys(raw).length <= (name === "job" ? 48 : 128) &&
+      Object.keys(base).every((k) => Object.hasOwn(raw, k)) &&
+      Object.keys(raw).every(
+        (k) =>
+          (Object.hasOwn(base, k) || /^custom-[a-z][a-z0-9-]{0,39}$/.test(k)) &&
+          object(raw[k]),
+      ),
+    "Keep shipped identities and use bounded custom IDs for new " +
+      name +
+      " records.",
   );
 }
 export function validateRules(raw: unknown): RuleCatalog {
@@ -67,7 +74,14 @@ export function validateRules(raw: unknown): RuleCatalog {
       "element",
       "kind",
       "effect",
+      "baseSkill",
     ]);
+    check(
+      s.baseSkill === undefined
+        ? Object.hasOwn(skills, id)
+        : typeof s.baseSkill === "string" && Object.hasOwn(skills, s.baseSkill),
+      "Custom abilities need an existing baseSkill binding.",
+    );
     check(
       s.id === id &&
         text(s.name, 80) &&
@@ -112,7 +126,14 @@ export function validateRules(raw: unknown): RuleCatalog {
       "magic",
       "skills",
       "requires",
+      "baseJob",
     ]);
+    check(
+      j.baseJob === undefined
+        ? Object.hasOwn(jobs, id)
+        : typeof j.baseJob === "string" && Object.hasOwn(jobs, j.baseJob),
+      "Custom classes need an existing baseJob binding.",
+    );
     check(
       j.id === id &&
         text(j.name, 80) &&
@@ -131,7 +152,8 @@ export function validateRules(raw: unknown): RuleCatalog {
       Array.isArray(j.skills) &&
         new Set(j.skills).size === j.skills.length &&
         j.skills.every(
-          (s) => typeof s === "string" && Object.hasOwn(skills, s),
+          (s) =>
+            typeof s === "string" && Object.hasOwn(raw.skills as object, s),
         ),
       "Job abilities must reference existing unique IDs.",
     );
@@ -139,19 +161,24 @@ export function validateRules(raw: unknown): RuleCatalog {
       object(j.requires) &&
         Object.entries(j.requires).every(
           ([job, n]) =>
-            Object.hasOwn(jobs, job) && job !== id && integer(n, 1, 99),
+            Object.hasOwn(raw.jobs as object, job) &&
+            job !== id &&
+            integer(n, 1, 99),
         ),
       "Invalid job prerequisite.",
     );
   }
   const catalogJobs = raw.jobs;
+  const visitedJobs = new Set<string>();
   function visit(id: string, trail: Set<string>) {
+    if (visitedJobs.has(id)) return;
     check(!trail.has(id), "Job prerequisite cycle.");
     const next = new Set(trail).add(id);
     for (const parent of Object.keys(catalogJobs[id].requires as object))
       visit(parent, next);
+    visitedJobs.add(id);
   }
-  for (const id of Object.keys(jobs)) visit(id, new Set());
+  for (const id of Object.keys(raw.jobs)) visit(id, new Set());
   for (const [id, g] of Object.entries(raw.gear)) {
     fields(g, [
       "id",
@@ -177,7 +204,10 @@ export function validateRules(raw: unknown): RuleCatalog {
       g.jobs === undefined ||
         (Array.isArray(g.jobs) &&
           new Set(g.jobs).size === g.jobs.length &&
-          g.jobs.every((j) => typeof j === "string" && Object.hasOwn(jobs, j))),
+          g.jobs.every(
+            (j) =>
+              typeof j === "string" && Object.hasOwn(raw.jobs as object, j),
+          )),
       "Unknown or duplicate gear proficiency.",
     );
     check(object(g.bonuses), "Invalid gear bonuses.");

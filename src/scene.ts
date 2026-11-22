@@ -1,3 +1,4 @@
+import { baseJobId } from "./data";
 import { mapDimensions, mapFrame } from "./map-layout";
 import {
   terrainColor,
@@ -441,7 +442,12 @@ export class Battlefield {
           ? this.pixelClip
           : null;
       const t = texture(
-        custom ? pixelCanvas(custom) : spriteCanvas(u.job, u.team === "enemy"),
+        custom
+          ? pixelCanvas(custom)
+          : spriteCanvas(
+              baseJobId(u.job, this.state.rules?.jobs),
+              u.team === "enemy",
+            ),
       );
       t.minFilter = t.magFilter = custom
         ? THREE.NearestFilter
@@ -517,7 +523,12 @@ export class Battlefield {
     actor.artFrame = -1;
     actor.sprite.scale.set(1.15, 1.53, 1);
     actor.sprite.center.set(0.5, 0);
-    const map = texture(spriteCanvas(u.job, u.team === "enemy"));
+    const map = texture(
+      spriteCanvas(
+        baseJobId(u.job, this.state.rules?.jobs),
+        u.team === "enemy",
+      ),
+    );
     map.minFilter = map.magFilter = THREE.LinearFilter;
     actor.sprite.material.map?.dispose();
     this.resources.push(map);
@@ -531,7 +542,7 @@ export class Battlefield {
     void (
       native
         ? loadNativeSheet(native).catch(() => null)
-        : loadAnimationSheet(u.job)
+        : loadAnimationSheet(baseJobId(u.job, this.state.rules?.jobs))
     ).then((sheet) => {
       if (!sheet || this.disposed) {
         if (native && !this.disposed)
@@ -548,13 +559,19 @@ export class Battlefield {
         actor.custom
       )
         return;
-      let source = native ? undefined : this.animationSources.get(u.job);
+      let source = native
+        ? undefined
+        : this.animationSources.get(baseJobId(u.job, this.state.rules?.jobs));
       if (!source) {
         source = new THREE.Texture(sheet.image);
         source.colorSpace = THREE.SRGBColorSpace;
         source.minFilter = source.magFilter = THREE.LinearFilter;
         source.generateMipmaps = false;
-        if (!native) this.animationSources.set(u.job, source);
+        if (!native)
+          this.animationSources.set(
+            baseJobId(u.job, this.state.rules?.jobs),
+            source,
+          );
         this.resources.push(source);
       }
       const map = source.clone();

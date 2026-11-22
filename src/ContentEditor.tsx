@@ -40,6 +40,9 @@ export function ContentEditor({
     [completed, setCompleted] = useState<EncounterId[]>([]);
   useEffect(() => {
     setDraft(baseline);
+    setActor((old) =>
+      baseline.actors.some((a) => a.id === old) ? old : baseline.actors[0].id,
+    );
     setContract(encounter);
   }, [baseline, encounter]);
   useEffect(() => {
@@ -68,7 +71,7 @@ export function ContentEditor({
       return e instanceof Error ? e.message : "Invalid content.";
     }
   }, [draft, rules]);
-  const person = draft.actors.find((a) => a.id === actor)!,
+  const person = draft.actors.find((a) => a.id === actor) ?? draft.actors[0],
     c = draft.contracts[contract],
     lines = draft.dialogue[contract];
   function editActor(patch: Partial<typeof person>) {

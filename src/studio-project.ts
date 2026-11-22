@@ -1,3 +1,4 @@
+import { buildExpansion } from "./studio-authoring";
 import {
   mapDimensions,
   validMapDimensions,
@@ -157,15 +158,18 @@ export function validateLevelProject(raw: unknown): LevelProject {
     if (cells.has(k)) fail("Duplicate tile.");
     cells.add(k);
   }
-  if (!Array.isArray(raw.placements) || raw.placements.length !== 8)
-    fail("Keep all eight template actors.");
+  const roster = raw.content
+    ? validateGameContent(raw.content, rules).actors
+    : template.units;
+  if (!Array.isArray(raw.placements) || raw.placements.length !== roster.length)
+    fail("Place every roster actor exactly once.");
   const actors = new Set<string>(),
     occupied = new Set<string>();
   for (const p of raw.placements) {
     if (!record(p)) fail("Invalid actor placement.");
     fields(p, ["id", "x", "z"]);
     if (
-      !template.units.some((u) => u.id === p.id) ||
+      !roster.some((u) => u.id === p.id) ||
       actors.has(String(p.id)) ||
       !int(p.x, 0, dimensions.width - 1) ||
       !int(p.z, 0, dimensions.height - 1)
@@ -242,7 +246,13 @@ export type ProjectEdit =
   | { type: "content"; content: GameContent }
   | { type: "materials"; materials: TerrainMaterials }
   | { type: "game-audio"; audio: GameAudio }
-  | { type: "rules"; rules: RuleCatalog | null };
+  | { type: "rules"; rules: RuleCatalog | null }
+  | {
+      type: "roster";
+      content: GameContent;
+      placements: LevelProject["placements"];
+    }
+  | { type: "expansion" };
 /** Atomic batch: reject every operation if any resulting invariant fails. */
 export function editProject(
   project: LevelProject,
@@ -255,7 +265,11 @@ export function editProject(
     fail("Use a batch of 1–1024 edits.");
   const next = structuredClone(project);
   for (const e of edits) {
-    if (e.type === "resize") {
+    if (e.type === "expansion") Object.assign(next, buildExpansion(next));
+    else if (e.type === "roster") {
+      next.content = validateGameContent(e.content, next.rules);
+      next.placements = structuredClone(e.placements);
+    } else if (e.type === "resize") {
       const dimensions = { width: e.width, height: e.height };
       if (!validMapDimensions(dimensions))
         fail("Map width and height must be whole numbers from 9 to 32.");
@@ -372,21 +386,37 @@ export function compileLevelProject(project: LevelProject): Battle {
   if (p.dimensions) battle.dimensions = structuredClone(p.dimensions);
   if (p.rules) battle.rules = structuredClone(p.rules);
   battle.tiles = p.tiles.map((t) => ({ ...t, burn: 0 }));
-  for (const u of battle.units)
-    Object.assign(
-      u,
-      p.placements.find((x) => x.id === u.id)!,
-    );
   if (p.content) {
     battle.victoryJP = p.content.victoryJP;
-    for (const u of battle.units) {
-      const source = p.content.actors.find((a) => a.id === u.id)!;
-      Object.assign(u, structuredClone(source));
+    const baseline = battle.units;
+    battle.units = p.content.actors.map((source, i) => {
+      const original =
+        baseline.find((u) => u.id === source.id) ??
+        baseline.find((u) => u.team === "enemy")!;
+      const u = structuredClone(original);
+      Object.assign(
+        u,
+        structuredClone(source),
+        p.placements.find((x) => x.id === source.id)!,
+      );
+      u.team = ["sera", "ilya", "corin", "mae"].includes(u.id)
+        ? "ally"
+        : "enemy";
+      if (!baseline.some((v) => v.id === source.id)) {
+        u.next = 12 + i;
+        u.jpSpent = {};
+      }
       u.maxHp = unitStats(u, battle.rules).hp;
       u.hp = u.maxHp;
       u.mp = u.maxMp;
-    }
-  }
+      return u;
+    });
+  } else
+    for (const u of battle.units)
+      Object.assign(
+        u,
+        p.placements.find((x) => x.id === u.id)!,
+      );
   battle.log = [
     p.name +
       " · preview revision " +

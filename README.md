@@ -10,7 +10,7 @@ An original isometric tactical RPG about a mercenary company, a fractured world,
 
 [Existing-game editor coverage](docs/EXISTING_GAME_EDITORS.md): load all four real encounters; edit terrain materials/top textures, current actors, linear briefings, contract gates/rewards and the original game score. These are project playtests; general quest/rule editors and complete-game packaging remain planned.
 
-[Gear, abilities and jobs](docs/RULE_CATALOG_STUDIO.md): override the shipped catalogs and actor loadouts, with real combat/AI, movement, shop/equip and learning behavior. Catalogs remain project-scoped; arbitrary new IDs and formula scripting are planned.
+[Gear, abilities and jobs](docs/RULE_CATALOG_STUDIO.md): override the shipped catalogs and actor loadouts, with real combat/AI, movement, shop/equip and learning behavior. [Custom content authoring](docs/CUSTOM_CONTENT_AUTHORING.md) adds stable record creation/duplication, reusable enemy templates and spawning. Build Saltglass Crossing to try Tidewarden, four abilities, six gear pieces and three enemy variants. Catalogs remain project-scoped; formula scripting and full-game packaging remain planned.
 
 ![The Lantern Company at the shrine of Veyr](docs/assets/battlefield.jpg)
 
@@ -256,7 +256,7 @@ Use the [open decision register](docs/roadmap/DECISION_REGISTER.md) for roadmap 
 
 Version 0.8 extends the company-management milestone: four linked contracts, permanent secondary-skill learning, equipment and carried progression. Phase 2 now includes mastery and three support slots for the existing eight jobs; each advanced job now has an additional distinct active ability; the remaining job roster and further skill-board depth are still planned. Phase 3's world map, branching story, recruitment and town systems remain planned.
 
-The suite has **166 tests**, including full deterministic simulations of all four maps, economic and equipment invariants, rewards and v1 migration. Browser checks cover file export/import, closed-tab recovery, all eight job sprites, boss awakening, first-clear relic settlement, buying/equipping, manual save/load, migrated resource preservation, learning across a job change, result settlement and second-contract deployment. Result/learning checks use isolated local fixtures, not a claim of a full manual campaign playthrough. Physical mobile devices, Safari, gamepad hardware and 60 FPS remain uncertified. See [testing](docs/TESTING.md).
+The suite has **181 tests**, including full deterministic simulations of all four maps, economic and equipment invariants, rewards and v1 migration. Browser checks cover file export/import, closed-tab recovery, all eight job sprites, boss awakening, first-clear relic settlement, buying/equipping, manual save/load, migrated resource preservation, learning across a job change, result settlement and second-contract deployment. Result/learning checks use isolated local fixtures, not a claim of a full manual campaign playthrough. Physical mobile devices, Safari, gamepad hardware and 60 FPS remain uncertified. See [testing](docs/TESTING.md).
 
 ## Expansion plan
 

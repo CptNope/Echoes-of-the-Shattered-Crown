@@ -18,7 +18,7 @@ The working studio loads current game sources and applies validated project over
 | Original game music / feedback | Game audio loads the exact original sixteen frequencies, 650 ms spacing, lead/bass and 440/280 Hz command tones | Main AudioScore and project preview use the same source and player | Project JSON source; score recording/multitrack/WAV export remain planned |
 | New music patterns | Existing sixteen-step sketch editor | Source-rendered one-bar WAV and project preview loop | Separate composition; enabled original-game score takes precedence |
 | Layered outcome SFX | Existing hit/miss/heal/buff authoring bank | Authored PCM/WAV and resolved-event preview bindings | Additional project source; the original game has two command feedback tones rather than a shipped four-outcome bank |
-| Gear, abilities and jobs | [Catalog editor](RULE_CATALOG_STUDIO.md) copies all current definitions and actor loadouts | Actual stats, commands, AI, movement, prices, equip, deployment, learning, unlock and mastery use scoped source | Fixed existing IDs and implemented mechanics; new IDs/formulas remain planned |
+| Gear, abilities and jobs | [Catalog editor](RULE_CATALOG_STUDIO.md) copies all current definitions and actor loadouts | Actual stats, commands, AI, movement, prices, equip, deployment, learning, unlock and mastery use scoped source | Bounded custom IDs, enemy templates and hostile spawns; mechanics inherit shipped bases; new formulas remain planned |
 | Support definitions and AI programs | Source implementations remain in code | Current support behavior and AI scoring remain active, consuming authored job/ability data | No support/AI-program authoring controls yet |
 | Full game distribution | Project JSON and native/terrain PNG/audio derivatives | Reopen and edit compatible sources in the current studio | No complete playable-plus-editable bundle or automatic production-asset replacement |
 
@@ -74,10 +74,10 @@ The adapters copy existing source; they do not mutate imported module globals. P
 
 ## Verification
 
-Ten integration/model tests cover exact four-map imports, reversible encounter loading, actor-to-runtime compilation, invalid references/cycles, actual JP/gold/relic/gate behavior, exact terrain colors/RGBA, rejection, cross-editor JSON round trips, original audio frequencies and real AudioScore timing/cancellation with mocked Web Audio. The suite has 166 tests. UI acceptance additionally checks actual loading, editing, source reopening, terrain appearance, briefing gating and audio controls in the published studio.
+Ten integration/model tests cover exact four-map imports, reversible encounter loading, actor-to-runtime compilation, invalid references/cycles, actual JP/gold/relic/gate behavior, exact terrain colors/RGBA, rejection, cross-editor JSON round trips, original audio frequencies and real AudioScore timing/cancellation with mocked Web Audio. The suite has 181 tests. UI acceptance additionally checks actual loading, editing, source reopening, terrain appearance, briefing gating and audio controls in the published studio.
 
 
-The [catalog extension](RULE_CATALOG_STUDIO.md) adds ten runtime parity tests and optional actor loadouts. The complete suite now has 166 tests.
+The [catalog extension](RULE_CATALOG_STUDIO.md) adds ten runtime parity tests and optional actor loadouts. The complete suite now has 181 tests.
 
 The [large-map extension](LARGE_MAP_STUDIO.md) adds bounded rectangular maps, brushes and camera/navigation tools with ten additional runtime and persistence tests.
 
