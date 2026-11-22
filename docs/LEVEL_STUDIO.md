@@ -2,7 +2,7 @@
 
 [Documentation index](README.md) · [Full studio plan](studio/README.md) · [Play the studio](https://cptnope.github.io/Echoes-of-the-Shattered-Crown/studio.html)
 
-The level studio is implemented at `studio.html`, available from camp and battle navigation. It loads and edits any of the four existing encounter battlefields, resize them to rectangular maps up to 32×32 tiles, and [layered combat SFX](SOUND_EFFECTS_STUDIO.md), then playtests the result with the existing engine, actor sprites and combat effects. It implements parts of STSL-01/02/03/04; neither prototype slice nor the full authoring toolkit is complete.
+The level studio is implemented at `studio.html`, available from camp and battle navigation. It loads any of the four existing encounter battlefields, edits and resizes them up to 32×32 tiles, and playtests the result with the existing engine, actor sprites and combat effects. It also edits [layered combat SFX](SOUND_EFFECTS_STUDIO.md). It implements parts of STSL-01/02/03/04; neither prototype slice nor the full authoring toolkit is complete.
 
 ## Edit and play
 

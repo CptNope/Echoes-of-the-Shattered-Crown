@@ -553,7 +553,7 @@ function Preview({
           </p>
           <div className="ability-list">
             <button
-              disabled={!enabled}
+              disabled={!enabled || active.moved}
               aria-pressed={mode === "move"}
               onClick={() => setMode("move")}
             >
