@@ -1,3 +1,4 @@
+import { mapDimensions, mapFrame } from "./map-layout";
 import {
   terrainColor,
   terrainRgba,
@@ -94,6 +95,7 @@ export class Battlefield {
   combatEffects: CombatEffects;
   angle = Math.PI / 4;
   targetAngle = Math.PI / 4;
+  focus = { x: 0, z: 0 };
   zoom = 1;
   targetZoom = 1;
   state: Battle;
@@ -123,6 +125,7 @@ export class Battlefield {
     private materials?: TerrainMaterials,
   ) {
     this.state = state;
+    this.focus = mapFrame(mapDimensions(state));
     this.onSelect = onSelect;
     this.onHover = onHover;
     this.renderer = new THREE.WebGLRenderer({
@@ -141,20 +144,31 @@ export class Battlefield {
       "aria-label",
       "Isometric battlefield. Use arrow keys to select tiles and Enter to inspect.",
     );
-    this.camera = new THREE.OrthographicCamera(-8, 8, 7, -7, 0.1, 100);
-    this.scene.fog = new THREE.Fog(0xdce1d0, 24, 48);
+    this.camera = new THREE.OrthographicCamera(-8, 8, 7, -7, 0.1, 300);
+    const frame = mapFrame(mapDimensions(state));
+    this.scene.fog = new THREE.Fog(
+      0xdce1d0,
+      24 * frame.scale,
+      48 * frame.scale,
+    );
     this.scene.add(this.root, this.markers, this.effects);
     this.scene.add(new THREE.HemisphereLight(0xecf5ef, 0x50644f, 2.2));
     const sun = new THREE.DirectionalLight(0xfff4e3, 2.2);
-    sun.position.set(-5, 16, 8);
+    sun.position.set(
+      frame.x - 5 * frame.scale,
+      16 * frame.scale,
+      frame.z + 8 * frame.scale,
+    );
+    sun.target.position.set(frame.x, 0, frame.z);
+    this.scene.add(sun.target);
     sun.castShadow = true;
     sun.shadow.mapSize.set(2048, 2048);
     Object.assign(sun.shadow.camera, {
-      left: -10,
-      right: 10,
-      top: 10,
-      bottom: -10,
-      far: 40,
+      left: -10 * frame.scale,
+      right: 10 * frame.scale,
+      top: 10 * frame.scale,
+      bottom: -10 * frame.scale,
+      far: 100 * frame.scale,
     });
     sun.shadow.bias = -0.001;
     this.scene.add(sun);
@@ -277,7 +291,7 @@ export class Battlefield {
             z + (i - 0.5) * 0.4,
           );
       } else if (t.terrain === "grass" && !t.blocked) {
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < (this.state.tiles.length > 256 ? 1 : 4); i++) {
           const px = x + (((t.x * 7 + i * 13) % 17) / 20 - 0.4),
             pz = z + (((t.z * 11 + i * 7) % 17) / 20 - 0.4);
           this.box(
@@ -356,9 +370,35 @@ export class Battlefield {
     gem.position.set(3, 1.95, -1);
     this.effects.add(gem);
     // Foundation strata make the battlefield a suspended fragment of Veyr.
-    this.box(9.05, 0.22, 9.05, 0x555e4f, 0, -1.3, 0);
-    this.box(8.6, 0.26, 8.6, 0x7d8068, 0, -1.53, 0);
-    this.box(8.2, 0.32, 8.2, 0x626b58, 0, -1.8, 0);
+    const d = mapDimensions(this.state),
+      center = mapFrame(d);
+    this.box(
+      d.width + 0.05,
+      0.22,
+      d.height + 0.05,
+      0x555e4f,
+      center.x,
+      -1.3,
+      center.z,
+    );
+    this.box(
+      d.width - 0.4,
+      0.26,
+      d.height - 0.4,
+      0x7d8068,
+      center.x,
+      -1.53,
+      center.z,
+    );
+    this.box(
+      d.width - 0.8,
+      0.32,
+      d.height - 0.8,
+      0x626b58,
+      center.x,
+      -1.8,
+      center.z,
+    );
     const floor = new THREE.Mesh(
       new THREE.PlaneGeometry(200, 200),
       new THREE.MeshStandardMaterial({ color: 0xcbd3bf, roughness: 1 }),
@@ -657,8 +697,17 @@ export class Battlefield {
     this.targetZoom = THREE.MathUtils.clamp(
       this.targetZoom + delta,
       0.65,
-      1.65,
+      Math.max(1.65, mapFrame(mapDimensions(this.state)).scale * 1.65),
     );
+  }
+  fitMap() {
+    this.focus = mapFrame(mapDimensions(this.state));
+    this.targetZoom = 1;
+  }
+  focusActor() {
+    const u = activeUnit(this.state);
+    this.focus = { x: u.x - 4, z: u.z - 4 };
+    this.targetZoom = mapFrame(mapDimensions(this.state)).scale;
   }
   private resize() {
     const w = this.host.clientWidth,
@@ -666,7 +715,9 @@ export class Battlefield {
     if (!w || !h) return;
     this.renderer.setSize(w, h);
     const aspect = w / h,
-      extent = Math.max(aspect > 1.5 ? 6 : 6.9, 6.9 / aspect);
+      extent =
+        Math.max(aspect > 1.5 ? 6 : 6.9, 6.9 / aspect) *
+        mapFrame(mapDimensions(this.state)).scale;
     this.camera.left = -extent * aspect;
     this.camera.right = extent * aspect;
     this.camera.top = extent;
@@ -712,11 +763,13 @@ export class Battlefield {
     this.zoom += (this.targetZoom - this.zoom) * smooth;
     this.camera.zoom = this.zoom;
     this.camera.position.set(
-      Math.sin(this.angle) * 15,
-      14,
-      Math.cos(this.angle) * 15,
+      this.focus.x +
+        Math.sin(this.angle) * 15 * mapFrame(mapDimensions(this.state)).scale,
+      14 * mapFrame(mapDimensions(this.state)).scale,
+      this.focus.z +
+        Math.cos(this.angle) * 15 * mapFrame(mapDimensions(this.state)).scale,
     );
-    this.camera.lookAt(0, 0.1, 0);
+    this.camera.lookAt(this.focus.x, 0.1, this.focus.z);
     this.camera.updateProjectionMatrix();
     for (const u of this.state.units) {
       const a = this.actors.get(u.id)!,

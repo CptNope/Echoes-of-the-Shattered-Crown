@@ -43,3 +43,5 @@ Accept only after those decisions resolve, 9×9 and proposed 12×8 fixtures pass
 - [ADR-0004](0004-separate-company-and-battle-state.md)
 - [ADR-0006](0006-local-versioned-saves-and-recovery.md)
 
+
+Implementation note (2026-11-22): [ADR-0016](0016-bounded-rectangular-maps.md) adopts a narrower 9–32-side rectangular map slice with fixed eight-unit rosters. This broader proposal remains Proposed.

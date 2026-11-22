@@ -8,7 +8,7 @@ The working studio loads current game sources and applies validated project over
 
 | Area | Working source/editor | Runtime proof | Remaining boundary |
 | --- | --- | --- | --- |
-| Levels | Battlefield loads shrine, causeway, redoubt and bellkeeper from createBattle | Tiles, elevations, collision, actor names/jobs/resources and boss encounter identity compile into the real engine | Fixed 9 × 9 board and eight identities; one level source open at a time |
+| Levels | Battlefield loads shrine, causeway, redoubt and bellkeeper from createBattle | Tiles, elevations, collision, actor names/jobs/resources and boss encounter identity compile into the real engine | Resizable 9–32-side rectangular maps; eight fixed identities; one level source open at a time |
 | Terrain materials | Terrain textures loads the shared renderer palette for grass, stone, water and ice | Procedural color variants and optional painted 16 × 16 top images feed the 3D tile materials, including terrain changes | Prop models, walls, lighting, scenery, import of external textures and variable texture sizes remain future work |
 | Existing character art | Pixels native mode loads all eight actual 887 × 1774 sheets and 32 frames | Edited registered actor texture and state timing in the scene | One native actor override; flattened runtime source, no original master layers |
 | Indexed pixel sketches | Separate small layered sprite workspace | Actor override in playtest | Starter source is a review asset, not a converted native sheet |
@@ -70,11 +70,13 @@ flowchart TD
     Combat --> Settlement[Real isolated campaign settlement and gates]
 ```
 
-The adapters copy existing source; they do not mutate imported module globals. Project export keeps the existing 128 KiB bound without native art and 8 MiB with an embedded native sheet. Unsupported fields reject. Player progress, main-game defaults and production asset files remain separate from project overrides.
+The adapters copy existing source; they do not mutate imported module globals. Project export keeps the 128 KiB bound for legacy maps, 512 KiB for maps with explicit dimensions and 8 MiB with an embedded native sheet. Unsupported fields reject. Player progress, main-game defaults and production asset files remain separate from project overrides.
 
 ## Verification
 
-Ten integration/model tests cover exact four-map imports, reversible encounter loading, actor-to-runtime compilation, invalid references/cycles, actual JP/gold/relic/gate behavior, exact terrain colors/RGBA, rejection, cross-editor JSON round trips, original audio frequencies and real AudioScore timing/cancellation with mocked Web Audio. The suite has 134 tests. UI acceptance additionally checks actual loading, editing, source reopening, terrain appearance, briefing gating and audio controls in the published studio.
+Ten integration/model tests cover exact four-map imports, reversible encounter loading, actor-to-runtime compilation, invalid references/cycles, actual JP/gold/relic/gate behavior, exact terrain colors/RGBA, rejection, cross-editor JSON round trips, original audio frequencies and real AudioScore timing/cancellation with mocked Web Audio. The suite has 144 tests. UI acceptance additionally checks actual loading, editing, source reopening, terrain appearance, briefing gating and audio controls in the published studio.
 
 
-The [catalog extension](RULE_CATALOG_STUDIO.md) adds ten runtime parity tests and optional actor loadouts. The complete suite now has 134 tests.
+The [catalog extension](RULE_CATALOG_STUDIO.md) adds ten runtime parity tests and optional actor loadouts. The complete suite now has 144 tests.
+
+The [large-map extension](LARGE_MAP_STUDIO.md) adds bounded rectangular maps, brushes and camera/navigation tools with ten additional runtime and persistence tests.

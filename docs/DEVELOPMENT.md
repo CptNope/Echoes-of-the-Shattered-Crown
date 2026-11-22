@@ -66,7 +66,7 @@ Adding only a data row does not create a new animation, UI icon, purchase tree, 
 
 ### Expanding encounters
 
-`createBattle(seed, encounterId)` owns the four Veyr map variants and rosters; `encounters.ts` supplies contract metadata and gates. The renderer, cursor clamps and save validator also assume dimensions 9×9, and save validation expects eight units. Generalize those together before accepting arbitrary maps. Keep decorative scenery separate from authoritative terrain, and update tests for the new movement and LOS geometry.
+`createBattle(seed, encounterId)` owns the four Veyr map variants and rosters; `encounters.ts` supplies contract metadata and gates. Optional dimensions now support rectangular 9–32-side maps across source validation, battle save validation, keyboard/gamepad cursor clamps and renderer framing. Missing dimensions retain 9×9 compatibility; the roster still expects eight units. See [large maps](LARGE_MAP_STUDIO.md). Keep decorative scenery separate from authoritative terrain, and update tests for the new movement and LOS geometry.
 
 ## Code conventions
 

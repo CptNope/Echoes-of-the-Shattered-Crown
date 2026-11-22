@@ -2,7 +2,7 @@
 
 [Documentation index](README.md) · [Full studio plan](studio/README.md) · [Play the studio](https://cptnope.github.io/Echoes-of-the-Shattered-Crown/studio.html)
 
-The level studio is implemented at `studio.html`, available from camp and battle navigation. It loads and edits any of the four existing fixed-size encounter battlefields and [layered combat SFX](SOUND_EFFECTS_STUDIO.md), then playtests the result with the existing engine, actor sprites and combat effects. It implements parts of STSL-01/02/03/04; neither prototype slice nor the full authoring toolkit is complete.
+The level studio is implemented at `studio.html`, available from camp and battle navigation. It loads and edits any of the four existing encounter battlefields, resize them to rectangular maps up to 32×32 tiles, and [layered combat SFX](SOUND_EFFECTS_STUDIO.md), then playtests the result with the existing engine, actor sprites and combat effects. It implements parts of STSL-01/02/03/04; neither prototype slice nor the full authoring toolkit is complete.
 
 ## Edit and play
 
@@ -16,22 +16,22 @@ The level studio is implemented at `studio.html`, available from camp and battle
 
 Keyboard: Tab reaches tools and tile buttons; arrow keys move focus within the board; Enter/Space activates the focused tile. A blocked tile displays ×, actor labels carry ally/enemy underlines, and each tile exposes its coordinates, terrain and elevation to assistive technology.
 
-On phones, use **Show battlefield tools** to open the palette. The board scrolls horizontally inside its own frame to preserve 44-pixel tile targets. Preview entry/exit returns to the top of the workspace.
+On phones, use **Show battlefield tools** to open the palette. The board scrolls horizontally inside its own frame to preserve selectable tile sizes (24, 36 or 48 pixels; choose Large for larger touch targets). Preview entry/exit returns to the top of the workspace.
 
 ## Implemented boundaries
 
 | Area | Current behavior |
 | --- | --- |
-| Board | 9×9; exactly 81 unique cells; grass/stone/water/ice; elevation 0–2 |
+| Board | 9–32 tiles per side; exactly width × height unique cells; grass/stone/water/ice; elevation 0–2 |
 | Actors | Eight existing encounter actor identities; placement and source name/job/resources/learning editable |
 | Placement | Reject overlapping actors and blocked/water deployment tiles |
 | Rules/objective | Existing combat formulas, skills, initiative, AI and defeat-all objective |
 | Edits | Typed atomic batches, expected revision checks, 50 retained undo steps and redo |
 | Preview | Fresh isolated Battle for the selected revision and seed; no company persistence or settlement |
 | Local save | Explicit save; separate studio keys; previous-valid checkpoint fallback |
-| Files | Strict level-project v1 JSON; 128 KiB without native source, 8 MiB with embedded native sheet; unknown fields rejected |
+| Files | Strict level-project v1 JSON; 128 KiB legacy maps / 512 KiB maps with explicit dimensions / 8 MiB with embedded native sheet; unknown fields rejected |
 | Distribution | Studio is a built static entry on GitHub Pages |
-| Not yet implemented | Resizing, new actors, objective/rule editors, advanced pixel/multitrack music editing, sampling/recording and full audio graphs, complete playable-game export, full project migrations or collaboration |
+| Not yet implemented | New actors, new objective/formula programs, advanced pixel/multitrack music editing, sampling/recording and full audio graphs, complete playable-game export, full project migrations or collaboration |
 
 Undo and redo restore document data while increasing the revision. A new edit after undo discards the redo branch. Invalid batches leave the entire previous document intact. Undo history is session-only; files/checkpoints retain the current source, not the history.
 
@@ -52,7 +52,7 @@ flowchart LR
 
 ## Implemented file contract
 
-`src/studio-project.ts` owns the implemented format. The discriminator is `echoes-level-project`, version 1. Root fields are format, version, id, revision, name, seed, tiles, placements and optional sounds/music/pixels/nativeSprite/encounter/content/materials/gameAudio. Tile records contain x/z/h/terrain/blocked; placement records contain id/x/z. Optional content carries initial actor resources and contract reward definitions; ongoing health/status/turn snapshots remain separate.
+`src/studio-project.ts` owns the implemented format. The discriminator is `echoes-level-project`, version 1. Root fields are format, version, id, revision, name, seed, tiles, placements and optional sounds/music/pixels/nativeSprite/encounter/content/materials/gameAudio/rules/dimensions. Tile records contain x/z/h/terrain/blocked; placement records contain id/x/z. Optional content carries initial actor resources and contract reward definitions; ongoing health/status/turn snapshots remain separate.
 
 This format is separate from player backups and the proposal examples under docs/studio/specs. Import rejects those formats and future fields rather than silently discarding editable data. A level JSON needs this compatible runtime/studio; it is not a standalone playable game or the planned Complete game artifact.
 
@@ -86,3 +86,5 @@ See [existing-game editing](EXISTING_GAME_EDITORS.md) for real encounter imports
 
 
 [Catalog overrides](RULE_CATALOG_STUDIO.md) add editable existing gear, abilities and jobs, with optional actor equipment and actual shared runtime consumption. Source rules can be removed to return to defaults when actor loadouts remain compatible.
+
+[Large-map editing](LARGE_MAP_STUDIO.md) documents resizing, clipped brushes, map navigation, camera fitting and compatible source/save validation.

@@ -1,3 +1,8 @@
+import {
+  mapDimensions,
+  validMapDimensions,
+  type MapDimensions,
+} from "./map-layout";
 import { validateRules, type RuleCatalog } from "./studio-rules";
 import {
   supportBonuses,
@@ -71,6 +76,7 @@ export interface Battle {
   rewarded: boolean;
   victoryJP?: number;
   rules?: RuleCatalog;
+  dimensions?: MapDimensions;
   bossAwakened?: boolean;
   lastAction?: {
     unit: string;
@@ -89,8 +95,15 @@ export const distance = (
   a: { x: number; z: number },
   b: { x: number; z: number },
 ) => Math.abs(a.x - b.x) + Math.abs(a.z - b.z);
-export const tileAt = (s: Battle, x: number, z: number) =>
-  s.tiles.find((t) => t.x === x && t.z === z);
+const tileIndexes = new WeakMap<Tile[], Map<string, Tile>>();
+export function tileAt(s: Battle, x: number, z: number) {
+  let index = tileIndexes.get(s.tiles);
+  if (!index) {
+    index = new Map(s.tiles.map((t) => [key(t.x, t.z), t]));
+    tileIndexes.set(s.tiles, index);
+  }
+  return index.get(key(x, z));
+}
 export const activeUnit = (s: Battle) =>
   s.units.find((u) => u.id === s.active)!;
 export const living = (s: Battle) => s.units.filter((u) => u.hp > 0);
@@ -761,6 +774,9 @@ export function validateSave(raw: unknown): raw is Battle {
 function validBattle(raw: unknown): raw is Battle {
   if (!raw || typeof raw !== "object") return false;
   const s = raw as Battle;
+  if (s.dimensions !== undefined && !validMapDimensions(s.dimensions))
+    return false;
+  const dimensions = mapDimensions(s);
   if (s.rules !== undefined) validateRules(s.rules);
   if (
     s.victoryJP !== undefined &&
@@ -778,8 +794,13 @@ function validBattle(raw: unknown): raw is Battle {
         s.lastAction.turn > s.turn ||
         (s.lastAction.target !== undefined &&
           (!s.lastAction.target ||
-            ![s.lastAction.target.x, s.lastAction.target.z].every(
-              (n) => Number.isInteger(n) && n >= 0 && n <= 8,
+            !(
+              Number.isInteger(s.lastAction.target.x) &&
+              s.lastAction.target.x >= 0 &&
+              s.lastAction.target.x < dimensions.width &&
+              Number.isInteger(s.lastAction.target.z) &&
+              s.lastAction.target.z >= 0 &&
+              s.lastAction.target.z < dimensions.height
             ))) ||
         (s.lastAction.outcomes !== undefined &&
           (!Array.isArray(s.lastAction.outcomes) ||
@@ -802,7 +823,7 @@ function validBattle(raw: unknown): raw is Battle {
     s.momentum > 5 ||
     !["playing", "victory", "defeat"].includes(s.result) ||
     !Array.isArray(s.tiles) ||
-    s.tiles.length !== 81 ||
+    s.tiles.length !== dimensions.width * dimensions.height ||
     !Array.isArray(s.units) ||
     s.units.length !== 8 ||
     !Array.isArray(s.log) ||
@@ -814,16 +835,17 @@ function validBattle(raw: unknown): raw is Battle {
       (t) =>
         Number.isInteger(t.x) &&
         t.x >= 0 &&
-        t.x < 9 &&
+        t.x < dimensions.width &&
         Number.isInteger(t.z) &&
         t.z >= 0 &&
-        t.z < 9 &&
+        t.z < dimensions.height &&
         Number.isFinite(t.h) &&
         ["grass", "stone", "water", "ice"].includes(t.terrain) &&
         typeof t.blocked === "boolean" &&
         Number.isFinite(t.burn),
     ) ||
-    new Set(s.tiles.map((t) => key(t.x, t.z))).size !== 81
+    new Set(s.tiles.map((t) => key(t.x, t.z))).size !==
+      dimensions.width * dimensions.height
   )
     return false;
   return (
@@ -865,10 +887,10 @@ function validBattle(raw: unknown): raw is Battle {
         ["ally", "enemy"].includes(u.team) &&
         Number.isInteger(u.x) &&
         u.x >= 0 &&
-        u.x < 9 &&
+        u.x < dimensions.width &&
         Number.isInteger(u.z) &&
         u.z >= 0 &&
-        u.z < 9 &&
+        u.z < dimensions.height &&
         Number.isFinite(u.hp) &&
         u.hp >= 0 &&
         u.hp <= u.maxHp &&

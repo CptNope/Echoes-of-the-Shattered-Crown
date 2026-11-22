@@ -19,6 +19,8 @@ The game baseline is **v0.8.0**. Current implementation guides and future expans
 
 ## Current game reference
 
+[Large-map editing](LARGE_MAP_STUDIO.md): rectangular levels up to 32×32, reversible resize, area brushes, coordinate navigation and camera tools.
+
 [Gear, ability and job catalog editor](RULE_CATALOG_STUDIO.md): existing definitions, actor equipment and scoped engine/AI/campaign overrides.
 
 [Existing-game editor audit and guide](EXISTING_GAME_EDITORS.md): exact current coverage for levels, terrain textures, characters, dialogue, progression, audio and remaining toolkit gaps.

@@ -1,3 +1,8 @@
+import {
+  mapDimensions,
+  validMapDimensions,
+  type MapDimensions,
+} from "./map-layout";
 import { validateRules, type RuleCatalog } from "./studio-rules";
 import { encounters, type EncounterId } from "./encounters";
 import {
@@ -35,8 +40,10 @@ export interface LevelProject {
   materials?: TerrainMaterials;
   gameAudio?: GameAudio;
   rules?: RuleCatalog;
+  dimensions?: MapDimensions;
 }
 export const PROJECT_LIMIT = 128 * 1024;
+export const LARGE_PROJECT_LIMIT = 512 * 1024;
 export const NATIVE_PROJECT_LIMIT = 8 * 1024 * 1024;
 const LEGACY_PROJECT_LIMIT = PROJECT_LIMIT;
 const template = createBattle();
@@ -96,6 +103,7 @@ export function validateLevelProject(raw: unknown): LevelProject {
     "materials",
     "gameAudio",
     "rules",
+    "dimensions",
   ]);
   if (raw.format !== "echoes-level-project" || raw.version !== 1)
     fail(
@@ -124,15 +132,21 @@ export function validateLevelProject(raw: unknown): LevelProject {
     !int(raw.seed, 0, 0xffffffff)
   )
     fail("Invalid revision or seed.");
-  if (!Array.isArray(raw.tiles) || raw.tiles.length !== 81)
-    fail("The pilot requires exactly 81 tiles.");
+  if (raw.dimensions !== undefined && !validMapDimensions(raw.dimensions))
+    fail("Map width and height must be whole numbers from 9 to 32.");
+  const dimensions = mapDimensions(raw as unknown as LevelProject);
+  if (
+    !Array.isArray(raw.tiles) ||
+    raw.tiles.length !== dimensions.width * dimensions.height
+  )
+    fail("Map needs exactly one tile for each coordinate in its dimensions.");
   const cells = new Set<string>();
   for (const t of raw.tiles) {
     if (!record(t)) fail("Invalid tile.");
     fields(t, ["x", "z", "h", "terrain", "blocked"]);
     if (
-      !int(t.x, 0, 8) ||
-      !int(t.z, 0, 8) ||
+      !int(t.x, 0, dimensions.width - 1) ||
+      !int(t.z, 0, dimensions.height - 1) ||
       !int(t.h, 0, 2) ||
       typeof t.terrain !== "string" ||
       !["grass", "stone", "water", "ice"].includes(t.terrain) ||
@@ -153,8 +167,8 @@ export function validateLevelProject(raw: unknown): LevelProject {
     if (
       !template.units.some((u) => u.id === p.id) ||
       actors.has(String(p.id)) ||
-      !int(p.x, 0, 8) ||
-      !int(p.z, 0, 8)
+      !int(p.x, 0, dimensions.width - 1) ||
+      !int(p.z, 0, dimensions.height - 1)
     )
       fail("Invalid or duplicate actor.");
     const k = p.x + "," + p.z,
@@ -168,7 +182,9 @@ export function validateLevelProject(raw: unknown): LevelProject {
 }
 export function parseLevelProject(text: string): LevelProject {
   if (new TextEncoder().encode(text).length > NATIVE_PROJECT_LIMIT)
-    fail("Project exceeds the 128 KiB legacy / 8 MiB native import limit.");
+    fail(
+      "Project exceeds the 128 KiB legacy / 512 KiB expanded-map / 8 MiB native import limit.",
+    );
   let raw: unknown;
   try {
     raw = JSON.parse(text);
@@ -182,19 +198,28 @@ export function parseLevelProject(text: string): LevelProject {
   const project = validateLevelProject(raw);
   if (
     !project.nativeSprite &&
-    new TextEncoder().encode(text).length > LEGACY_PROJECT_LIMIT
+    new TextEncoder().encode(text).length >
+      (project.dimensions ? LARGE_PROJECT_LIMIT : LEGACY_PROJECT_LIMIT)
   )
-    fail("Project exceeds the 128 KiB legacy import limit.");
+    fail(
+      "Project exceeds the 128 KiB legacy / 512 KiB expanded-map import limit.",
+    );
   return project;
 }
 export function exportLevelProject(project: LevelProject): string {
   const p = validateLevelProject(project),
     pretty = JSON.stringify(p, null, 2) + "\n";
-  const limit = p.nativeSprite ? NATIVE_PROJECT_LIMIT : LEGACY_PROJECT_LIMIT;
+  const limit = p.nativeSprite
+    ? NATIVE_PROJECT_LIMIT
+    : p.dimensions
+      ? LARGE_PROJECT_LIMIT
+      : LEGACY_PROJECT_LIMIT;
   if (new TextEncoder().encode(pretty).length <= limit) return pretty;
   const compact = JSON.stringify(p) + "\n";
   if (new TextEncoder().encode(compact).length > limit)
-    fail("Project exceeds the 128 KiB legacy / 8 MiB native export limit.");
+    fail(
+      "Project exceeds the 128 KiB legacy / 512 KiB expanded-map / 8 MiB native export limit.",
+    );
   return compact;
 }
 export type ProjectEdit =
@@ -206,6 +231,7 @@ export type ProjectEdit =
       h?: number;
       blocked?: boolean;
     }
+  | { type: "resize"; width: number; height: number; terrain: Tile["terrain"] }
   | { type: "place"; id: string; x: number; z: number }
   | { type: "metadata"; name: string; seed: number }
   | { type: "sounds"; bank: SoundBank }
@@ -225,16 +251,40 @@ export function editProject(
 ): LevelProject {
   if (project.revision !== expectedRevision)
     fail("Stale revision. Reopen the current project before editing.");
-  if (!edits.length || edits.length > 81) fail("Use a batch of 1–81 edits.");
+  if (!edits.length || edits.length > 1024)
+    fail("Use a batch of 1–1024 edits.");
   const next = structuredClone(project);
   for (const e of edits) {
-    if (e.type === "load-encounter") {
+    if (e.type === "resize") {
+      const dimensions = { width: e.width, height: e.height };
+      if (!validMapDimensions(dimensions))
+        fail("Map width and height must be whole numbers from 9 to 32.");
+      if (!["grass", "stone", "water", "ice"].includes(e.terrain))
+        fail("Invalid expansion terrain.");
+      if (next.placements.some((p) => p.x >= e.width || p.z >= e.height))
+        fail("Move actors inside the new boundaries before shrinking the map.");
+      const old = new Map(next.tiles.map((t) => [t.x + "," + t.z, t]));
+      next.tiles = [];
+      for (let z = 0; z < e.height; z++)
+        for (let x = 0; x < e.width; x++)
+          next.tiles.push(
+            old.get(x + "," + z) ?? {
+              x,
+              z,
+              h: 0,
+              terrain: e.terrain,
+              blocked: false,
+            },
+          );
+      next.dimensions = dimensions;
+    } else if (e.type === "load-encounter") {
       if (!Object.hasOwn(encounters, e.encounter))
         fail("Unknown source encounter.");
       const source = createLevelProject(e.encounter),
         existing = next.content;
       next.encounter = e.encounter;
       next.name = encounters[e.encounter].name;
+      delete next.dimensions;
       next.tiles = source.tiles;
       next.placements = source.placements;
       next.content = {
@@ -252,7 +302,7 @@ export function editProject(
       next.gameAudio = validateGameAudio(e.audio);
     else if (e.type === "tile") {
       const tile = next.tiles.find((t) => t.x === e.x && t.z === e.z);
-      if (!tile) fail("Tile outside the 9×9 board.");
+      if (!tile) fail("Tile outside the current map.");
       if (e.terrain !== undefined) tile.terrain = e.terrain;
       if (e.h !== undefined) tile.h = e.h;
       if (e.blocked !== undefined) tile.blocked = e.blocked;
@@ -319,6 +369,7 @@ export function travelProjectHistory(
 export function compileLevelProject(project: LevelProject): Battle {
   const p = validateLevelProject(project),
     battle = createBattle(p.seed, p.encounter ?? "shrine");
+  if (p.dimensions) battle.dimensions = structuredClone(p.dimensions);
   if (p.rules) battle.rules = structuredClone(p.rules);
   battle.tiles = p.tiles.map((t) => ({ ...t, burn: 0 }));
   for (const u of battle.units)

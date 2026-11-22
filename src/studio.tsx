@@ -1,3 +1,4 @@
+import { mapDimensions, adjacentCell, brushCells } from "./map-layout";
 import { RulesEditor } from "./RulesEditor";
 import { ContentEditor } from "./ContentEditor";
 import { TerrainEditor } from "./TerrainEditor";
@@ -69,66 +70,127 @@ function Board({
   actorSources?: { id: string; name: string; team: "ally" | "enemy" }[];
 }) {
   const actors = actorSources ?? defaultActors;
+  const dimensions = {
+    width: Math.max(...tiles.map((t) => t.x)) + 1,
+    height: Math.max(...tiles.map((t) => t.z)) + 1,
+  };
+  const [tileSize, setTileSize] = useState(36),
+    [jumpX, setJumpX] = useState("0"),
+    [jumpZ, setJumpZ] = useState("0");
+  const boardRef = useRef<HTMLDivElement>(null);
+  function focusTile(x: number, z: number) {
+    boardRef.current
+      ?.querySelector<HTMLButtonElement>(`[data-cell="${x},${z}"]`)
+      ?.focus();
+  }
+
   return (
-    <div className="tile-grid" aria-label="Battlefield tiles">
-      {[...tiles]
-        .sort((a, b) => a.z - b.z || a.x - b.x)
-        .map((t) => {
-          const actor = placements.find((p) => p.x === t.x && p.z === t.z);
-          const unit = actors.find((u) => u.id === actor?.id);
-          return (
-            <button
-              key={t.x + "," + t.z}
-              className={
-                "tile " +
-                t.terrain +
-                (t.blocked ? " blocked" : "") +
-                (unit ? " " + unit.team : "")
-              }
-              aria-label={
-                "Tile " +
-                t.x +
-                ", " +
-                t.z +
-                ", " +
-                t.terrain +
-                ", elevation " +
-                t.h +
-                (t.blocked ? ", blocked" : "") +
-                (unit ? ", " + unit.name : "")
-              }
-              aria-pressed={chosen.x === t.x && chosen.z === t.z}
-              data-allowed={allowed?.has(t.x + "," + t.z)}
-              onKeyDown={(e) => {
-                const step: Record<string, number> = {
-                  ArrowLeft: -1,
-                  ArrowRight: 1,
-                  ArrowUp: -9,
-                  ArrowDown: 9,
-                };
-                if (!(e.key in step)) return;
-                e.preventDefault();
-                const buttons =
-                  e.currentTarget.parentElement!.querySelectorAll<HTMLButtonElement>(
-                    "button",
-                  );
-                buttons[
-                  Math.max(0, Math.min(80, t.z * 9 + t.x + step[e.key]))
-                ]?.focus();
-              }}
-              onClick={() => select(t.x, t.z)}
-            >
-              <span>
-                {unit
-                  ? unit.name.split(" ")[0].slice(0, 3)
-                  : t.blocked
-                    ? "×"
-                    : ""}
-              </span>
-              <small>{t.h}</small>
-            </button>
-          );
-        })}
+    <div className="board-workspace">
+      <div className="map-navigation">
+        <label>
+          Tile size
+          <select
+            value={tileSize}
+            onChange={(e) => setTileSize(Number(e.target.value))}
+          >
+            <option value={24}>Small</option>
+            <option value={36}>Medium</option>
+            <option value={48}>Large</option>
+          </select>
+        </label>
+        <label>
+          Go to column
+          <input
+            type="number"
+            min={0}
+            max={dimensions.width - 1}
+            value={jumpX}
+            onChange={(e) => setJumpX(e.target.value)}
+          />
+        </label>
+        <label>
+          Go to row
+          <input
+            type="number"
+            min={0}
+            max={dimensions.height - 1}
+            value={jumpZ}
+            onChange={(e) => setJumpZ(e.target.value)}
+          />
+        </label>
+        <button
+          onClick={() =>
+            focusTile(
+              Math.max(0, Math.min(dimensions.width - 1, Number(jumpX) || 0)),
+              Math.max(0, Math.min(dimensions.height - 1, Number(jumpZ) || 0)),
+            )
+          }
+        >
+          Find tile
+        </button>
+        <span>
+          {dimensions.width} × {dimensions.height} · {tiles.length} tiles
+        </span>
+      </div>
+      <div className="board-scroll" ref={boardRef}>
+        <div
+          className="tile-grid"
+          style={{
+            gridTemplateColumns: `repeat(${dimensions.width}, ${tileSize}px)`,
+            width: dimensions.width * (tileSize + 3) - 3,
+          }}
+          aria-label="Battlefield tiles"
+        >
+          {[...tiles]
+            .sort((a, b) => a.z - b.z || a.x - b.x)
+            .map((t) => {
+              const actor = placements.find((p) => p.x === t.x && p.z === t.z);
+              const unit = actors.find((u) => u.id === actor?.id);
+              return (
+                <button
+                  key={t.x + "," + t.z}
+                  className={
+                    "tile " +
+                    t.terrain +
+                    (t.blocked ? " blocked" : "") +
+                    (unit ? " " + unit.team : "")
+                  }
+                  aria-label={
+                    "Tile " +
+                    t.x +
+                    ", " +
+                    t.z +
+                    ", " +
+                    t.terrain +
+                    ", elevation " +
+                    t.h +
+                    (t.blocked ? ", blocked" : "") +
+                    (unit ? ", " + unit.name : "")
+                  }
+                  aria-pressed={chosen.x === t.x && chosen.z === t.z}
+                  data-cell={t.x + "," + t.z}
+                  data-allowed={allowed?.has(t.x + "," + t.z)}
+                  onKeyDown={(e) => {
+                    const next = adjacentCell(t.x, t.z, e.key, dimensions);
+                    if (!next) return;
+                    e.preventDefault();
+                    focusTile(next.x, next.z);
+                  }}
+                  onClick={() => select(t.x, t.z)}
+                >
+                  <span>
+                    {unit
+                      ? unit.name.split(" ")[0].slice(0, 3)
+                      : t.blocked
+                        ? "×"
+                        : ""}
+                  </span>
+                  <small>{t.h}</small>
+                </button>
+              );
+            })}
+        </div>
+      </div>
     </div>
   );
 }
@@ -365,6 +427,26 @@ function Preview({
       )}
       <div className="preview-layout">
         <div>
+          <div
+            className="camera-tools"
+            role="group"
+            aria-label="Preview camera"
+          >
+            <button onClick={() => view.current?.fitMap()}>Fit map</button>
+            <button onClick={() => view.current?.focusActor()}>
+              Focus active actor
+            </button>
+            <button onClick={() => view.current?.rotate(-1)}>
+              Rotate left
+            </button>
+            <button onClick={() => view.current?.rotate(1)}>
+              Rotate right
+            </button>
+            <button onClick={() => view.current?.setZoom(0.25)}>Zoom in</button>
+            <button onClick={() => view.current?.setZoom(-0.25)}>
+              Zoom out
+            </button>
+          </div>
           <div className="scene-host" ref={host} />
           {renderError && <p role="status">{renderError}</p>}
           <details open={!!renderError}>
@@ -577,6 +659,20 @@ function Studio() {
     future: [],
   });
   const project = history.project;
+  const dimensions = mapDimensions(project);
+  const [mapWidth, setMapWidth] = useState(String(dimensions.width)),
+    [mapHeight, setMapHeight] = useState(String(dimensions.height)),
+    [expansionTerrain, setExpansionTerrain] =
+      useState<(typeof terrains)[number]>("grass"),
+    [brush, setBrush] = useState<1 | 3 | 5>(1);
+  useEffect(() => {
+    setMapWidth(String(dimensions.width));
+    setMapHeight(String(dimensions.height));
+    setCell((c) => ({
+      x: Math.min(c.x, dimensions.width - 1),
+      z: Math.min(c.z, dimensions.height - 1),
+    }));
+  }, [dimensions.width, dimensions.height]);
   const [message, setMessage] = useState(opened.message),
     [error, setError] = useState("");
   const [saved, setSaved] = useState<number | null>(() =>
@@ -677,17 +773,16 @@ function Studio() {
   }
   function choose(x: number, z: number) {
     setCell({ x, z });
-    if (tool === "terrain") edit([{ type: "tile", x, z, terrain }]);
-    if (tool === "height") edit([{ type: "tile", x, z, h: height }]);
-    if (tool === "block")
-      edit([
-        {
-          type: "tile",
-          x,
-          z,
-          blocked: !project.tiles.find((t) => t.x === x && t.z === z)!.blocked,
-        },
-      ]);
+    const cells = brushCells(x, z, brush, dimensions);
+    if (tool === "terrain")
+      edit(cells.map((p) => ({ type: "tile", ...p, terrain })));
+    if (tool === "height")
+      edit(cells.map((p) => ({ type: "tile", ...p, h: height })));
+    if (tool === "block") {
+      const blocked = !project.tiles.find((t) => t.x === x && t.z === z)!
+        .blocked;
+      edit(cells.map((p) => ({ type: "tile", ...p, blocked })));
+    }
     if (tool === "actor") edit([{ type: "place", id: actor, x, z }]);
   }
   function stage(text: string) {
@@ -699,7 +794,9 @@ function Studio() {
       setStaged(parseLevelProject(text));
     });
   }
-  const tile = project.tiles.find((t) => t.x === cell.x && t.z === cell.z)!;
+  const tile =
+    project.tiles.find((t) => t.x === cell.x && t.z === cell.z) ??
+    project.tiles[0];
   const placed = project.placements.find(
     (p) => p.x === cell.x && p.z === cell.z,
   );
@@ -749,7 +846,10 @@ function Studio() {
             </button>
             <div hidden={panel !== "map"}>
               <h2>Battlefield tools</h2>
-              <p>9 × 9 · {project.encounter ?? "shrine"} source</p>
+              <p>
+                {dimensions.width} × {dimensions.height} ·{" "}
+                {project.encounter ?? "shrine"} source
+              </p>
               <div className="tool-list">
                 {[
                   ["inspect", "Inspect tile"],
@@ -767,6 +867,23 @@ function Studio() {
                   </button>
                 ))}
               </div>
+              {["terrain", "height", "block"].includes(tool) && (
+                <label>
+                  Brush size
+                  <select
+                    value={brush}
+                    onChange={(e) =>
+                      setBrush(Number(e.target.value) as 1 | 3 | 5)
+                    }
+                  >
+                    {[1, 3, 5].map((n) => (
+                      <option key={n} value={n}>
+                        {n} × {n}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              )}
               {tool === "terrain" && (
                 <label>
                   Terrain
@@ -1150,6 +1267,71 @@ function Studio() {
             )}
             <div className="map-layout" hidden={panel !== "map"}>
               <section className="map-well">
+                <section className="map-dimensions" aria-label="Map dimensions">
+                  <h2>Map dimensions</h2>
+                  <div className="map-navigation">
+                    <label>
+                      Map width
+                      <input
+                        type="number"
+                        min={9}
+                        max={32}
+                        value={mapWidth}
+                        onChange={(e) => setMapWidth(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      Map height
+                      <input
+                        type="number"
+                        min={9}
+                        max={32}
+                        value={mapHeight}
+                        onChange={(e) => setMapHeight(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      New tile terrain
+                      <select
+                        value={expansionTerrain}
+                        onChange={(e) =>
+                          setExpansionTerrain(
+                            e.target.value as typeof expansionTerrain,
+                          )
+                        }
+                      >
+                        {terrains.map((t) => (
+                          <option key={t}>{t}</option>
+                        ))}
+                      </select>
+                    </label>
+                    <button
+                      disabled={
+                        hasDraft ||
+                        (Number(mapWidth) === dimensions.width &&
+                          Number(mapHeight) === dimensions.height)
+                      }
+                      onClick={() =>
+                        edit([
+                          {
+                            type: "resize",
+                            width: Number(mapWidth),
+                            height: Number(mapHeight),
+                            terrain: expansionTerrain,
+                          },
+                        ])
+                      }
+                    >
+                      Resize map
+                    </button>
+                  </div>
+                  <p>
+                    9–32 tiles per side. Existing coordinates stay fixed at the
+                    northwest corner. Added tiles start flat and open; shrinking
+                    removes outer terrain. Move actors inside the new boundaries
+                    first. Undo restores the full map.
+                  </p>
+                </section>
                 <Board
                   tiles={project.tiles}
                   actorSources={actors}
@@ -1258,7 +1440,7 @@ function Studio() {
                         if (!file) return;
                         if (file.size > NATIVE_PROJECT_LIMIT) {
                           setError(
-                            "Project exceeds the 8 MiB native import limit (128 KiB without native source).",
+                            "Project exceeds the 8 MiB native import limit (512 KiB expanded maps / 128 KiB legacy maps).",
                           );
                           return;
                         }
@@ -1303,7 +1485,8 @@ function Studio() {
           <p>
             {staged.name} · Revision {staged.revision}
             <br />
-            81 tiles · 8 actors · Seed {staged.seed}
+            {staged.tiles.length} tiles · {staged.placements.length} actors ·
+            Seed {staged.seed}
           </p>
         )}
         <p>

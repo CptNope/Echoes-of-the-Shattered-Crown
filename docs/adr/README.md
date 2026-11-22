@@ -29,6 +29,8 @@ The initial accepted baseline records are **retrospective** except ADR-0001's ne
 
 | [ADR-0015](0015-scoped-rule-catalogs.md) | Accepted | New implementation decision | Resolve editable catalogs through explicit runtime context |
 
+| [ADR-0016](0016-bounded-rectangular-maps.md) | Accepted | New implementation decision | Support bounded rectangular maps through optional dimensions |
+
 ## When to create an ADR
 
 | Create a record for | Usually use another document for |
@@ -90,7 +92,7 @@ flowchart LR
     Change --> Successor[New successor ADR]
 ```
 
-Current example: [ADR-0010](0010-proposed-variable-board-and-roster-contract.md) references open D-01/D-02/D-12 and the [production-slice audit](../roadmap/PRODUCTION_SLICES.md). It remains Proposed and does not change fixed map/roster invariants or Expedition v2.
+Current example: [ADR-0010](0010-proposed-variable-board-and-roster-contract.md) references open D-01/D-02/D-12 and the [production-slice audit](../roadmap/PRODUCTION_SLICES.md). It remains Proposed for the broader variable-roster and engine contract. [ADR-0016](0016-bounded-rectangular-maps.md) separately adopts bounded rectangular maps with optional dimensions; the eight-unit roster remains fixed.
 
 ## Integrity checks
 

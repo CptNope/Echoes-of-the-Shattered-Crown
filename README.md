@@ -45,7 +45,7 @@ Read [combat effects and particles](docs/COMBAT_EFFECTS.md), explore the [animat
 | Loadouts     | Eight jobs, native primary skills, learned secondary skills                                | Advanced jobs initially locked; some skill definitions are shared         |
 | Equipment    | Ten items (nine purchasable), three slots, proficiencies, shared inventory, gold purchases | No crafting, selling, upgrades, rarity rolls or gear appearance models    |
 | Tactics      | Elevation, facing, range, LOS, guard, critical hits, riposte, status and momentum          | Grid-sampled LOS and no facing-selection command                          |
-| Environments | Four 9×9 Veyr map variants, ice and grass ignition                                         | Shared regional art; no new biomes, weather or destructible scenery       |
+| Environments | Four 9×9 Veyr maps; studio resizes to 32×32; ice and grass ignition                                         | Shared regional art; no new biomes, weather or destructible scenery       |
 | Presentation | 256 character frames, 96 effect frames, bounded combat particles, lit 3D ruins and procedural score               | Directional art, longer cycles and orchestral music remain planned            |
 | Persistence  | Company + active battle, previous-save backup, v1 migration                                | Manual + automatic browser recovery and JSON export/import; no cloud sync |
 | Input        | Pointer, touch, battle keyboard/gamepad mapping, reduced motion and text sizing            | Physical devices and full controller-driven camp navigation unverified    |
@@ -256,7 +256,7 @@ Use the [open decision register](docs/roadmap/DECISION_REGISTER.md) for roadmap 
 
 Version 0.8 extends the company-management milestone: four linked contracts, permanent secondary-skill learning, equipment and carried progression. Phase 2 now includes mastery and three support slots for the existing eight jobs; each advanced job now has an additional distinct active ability; the remaining job roster and further skill-board depth are still planned. Phase 3's world map, branching story, recruitment and town systems remain planned.
 
-The suite has **134 tests**, including full deterministic simulations of all four maps, economic and equipment invariants, rewards and v1 migration. Browser checks cover file export/import, closed-tab recovery, all eight job sprites, boss awakening, first-clear relic settlement, buying/equipping, manual save/load, migrated resource preservation, learning across a job change, result settlement and second-contract deployment. Result/learning checks use isolated local fixtures, not a claim of a full manual campaign playthrough. Physical mobile devices, Safari, gamepad hardware and 60 FPS remain uncertified. See [testing](docs/TESTING.md).
+The suite has **144 tests**, including full deterministic simulations of all four maps, economic and equipment invariants, rewards and v1 migration. Browser checks cover file export/import, closed-tab recovery, all eight job sprites, boss awakening, first-clear relic settlement, buying/equipping, manual save/load, migrated resource preservation, learning across a job change, result settlement and second-contract deployment. Result/learning checks use isolated local fixtures, not a claim of a full manual campaign playthrough. Physical mobile devices, Safari, gamepad hardware and 60 FPS remain uncertified. See [testing](docs/TESTING.md).
 
 ## Expansion plan
 
@@ -314,3 +314,5 @@ Start with [CONTRIBUTING.md](CONTRIBUTING.md). Keep rules independent of renderi
 Artwork and musical material were authored for this project. Packages and fonts retain their own licenses. **No repository-level project license has been selected or added**; public access does not itself grant a separate redistribution license. See [ownership and licenses](docs/ART_AND_AUDIO.md#ownership-and-licenses).
 
 The [advanced authoring contracts](docs/studio/specs/advanced-blueprints.json) add rules/AI formulas, campaign/economy/UI editing, VFX/material/environment tools, project migration/merge behavior and five toolkit release gates. Four more checked examples link these contracts to the existing requirements, work items and acceptance cases. They remain proposals; the game runtime stays v0.8.
+
+[Large-map studio](docs/LARGE_MAP_STUDIO.md): resize existing levels up to 32×32, paint 3×3/5×5 regions, navigate coordinates and fit/focus the playtest camera.

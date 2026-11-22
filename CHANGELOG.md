@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-11-22 — Expanded maps and navigation
+
+- Resize existing encounters to 9–32 tiles per side (up to 1,024 tiles), preserving northwest coordinates, terrain and placements; reject actor clipping and support undo.
+- Add 1×1/3×3/5×5 brushes, bounded map scrolling, selectable tile sizes and coordinate navigation with per-axis arrow-key bounds.
+- Fit rectangular foundations, camera and lighting; add playtest fit/focus/rotate/zoom controls. Cache tile lookups per tile array and reduce grass detail above 256 tiles.
+- Carry optional map dimensions through source/JSON/checkpoints, battle compilation/save validation and main-game cursor bounds. Legacy 9×9 sources retain defaults.
+- Add ten tests (144 total), a large-map guide and ADR-0016. The roster remains eight existing identities; complete campaign export is still future work.
+
+
 ## Unreleased
 
 ### Added

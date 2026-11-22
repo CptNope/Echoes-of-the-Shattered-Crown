@@ -1,3 +1,4 @@
+import { mapDimensions } from "./map-layout";
 import React, { useState, useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
 import {
@@ -306,8 +307,11 @@ function App() {
         const [dx, dz] = d[e.key];
         setHover((p) => {
           const v = {
-            x: Math.max(0, Math.min(8, p.x + dx)),
-            z: Math.max(0, Math.min(8, p.z + dz)),
+            x: Math.max(0, Math.min(mapDimensions(battle).width - 1, p.x + dx)),
+            z: Math.max(
+              0,
+              Math.min(mapDimensions(battle).height - 1, p.z + dz),
+            ),
           };
           setSelected(v);
           return v;
@@ -353,8 +357,20 @@ function App() {
         if (dx || dz)
           setHover((p) => {
             const v = {
-              x: Math.max(0, Math.min(8, p.x + dx)),
-              z: Math.max(0, Math.min(8, p.z + dz)),
+              x: Math.max(
+                0,
+                Math.min(
+                  mapDimensions(latest.current.battle).width - 1,
+                  p.x + dx,
+                ),
+              ),
+              z: Math.max(
+                0,
+                Math.min(
+                  mapDimensions(latest.current.battle).height - 1,
+                  p.z + dz,
+                ),
+              ),
             };
             setSelected(v);
             return v;
