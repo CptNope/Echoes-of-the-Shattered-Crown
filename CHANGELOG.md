@@ -1,5 +1,13 @@
 # Changelog
 
+## Original mission preset migration - 2026-11-22
+
+- Unified the original four encounters and Greybank under one reversible balanced preset loader with per-mission JSON downloads.
+- Added four enemy templates and tactical briefing lines to each original mission while retaining stats, placements, gates, rewards and boss identities.
+- Marked the isolated unused (8,8) corner as blocked scenery in Shrine, Causeway and Redoubt; preserved all combat routes and Belfry geometry.
+- Reused existing battle data during source adaptation and removed duplicate legacy content generation. Added reproducible generation for all five presets.
+- Added ten compatibility cases; all 202 tests pass. Recorded simulated wins and losses without claiming difficulty certification.
+
 ## The Sluice at Greybank - 2026-11-22
 
 - Added a playable 18 by 14 Tidewarden mission preset with two bridges, a freezeable central river route, terraces and four specialist defenders.

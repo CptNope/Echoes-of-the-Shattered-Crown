@@ -27,11 +27,14 @@ export interface GameContent {
   dialogue: Record<EncounterId, DialogueLine[]>;
   victoryJP: number;
 }
-export function gameContent(encounter: EncounterId = "shrine"): GameContent {
+export function gameContent(
+  encounter: EncounterId = "shrine",
+  units?: readonly Unit[],
+): GameContent {
   return {
     version: 1,
     contracts: structuredClone(encounters),
-    actors: createBattle(74319, encounter).units.map(
+    actors: (units ?? createBattle(74319, encounter).units).map(
       ({ id, name, job, secondary, baseHp, maxMp, learned, jp }) => ({
         id,
         name,

@@ -1,4 +1,4 @@
-import { buildGreybank } from "./greybank";
+import { loadMissionPreset, type MissionPresetId } from "./mission-presets";
 import { buildExpansion } from "./studio-authoring";
 import {
   mapDimensions,
@@ -254,7 +254,8 @@ export type ProjectEdit =
       placements: LevelProject["placements"];
     }
   | { type: "expansion" }
-  | { type: "greybank" };
+  | { type: "greybank" }
+  | { type: "mission-preset"; preset: MissionPresetId };
 /** Atomic batch: reject every operation if any resulting invariant fails. */
 export function editProject(
   project: LevelProject,
@@ -267,7 +268,10 @@ export function editProject(
     fail("Use a batch of 1–1024 edits.");
   const next = structuredClone(project);
   for (const e of edits) {
-    if (e.type === "greybank") Object.assign(next, buildGreybank(next));
+    if (e.type === "mission-preset")
+      Object.assign(next, loadMissionPreset(next, e.preset));
+    else if (e.type === "greybank")
+      Object.assign(next, loadMissionPreset(next, "greybank"));
     else if (e.type === "expansion") Object.assign(next, buildExpansion(next));
     else if (e.type === "roster") {
       next.content = validateGameContent(e.content, next.rules);
@@ -298,15 +302,16 @@ export function editProject(
       if (!Object.hasOwn(encounters, e.encounter))
         fail("Unknown source encounter.");
       const source = createLevelProject(e.encounter),
-        existing = next.content;
+        existing = next.content,
+        sourceContent = gameContent(e.encounter);
       next.encounter = e.encounter;
       next.name = encounters[e.encounter].name;
       delete next.dimensions;
       next.tiles = source.tiles;
       next.placements = source.placements;
       next.content = {
-        ...(existing ?? gameContent(e.encounter)),
-        actors: gameContent(e.encounter).actors,
+        ...(existing ?? sourceContent),
+        actors: sourceContent.actors,
       };
     } else if (e.type === "rules") {
       if (e.rules === null) delete next.rules;

@@ -2,7 +2,7 @@
 
 [Documentation](README.md) / [Custom content authoring](CUSTOM_CONTENT_AUTHORING.md) / [Editable mission JSON](../public/missions/greybank.json)
 
-Greybank is a complete Tidewarden encounter for the current studio. Open **Enemy templates**, expand **Playable mission: The Sluice at Greybank**, then choose **Load Greybank mission**. Alternatively download and import the linked JSON. Playtest, read the four-line briefing, and defeat all four enemies.
+Greybank is a complete Tidewarden encounter for the current studio. Open **Enemy templates**, expand **Playable mission presets**, select **The Sluice at Greybank**, then choose **Load mission preset**. Alternatively download and import the linked JSON. Playtest, read the four-line briefing, and defeat all four enemies.
 
 Loading the preset replaces map, combat catalogs, roster/templates, contract metadata and dialogue with balanced defaults. It preserves existing art/audio sources. This explicit reset prevents experimental damage/range overrides from deciding the encounter before it begins. Undo restores the prior project. Export unsaved work before switching sources.
 
@@ -48,7 +48,7 @@ The causeway contract slot pays 120 gold on victory and grants Sluicekeeper's wa
 
 ## Evidence and remaining work
 
-Six cases in [greybank.test.ts](../src/greybank.test.ts) verify source/geometry, actual freezing and movement, soak/lightning synergy, reset/isolation/history, full deterministic outcomes and once-only settlement, plus the published fixture matching the preset. Run `npm run mission:build` after intentionally changing the preset. The full suite has 192 tests.
+Six cases in [greybank.test.ts](../src/greybank.test.ts) verify source/geometry, actual freezing and movement, soak/lightning synergy, reset/isolation/history, full deterministic outcomes and once-only settlement, plus the published fixture matching the preset. Run `npm run mission:build` after intentionally changing the preset. The full suite has 202 tests.
 
 A controlled AI policy for both sides wins in 39 activations at seed 74319 and 28 at seed 9001; at seed 42 it loses in 46. Every command produces a valid save. These outcomes establish reproducibility and exercise victory/defeat; they do not certify human difficulty. Manual review checks the opening freeze route and the rendered terrain. Further balance passes should record casualties, resource pressure and route choices with human play.
 

@@ -1,3 +1,4 @@
+import { MISSION_PRESETS, type MissionPresetId } from "./mission-presets";
 import React, { useEffect, useMemo, useState } from "react";
 import {
   gameContent,
@@ -33,6 +34,9 @@ export function EnemyTemplates({
     [project.content, project.encounter],
   );
   const [draft, setDraft] = useState(baseline),
+    [preset, setPreset] = useState<MissionPresetId>(
+      project.encounter ?? "shrine",
+    ),
     [selected, setSelected] = useState(baseline.enemyTemplates?.[0]?.id ?? ""),
     [origin, setOrigin] = useState("sentinel"),
     [newId, setNewId] = useState("enemy-new-template"),
@@ -155,20 +159,42 @@ export function EnemyTemplates({
         and 32 templates.
       </p>
       <details>
-        <summary>Playable mission: The Sluice at Greybank</summary>
+        <summary>Playable mission presets</summary>
+        <label>
+          Mission preset
+          <select
+            value={preset}
+            onChange={(e) => setPreset(e.target.value as MissionPresetId)}
+          >
+            {MISSION_PRESETS.map((m) => (
+              <option key={m.id} value={m.id}>
+                {m.name}
+              </option>
+            ))}
+          </select>
+        </label>
+        <p>{MISSION_PRESETS.find((m) => m.id === preset)!.summary}</p>
         <p>
-          An 18 by 14 Tidewarden mission with two bridges, a river shortcut to
-          freeze, four specialist defenders and a first-clear waystone. Replaces
-          the map, combat catalogs, actors, templates, contract data and
-          briefing with a balanced preset. Keeps artwork and audio. Undo
-          restores your previous source.
+          Loads balanced combat catalogs, map, actors, enemy templates, contract
+          data and briefing. Preserves artwork, audio and project identity.
+          Replaces current mission edits; Undo restores the previous source. The
+          four original missions keep their maps, stats, progression and boss
+          identities.
         </p>
-        <button
-          disabled={blocked}
-          onClick={() => apply([{ type: "greybank" }])}
-        >
-          Load Greybank mission
-        </button>
+        <div className="actions">
+          <button
+            disabled={blocked}
+            onClick={() => apply([{ type: "mission-preset", preset }])}
+          >
+            Load mission preset
+          </button>
+          <a
+            href={`${import.meta.env.BASE_URL}missions/${preset}.json`}
+            download={`${preset}-mission.json`}
+          >
+            Download editable mission JSON
+          </a>
+        </div>
       </details>
       <details>
         <summary>Guided Saltglass expansion</summary>

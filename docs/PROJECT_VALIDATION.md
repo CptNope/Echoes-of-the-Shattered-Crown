@@ -55,6 +55,6 @@ flowchart LR
 
 ## Evidence and limitations
 
-Twelve tests in [studio-validation.test.ts](../src/studio-validation.test.ts) exercise all four shipped sources; disconnected water/collision/elevation; ice crossings; trapped spawns; empty regions; scoped costs/availability; inactive learning and reward restrictions; addressed malformed references; invalid placement/map/source; an otherwise valid source over the export budget; import limits/future fields; deterministic reports, source isolation and JSON round trips. The complete suite has 192 tests.
+Twelve tests in [studio-validation.test.ts](../src/studio-validation.test.ts) exercise all four shipped sources; disconnected water/collision/elevation; ice crossings; trapped spawns; empty regions; scoped costs/availability; inactive learning and reward restrictions; addressed malformed references; invalid placement/map/source; an otherwise valid source over the export budget; import limits/future fields; deterministic reports, source isolation and JSON round trips. The complete suite has 202 tests.
 
 This is a bounded authoring check, not a solver or balance certification. It does not simulate ranged reachability, terrain changes, reaction damage, future job changes, turn-by-turn AI or mission completion. An empty report means no finding from the implemented checks. Asset byte decoding, arbitrary scripts, full campaign packaging and schema migrations remain separate work. Reports describe one source revision and are not imported as editable projects or player saves.

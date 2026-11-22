@@ -37,6 +37,8 @@ The initial accepted baseline records are **retrospective** except ADR-0001's ne
 
 | [ADR-0019](0019-bounded-custom-records-and-enemy-templates.md) | Accepted | New implementation decision | Bind custom records to shipped mechanics and spawn template snapshots |
 
+| [ADR-0020](0020-shared-balanced-mission-presets.md) | Accepted | New implementation decision | Load canonical balanced missions through one preset factory |
+
 ## When to create an ADR
 
 | Create a record for | Usually use another document for |
