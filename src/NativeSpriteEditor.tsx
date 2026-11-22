@@ -301,7 +301,7 @@ export function NativeSpriteEditor({
         <p className="pixel-help">
           Load a shipped character sheet, then edit its actual pixels. All eight
           states and the original transparency are retained. Loading creates a
-          draft; Apply replaces the one native actor override in this project.
+          draft; Apply updates this actor’s assignment and keeps the other sheets.
         </p>
       </details>
       {draft && (
@@ -628,7 +628,7 @@ export function NativeSpriteEditor({
               <p className="pixel-help">
                 Original foot registration and display scale are retained for
                 every state. Edits belong to {draft.actorId}; other actors keep
-                their game art.
+                their own assigned or original artwork.
               </p>
             </aside>
           </div>
