@@ -898,8 +898,8 @@ function Studio() {
             <p className="scope-note">
               Project edits feed isolated playtests. Load existing encounters,
               materials, characters, briefings, contract rewards and source
-              audio. Full campaign packaging and advanced rule/quest editors
-              remain planned.
+              audio. Override gear, abilities and jobs. Full campaign packaging,
+              new rule mechanics and branching quests remain planned.
             </p>
           </aside>
           <main className="studio-sheet">
