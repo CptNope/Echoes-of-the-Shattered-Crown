@@ -124,7 +124,7 @@ export function ContentEditor({
               </select>
             </label>
             <p>
-              Eight existing identities retain their team and placement. Names,
+              Current roster actors retain their team and placement. Names,
               jobs, starting resources, learned secondary skills and job points
               compile into the playtest.
             </p>

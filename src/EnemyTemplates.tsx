@@ -580,7 +580,8 @@ export function EnemyTemplates({
               </p>
             )}
             <p>
-              {targets.length} enemies selected / {changedTargets} will change.{" "}
+              {targets.length} {targets.length === 1 ? "enemy" : "enemies"}{" "}
+              selected / {changedTargets} will change.{" "}
               {changed || blocked
                 ? "Apply or discard drafts before updating instances."
                 : "Review the differences before applying."}
