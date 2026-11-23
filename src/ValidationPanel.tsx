@@ -132,9 +132,11 @@ export function ValidationPanel({
                           ? `Inspect tile ${f.target.x}, ${f.target.z}`
                           : f.target.area === "content"
                             ? `Inspect ${f.target.section === "actors" ? "actor" : f.target.section === "dialogue" ? "dialogue" : "contract"} ${f.target.id}`
-                            : f.target.area === "rules"
-                              ? `Inspect ${f.target.section === "skills" ? "ability" : f.target.section === "gear" ? "gear" : "job"} ${f.target.id}`
-                              : "Inspect project source"}
+                            : f.target.area === "assets"
+                              ? "Inspect artwork"
+                              : f.target.area === "rules"
+                                ? `Inspect ${f.target.section === "skills" ? "ability" : f.target.section === "gear" ? "gear" : "job"} ${f.target.id}`
+                                : "Inspect project source"}
                     </button>
                   )}
                 </li>

@@ -231,11 +231,8 @@ export function ArtworkInspector({
           </li>
           <li>
             {Object.keys(project.rules?.jobs ?? jobs).length} classes,{" "}
-            {project.rules
-              ? Object.keys(project.rules.skills).length
-              : "shipped"}{" "}
-            abilities and {Object.keys(project.rules?.gear ?? equipment).length}{" "}
-            gear records{" "}
+            {Object.keys(project.rules?.skills ?? skills).length} abilities and{" "}
+            {Object.keys(project.rules?.gear ?? equipment).length} gear records{" "}
             <button disabled={blocked} onClick={() => openEditor("rules")}>
               Open gameplay catalogs
             </button>
