@@ -205,7 +205,9 @@ export function AssetLibrary({
           <label>
             Effect tint
             <input
-              type="color"
+              type="text"
+              maxLength={7}
+              spellCheck={false}
               value={binding?.style?.tint ?? "#ffffff"}
               onChange={(e) => changeStyle("tint", e.target.value)}
             />
@@ -213,8 +215,13 @@ export function AssetLibrary({
           <label>
             Particle color
             <input
-              type="color"
-              value={"#" + recipe.color.toString(16).padStart(6, "0")}
+              type="text"
+              maxLength={7}
+              spellCheck={false}
+              value={
+                binding?.style?.particleColor ??
+                "#" + recipe.color.toString(16).padStart(6, "0")
+              }
               onChange={(e) => changeStyle("particleColor", e.target.value)}
             />
           </label>
