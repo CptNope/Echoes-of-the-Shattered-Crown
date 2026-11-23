@@ -338,12 +338,67 @@ export function buildBriarMission(project: LevelProject): LevelProject {
   ];
   p.abilityCues = {
     ...p.abilityCues,
-    "custom-briar-shelter": { effect: "aegis", sound: "buff" },
-    "custom-dewfall": { effect: "raincall", sound: "hit" },
-    "custom-green-mending": { effect: "mend", sound: "heal" },
-    "custom-anvil-peal": { effect: "surge", sound: "hit" },
-    "custom-dissonant-strike": { effect: "delay", sound: "hit" },
-    "custom-tempered-tempo": { effect: "haste", sound: "buff" },
+    "custom-briar-shelter": {
+      effect: "aegis",
+      sound: "buff",
+      style: {
+        tint: "#d5e4a6",
+        particleColor: "#96bb70",
+        particle: "motes",
+        particles: 0.75,
+      },
+    },
+    "custom-dewfall": {
+      effect: "raincall",
+      sound: "hit",
+      style: {
+        tint: "#b9e0cf",
+        particleColor: "#9bcbb2",
+        particle: "rain",
+        particles: 1.25,
+      },
+    },
+    "custom-green-mending": {
+      effect: "mend",
+      sound: "heal",
+      style: {
+        tint: "#d0e9b2",
+        particleColor: "#a2c995",
+        size: 1.6,
+        frameMs: 100,
+      },
+    },
+    "custom-anvil-peal": {
+      effect: "surge",
+      sound: "hit",
+      style: {
+        tint: "#e4efff",
+        particleColor: "#e8b75d",
+        particle: "electric",
+        frameMs: 70,
+        travelMs: 120,
+      },
+    },
+    "custom-dissonant-strike": {
+      effect: "delay",
+      sound: "hit",
+      style: {
+        tint: "#e3d4bd",
+        particleColor: "#cca779",
+        particle: "time",
+        particles: 0.75,
+      },
+    },
+    "custom-tempered-tempo": {
+      effect: "haste",
+      sound: "buff",
+      style: {
+        tint: "#ffedc0",
+        particleColor: "#dbb66d",
+        particle: "time",
+        size: 1.6,
+      },
+    },
   };
   p.rules = validateRules(r);
   p.content = validateGameContent(c, p.rules);

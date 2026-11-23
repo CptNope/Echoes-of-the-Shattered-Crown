@@ -16,7 +16,7 @@
     "original procedural game score",
     "layered sound cues",
     "music pattern",
-    "ability VFX family and sound bindings"
+    "ability VFX family, tint, scale, timing, particles and sound bindings"
   ],
   "notVisualEditors": [
     "scenery geometry",
@@ -39,6 +39,112 @@
       "abilities": 13,
       "gear": 10,
       "briefingLines": 4,
+      "abilityFeedback": [
+        {
+          "id": "gloam",
+          "family": "gloam",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "raincall",
+          "family": "raincall",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "delay",
+          "family": "delay",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "strike",
+          "family": "strike",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "cleave",
+          "family": "cleave",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "surge",
+          "family": "surge",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "frost",
+          "family": "frost",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "veil",
+          "family": "veil",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "rally",
+          "family": "rally",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        }
+      ],
       "actorArtwork": [
         {
           "actor": "sera",
@@ -114,6 +220,112 @@
       "abilities": 13,
       "gear": 10,
       "briefingLines": 4,
+      "abilityFeedback": [
+        {
+          "id": "gloam",
+          "family": "gloam",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "raincall",
+          "family": "raincall",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "delay",
+          "family": "delay",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "strike",
+          "family": "strike",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "cleave",
+          "family": "cleave",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "surge",
+          "family": "surge",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "frost",
+          "family": "frost",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "veil",
+          "family": "veil",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "rally",
+          "family": "rally",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        }
+      ],
       "actorArtwork": [
         {
           "actor": "sera",
@@ -189,6 +401,112 @@
       "abilities": 13,
       "gear": 10,
       "briefingLines": 4,
+      "abilityFeedback": [
+        {
+          "id": "gloam",
+          "family": "gloam",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "raincall",
+          "family": "raincall",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "delay",
+          "family": "delay",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "strike",
+          "family": "strike",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "cleave",
+          "family": "cleave",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "surge",
+          "family": "surge",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "frost",
+          "family": "frost",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "veil",
+          "family": "veil",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "rally",
+          "family": "rally",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        }
+      ],
       "actorArtwork": [
         {
           "actor": "sera",
@@ -264,6 +582,112 @@
       "abilities": 13,
       "gear": 10,
       "briefingLines": 4,
+      "abilityFeedback": [
+        {
+          "id": "gloam",
+          "family": "gloam",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "raincall",
+          "family": "raincall",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "delay",
+          "family": "delay",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "strike",
+          "family": "strike",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "cleave",
+          "family": "cleave",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "surge",
+          "family": "surge",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "frost",
+          "family": "frost",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "veil",
+          "family": "veil",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "rally",
+          "family": "rally",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        }
+      ],
       "actorArtwork": [
         {
           "actor": "sera",
@@ -339,6 +763,144 @@
       "abilities": 17,
       "gear": 16,
       "briefingLines": 4,
+      "abilityFeedback": [
+        {
+          "id": "gloam",
+          "family": "gloam",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "raincall",
+          "family": "raincall",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "delay",
+          "family": "delay",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "strike",
+          "family": "strike",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "cleave",
+          "family": "cleave",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "surge",
+          "family": "surge",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "frost",
+          "family": "frost",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "veil",
+          "family": "veil",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "rally",
+          "family": "rally",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-brine-lance",
+          "family": "raincall",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-glacial-chain",
+          "family": "frost",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-tidal-ward",
+          "family": "aegis",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-ebb-hour",
+          "family": "delay",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        }
+      ],
       "actorArtwork": [
         {
           "actor": "sera",
@@ -414,6 +976,144 @@
       "abilities": 17,
       "gear": 16,
       "briefingLines": 5,
+      "abilityFeedback": [
+        {
+          "id": "gloam",
+          "family": "gloam",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "raincall",
+          "family": "raincall",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "delay",
+          "family": "delay",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "strike",
+          "family": "strike",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "cleave",
+          "family": "cleave",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "surge",
+          "family": "surge",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "frost",
+          "family": "frost",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "veil",
+          "family": "veil",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "rally",
+          "family": "rally",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-ashfall",
+          "family": "ember",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-hearthguard",
+          "family": "aegis",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-cinderstep",
+          "family": "haste",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-kindlethread",
+          "family": "mend",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        }
+      ],
       "actorArtwork": [
         {
           "actor": "sera",
@@ -503,6 +1203,144 @@
       "abilities": 17,
       "gear": 16,
       "briefingLines": 5,
+      "abilityFeedback": [
+        {
+          "id": "gloam",
+          "family": "gloam",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "raincall",
+          "family": "raincall",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "delay",
+          "family": "delay",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "strike",
+          "family": "strike",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "cleave",
+          "family": "cleave",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "surge",
+          "family": "surge",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "frost",
+          "family": "frost",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "veil",
+          "family": "veil",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "rally",
+          "family": "rally",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-ashfall",
+          "family": "ember",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-hearthguard",
+          "family": "aegis",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-cinderstep",
+          "family": "haste",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-kindlethread",
+          "family": "mend",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        }
+      ],
       "actorArtwork": [
         {
           "actor": "sera",
@@ -592,6 +1430,192 @@
       "abilities": 23,
       "gear": 18,
       "briefingLines": 6,
+      "abilityFeedback": [
+        {
+          "id": "gloam",
+          "family": "gloam",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "raincall",
+          "family": "raincall",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "delay",
+          "family": "delay",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "strike",
+          "family": "strike",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "cleave",
+          "family": "cleave",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "surge",
+          "family": "surge",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "frost",
+          "family": "frost",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "veil",
+          "family": "veil",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "rally",
+          "family": "rally",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-ashfall",
+          "family": "ember",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-hearthguard",
+          "family": "aegis",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-cinderstep",
+          "family": "haste",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-kindlethread",
+          "family": "mend",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-glass-shot",
+          "family": "strike",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-shard-volley",
+          "family": "cleave",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-facet-mark",
+          "family": "veil",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-cinder-hymn",
+          "family": "ember",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-ashen-shelter",
+          "family": "aegis",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-mourning-bell",
+          "family": "delay",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        }
+      ],
       "actorArtwork": [
         {
           "actor": "sera",
@@ -681,6 +1705,240 @@
       "abilities": 29,
       "gear": 22,
       "briefingLines": 6,
+      "abilityFeedback": [
+        {
+          "id": "gloam",
+          "family": "gloam",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "raincall",
+          "family": "raincall",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "delay",
+          "family": "delay",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "strike",
+          "family": "strike",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "cleave",
+          "family": "cleave",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "surge",
+          "family": "surge",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "frost",
+          "family": "frost",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "veil",
+          "family": "veil",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "rally",
+          "family": "rally",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-ashfall",
+          "family": "ember",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-hearthguard",
+          "family": "aegis",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-cinderstep",
+          "family": "haste",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-kindlethread",
+          "family": "mend",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-glass-shot",
+          "family": "strike",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-shard-volley",
+          "family": "cleave",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-facet-mark",
+          "family": "veil",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-cinder-hymn",
+          "family": "ember",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-ashen-shelter",
+          "family": "aegis",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-mourning-bell",
+          "family": "delay",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-rimeward",
+          "family": "aegis",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-frostline",
+          "family": "frost",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-winters-mercy",
+          "family": "mend",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-sunlit-pursuit",
+          "family": "gloam",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-dawn-cut",
+          "family": "cleave",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-daybreak-feint",
+          "family": "veil",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        }
+      ],
       "actorArtwork": [
         {
           "actor": "sera",
@@ -770,6 +2028,288 @@
       "abilities": 35,
       "gear": 27,
       "briefingLines": 7,
+      "abilityFeedback": [
+        {
+          "id": "gloam",
+          "family": "gloam",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "raincall",
+          "family": "raincall",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "delay",
+          "family": "delay",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "strike",
+          "family": "strike",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "cleave",
+          "family": "cleave",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "surge",
+          "family": "surge",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "frost",
+          "family": "frost",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "veil",
+          "family": "veil",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "rally",
+          "family": "rally",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-ashfall",
+          "family": "ember",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-hearthguard",
+          "family": "aegis",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-cinderstep",
+          "family": "haste",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-kindlethread",
+          "family": "mend",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-glass-shot",
+          "family": "strike",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-shard-volley",
+          "family": "cleave",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-facet-mark",
+          "family": "veil",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-cinder-hymn",
+          "family": "ember",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-ashen-shelter",
+          "family": "aegis",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-mourning-bell",
+          "family": "delay",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-rimeward",
+          "family": "aegis",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-frostline",
+          "family": "frost",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-winters-mercy",
+          "family": "mend",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-sunlit-pursuit",
+          "family": "gloam",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-dawn-cut",
+          "family": "cleave",
+          "atlas": "martial",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-daybreak-feint",
+          "family": "veil",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-briar-shelter",
+          "family": "aegis",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": true
+        },
+        {
+          "id": "custom-dewfall",
+          "family": "raincall",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": true
+        },
+        {
+          "id": "custom-green-mending",
+          "family": "mend",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": true
+        },
+        {
+          "id": "custom-anvil-peal",
+          "family": "surge",
+          "atlas": "elements",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": true
+        },
+        {
+          "id": "custom-dissonant-strike",
+          "family": "delay",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": true
+        },
+        {
+          "id": "custom-tempered-tempo",
+          "family": "haste",
+          "atlas": "support",
+          "frames": 8,
+          "editable": true,
+          "appearanceOverride": true
+        }
+      ],
       "actorArtwork": [
         {
           "actor": "sera",

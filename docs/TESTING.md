@@ -4,7 +4,7 @@
 
 ## Automated rules coverage
 
-Run `npm test`. The script uses the explicit test-file list in `package.json` and Node's built-in test runner. The current suite has 254 tests; this count is an inventory, not a coverage percentage or balance certification.
+Run `npm test`. The script uses the explicit test-file list in `package.json` and Node's built-in test runner. The current suite has 271 tests; this count is an inventory, not a coverage percentage or balance certification.
 
 | Area             | Assertions represented                                                                                        |
 | ---------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -184,3 +184,7 @@ Ten cases in [mission-presets.test.ts](../src/mission-presets.test.ts) cover fou
 
 
 Ten cases in [studio-assets.test.ts](../src/studio-assets.test.ts) cover legacy-to-library migration, independent pixels/timings, actor/count/digest rejection, shared-image checkpoints and missing/quota recovery, exports beyond 8 MiB, undo/redo, scoped cue validation, gameplay-isolated VFX and sounds, and preset pruning. Full suite: 254 tests.
+
+## Content readiness and editable presentation
+
+The [readiness guide](CONTENT_READINESS.md) records current editor coverage and limits. `npm run content:playtest` verifies ten sources, thirty terminal simulations, 190 isolated ability commands, effect/sound mappings and idempotent settlement. `npm run docs:verify` checks the generated report against source. Eight new regressions cover optimized AI candidate completeness, custom-class reach, scoped lightning setup, style validation, legacy pairs, source history, eight-frame timing and gameplay/RNG isolation. The complete suite has 271 tests. Browser checks are recorded separately from these engine checks.

@@ -72,8 +72,10 @@ Ten new tests cover profile/roster validity, actual ranged and exposure commands
 
 | Seed | AI-for-both-teams result | Activations |
 | --- | --- | --- |
-| 74319 | Defeat | 28 |
-| 9001 | Defeat | 30 |
-| 42 | Defeat | 27 |
+| 74319 | Defeat | 27 |
+| 9001 | Defeat | 23 |
+| 42 | Defeat | 22 |
 
 The existing AI is a short-horizon policy and does not coordinate a ranger's exposure with another unit. These losses are recorded for follow-up human difficulty tuning, not presented as a certified difficulty curve. Opening the inherited wall removes a repeatable passive corner stalemate. No change was made to the original Ashen Weir or its AI.
+
+Current optimized-AI results and editable presentation coverage are recorded in the [readiness audit](CONTENT_READINESS.md). The three losses remain balance-review signals, not human full-clear certification.

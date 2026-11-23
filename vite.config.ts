@@ -11,11 +11,20 @@ const artworkRevision = createHash("sha256")
   )
   .digest("hex");
 
+const effectRevision = createHash("sha256")
+  .update(
+    readFileSync(
+      new URL("./public/art/effects/manifest.json", import.meta.url),
+    ),
+  )
+  .digest("hex");
+
 // GitHub Pages hosts project sites below the repository name. Other hosts
 // and local development keep the default root path.
 export default defineConfig({
   base: process.env.BASE_PATH || "/",
   define: {
+    "import.meta.env.VITE_EFFECT_ART_REVISION": JSON.stringify(effectRevision),
     "import.meta.env.VITE_CHARACTER_ART_REVISION":
       JSON.stringify(artworkRevision),
   },

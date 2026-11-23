@@ -662,6 +662,66 @@ export function command(state: Battle, c: Command): Battle {
   }
   return s;
 }
+/** Keep source tile order for deterministic tie breaks, excluding zero-value aims. */
+export function aiCandidateTiles(s: Battle, u: Unit, sk: Skill): Tile[] {
+  if (u.mp < sk.cost || u.acted) return [];
+  const keys = new Set<string>();
+  for (const v of s.units) {
+    if (
+      sk.kind === "damage"
+        ? v.team === u.team || v.hp <= 0
+        : v.team !== u.team || (sk.kind === "buff" && v.hp <= 0)
+    )
+      continue;
+    // Support targeting requires an ally at the aim point; damage may aim beside a unit.
+    const radius = sk.kind === "damage" ? sk.radius : 0;
+    for (let dz = -radius; dz <= radius; dz++)
+      for (let dx = -radius; dx <= radius; dx++)
+        if (Math.abs(dx) + Math.abs(dz) <= radius)
+          keys.add(key(v.x + dx, v.z + dz));
+  }
+  return s.tiles.filter((t) => keys.has(key(t.x, t.z)));
+}
+export function aiPreferredRange(s: Battle, u: Unit): number {
+  const base = baseJobId(u.job, s.rules?.jobs);
+  if (["arcanist", "lifebinder", "stormherald", "chronoweaver"].includes(base))
+    return 3;
+  if (u.job.startsWith("custom-")) {
+    const catalog = s.rules?.skills ?? skills;
+    const primary = (s.rules?.jobs ?? jobs)[u.job].skills;
+    const range = Math.max(
+      1,
+      ...primary
+        .filter(
+          (id) => catalog[id].kind === "damage" && catalog[id].cost <= u.mp,
+        )
+        .map((id) => catalog[id].range),
+    );
+    return Math.min(3, range);
+  }
+  return 1;
+}
+export function hasLightningFollowup(
+  s: Battle,
+  u: Unit,
+  target: Unit,
+): boolean {
+  const catalog = s.rules?.skills ?? skills;
+  return living(s).some(
+    (a) =>
+      a.team === u.team &&
+      availableSkills(a, s.rules).some((id) => {
+        const sk = catalog[id];
+        return (
+          sk.kind === "damage" &&
+          sk.element === "lightning" &&
+          a.mp >= sk.cost &&
+          distance(a, target) <= sk.range &&
+          lineOfSight(s, a, target)
+        );
+      }),
+  );
+}
 export function aiTurn(state: Battle): Battle {
   if (state.result !== "playing" || activeUnit(state).team !== "enemy")
     return state;
@@ -673,18 +733,12 @@ export function aiTurn(state: Battle): Battle {
     z: u.z,
     score: -Infinity,
   };
+  const preferredRange = aiPreferredRange(s, u);
   for (const [k, cost] of reachable(s, u)) {
     const [x, z] = k.split(",").map(Number),
       p = { x, z };
     const near = Math.min(...enemies.map((v) => distance(p, v)));
-    const range = [
-      "arcanist",
-      "lifebinder",
-      "stormherald",
-      "chronoweaver",
-    ].includes(u.job)
-      ? 3
-      : 1;
+    const range = preferredRange;
     const score =
       -Math.abs(near - range) * 5 +
       tileAt(s, x, z)!.h * 1.5 -
@@ -700,7 +754,7 @@ export function aiTurn(state: Battle): Battle {
     (id) => baseSkillId(id, s.rules?.skills) !== "rally",
   )) {
     const sk = (s.rules?.skills ?? skills)[id];
-    for (const t of s.tiles) {
+    for (const t of aiCandidateTiles(s, u, sk)) {
       if (!canTarget(s, u, sk, t.x, t.z)) continue;
       let score = 0;
       for (const v of s.units.filter((v) => distance(v, t) <= sk.radius)) {
@@ -711,13 +765,7 @@ export function aiTurn(state: Battle): Battle {
           if (
             sk.effect === "soak" &&
             v.status.soaked === 0 &&
-            living(s).some(
-              (a) =>
-                a.team === u.team &&
-                a.mp >= (s.rules?.skills ?? skills).surge.cost &&
-                availableSkills(a, s.rules).includes("surge") &&
-                distance(a, v) <= (s.rules?.skills ?? skills).surge.range,
-            )
+            hasLightningFollowup(s, u, v)
           )
             score += 6;
         } else if (sk.kind === "buff" && v.team === u.team && v.hp > 0) {

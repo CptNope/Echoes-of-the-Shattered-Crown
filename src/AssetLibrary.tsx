@@ -1,11 +1,15 @@
 import type { ValidationFocusRequest } from "./studio-validation";
 import { ArtworkInspector } from "./ArtworkInspector";
+import { AbilityEffectPreview } from "./AbilityEffectPreview";
+import { PARTICLE_KINDS, type EffectStyle } from "./effect-style";
+import { resolveEffectRecipe } from "./combat-effects";
 import React, { useEffect, useState } from "react";
 import { skills, baseSkillId, type SkillId, type BuiltinSkillId } from "./data";
 import { SOUND_EVENTS, type SoundEvent } from "./studio-sfx";
 import {
   nativeSources,
   validateAbilityCues,
+  type AbilityCue,
   type AbilityCues,
 } from "./studio-assets";
 import type { LevelProject, ProjectEdit } from "./studio-project";
@@ -56,6 +60,14 @@ export function AssetLibrary({
         : catalog[selected]?.kind === "buff"
           ? "buff"
           : "hit");
+  const recipe = resolveEffectRecipe(effect, binding?.style);
+  const changeBinding = (patch: Partial<AbilityCue>) =>
+    setDraft({
+      ...draft,
+      [selected]: { effect, sound, ...binding, ...patch },
+    });
+  const changeStyle = (name: keyof EffectStyle, value: string | number) =>
+    changeBinding({ style: { ...binding?.style, [name]: value } });
   let error = "";
   try {
     validateAbilityCues(draft, project.rules);
@@ -65,6 +77,7 @@ export function AssetLibrary({
   const sheets = nativeSources(project);
   return (
     <section aria-label="Asset library">
+      <a href="#ability-feedback">Edit ability visuals and sound</a>
       <ArtworkInspector
         focusRequest={focusRequest}
         project={project}
@@ -135,12 +148,13 @@ export function AssetLibrary({
       <button disabled={blocked} onClick={() => editSprite("")}>
         Add character sheet
       </button>
-      <h2>Ability visuals and sound</h2>
+      <h2 id="ability-feedback">Ability visuals and sound</h2>
       <p>
-        Bind an existing VFX family and an editable sound-bank cue to each
-        ability. Costs, range, damage and statuses keep their gameplay
-        definitions. Misses retain the Miss cue. Sound cues are shared across
-        abilities; edit their layers under Sound effects.
+        Edit each ability’s effect family, tint, size, timing and particles, and
+        pair it with an editable sound-bank cue. Costs, range, damage and
+        statuses keep their gameplay definitions. Misses retain the Miss cue.
+        Sound cues are shared across abilities; edit their layers under Sound
+        effects.
       </p>
       <label>
         Feedback ability
@@ -161,10 +175,7 @@ export function AssetLibrary({
           <select
             value={effect}
             onChange={(e) =>
-              setDraft({
-                ...draft,
-                [selected]: { effect: e.target.value as BuiltinSkillId, sound },
-              })
+              changeBinding({ effect: e.target.value as BuiltinSkillId })
             }
           >
             {Object.values(skills).map((s) => (
@@ -179,10 +190,7 @@ export function AssetLibrary({
           <select
             value={sound}
             onChange={(e) =>
-              setDraft({
-                ...draft,
-                [selected]: { effect, sound: e.target.value as SoundEvent },
-              })
+              changeBinding({ sound: e.target.value as SoundEvent })
             }
           >
             {SOUND_EVENTS.map((s) => (
@@ -191,6 +199,102 @@ export function AssetLibrary({
           </select>
         </label>
       </div>
+      <fieldset aria-label="Ability effect settings">
+        <legend>Effect appearance and timing</legend>
+        <div className="content-fields">
+          <label>
+            Effect tint
+            <input
+              type="color"
+              value={binding?.style?.tint ?? "#ffffff"}
+              onChange={(e) => changeStyle("tint", e.target.value)}
+            />
+          </label>
+          <label>
+            Particle color
+            <input
+              type="color"
+              value={"#" + recipe.color.toString(16).padStart(6, "0")}
+              onChange={(e) => changeStyle("particleColor", e.target.value)}
+            />
+          </label>
+          <label>
+            Effect size (tiles)
+            <input
+              type="number"
+              min="0.5"
+              max="4"
+              step="0.05"
+              value={recipe.size}
+              onChange={(e) => changeStyle("size", Number(e.target.value))}
+            />
+          </label>
+          <label>
+            Effect frame duration (ms)
+            <input
+              type="number"
+              min="30"
+              max="250"
+              step="1"
+              value={recipe.frameMs}
+              onChange={(e) => changeStyle("frameMs", Number(e.target.value))}
+            />
+          </label>
+          <label>
+            Effect travel duration (ms)
+            <input
+              type="number"
+              min="0"
+              max="1500"
+              step="1"
+              value={recipe.travelMs}
+              onChange={(e) => changeStyle("travelMs", Number(e.target.value))}
+            />
+          </label>
+          <label>
+            Effect opacity
+            <input
+              type="number"
+              min="0"
+              max="1"
+              step="0.05"
+              value={recipe.opacity}
+              onChange={(e) => changeStyle("opacity", Number(e.target.value))}
+            />
+          </label>
+          <label>
+            Particle motion
+            <select
+              value={recipe.particle}
+              onChange={(e) => changeStyle("particle", e.target.value)}
+            >
+              {PARTICLE_KINDS.map((p) => (
+                <option key={p}>{p}</option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Particle density
+            <input
+              type="number"
+              min="0"
+              max="2"
+              step="0.25"
+              value={recipe.particles}
+              onChange={(e) => changeStyle("particles", Number(e.target.value))}
+            />
+          </label>
+        </div>
+        <button
+          onClick={() => setDraft({ ...draft, [selected]: { effect, sound } })}
+        >
+          Reset effect appearance
+        </button>
+      </fieldset>
+      <AbilityEffectPreview
+        family={effect}
+        style={error ? undefined : binding?.style}
+      />
       <p>
         {binding
           ? "Explicit paired feedback binding"

@@ -35,7 +35,7 @@ Choose **Feedback ability**, **Visual effect family** and **Ability sound cue**,
 | Gameplay | Costs, range, area tiles, damage, statuses, RNG and effect seed remain unchanged |
 | Deduplication | A resolved action plays each selected event once; repeated action identity does not replay |
 
-Edit sound layers in **Sound effects**. A cue is shared: changing Heal changes every ability bound to Heal. This iteration does not create independent per-ability clips, edit VFX bitmap pixels, expose particle graphs, import WAV/OGG samples or expand the music sequencer. It binds existing editable sources and presentation families.
+Edit sound layers in **Sound effects**. A cue is shared: changing Heal changes every ability bound to Heal. This iteration does not create independent per-ability clips, edit VFX bitmap pixels, expose particle graphs, import WAV/OGG samples or expand the music sequencer. It binds existing editable sources and presentation families. Ability appearance now also supports bounded tint, size, frame/travel timing, opacity and particle color/motion/density with an eight-frame atlas preview.
 
 An explicit binding can use sound-bank playback even when the original game score is enabled. The score's ordinary command feedback can still play alongside it. Audio requires the preview sound toggle and browser activation; source tests do not prove device audibility.
 
@@ -66,3 +66,5 @@ The [Frostglass pack](FROSTGLASS_CONTENT.md) adds Frost Sentinel and Dawn Duelis
 Local checkpoint saves reclaim orphaned native-image cache entries when the storage adapter supports enumeration/removal. Incoming images, the current valid checkpoint and its valid backup remain protected. Cleanup never touches unrelated keys or unrecognized cache-key formats; stale save tokens and unreadable recovery sources do not trigger eviction. A project larger than the browser quota still requires JSON export.
 
 [Artwork consistency](ARTWORK_SYNC.md) adds live source thumbnails, per-actor edit routing, reversible class-art resets and linked warnings for low-resolution or different-class overrides.
+
+[Current content readiness](CONTENT_READINESS.md) covers the expanded appearance editor, all ten mission sources and remaining authoring gaps.

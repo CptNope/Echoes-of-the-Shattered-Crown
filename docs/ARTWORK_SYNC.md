@@ -52,11 +52,11 @@ The inspector's **Editable project sources** disclosure opens the current map, a
 | Level appearance | Terrain palettes and top-face PNG textures |
 | Story and progression | Linear briefings, contract gates, rewards and first-clear relic definitions |
 | Music and sound | Procedural game-score parameters, music patterns and layered shared sound cues |
-| Ability presentation | Existing VFX-family choice and sound-cue pairing |
+| Ability presentation | VFX family, tint, scale, timing, particles and sound-cue pairing |
 | Scenery geometry, new VFX bitmaps, sampled audio and complete campaign packaging | Require repository/source work; complete visual editors remain future work |
 
 ## Audit and regression evidence
 
 `npm run content:audit` regenerates [CONTENT_SYNC_REPORT.json](CONTENT_SYNC_REPORT.json). Documentation verification checks the report against all ten canonical mission factories, their published JSON, compiled rosters and registered editable artwork. It verifies fourteen class sheets and 448 frames; image integrity and decoded frame metadata are checked by the existing art verifier.
 
-Ten new regressions cover texture ownership in both load orders, all four dedicated/base-class pairs, native/indexed precedence, non-destructive repair and Undo, current custom enemy bindings, all ten canonical sources, linked artwork warnings and cross-editor export/compile ownership. The full suite has 263 tests. No new generated sprites replace the user's artwork silently.
+Ten new regressions cover texture ownership in both load orders, all four dedicated/base-class pairs, native/indexed precedence, non-destructive repair and Undo, current custom enemy bindings, all ten canonical sources, linked artwork warnings and cross-editor export/compile ownership. The full suite has 271 tests. No new generated sprites replace the user's artwork silently.

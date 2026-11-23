@@ -6,21 +6,22 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "tsc --noEmit && vite build",
-    "test": "tsx --test src/engine.test.ts src/campaign.test.ts src/supports.test.ts src/advanced.test.ts src/portable.test.ts src/animation.test.ts src/combat-effects.test.ts src/studio-project.test.ts src/studio-sfx.test.ts src/studio-music.test.ts src/studio-pixels.test.ts src/studio-action-clips.test.ts src/studio-pixel-tools.test.ts src/studio-native-sprites.test.ts src/studio-existing-data.test.ts src/studio-rules.test.ts src/studio-large-maps.test.ts src/studio-validation.test.ts src/studio-connectivity.test.ts src/studio-authoring.test.ts src/greybank.test.ts src/mission-presets.test.ts src/studio-assets.test.ts src/ember-missions.test.ts src/envoy-mission.test.ts src/frostglass-mission.test.ts src/artwork-sync.test.ts src/briar-mission.test.ts",
+    "test": "tsx --test src/engine.test.ts src/campaign.test.ts src/supports.test.ts src/advanced.test.ts src/portable.test.ts src/animation.test.ts src/combat-effects.test.ts src/studio-project.test.ts src/studio-sfx.test.ts src/studio-music.test.ts src/studio-pixels.test.ts src/studio-action-clips.test.ts src/studio-pixel-tools.test.ts src/studio-native-sprites.test.ts src/studio-existing-data.test.ts src/studio-rules.test.ts src/studio-large-maps.test.ts src/studio-validation.test.ts src/studio-connectivity.test.ts src/studio-authoring.test.ts src/greybank.test.ts src/mission-presets.test.ts src/studio-assets.test.ts src/ember-missions.test.ts src/envoy-mission.test.ts src/frostglass-mission.test.ts src/artwork-sync.test.ts src/briar-mission.test.ts src/content-readiness.test.ts",
     "characters:build": "node scripts/build-animation-art.mjs --characters-only",
     "art:build": "node scripts/build-animation-art.mjs",
     "art:verify": "node scripts/verify-animation-art.mjs",
     "effects:build": "node scripts/build-effect-art.mjs",
     "effects:verify": "node scripts/verify-effect-art.mjs",
     "docs:catalog": "tsx scripts/generate-reference.ts",
-    "docs:verify": "node scripts/verify-docs.mjs && tsx scripts/generate-reference.ts --check && tsx scripts/verify-roadmap.ts && node scripts/verify-adrs.mjs && node scripts/verify-studio-plan.mjs && node scripts/verify-studio-examples.mjs && node scripts/verify-studio-advanced.mjs && tsx scripts/audit-content.ts --check",
+    "docs:verify": "node scripts/verify-docs.mjs && tsx scripts/generate-reference.ts --check && tsx scripts/verify-roadmap.ts && node scripts/verify-adrs.mjs && node scripts/verify-studio-plan.mjs && node scripts/verify-studio-examples.mjs && node scripts/verify-studio-advanced.mjs && tsx scripts/audit-content.ts --check && tsx scripts/audit-playability.ts --check",
     "docs:plan": "tsx scripts/verify-roadmap.ts",
     "docs:adr": "node scripts/verify-adrs.mjs",
     "docs:studio": "node scripts/verify-studio-plan.mjs && node scripts/verify-studio-examples.mjs && node scripts/verify-studio-advanced.mjs",
     "docs:studio:examples": "node scripts/verify-studio-examples.mjs",
     "docs:studio:advanced": "node scripts/verify-studio-advanced.mjs",
     "content:audit": "tsx scripts/audit-content.ts",
-    "mission:build": "tsx scripts/generate-missions.ts"
+    "mission:build": "tsx scripts/generate-missions.ts",
+    "content:playtest": "tsx scripts/audit-playability.ts"
   },
   "dependencies": {
     "idb": "^8.0.0",

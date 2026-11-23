@@ -1,4 +1,5 @@
 import { skills, type SkillId, type BuiltinSkillId } from "./data";
+import { validateEffectStyle, type EffectStyle } from "./effect-style";
 import {
   SOUND_EVENTS,
   resolvedSoundEvents,
@@ -14,6 +15,7 @@ import type { RuleCatalog } from "./studio-rules";
 export interface AbilityCue {
   effect: BuiltinSkillId;
   sound: SoundEvent;
+  style?: EffectStyle;
 }
 export type AbilityCues = Partial<Record<SkillId, AbilityCue>>;
 export function nativeSources(
@@ -67,14 +69,21 @@ export function validateAbilityCues(
       !v ||
       typeof v !== "object" ||
       Array.isArray(v) ||
-      Object.keys(v).length !== 2 ||
+      !Object.keys(v).every((k) => ["effect", "sound", "style"].includes(k)) ||
       !Object.hasOwn(v, "effect") ||
       !Object.hasOwn(v, "sound") ||
       !Object.hasOwn(skills, (v as AbilityCue).effect) ||
       !SOUND_EVENTS.includes((v as AbilityCue).sound)
     )
       throw Error("Choose an existing VFX family and sound cue.");
-    out[id as SkillId] = { ...(v as AbilityCue) };
+    const cue = v as AbilityCue;
+    out[id as SkillId] = {
+      effect: cue.effect,
+      sound: cue.sound,
+      ...(Object.hasOwn(v, "style")
+        ? { style: validateEffectStyle(cue.style) }
+        : {}),
+    };
   }
   return out;
 }

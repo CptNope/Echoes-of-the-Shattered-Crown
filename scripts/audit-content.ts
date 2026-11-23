@@ -10,6 +10,8 @@ import {
 } from "../src/studio-project";
 import { analyzeProject } from "../src/studio-validation";
 import { projectArtwork } from "../src/artwork-sync";
+import { baseSkillId } from "../src/data";
+import { resolveEffectRecipe } from "../src/combat-effects";
 import { CHARACTER_ART } from "../src/character-art";
 const manifest = JSON.parse(
   readFileSync("public/art/animations/manifest.json", "utf8"),
@@ -54,6 +56,19 @@ const missions = MISSION_PRESETS.map((preset) => {
     abilities: Object.keys(p.rules!.skills).length,
     gear: Object.keys(p.rules!.gear).length,
     briefingLines: p.content!.dialogue[p.encounter!].length,
+    abilityFeedback: Object.values(p.rules!.skills).map((skill) => {
+      const cue = p.abilityCues?.[skill.id],
+        family = cue?.effect ?? baseSkillId(skill.id, p.rules!.skills);
+      const recipe = resolveEffectRecipe(family, cue?.style);
+      return {
+        id: skill.id,
+        family,
+        atlas: recipe.atlas,
+        frames: 8,
+        editable: true,
+        appearanceOverride: !!cue?.style,
+      };
+    }),
     actorArtwork: rows.map((r) => ({
       actor: r.actor.id,
       name: r.actor.name,
@@ -84,7 +99,7 @@ const report = {
     "original procedural game score",
     "layered sound cues",
     "music pattern",
-    "ability VFX family and sound bindings",
+    "ability VFX family, tint, scale, timing, particles and sound bindings",
   ],
   notVisualEditors: [
     "scenery geometry",

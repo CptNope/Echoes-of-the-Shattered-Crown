@@ -4,8 +4,7 @@ import type { Battle } from "./engine";
 import { loadEffectAtlas } from "./effect-art";
 import type { ActionCue } from "./animation";
 import {
-  effectRecipes,
-  effectFrame,
+  recipeFrame,
   planCombatEffect,
   particleOffset,
   MAX_EFFECT_SPRITES,
@@ -50,6 +49,7 @@ export class CombatEffects {
   private colors = new Float32Array(MAX_EFFECT_PARTICLES * 3);
   private alphas = new Float32Array(MAX_EFFECT_PARTICLES);
   private pointMaterial: THREE.ShaderMaterial;
+  private points: THREE.Points;
   private ringGeometry = new THREE.RingGeometry(0.18, 0.23, 24);
   private disposed = false;
   public holdPreview = false;
@@ -139,7 +139,11 @@ export class CombatEffects {
       fragmentShader:
         "varying vec3 vColor; varying float vAlpha; void main(){float d=length(gl_PointCoord-vec2(0.5));float a=(1.0-smoothstep(0.12,0.5,d))*vAlpha;if(a<0.01)discard;gl_FragColor=vec4(vColor,a);}",
     });
-    const points = new THREE.Points(this.geometry, this.pointMaterial);
+    const points = (this.points = new THREE.Points(
+      this.geometry,
+      this.pointMaterial,
+    ));
+    points.visible = false;
     points.frustumCulled = false;
     points.renderOrder = 6;
     this.group.add(points);
@@ -165,7 +169,7 @@ export class CombatEffects {
     if (!plan || this.disposed) return;
     this.serial++;
     this.stats.casts++;
-    const r = effectRecipes[plan.skill],
+    const r = plan.recipe,
       self = plan.origin.x === plan.target.x && plan.origin.z === plan.target.z;
     const travel = reduced ? 0 : self ? 0 : r.travelMs,
       delay = reduced ? 0 : 90 + travel;
@@ -210,10 +214,10 @@ export class CombatEffects {
     kind: ParticleKind,
     power: number,
   ) {
-    const r = effectRecipes[plan.skill],
+    const r = plan.recipe,
       color = new THREE.Color(r.color),
       base = this.height(p.x, p.z) + 0.75;
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < Math.round(count * r.particles); i++) {
       const seed = plan.seed ^ Math.imul(this.serial + i + 1, 31),
         angle = particleOffset(seed, i) * Math.PI * 2,
         speed = (0.3 + particleOffset(seed, i + 12)) * power;
@@ -241,7 +245,7 @@ export class CombatEffects {
       particles = 0;
     for (const s of this.slots) {
       if (!s.plan) continue;
-      const r = effectRecipes[s.plan.skill],
+      const r = s.plan.recipe,
         age = this.holdPreview ? r.frameMs * 3 : now - s.born - s.delay,
         travelMs = r.travelMs;
       const life = reduced ? 400 : s.travel ? travelMs : r.frameMs * 8;
@@ -276,7 +280,7 @@ export class CombatEffects {
           s.map.needsUpdate = true;
           s.source = r.atlas;
         }
-        const index = effectFrame(s.plan.skill, s.travel ? 0 : age, reduced),
+        const index = recipeFrame(r, s.travel ? 0 : age, reduced),
           col = index % 4,
           row = Math.floor(index / 4);
         const image = source.image as HTMLImageElement,
@@ -288,16 +292,19 @@ export class CombatEffects {
           ratio = image.naturalWidth / 4 / (image.naturalHeight / 8);
         s.sprite.position.set(p.x - 4, y, p.z - 4);
         s.sprite.scale.set(size * ratio, size, 1);
+        s.sprite.material.color.setHex(r.tint);
         s.sprite.material.opacity = reduced
-          ? 0.62
-          : 0.78 * (s.travel ? 1 : Math.min(1, (life - age) / 160));
+          ? Math.min(0.62, r.opacity)
+          : r.opacity * (s.travel ? 1 : Math.min(1, (life - age) / 160));
         s.sprite.visible = true;
         s.ring.visible = false;
       } else {
         s.sprite.visible = false;
         s.ring.visible = true;
         s.ring.material.color.set(r.color);
-        s.ring.material.opacity = reduced ? 0.55 : 0.7 * (1 - age / life);
+        s.ring.material.opacity = reduced
+          ? Math.min(0.55, r.opacity)
+          : r.opacity * (1 - age / life);
         s.ring.scale.setScalar(reduced ? 2 : 1 + (age / life) * 3);
         s.ring.position.set(p.x - 4, this.height(p.x, p.z) + 0.12, p.z - 4);
       }
@@ -323,8 +330,10 @@ export class CombatEffects {
       this.alphas[i] = 0.9 * (1 - age / p.life);
       particles++;
     }
-    for (const name of ["position", "color", "alpha"])
-      this.geometry.getAttribute(name).needsUpdate = true;
+    if (particles > 0 || this.stats.particles > 0)
+      for (const name of ["position", "color", "alpha"])
+        this.geometry.getAttribute(name).needsUpdate = true;
+    this.points.visible = particles > 0;
     this.stats.sprites = sprites;
     this.stats.particles = particles;
   }
@@ -334,6 +343,7 @@ export class CombatEffects {
       s.sprite.visible = s.ring.visible = false;
     }
     this.particles.fill(null);
+    this.points.visible = false;
     this.alphas.fill(0);
     this.geometry.getAttribute("alpha").needsUpdate = true;
     this.stats.sprites = this.stats.particles = 0;

@@ -168,3 +168,5 @@ The [advanced authoring contracts](studio/specs/advanced-blueprints.json) deepen
 [Artwork consistency and editable sources](ARTWORK_SYNC.md): inspect each actor's actual sprite, repair mixed-resolution overrides reversibly, open the matching editor and audit all ten mission sources against compiled content.
 
 [Briar Resonance content pack](BRIAR_CONTENT.md): Rowan the Thorn Warden and Edrin the Resonant Smith, two named rivals, six abilities, five gear pieces, two editable 32-frame sheets and a 24 by 20 standalone mission.
+
+[Content playability and editor audit](CONTENT_READINESS.md): ten validated missions, thirty terminal simulations, 190 executable ability cases, editable effect appearance and particle settings, and measured AI target pruning. The guide lists the remaining visual-editor gaps explicitly.

@@ -229,7 +229,17 @@ test("Briar first-clear seal settles once and the exported source retains abilit
   );
   assert.deepEqual(
     parseLevelProject(exportLevelProject(p)).abilityCues!["custom-anvil-peal"],
-    { effect: "surge", sound: "hit" },
+    {
+      effect: "surge",
+      sound: "hit",
+      style: {
+        tint: "#e4efff",
+        particleColor: "#e8b75d",
+        particle: "electric",
+        frameMs: 70,
+        travelMs: 120,
+      },
+    },
   );
 });
 

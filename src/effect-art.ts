@@ -9,7 +9,9 @@ let manifest: Promise<any> | null = null;
 export function loadEffectAtlas(id: EffectAtlas): Promise<EffectArt | null> {
   if (pending.has(id)) return pending.get(id)!;
   manifest ??= fetch(
-    import.meta.env.BASE_URL + "art/effects/manifest.json?v=0.8.0",
+    import.meta.env.BASE_URL +
+      "art/effects/manifest.json?v=" +
+      import.meta.env.VITE_EFFECT_ART_REVISION,
   )
     .then(async (r) => {
       if (!r.ok) throw Error("Effect manifest unavailable");
@@ -35,7 +37,8 @@ export function loadEffectAtlas(id: EffectAtlas): Promise<EffectArt | null> {
       await new Promise<void>((resolve, reject) => {
         image.onload = () => resolve();
         image.onerror = reject;
-        image.src = import.meta.env.BASE_URL + metadata.file + "?v=0.8.0";
+        image.src =
+          import.meta.env.BASE_URL + metadata.file + "?v=" + metadata.sha256;
       });
       if (
         image.naturalWidth !== metadata.width ||

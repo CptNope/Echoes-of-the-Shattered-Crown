@@ -85,10 +85,12 @@ Ten new regressions cover the complete roster, both new native sources, ice cros
 
 | Seed | AI-for-both-teams outcome | Activations | Surviving allies |
 | --- | --- | --- | --- |
-| 74319 | Defeat | 30 | 0 |
-| 9001 | Victory | 38 | 2 |
-| 42 | Defeat | 31 | 0 |
+| 74319 | Defeat | 39 | 0 |
+| 9001 | Defeat | 41 | 0 |
+| 42 | Defeat | 46 | 0 |
 
 All intermediate saves validate and each run leaves the source unchanged. The policy is a regression/difficulty signal, not a full human balance certification. It does not coordinate multi-unit exposure setups. Human full-clear playtesting and additional difficulty tuning remain follow-up work.
 
 Two additional cache regressions protect source ownership while reclaiming orphaned derived native images. Published editing exposed accumulated browser cache pressure; the save path now preserves incoming/current/backup sources while reclaiming only unreferenced image entries. Portable JSON remains the reliable path when the active library itself exceeds browser storage.
+
+The [current playability audit](CONTENT_READINESS.md) uses the improved custom-class AI. Older acceptance descriptions above may refer to the original policy; the generated report is authoritative for current outcomes.

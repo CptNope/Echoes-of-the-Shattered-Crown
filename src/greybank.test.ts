@@ -134,7 +134,7 @@ test("Greybank completes valid deterministic runs and settles first-clear reward
       assert(validateSave(b));
     }
     assert(n < 400);
-    assert.equal(b.result, seed === 42 ? "defeat" : "victory");
+    assert.equal(b.result, "victory");
     const g = previewExpedition(b),
       gold = g.company.gold,
       out = returnToCamp(g, p.content!.contracts);

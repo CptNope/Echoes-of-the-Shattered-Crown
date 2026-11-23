@@ -1,5 +1,13 @@
 # Changelog
 
+## Content readiness and editable ability effects - 2026-11-22
+
+- Audited all ten canonical missions, thirty complete AI simulations and 190 isolated catalog ability commands, including effect/sound resolution and idempotent reward settlement. Added a generated report checked in CI.
+- Added reversible, portable per-ability tint, particle color/motion/density, size, frame/travel timing and opacity controls with previews of all eight existing atlas cells. Legacy cue pairs retain defaults; Briar abilities receive authored appearance presets.
+- Fixed custom caster/ranger AI movement and scoped lightning synergy checks. Pruned aim tiles while preserving useful targets and deterministic source order; initial candidate checks drop 89–98.1 percent across the ten missions. No FPS claim is made.
+- Avoid idle particle buffer uploads and hide empty particle point clouds; retain bounded pools and reduced-motion behavior. Version effect resources by content digest as well as character resources.
+- Added eight regressions; all 271 tests pass. Current seeded outcomes and explicit remaining visual-editor gaps are documented without claiming human balance certification.
+
 ## Briar Resonance content pack - 2026-11-22
 
 - Added Rowan Briar / Thorn Warden and Edrin Bellforge / Resonant Smith as playable profiles, with Warden Senna Moss and Foreman Garron Rusk as named rivals.

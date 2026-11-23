@@ -53,3 +53,5 @@ Six cases in [greybank.test.ts](../src/greybank.test.ts) verify source/geometry,
 A controlled AI policy for both sides wins in 39 activations at seed 74319 and 28 at seed 9001; at seed 42 it loses in 46. Every command produces a valid save. These outcomes establish reproducibility and exercise victory/defeat; they do not certify human difficulty. Manual review checks the opening freeze route and the rendered terrain. Further balance passes should record casualties, resource pressure and route choices with human play.
 
 Next content work is a second encounter that tests different Tidewarden choices. Campaign linking and full-game exports remain separate editor milestones.
+
+The [current playability audit](CONTENT_READINESS.md) uses the improved custom-class AI. Older acceptance descriptions above may refer to the original policy; the generated report is authoritative for current outcomes.

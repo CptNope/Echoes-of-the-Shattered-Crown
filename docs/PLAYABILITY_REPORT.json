@@ -1,0 +1,2431 @@
+{
+  "version": 1,
+  "scope": "Canonical Studio sources; controlled AI and isolated ability fixtures, not human balance certification",
+  "missions": 10,
+  "simulations": 30,
+  "executableAbilityCases": 190,
+  "effectAtlases": 3,
+  "effectFrames": 96,
+  "results": [
+    {
+      "id": "shrine",
+      "name": "The shrine of Veyr",
+      "abilities": [
+        {
+          "id": "gloam",
+          "mechanic": "gloam",
+          "family": "gloam",
+          "atlas": "martial",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "aegis",
+          "mechanic": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "raincall",
+          "mechanic": "raincall",
+          "family": "raincall",
+          "atlas": "elements",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "delay",
+          "mechanic": "delay",
+          "family": "delay",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "strike",
+          "mechanic": "strike",
+          "family": "strike",
+          "atlas": "martial",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "cleave",
+          "mechanic": "cleave",
+          "family": "cleave",
+          "atlas": "martial",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "ember",
+          "mechanic": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "mend",
+          "mechanic": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "surge",
+          "mechanic": "surge",
+          "family": "surge",
+          "atlas": "elements",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "frost",
+          "mechanic": "frost",
+          "family": "frost",
+          "atlas": "elements",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "veil",
+          "mechanic": "veil",
+          "family": "veil",
+          "atlas": "support",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "haste",
+          "mechanic": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "rally",
+          "mechanic": "rally",
+          "family": "rally",
+          "atlas": "martial",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        }
+      ],
+      "simulations": [
+        {
+          "seed": 74319,
+          "result": "defeat",
+          "activations": 12,
+          "survivingAllies": 0
+        },
+        {
+          "seed": 9001,
+          "result": "defeat",
+          "activations": 14,
+          "survivingAllies": 0
+        },
+        {
+          "seed": 42,
+          "result": "victory",
+          "activations": 11,
+          "survivingAllies": 1
+        }
+      ],
+      "aimChecks": {
+        "exhaustiveAimTiles": 2430,
+        "candidateAimTiles": 267,
+        "reductionPercent": 89
+      },
+      "rewardSettlement": "valid and idempotent",
+      "sourceRoundtrip": "unchanged"
+    },
+    {
+      "id": "causeway",
+      "name": "The drowned causeway",
+      "abilities": [
+        {
+          "id": "gloam",
+          "mechanic": "gloam",
+          "family": "gloam",
+          "atlas": "martial",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "aegis",
+          "mechanic": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "raincall",
+          "mechanic": "raincall",
+          "family": "raincall",
+          "atlas": "elements",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "delay",
+          "mechanic": "delay",
+          "family": "delay",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "strike",
+          "mechanic": "strike",
+          "family": "strike",
+          "atlas": "martial",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "cleave",
+          "mechanic": "cleave",
+          "family": "cleave",
+          "atlas": "martial",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "ember",
+          "mechanic": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "mend",
+          "mechanic": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "surge",
+          "mechanic": "surge",
+          "family": "surge",
+          "atlas": "elements",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "frost",
+          "mechanic": "frost",
+          "family": "frost",
+          "atlas": "elements",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "veil",
+          "mechanic": "veil",
+          "family": "veil",
+          "atlas": "support",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "haste",
+          "mechanic": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "rally",
+          "mechanic": "rally",
+          "family": "rally",
+          "atlas": "martial",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        }
+      ],
+      "simulations": [
+        {
+          "seed": 74319,
+          "result": "victory",
+          "activations": 19,
+          "survivingAllies": 4
+        },
+        {
+          "seed": 9001,
+          "result": "victory",
+          "activations": 19,
+          "survivingAllies": 4
+        },
+        {
+          "seed": 42,
+          "result": "victory",
+          "activations": 17,
+          "survivingAllies": 4
+        }
+      ],
+      "aimChecks": {
+        "exhaustiveAimTiles": 2430,
+        "candidateAimTiles": 267,
+        "reductionPercent": 89
+      },
+      "rewardSettlement": "valid and idempotent",
+      "sourceRoundtrip": "unchanged"
+    },
+    {
+      "id": "redoubt",
+      "name": "The Oathless redoubt",
+      "abilities": [
+        {
+          "id": "gloam",
+          "mechanic": "gloam",
+          "family": "gloam",
+          "atlas": "martial",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "aegis",
+          "mechanic": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "raincall",
+          "mechanic": "raincall",
+          "family": "raincall",
+          "atlas": "elements",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "delay",
+          "mechanic": "delay",
+          "family": "delay",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "strike",
+          "mechanic": "strike",
+          "family": "strike",
+          "atlas": "martial",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "cleave",
+          "mechanic": "cleave",
+          "family": "cleave",
+          "atlas": "martial",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "ember",
+          "mechanic": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "mend",
+          "mechanic": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "surge",
+          "mechanic": "surge",
+          "family": "surge",
+          "atlas": "elements",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "frost",
+          "mechanic": "frost",
+          "family": "frost",
+          "atlas": "elements",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "veil",
+          "mechanic": "veil",
+          "family": "veil",
+          "atlas": "support",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "haste",
+          "mechanic": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "rally",
+          "mechanic": "rally",
+          "family": "rally",
+          "atlas": "martial",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        }
+      ],
+      "simulations": [
+        {
+          "seed": 74319,
+          "result": "defeat",
+          "activations": 17,
+          "survivingAllies": 0
+        },
+        {
+          "seed": 9001,
+          "result": "defeat",
+          "activations": 17,
+          "survivingAllies": 0
+        },
+        {
+          "seed": 42,
+          "result": "defeat",
+          "activations": 17,
+          "survivingAllies": 0
+        }
+      ],
+      "aimChecks": {
+        "exhaustiveAimTiles": 2673,
+        "candidateAimTiles": 263,
+        "reductionPercent": 90.2
+      },
+      "rewardSettlement": "valid and idempotent",
+      "sourceRoundtrip": "unchanged"
+    },
+    {
+      "id": "bellkeeper",
+      "name": "The silent belfry",
+      "abilities": [
+        {
+          "id": "gloam",
+          "mechanic": "gloam",
+          "family": "gloam",
+          "atlas": "martial",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "aegis",
+          "mechanic": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "raincall",
+          "mechanic": "raincall",
+          "family": "raincall",
+          "atlas": "elements",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "delay",
+          "mechanic": "delay",
+          "family": "delay",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "strike",
+          "mechanic": "strike",
+          "family": "strike",
+          "atlas": "martial",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "cleave",
+          "mechanic": "cleave",
+          "family": "cleave",
+          "atlas": "martial",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "ember",
+          "mechanic": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "mend",
+          "mechanic": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "surge",
+          "mechanic": "surge",
+          "family": "surge",
+          "atlas": "elements",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "frost",
+          "mechanic": "frost",
+          "family": "frost",
+          "atlas": "elements",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "veil",
+          "mechanic": "veil",
+          "family": "veil",
+          "atlas": "support",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "haste",
+          "mechanic": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "rally",
+          "mechanic": "rally",
+          "family": "rally",
+          "atlas": "martial",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        }
+      ],
+      "simulations": [
+        {
+          "seed": 74319,
+          "result": "victory",
+          "activations": 38,
+          "survivingAllies": 1
+        },
+        {
+          "seed": 9001,
+          "result": "defeat",
+          "activations": 20,
+          "survivingAllies": 0
+        },
+        {
+          "seed": 42,
+          "result": "victory",
+          "activations": 24,
+          "survivingAllies": 2
+        }
+      ],
+      "aimChecks": {
+        "exhaustiveAimTiles": 2673,
+        "candidateAimTiles": 291,
+        "reductionPercent": 89.1
+      },
+      "rewardSettlement": "valid and idempotent",
+      "sourceRoundtrip": "unchanged"
+    },
+    {
+      "id": "greybank",
+      "name": "The Sluice at Greybank",
+      "abilities": [
+        {
+          "id": "gloam",
+          "mechanic": "gloam",
+          "family": "gloam",
+          "atlas": "martial",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "aegis",
+          "mechanic": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "raincall",
+          "mechanic": "raincall",
+          "family": "raincall",
+          "atlas": "elements",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "delay",
+          "mechanic": "delay",
+          "family": "delay",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "strike",
+          "mechanic": "strike",
+          "family": "strike",
+          "atlas": "martial",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "cleave",
+          "mechanic": "cleave",
+          "family": "cleave",
+          "atlas": "martial",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "ember",
+          "mechanic": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "mend",
+          "mechanic": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "surge",
+          "mechanic": "surge",
+          "family": "surge",
+          "atlas": "elements",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "frost",
+          "mechanic": "frost",
+          "family": "frost",
+          "atlas": "elements",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "veil",
+          "mechanic": "veil",
+          "family": "veil",
+          "atlas": "support",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "haste",
+          "mechanic": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "rally",
+          "mechanic": "rally",
+          "family": "rally",
+          "atlas": "martial",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-brine-lance",
+          "mechanic": "raincall",
+          "family": "raincall",
+          "atlas": "elements",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-glacial-chain",
+          "mechanic": "frost",
+          "family": "frost",
+          "atlas": "elements",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-tidal-ward",
+          "mechanic": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-ebb-hour",
+          "mechanic": "delay",
+          "family": "delay",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        }
+      ],
+      "simulations": [
+        {
+          "seed": 74319,
+          "result": "victory",
+          "activations": 41,
+          "survivingAllies": 3
+        },
+        {
+          "seed": 9001,
+          "result": "victory",
+          "activations": 25,
+          "survivingAllies": 4
+        },
+        {
+          "seed": 42,
+          "result": "victory",
+          "activations": 35,
+          "survivingAllies": 3
+        }
+      ],
+      "aimChecks": {
+        "exhaustiveAimTiles": 9576,
+        "candidateAimTiles": 360,
+        "reductionPercent": 96.2
+      },
+      "rewardSettlement": "valid and idempotent",
+      "sourceRoundtrip": "unchanged"
+    },
+    {
+      "id": "ashen-weir",
+      "name": "The Ashen Weir",
+      "abilities": [
+        {
+          "id": "gloam",
+          "mechanic": "gloam",
+          "family": "gloam",
+          "atlas": "martial",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "aegis",
+          "mechanic": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "raincall",
+          "mechanic": "raincall",
+          "family": "raincall",
+          "atlas": "elements",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "delay",
+          "mechanic": "delay",
+          "family": "delay",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "strike",
+          "mechanic": "strike",
+          "family": "strike",
+          "atlas": "martial",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "cleave",
+          "mechanic": "cleave",
+          "family": "cleave",
+          "atlas": "martial",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "ember",
+          "mechanic": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "mend",
+          "mechanic": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "surge",
+          "mechanic": "surge",
+          "family": "surge",
+          "atlas": "elements",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "frost",
+          "mechanic": "frost",
+          "family": "frost",
+          "atlas": "elements",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "veil",
+          "mechanic": "veil",
+          "family": "veil",
+          "atlas": "support",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "haste",
+          "mechanic": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "rally",
+          "mechanic": "rally",
+          "family": "rally",
+          "atlas": "martial",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-ashfall",
+          "mechanic": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-hearthguard",
+          "mechanic": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-cinderstep",
+          "mechanic": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-kindlethread",
+          "mechanic": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        }
+      ],
+      "simulations": [
+        {
+          "seed": 74319,
+          "result": "defeat",
+          "activations": 46,
+          "survivingAllies": 0
+        },
+        {
+          "seed": 9001,
+          "result": "defeat",
+          "activations": 35,
+          "survivingAllies": 0
+        },
+        {
+          "seed": 42,
+          "result": "defeat",
+          "activations": 37,
+          "survivingAllies": 0
+        }
+      ],
+      "aimChecks": {
+        "exhaustiveAimTiles": 12800,
+        "candidateAimTiles": 472,
+        "reductionPercent": 96.3
+      },
+      "rewardSettlement": "valid and idempotent",
+      "sourceRoundtrip": "unchanged"
+    },
+    {
+      "id": "cinder-archive",
+      "name": "The Cinder Archive",
+      "abilities": [
+        {
+          "id": "gloam",
+          "mechanic": "gloam",
+          "family": "gloam",
+          "atlas": "martial",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "aegis",
+          "mechanic": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "raincall",
+          "mechanic": "raincall",
+          "family": "raincall",
+          "atlas": "elements",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "delay",
+          "mechanic": "delay",
+          "family": "delay",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "strike",
+          "mechanic": "strike",
+          "family": "strike",
+          "atlas": "martial",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "cleave",
+          "mechanic": "cleave",
+          "family": "cleave",
+          "atlas": "martial",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "ember",
+          "mechanic": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "mend",
+          "mechanic": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "surge",
+          "mechanic": "surge",
+          "family": "surge",
+          "atlas": "elements",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "frost",
+          "mechanic": "frost",
+          "family": "frost",
+          "atlas": "elements",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "veil",
+          "mechanic": "veil",
+          "family": "veil",
+          "atlas": "support",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "haste",
+          "mechanic": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "rally",
+          "mechanic": "rally",
+          "family": "rally",
+          "atlas": "martial",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-ashfall",
+          "mechanic": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-hearthguard",
+          "mechanic": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-cinderstep",
+          "mechanic": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-kindlethread",
+          "mechanic": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        }
+      ],
+      "simulations": [
+        {
+          "seed": 74319,
+          "result": "defeat",
+          "activations": 34,
+          "survivingAllies": 0
+        },
+        {
+          "seed": 9001,
+          "result": "defeat",
+          "activations": 36,
+          "survivingAllies": 0
+        },
+        {
+          "seed": 42,
+          "result": "defeat",
+          "activations": 29,
+          "survivingAllies": 0
+        }
+      ],
+      "aimChecks": {
+        "exhaustiveAimTiles": 17280,
+        "candidateAimTiles": 472,
+        "reductionPercent": 97.3
+      },
+      "rewardSettlement": "valid and idempotent",
+      "sourceRoundtrip": "unchanged"
+    },
+    {
+      "id": "lantern-parley",
+      "name": "The Lantern Parley",
+      "abilities": [
+        {
+          "id": "gloam",
+          "mechanic": "gloam",
+          "family": "gloam",
+          "atlas": "martial",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "aegis",
+          "mechanic": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "raincall",
+          "mechanic": "raincall",
+          "family": "raincall",
+          "atlas": "elements",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "delay",
+          "mechanic": "delay",
+          "family": "delay",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "strike",
+          "mechanic": "strike",
+          "family": "strike",
+          "atlas": "martial",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "cleave",
+          "mechanic": "cleave",
+          "family": "cleave",
+          "atlas": "martial",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "ember",
+          "mechanic": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "mend",
+          "mechanic": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "surge",
+          "mechanic": "surge",
+          "family": "surge",
+          "atlas": "elements",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "frost",
+          "mechanic": "frost",
+          "family": "frost",
+          "atlas": "elements",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "veil",
+          "mechanic": "veil",
+          "family": "veil",
+          "atlas": "support",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "haste",
+          "mechanic": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "rally",
+          "mechanic": "rally",
+          "family": "rally",
+          "atlas": "martial",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-ashfall",
+          "mechanic": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-hearthguard",
+          "mechanic": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-cinderstep",
+          "mechanic": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-kindlethread",
+          "mechanic": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-glass-shot",
+          "mechanic": "strike",
+          "family": "strike",
+          "atlas": "martial",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-shard-volley",
+          "mechanic": "cleave",
+          "family": "cleave",
+          "atlas": "martial",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-facet-mark",
+          "mechanic": "veil",
+          "family": "veil",
+          "atlas": "support",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-cinder-hymn",
+          "mechanic": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-ashen-shelter",
+          "mechanic": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-mourning-bell",
+          "mechanic": "delay",
+          "family": "delay",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        }
+      ],
+      "simulations": [
+        {
+          "seed": 74319,
+          "result": "defeat",
+          "activations": 27,
+          "survivingAllies": 0
+        },
+        {
+          "seed": 9001,
+          "result": "defeat",
+          "activations": 23,
+          "survivingAllies": 0
+        },
+        {
+          "seed": 42,
+          "result": "defeat",
+          "activations": 22,
+          "survivingAllies": 0
+        }
+      ],
+      "aimChecks": {
+        "exhaustiveAimTiles": 12800,
+        "candidateAimTiles": 380,
+        "reductionPercent": 97
+      },
+      "rewardSettlement": "valid and idempotent",
+      "sourceRoundtrip": "unchanged"
+    },
+    {
+      "id": "frostglass-vigil",
+      "name": "The Frostglass Vigil",
+      "abilities": [
+        {
+          "id": "gloam",
+          "mechanic": "gloam",
+          "family": "gloam",
+          "atlas": "martial",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "aegis",
+          "mechanic": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "raincall",
+          "mechanic": "raincall",
+          "family": "raincall",
+          "atlas": "elements",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "delay",
+          "mechanic": "delay",
+          "family": "delay",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "strike",
+          "mechanic": "strike",
+          "family": "strike",
+          "atlas": "martial",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "cleave",
+          "mechanic": "cleave",
+          "family": "cleave",
+          "atlas": "martial",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "ember",
+          "mechanic": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "mend",
+          "mechanic": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "surge",
+          "mechanic": "surge",
+          "family": "surge",
+          "atlas": "elements",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "frost",
+          "mechanic": "frost",
+          "family": "frost",
+          "atlas": "elements",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "veil",
+          "mechanic": "veil",
+          "family": "veil",
+          "atlas": "support",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "haste",
+          "mechanic": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "rally",
+          "mechanic": "rally",
+          "family": "rally",
+          "atlas": "martial",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-ashfall",
+          "mechanic": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-hearthguard",
+          "mechanic": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-cinderstep",
+          "mechanic": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-kindlethread",
+          "mechanic": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-glass-shot",
+          "mechanic": "strike",
+          "family": "strike",
+          "atlas": "martial",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-shard-volley",
+          "mechanic": "cleave",
+          "family": "cleave",
+          "atlas": "martial",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-facet-mark",
+          "mechanic": "veil",
+          "family": "veil",
+          "atlas": "support",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-cinder-hymn",
+          "mechanic": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-ashen-shelter",
+          "mechanic": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-mourning-bell",
+          "mechanic": "delay",
+          "family": "delay",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-rimeward",
+          "mechanic": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-frostline",
+          "mechanic": "frost",
+          "family": "frost",
+          "atlas": "elements",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-winters-mercy",
+          "mechanic": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-sunlit-pursuit",
+          "mechanic": "gloam",
+          "family": "gloam",
+          "atlas": "martial",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-dawn-cut",
+          "mechanic": "cleave",
+          "family": "cleave",
+          "atlas": "martial",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-daybreak-feint",
+          "mechanic": "veil",
+          "family": "veil",
+          "atlas": "support",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        }
+      ],
+      "simulations": [
+        {
+          "seed": 74319,
+          "result": "defeat",
+          "activations": 39,
+          "survivingAllies": 0
+        },
+        {
+          "seed": 9001,
+          "result": "defeat",
+          "activations": 41,
+          "survivingAllies": 0
+        },
+        {
+          "seed": 42,
+          "result": "defeat",
+          "activations": 46,
+          "survivingAllies": 0
+        }
+      ],
+      "aimChecks": {
+        "exhaustiveAimTiles": 18216,
+        "candidateAimTiles": 411,
+        "reductionPercent": 97.7
+      },
+      "rewardSettlement": "valid and idempotent",
+      "sourceRoundtrip": "unchanged"
+    },
+    {
+      "id": "briar-resonance",
+      "name": "The Briar Resonance",
+      "abilities": [
+        {
+          "id": "gloam",
+          "mechanic": "gloam",
+          "family": "gloam",
+          "atlas": "martial",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "aegis",
+          "mechanic": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "raincall",
+          "mechanic": "raincall",
+          "family": "raincall",
+          "atlas": "elements",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "delay",
+          "mechanic": "delay",
+          "family": "delay",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "strike",
+          "mechanic": "strike",
+          "family": "strike",
+          "atlas": "martial",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "cleave",
+          "mechanic": "cleave",
+          "family": "cleave",
+          "atlas": "martial",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "ember",
+          "mechanic": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "mend",
+          "mechanic": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "surge",
+          "mechanic": "surge",
+          "family": "surge",
+          "atlas": "elements",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "frost",
+          "mechanic": "frost",
+          "family": "frost",
+          "atlas": "elements",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "veil",
+          "mechanic": "veil",
+          "family": "veil",
+          "atlas": "support",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "haste",
+          "mechanic": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "rally",
+          "mechanic": "rally",
+          "family": "rally",
+          "atlas": "martial",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-ashfall",
+          "mechanic": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-hearthguard",
+          "mechanic": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-cinderstep",
+          "mechanic": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-kindlethread",
+          "mechanic": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-glass-shot",
+          "mechanic": "strike",
+          "family": "strike",
+          "atlas": "martial",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-shard-volley",
+          "mechanic": "cleave",
+          "family": "cleave",
+          "atlas": "martial",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-facet-mark",
+          "mechanic": "veil",
+          "family": "veil",
+          "atlas": "support",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-cinder-hymn",
+          "mechanic": "ember",
+          "family": "ember",
+          "atlas": "elements",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-ashen-shelter",
+          "mechanic": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-mourning-bell",
+          "mechanic": "delay",
+          "family": "delay",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-rimeward",
+          "mechanic": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-frostline",
+          "mechanic": "frost",
+          "family": "frost",
+          "atlas": "elements",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-winters-mercy",
+          "mechanic": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-sunlit-pursuit",
+          "mechanic": "gloam",
+          "family": "gloam",
+          "atlas": "martial",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-dawn-cut",
+          "mechanic": "cleave",
+          "family": "cleave",
+          "atlas": "martial",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-daybreak-feint",
+          "mechanic": "veil",
+          "family": "veil",
+          "atlas": "support",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": false
+        },
+        {
+          "id": "custom-briar-shelter",
+          "mechanic": "aegis",
+          "family": "aegis",
+          "atlas": "support",
+          "clip": 1,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": true
+        },
+        {
+          "id": "custom-dewfall",
+          "mechanic": "raincall",
+          "family": "raincall",
+          "atlas": "elements",
+          "clip": 3,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": true
+        },
+        {
+          "id": "custom-green-mending",
+          "mechanic": "mend",
+          "family": "mend",
+          "atlas": "support",
+          "clip": 0,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": true
+        },
+        {
+          "id": "custom-anvil-peal",
+          "mechanic": "surge",
+          "family": "surge",
+          "atlas": "elements",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": true
+        },
+        {
+          "id": "custom-dissonant-strike",
+          "mechanic": "delay",
+          "family": "delay",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": true
+        },
+        {
+          "id": "custom-tempered-tempo",
+          "mechanic": "haste",
+          "family": "haste",
+          "atlas": "support",
+          "clip": 2,
+          "frames": 8,
+          "executable": true,
+          "feedbackEditable": true,
+          "appearanceOverride": true
+        }
+      ],
+      "simulations": [
+        {
+          "seed": 74319,
+          "result": "defeat",
+          "activations": 85,
+          "survivingAllies": 0
+        },
+        {
+          "seed": 9001,
+          "result": "victory",
+          "activations": 43,
+          "survivingAllies": 3
+        },
+        {
+          "seed": 42,
+          "result": "victory",
+          "activations": 65,
+          "survivingAllies": 3
+        }
+      ],
+      "aimChecks": {
+        "exhaustiveAimTiles": 21120,
+        "candidateAimTiles": 410,
+        "reductionPercent": 98.1
+      },
+      "rewardSettlement": "valid and idempotent",
+      "sourceRoundtrip": "unchanged"
+    }
+  ]
+}

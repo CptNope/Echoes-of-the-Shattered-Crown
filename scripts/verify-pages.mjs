@@ -20,6 +20,7 @@ const missionIds = [
 ];
 const artPath = "art/company-atlas.png";
 const manifestPath = "art/animations/manifest.json";
+const effectManifestPath = "art/effects/manifest.json";
 function verifyArtworkRevision(scripts, manifest) {
   const digest = createHash("sha256").update(manifest).digest("hex");
   assert(
@@ -85,7 +86,13 @@ async function checkLocal() {
     if (path.endsWith(".js")) scripts.push(await readFile(file, "utf8"));
   }
   verifyArtworkRevision(scripts, await readFile(resolve(root, manifestPath)));
-  console.log("Verified artwork cache revision matches built manifest");
+  verifyArtworkRevision(
+    scripts,
+    await readFile(resolve(root, effectManifestPath)),
+  );
+  console.log(
+    "Verified character and effect cache revisions match built manifests",
+  );
   for (const id of missionIds) {
     const mission = JSON.parse(
       await readFile(resolve(root, `missions/${id}.json`), "utf8"),
@@ -171,7 +178,25 @@ async function checkLive() {
     digest,
     "Versioned published manifest must match this release",
   );
-  console.log("Verified live artwork cache revision and manifest agree");
+  const effectDigest = verifyArtworkRevision(
+    scripts,
+    await readFile("public/" + effectManifestPath),
+  );
+  const effectResponse = await fetch(
+    new URL(`${effectManifestPath}?v=${effectDigest}`, site),
+    { signal: AbortSignal.timeout(20000), cache: "no-store" },
+  );
+  assert(effectResponse.ok, "Versioned effect manifest unavailable");
+  assert.equal(
+    createHash("sha256")
+      .update(Buffer.from(await effectResponse.arrayBuffer()))
+      .digest("hex"),
+    effectDigest,
+    "Versioned effect manifest must match this release",
+  );
+  console.log(
+    "Verified live character/effect cache revisions and manifests agree",
+  );
   console.log(`Verified live game and ${paths.length} assets at ${site}`);
   const artResponse = await fetch(new URL(artPath, site), {
     signal: AbortSignal.timeout(20000),

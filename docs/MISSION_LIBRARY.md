@@ -49,7 +49,7 @@ Original enemy instance IDs stay `sentinel`, `cinder`, `wraith` and `cantor`. Th
 
 ## Verification and balance review
 
-Ten tests cover the migrated sources, shipped stat/roster/progression parity, documented corner changes, generated fixtures, history/JSON recovery, all original battle outcomes, Orren's awakening, first-clear rewards and atomic rejection. The complete suite has 263 tests. All ten reports have zero errors and warnings.
+Ten tests cover the migrated sources, shipped stat/roster/progression parity, documented corner changes, generated fixtures, history/JSON recovery, all original battle outcomes, Orren's awakening, first-clear rewards and atomic rejection. The complete suite has 271 tests. All ten reports have zero errors and warnings.
 
 | Preset | Controlled policy result at seed 74319 | Activations | Surviving allies |
 | --- | --- | --- | --- |
@@ -70,3 +70,5 @@ The two Emberwarden presets use `redoubt` in their own standalone sources; neith
 [The Frostglass Vigil](../public/missions/frostglass-vigil.json) brings four custom playable profiles to a 22 by 18 board with six defenders, a six-line briefing and a unique first-clear compass. See its [content guide](FROSTGLASS_CONTENT.md).
 
 [The Briar Resonance](BRIAR_CONTENT.md) adds two playable profiles and two named rivals to a 480-tile foundry approach. All ten mission sources remain independently reproducible and editable.
+
+Current simulation outcomes and editor coverage are maintained in the [content readiness audit](CONTENT_READINESS.md). Custom-class AI now respects ranged roles and scoped lightning synergies; its changed outcomes are recorded rather than silently treated as earlier acceptance results.

@@ -81,12 +81,16 @@ Loading a preset preserves existing artwork and audio overrides. An old override
 
 ## Verification
 
-Nine new regressions cover connected roster/template parity, both editable native sheets, a real soaking/lightning command sequence, guard and revival, exact timeline changes, Undo/Redo and export preservation, first-clear settlement, fixture equality and deterministic simulations. The complete suite has 263 tests. All ten canonical sources pass the content audit without validation errors or warnings.
+Nine new regressions cover connected roster/template parity, both editable native sheets, a real soaking/lightning command sequence, guard and revival, exact timeline changes, Undo/Redo and export preservation, first-clear settlement, fixture equality and deterministic simulations. The complete suite has 271 tests. All ten canonical sources pass the content audit without validation errors or warnings.
 
 | Seed | AI-for-both-teams result | Activations | Surviving allies |
 | --- | --- | --- | --- |
-| 74319 | Victory | 48 | 2 |
-| 9001 | Victory | 33 | 3 |
-| 42 | Defeat | 33 | 0 |
+| 74319 | Defeat | 85 | 0 |
+| 9001 | Victory | 43 | 3 |
+| 42 | Victory | 65 | 3 |
 
 Each intermediate save validates and simulations leave the source unchanged. These are regression and difficulty signals; complete human balance certification remains follow-up work.
+
+The six Briar ability bindings now include editable appearance presets. Green protection/rain/recovery and cool lightning with amber particles retain their existing gameplay bases. See the [readiness guide](CONTENT_READINESS.md) for the current optimized-AI outcomes and settings.
+
+The [current playability audit](CONTENT_READINESS.md) uses the improved custom-class AI. Older acceptance descriptions above may refer to the original policy; the generated report is authoritative for current outcomes.

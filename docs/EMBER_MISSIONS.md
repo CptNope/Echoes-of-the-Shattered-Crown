@@ -62,11 +62,13 @@ Run `npm run mission:build` to regenerate all seven public mission JSON files. F
 
 | Mission | Seed | AI-for-both-teams result | Activations | Surviving allies |
 | --- | --- | --- | --- | --- |
-| Ashen Weir | 74319 | Victory | 31 | 1 |
-| Ashen Weir | 9001 | Victory | 29 | 1 |
-| Ashen Weir | 42 | Victory | 41 | 1 |
-| Cinder Archive | 74319 | Defeat | 31 | 0 |
-| Cinder Archive | 9001 | Defeat | 30 | 0 |
-| Cinder Archive | 42 | Defeat | 28 | 0 |
+| Ashen Weir | 74319 | Defeat | 46 | 0 |
+| Ashen Weir | 9001 | Defeat | 35 | 0 |
+| Ashen Weir | 42 | Defeat | 37 | 0 |
+| Cinder Archive | 74319 | Defeat | 34 | 0 |
+| Cinder Archive | 9001 | Defeat | 36 | 0 |
+| Cinder Archive | 42 | Defeat | 29 | 0 |
 
 The existing AI policy is a regression and difficulty signal, not human balance certification. Archive is a harder tactical mission; all three automated losses are recorded. Human victory/defeat playthroughs and difficulty tuning remain follow-up work. Automated victory settlement tests use explicit terminal fixtures separately from the simulated outcomes.
+
+These current outcomes use improved custom-class AI and differ from original acceptance runs. See the [readiness audit](CONTENT_READINESS.md) for cross-pack results; both encounters need focused human balance review.
