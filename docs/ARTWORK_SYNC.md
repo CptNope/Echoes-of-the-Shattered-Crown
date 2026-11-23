@@ -47,7 +47,7 @@ The inspector's **Editable project sources** disclosure opens the current map, a
 | Maps and encounters | Terrain, elevation, collision, rectangular dimensions and placements |
 | Characters and monsters | Names, classes, resources, learned skills, loadouts and reusable enemy snapshots |
 | Gameplay content | Existing-mechanic ability definitions, class definitions, gear and proficiencies |
-| Native sprites | Twelve registered class sheets, all eight states, source pixels, alpha and timing |
+| Native sprites | Fourteen registered class sheets, all eight states, source pixels, alpha and timing |
 | Indexed sprites | Palette, layers, four clip states and timing; current custom enemy bindings supported |
 | Level appearance | Terrain palettes and top-face PNG textures |
 | Story and progression | Linear briefings, contract gates, rewards and first-clear relic definitions |
@@ -57,6 +57,6 @@ The inspector's **Editable project sources** disclosure opens the current map, a
 
 ## Audit and regression evidence
 
-`npm run content:audit` regenerates [CONTENT_SYNC_REPORT.json](CONTENT_SYNC_REPORT.json). Documentation verification checks the report against all nine canonical mission factories, their published JSON, compiled rosters and registered editable artwork. It verifies twelve class sheets and 384 frames; image integrity and decoded frame metadata are checked by the existing art verifier.
+`npm run content:audit` regenerates [CONTENT_SYNC_REPORT.json](CONTENT_SYNC_REPORT.json). Documentation verification checks the report against all ten canonical mission factories, their published JSON, compiled rosters and registered editable artwork. It verifies fourteen class sheets and 448 frames; image integrity and decoded frame metadata are checked by the existing art verifier.
 
-Ten new regressions cover texture ownership in both load orders, all four dedicated/base-class pairs, native/indexed precedence, non-destructive repair and Undo, current custom enemy bindings, all nine canonical sources, linked artwork warnings and cross-editor export/compile ownership. The full suite has 254 tests. No new generated sprites replace the user's artwork silently.
+Ten new regressions cover texture ownership in both load orders, all four dedicated/base-class pairs, native/indexed precedence, non-destructive repair and Undo, current custom enemy bindings, all ten canonical sources, linked artwork warnings and cross-editor export/compile ownership. The full suite has 263 tests. No new generated sprites replace the user's artwork silently.

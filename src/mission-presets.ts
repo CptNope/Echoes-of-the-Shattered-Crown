@@ -4,6 +4,7 @@ import { encounters, type EncounterId } from "./encounters";
 import { gameContent, validateGameContent } from "./studio-content";
 import { gameRules } from "./studio-rules";
 import { buildEmberMission, type EmberMissionId } from "./ember-missions";
+import { buildBriarMission } from "./briar-mission";
 import { buildFrostglassMission } from "./frostglass-mission";
 import { buildEnvoyMission } from "./envoy-mission";
 import { buildGreybank } from "./greybank";
@@ -13,7 +14,8 @@ export type MissionPresetId =
   | "greybank"
   | EmberMissionId
   | "lantern-parley"
-  | "frostglass-vigil";
+  | "frostglass-vigil"
+  | "briar-resonance";
 export const MISSION_PRESETS: {
   id: MissionPresetId;
   name: string;
@@ -73,6 +75,12 @@ export const MISSION_PRESETS: {
     summary:
       "22 by 18 / four custom party profiles, Frost Sentinel, Dawn Duelist and six outpost defenders.",
   },
+  {
+    id: "briar-resonance",
+    name: "The Briar Resonance",
+    summary:
+      "24 by 20 / Thorn Warden, Resonant Smith, soaking and lightning combinations, and six foundry defenders.",
+  },
 ];
 const hints: Record<EncounterId, { speaker: string; text: string }[]> = {
   shrine: [
@@ -128,16 +136,19 @@ export function loadMissionPreset(
     id === "ashen-weir" ||
     id === "cinder-archive" ||
     id === "lantern-parley" ||
-    id === "frostglass-vigil"
+    id === "frostglass-vigil" ||
+    id === "briar-resonance"
   ) {
     const next =
-      id === "frostglass-vigil"
-        ? buildFrostglassMission(project)
-        : id === "greybank"
-          ? buildGreybank(project)
-          : id === "lantern-parley"
-            ? buildEnvoyMission(project)
-            : buildEmberMission(project, id);
+      id === "briar-resonance"
+        ? buildBriarMission(project)
+        : id === "frostglass-vigil"
+          ? buildFrostglassMission(project)
+          : id === "greybank"
+            ? buildGreybank(project)
+            : id === "lantern-parley"
+              ? buildEnvoyMission(project)
+              : buildEmberMission(project, id);
     if (next.abilityCues)
       next.abilityCues = Object.fromEntries(
         Object.entries(next.abilityCues).filter(([id]) =>

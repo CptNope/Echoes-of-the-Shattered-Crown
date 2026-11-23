@@ -53,7 +53,7 @@ for (const id of ["custom-frost-sentinel", "custom-dawn-duelist"] as const) {
       ),
       meta = m.sheets[id];
     assert.equal(animationArtId(id, p.rules!.jobs), id);
-    assert.equal(Object.keys(CHARACTER_ART).length, 12);
+    assert.equal(Object.keys(CHARACTER_ART).length, 14);
     const bytes = readFileSync("public/" + meta.file);
     assert.equal(createHash("sha256").update(bytes).digest("hex"), meta.sha256);
     assert.equal(new Set(meta.frameHashes).size, 32);

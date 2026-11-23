@@ -15,6 +15,9 @@ The four original missions, Greybank and the two [Emberwarden missions](EMBER_MI
 | [The Sluice at Greybank](../public/missions/greybank.json) | 18 by 14 | Tidewarden, two bridges and a frozen shortcut | 120 / Sluicekeeper's waystone |
 | [The Ashen Weir](../public/missions/ashen-weir.json) | 20 by 16 | Emberwarden, split approaches and six defenders | 150 / Weirkeeper's token |
 | [The Cinder Archive](../public/missions/cinder-archive.json) | 24 by 18 | Three terraces and six archive defenders | 180 / Archive lantern |
+| [The Lantern Parley](../public/missions/lantern-parley.json) | 20 by 16 | Glass Ranger and Ash Cantor profiles | 155 / Weirkeeper's token |
+| [The Frostglass Vigil](../public/missions/frostglass-vigil.json) | 22 by 18 | Frost Sentinel and Dawn Duelist profiles | 165 / Vigil compass |
+| [The Briar Resonance](../public/missions/briar-resonance.json) | 24 by 20 | Thorn Warden and Resonant Smith; soaking and lightning | 175 / Resonance seal |
 
 The original four and Greybank each have four heroes, four enemies, four reusable enemy templates and a four-line briefing. Each Emberwarden mission has four heroes, six enemies, six reusable templates and a five-line briefing. Original encounter stats, actor placements, learned skills, prerequisites and rewards are preserved. In Shrine, Causeway and Redoubt, the unused corner tile (8,8), isolated by two collision tiles, is now blocked scenery. No combat route or deployment moved. Belfry geometry is unchanged. The shipped main campaign remains unchanged; these are studio sources.
 
@@ -42,11 +45,11 @@ Original enemy instance IDs stay `sentinel`, `cinder`, `wraith` and `cantor`. Th
 
 ## Reproduction and optimization
 
-`npm run mission:build` regenerates all nine JSON sources from the same factory used by the UI. Generated IDs and seed 74319 are stable; fixture tests detect drift. The older Greybank-only generator remains compatible. Original preset construction reuses the already-created battle's unit data when adapting content, avoiding a second baseline battle generation. The legacy encounter adapter also creates its content snapshot once. No frame-rate or memory improvement is claimed without a benchmark.
+`npm run mission:build` regenerates all ten JSON sources from the same factory used by the UI. Generated IDs and seed 74319 are stable; fixture tests detect drift. The older Greybank-only generator remains compatible. Original preset construction reuses the already-created battle's unit data when adapting content, avoiding a second baseline battle generation. The legacy encounter adapter also creates its content snapshot once. No frame-rate or memory improvement is claimed without a benchmark.
 
 ## Verification and balance review
 
-Ten tests cover the migrated sources, shipped stat/roster/progression parity, documented corner changes, generated fixtures, history/JSON recovery, all original battle outcomes, Orren's awakening, first-clear rewards and atomic rejection. The complete suite has 244 tests. All nine reports have zero errors and warnings.
+Ten tests cover the migrated sources, shipped stat/roster/progression parity, documented corner changes, generated fixtures, history/JSON recovery, all original battle outcomes, Orren's awakening, first-clear rewards and atomic rejection. The complete suite has 263 tests. All ten reports have zero errors and warnings.
 
 | Preset | Controlled policy result at seed 74319 | Activations | Surviving allies |
 | --- | --- | --- | --- |
@@ -65,3 +68,5 @@ The two Emberwarden presets use `redoubt` in their own standalone sources; neith
 [The Lantern Parley](../public/missions/lantern-parley.json) is a 20 by 16 character showcase with two playable profiles, two named rivals, six enemies and a six-line briefing. See the [character pack](CHARACTER_CLASS_PACK.md) for party-slot and artwork details.
 
 [The Frostglass Vigil](../public/missions/frostglass-vigil.json) brings four custom playable profiles to a 22 by 18 board with six defenders, a six-line briefing and a unique first-clear compass. See its [content guide](FROSTGLASS_CONTENT.md).
+
+[The Briar Resonance](BRIAR_CONTENT.md) adds two playable profiles and two named rivals to a 480-tile foundry approach. All ten mission sources remain independently reproducible and editable.

@@ -14,5 +14,13 @@
   {
     "id": "custom-dawn-duelist",
     "name": "Dawn Duelist / Joren"
+  },
+  {
+    "id": "custom-thorn-warden",
+    "name": "Thorn Warden / Rowan"
+  },
+  {
+    "id": "custom-resonant-smith",
+    "name": "Resonant Smith / Edrin"
   }
 ]

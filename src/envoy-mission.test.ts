@@ -57,7 +57,7 @@ test("class artwork resolves independently from gameplay base class and unknown 
     animationArtId("custom-emberwarden", p.rules!.jobs),
     "runewarden",
   );
-  assert.equal(Object.keys(CHARACTER_ART).length, 12);
+  assert.equal(Object.keys(CHARACTER_ART).length, 14);
 });
 for (const id of ["custom-glass-ranger", "custom-ash-cantor"] as const) {
   test(`${id} has 32 unique alpha-bearing frames and editable native source`, () => {

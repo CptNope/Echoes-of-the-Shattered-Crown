@@ -262,7 +262,7 @@ Use the [open decision register](docs/roadmap/DECISION_REGISTER.md) for roadmap 
 
 Version 0.8 extends the company-management milestone: four linked contracts, permanent secondary-skill learning, equipment and carried progression. Phase 2 now includes mastery and three support slots for the existing eight jobs; each advanced job now has an additional distinct active ability; the remaining job roster and further skill-board depth are still planned. Phase 3's world map, branching story, recruitment and town systems remain planned.
 
-The suite has **212 tests**, including full deterministic simulations of all four maps, economic and equipment invariants, rewards and v1 migration. Browser checks cover file export/import, closed-tab recovery, all eight job sprites, boss awakening, first-clear relic settlement, buying/equipping, manual save/load, migrated resource preservation, learning across a job change, result settlement and second-contract deployment. Result/learning checks use isolated local fixtures, not a claim of a full manual campaign playthrough. Physical mobile devices, Safari, gamepad hardware and 60 FPS remain uncertified. See [testing](docs/TESTING.md).
+The suite has **263 tests**, including full deterministic simulations of all four maps, economic and equipment invariants, rewards and v1 migration. Browser checks cover file export/import, closed-tab recovery, all eight job sprites, boss awakening, first-clear relic settlement, buying/equipping, manual save/load, migrated resource preservation, learning across a job change, result settlement and second-contract deployment. Result/learning checks use isolated local fixtures, not a claim of a full manual campaign playthrough. Physical mobile devices, Safari, gamepad hardware and 60 FPS remain uncertified. See [testing](docs/TESTING.md).
 
 ## Expansion plan
 
@@ -333,4 +333,6 @@ The [advanced authoring contracts](docs/studio/specs/advanced-blueprints.json) a
 
 [Frostglass Vigil content pack](docs/FROSTGLASS_CONTENT.md): Nera the Frost Sentinel and Joren the Dawn Duelist join Tamsin and Orris in a 22 by 18 mission, with six more abilities, four gear pieces and two editable 32-frame sheets.
 
-[Artwork consistency and editable sources](docs/ARTWORK_SYNC.md): inspect each actor's actual sprite, repair mixed-resolution overrides reversibly, open the matching editor and audit all nine mission sources against compiled content.
+[Artwork consistency and editable sources](docs/ARTWORK_SYNC.md): inspect each actor's actual sprite, repair mixed-resolution overrides reversibly, open the matching editor and audit all ten mission sources against compiled content.
+
+[Briar Resonance content pack](docs/BRIAR_CONTENT.md): Rowan the Thorn Warden and Edrin the Resonant Smith, two named rivals, six abilities, five gear pieces, two editable 32-frame sheets and a 24 by 20 standalone mission.

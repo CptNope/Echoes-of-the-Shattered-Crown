@@ -165,4 +165,6 @@ The [advanced authoring contracts](studio/specs/advanced-blueprints.json) deepen
 
 [Frostglass Vigil content pack](FROSTGLASS_CONTENT.md): Nera the Frost Sentinel and Joren the Dawn Duelist join Tamsin and Orris in a 22 by 18 mission, with six more abilities, four gear pieces and two editable 32-frame sheets.
 
-[Artwork consistency and editable sources](ARTWORK_SYNC.md): inspect each actor's actual sprite, repair mixed-resolution overrides reversibly, open the matching editor and audit all nine mission sources against compiled content.
+[Artwork consistency and editable sources](ARTWORK_SYNC.md): inspect each actor's actual sprite, repair mixed-resolution overrides reversibly, open the matching editor and audit all ten mission sources against compiled content.
+
+[Briar Resonance content pack](BRIAR_CONTENT.md): Rowan the Thorn Warden and Edrin the Resonant Smith, two named rivals, six abilities, five gear pieces, two editable 32-frame sheets and a 24 by 20 standalone mission.

@@ -169,7 +169,7 @@ test("indexed sources accept actual custom enemy IDs and reject arbitrary bindin
   ])
     assert.throws(() => validatePixelClip({ ...clip, actorId: id }));
 });
-test("all nine canonical missions resolve every placed actor to registered class art", () => {
+test("all ten canonical missions resolve every placed actor to registered class art", () => {
   for (const id of [
     "shrine",
     "causeway",
@@ -180,6 +180,7 @@ test("all nine canonical missions resolve every placed actor to registered class
     "cinder-archive",
     "lantern-parley",
     "frostglass-vigil",
+    "briar-resonance",
   ] as const) {
     const p = editProject(createLevelProject(), 0, [
       { type: "mission-preset", preset: id },

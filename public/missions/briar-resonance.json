@@ -1,0 +1,4928 @@
+{
+  "format": "echoes-level-project",
+  "version": 1,
+  "id": "briar-resonance-mission",
+  "revision": 1,
+  "name": "The Briar Resonance",
+  "seed": 74319,
+  "tiles": [
+    {
+      "x": 0,
+      "z": 0,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 1,
+      "z": 0,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 2,
+      "z": 0,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 3,
+      "z": 0,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 4,
+      "z": 0,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 5,
+      "z": 0,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 6,
+      "z": 0,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 7,
+      "z": 0,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 8,
+      "z": 0,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 9,
+      "z": 0,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 10,
+      "z": 0,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 11,
+      "z": 0,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 12,
+      "z": 0,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 13,
+      "z": 0,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 14,
+      "z": 0,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 15,
+      "z": 0,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 16,
+      "z": 0,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 17,
+      "z": 0,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 18,
+      "z": 0,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 19,
+      "z": 0,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 20,
+      "z": 0,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 21,
+      "z": 0,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 22,
+      "z": 0,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 23,
+      "z": 0,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 0,
+      "z": 1,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 1,
+      "z": 1,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 2,
+      "z": 1,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 3,
+      "z": 1,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 4,
+      "z": 1,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 5,
+      "z": 1,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 6,
+      "z": 1,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 7,
+      "z": 1,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 8,
+      "z": 1,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 9,
+      "z": 1,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 10,
+      "z": 1,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 11,
+      "z": 1,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 12,
+      "z": 1,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 13,
+      "z": 1,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 14,
+      "z": 1,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 15,
+      "z": 1,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 16,
+      "z": 1,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 17,
+      "z": 1,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 18,
+      "z": 1,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 19,
+      "z": 1,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 20,
+      "z": 1,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 21,
+      "z": 1,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 22,
+      "z": 1,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 23,
+      "z": 1,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 0,
+      "z": 2,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 1,
+      "z": 2,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 2,
+      "z": 2,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 3,
+      "z": 2,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 4,
+      "z": 2,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 5,
+      "z": 2,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 6,
+      "z": 2,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 7,
+      "z": 2,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 8,
+      "z": 2,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 9,
+      "z": 2,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 10,
+      "z": 2,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 11,
+      "z": 2,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 12,
+      "z": 2,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 13,
+      "z": 2,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 14,
+      "z": 2,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 15,
+      "z": 2,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 16,
+      "z": 2,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 17,
+      "z": 2,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 18,
+      "z": 2,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 19,
+      "z": 2,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 20,
+      "z": 2,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 21,
+      "z": 2,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 22,
+      "z": 2,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 23,
+      "z": 2,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 0,
+      "z": 3,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 1,
+      "z": 3,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 2,
+      "z": 3,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 3,
+      "z": 3,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 4,
+      "z": 3,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 5,
+      "z": 3,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 6,
+      "z": 3,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 7,
+      "z": 3,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 8,
+      "z": 3,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 9,
+      "z": 3,
+      "h": 0,
+      "terrain": "water",
+      "blocked": false
+    },
+    {
+      "x": 10,
+      "z": 3,
+      "h": 0,
+      "terrain": "water",
+      "blocked": false
+    },
+    {
+      "x": 11,
+      "z": 3,
+      "h": 0,
+      "terrain": "water",
+      "blocked": false
+    },
+    {
+      "x": 12,
+      "z": 3,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 13,
+      "z": 3,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 14,
+      "z": 3,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 15,
+      "z": 3,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 16,
+      "z": 3,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 17,
+      "z": 3,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 18,
+      "z": 3,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 19,
+      "z": 3,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 20,
+      "z": 3,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 21,
+      "z": 3,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 22,
+      "z": 3,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 23,
+      "z": 3,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 0,
+      "z": 4,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 1,
+      "z": 4,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 2,
+      "z": 4,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 3,
+      "z": 4,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 4,
+      "z": 4,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 5,
+      "z": 4,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 6,
+      "z": 4,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 7,
+      "z": 4,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 8,
+      "z": 4,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 9,
+      "z": 4,
+      "h": 0,
+      "terrain": "water",
+      "blocked": false
+    },
+    {
+      "x": 10,
+      "z": 4,
+      "h": 0,
+      "terrain": "water",
+      "blocked": false
+    },
+    {
+      "x": 11,
+      "z": 4,
+      "h": 0,
+      "terrain": "water",
+      "blocked": false
+    },
+    {
+      "x": 12,
+      "z": 4,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 13,
+      "z": 4,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 14,
+      "z": 4,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 15,
+      "z": 4,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 16,
+      "z": 4,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 17,
+      "z": 4,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 18,
+      "z": 4,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 19,
+      "z": 4,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 20,
+      "z": 4,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 21,
+      "z": 4,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 22,
+      "z": 4,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 23,
+      "z": 4,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 0,
+      "z": 5,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 1,
+      "z": 5,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 2,
+      "z": 5,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 3,
+      "z": 5,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 4,
+      "z": 5,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 5,
+      "z": 5,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 6,
+      "z": 5,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 7,
+      "z": 5,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 8,
+      "z": 5,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 9,
+      "z": 5,
+      "h": 0,
+      "terrain": "water",
+      "blocked": false
+    },
+    {
+      "x": 10,
+      "z": 5,
+      "h": 0,
+      "terrain": "water",
+      "blocked": false
+    },
+    {
+      "x": 11,
+      "z": 5,
+      "h": 0,
+      "terrain": "water",
+      "blocked": false
+    },
+    {
+      "x": 12,
+      "z": 5,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 13,
+      "z": 5,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 14,
+      "z": 5,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 15,
+      "z": 5,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 16,
+      "z": 5,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 17,
+      "z": 5,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 18,
+      "z": 5,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 19,
+      "z": 5,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 20,
+      "z": 5,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 21,
+      "z": 5,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 22,
+      "z": 5,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 23,
+      "z": 5,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 0,
+      "z": 6,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 1,
+      "z": 6,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 2,
+      "z": 6,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 3,
+      "z": 6,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 4,
+      "z": 6,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 5,
+      "z": 6,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 6,
+      "z": 6,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 7,
+      "z": 6,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 8,
+      "z": 6,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 9,
+      "z": 6,
+      "h": 0,
+      "terrain": "water",
+      "blocked": false
+    },
+    {
+      "x": 10,
+      "z": 6,
+      "h": 0,
+      "terrain": "water",
+      "blocked": false
+    },
+    {
+      "x": 11,
+      "z": 6,
+      "h": 0,
+      "terrain": "water",
+      "blocked": false
+    },
+    {
+      "x": 12,
+      "z": 6,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 13,
+      "z": 6,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 14,
+      "z": 6,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 15,
+      "z": 6,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 16,
+      "z": 6,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 17,
+      "z": 6,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 18,
+      "z": 6,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 19,
+      "z": 6,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 20,
+      "z": 6,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 21,
+      "z": 6,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 22,
+      "z": 6,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 23,
+      "z": 6,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 0,
+      "z": 7,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 1,
+      "z": 7,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 2,
+      "z": 7,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 3,
+      "z": 7,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 4,
+      "z": 7,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 5,
+      "z": 7,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 6,
+      "z": 7,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 7,
+      "z": 7,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 8,
+      "z": 7,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 9,
+      "z": 7,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 10,
+      "z": 7,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 11,
+      "z": 7,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 12,
+      "z": 7,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 13,
+      "z": 7,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 14,
+      "z": 7,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 15,
+      "z": 7,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 16,
+      "z": 7,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 17,
+      "z": 7,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 18,
+      "z": 7,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 19,
+      "z": 7,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 20,
+      "z": 7,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 21,
+      "z": 7,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 22,
+      "z": 7,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 23,
+      "z": 7,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 0,
+      "z": 8,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 1,
+      "z": 8,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 2,
+      "z": 8,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 3,
+      "z": 8,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 4,
+      "z": 8,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 5,
+      "z": 8,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 6,
+      "z": 8,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 7,
+      "z": 8,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 8,
+      "z": 8,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 9,
+      "z": 8,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 10,
+      "z": 8,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 11,
+      "z": 8,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 12,
+      "z": 8,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 13,
+      "z": 8,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 14,
+      "z": 8,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 15,
+      "z": 8,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 16,
+      "z": 8,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 17,
+      "z": 8,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 18,
+      "z": 8,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 19,
+      "z": 8,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 20,
+      "z": 8,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 21,
+      "z": 8,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 22,
+      "z": 8,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 23,
+      "z": 8,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 0,
+      "z": 9,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 1,
+      "z": 9,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 2,
+      "z": 9,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 3,
+      "z": 9,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 4,
+      "z": 9,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 5,
+      "z": 9,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 6,
+      "z": 9,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 7,
+      "z": 9,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 8,
+      "z": 9,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 9,
+      "z": 9,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 10,
+      "z": 9,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 11,
+      "z": 9,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 12,
+      "z": 9,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 13,
+      "z": 9,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 14,
+      "z": 9,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 15,
+      "z": 9,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 16,
+      "z": 9,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 17,
+      "z": 9,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 18,
+      "z": 9,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 19,
+      "z": 9,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 20,
+      "z": 9,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 21,
+      "z": 9,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 22,
+      "z": 9,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 23,
+      "z": 9,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 0,
+      "z": 10,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 1,
+      "z": 10,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 2,
+      "z": 10,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 3,
+      "z": 10,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 4,
+      "z": 10,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 5,
+      "z": 10,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 6,
+      "z": 10,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 7,
+      "z": 10,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 8,
+      "z": 10,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 9,
+      "z": 10,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 10,
+      "z": 10,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 11,
+      "z": 10,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 12,
+      "z": 10,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 13,
+      "z": 10,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 14,
+      "z": 10,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 15,
+      "z": 10,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 16,
+      "z": 10,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 17,
+      "z": 10,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 18,
+      "z": 10,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 19,
+      "z": 10,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 20,
+      "z": 10,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 21,
+      "z": 10,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 22,
+      "z": 10,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 23,
+      "z": 10,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 0,
+      "z": 11,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 1,
+      "z": 11,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 2,
+      "z": 11,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 3,
+      "z": 11,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 4,
+      "z": 11,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 5,
+      "z": 11,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 6,
+      "z": 11,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 7,
+      "z": 11,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 8,
+      "z": 11,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 9,
+      "z": 11,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 10,
+      "z": 11,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 11,
+      "z": 11,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 12,
+      "z": 11,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 13,
+      "z": 11,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 14,
+      "z": 11,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 15,
+      "z": 11,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 16,
+      "z": 11,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 17,
+      "z": 11,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 18,
+      "z": 11,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 19,
+      "z": 11,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 20,
+      "z": 11,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 21,
+      "z": 11,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 22,
+      "z": 11,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 23,
+      "z": 11,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 0,
+      "z": 12,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 1,
+      "z": 12,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 2,
+      "z": 12,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 3,
+      "z": 12,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 4,
+      "z": 12,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 5,
+      "z": 12,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 6,
+      "z": 12,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 7,
+      "z": 12,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 8,
+      "z": 12,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 9,
+      "z": 12,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 10,
+      "z": 12,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 11,
+      "z": 12,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 12,
+      "z": 12,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 13,
+      "z": 12,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 14,
+      "z": 12,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 15,
+      "z": 12,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 16,
+      "z": 12,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 17,
+      "z": 12,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 18,
+      "z": 12,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 19,
+      "z": 12,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 20,
+      "z": 12,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 21,
+      "z": 12,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 22,
+      "z": 12,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 23,
+      "z": 12,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 0,
+      "z": 13,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 1,
+      "z": 13,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 2,
+      "z": 13,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 3,
+      "z": 13,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 4,
+      "z": 13,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 5,
+      "z": 13,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 6,
+      "z": 13,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 7,
+      "z": 13,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 8,
+      "z": 13,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 9,
+      "z": 13,
+      "h": 0,
+      "terrain": "water",
+      "blocked": false
+    },
+    {
+      "x": 10,
+      "z": 13,
+      "h": 0,
+      "terrain": "water",
+      "blocked": false
+    },
+    {
+      "x": 11,
+      "z": 13,
+      "h": 0,
+      "terrain": "water",
+      "blocked": false
+    },
+    {
+      "x": 12,
+      "z": 13,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 13,
+      "z": 13,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 14,
+      "z": 13,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 15,
+      "z": 13,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 16,
+      "z": 13,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 17,
+      "z": 13,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 18,
+      "z": 13,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 19,
+      "z": 13,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 20,
+      "z": 13,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 21,
+      "z": 13,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 22,
+      "z": 13,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 23,
+      "z": 13,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 0,
+      "z": 14,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 1,
+      "z": 14,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 2,
+      "z": 14,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 3,
+      "z": 14,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 4,
+      "z": 14,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 5,
+      "z": 14,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 6,
+      "z": 14,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 7,
+      "z": 14,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 8,
+      "z": 14,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 9,
+      "z": 14,
+      "h": 0,
+      "terrain": "water",
+      "blocked": false
+    },
+    {
+      "x": 10,
+      "z": 14,
+      "h": 0,
+      "terrain": "water",
+      "blocked": false
+    },
+    {
+      "x": 11,
+      "z": 14,
+      "h": 0,
+      "terrain": "water",
+      "blocked": false
+    },
+    {
+      "x": 12,
+      "z": 14,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 13,
+      "z": 14,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 14,
+      "z": 14,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 15,
+      "z": 14,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 16,
+      "z": 14,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 17,
+      "z": 14,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 18,
+      "z": 14,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 19,
+      "z": 14,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 20,
+      "z": 14,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 21,
+      "z": 14,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 22,
+      "z": 14,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 23,
+      "z": 14,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 0,
+      "z": 15,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 1,
+      "z": 15,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 2,
+      "z": 15,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 3,
+      "z": 15,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 4,
+      "z": 15,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 5,
+      "z": 15,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 6,
+      "z": 15,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 7,
+      "z": 15,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 8,
+      "z": 15,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 9,
+      "z": 15,
+      "h": 0,
+      "terrain": "water",
+      "blocked": false
+    },
+    {
+      "x": 10,
+      "z": 15,
+      "h": 0,
+      "terrain": "water",
+      "blocked": false
+    },
+    {
+      "x": 11,
+      "z": 15,
+      "h": 0,
+      "terrain": "water",
+      "blocked": false
+    },
+    {
+      "x": 12,
+      "z": 15,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 13,
+      "z": 15,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 14,
+      "z": 15,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 15,
+      "z": 15,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 16,
+      "z": 15,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 17,
+      "z": 15,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 18,
+      "z": 15,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 19,
+      "z": 15,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 20,
+      "z": 15,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 21,
+      "z": 15,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 22,
+      "z": 15,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 23,
+      "z": 15,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 0,
+      "z": 16,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 1,
+      "z": 16,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 2,
+      "z": 16,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 3,
+      "z": 16,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 4,
+      "z": 16,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 5,
+      "z": 16,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 6,
+      "z": 16,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 7,
+      "z": 16,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 8,
+      "z": 16,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 9,
+      "z": 16,
+      "h": 0,
+      "terrain": "water",
+      "blocked": false
+    },
+    {
+      "x": 10,
+      "z": 16,
+      "h": 0,
+      "terrain": "water",
+      "blocked": false
+    },
+    {
+      "x": 11,
+      "z": 16,
+      "h": 0,
+      "terrain": "water",
+      "blocked": false
+    },
+    {
+      "x": 12,
+      "z": 16,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 13,
+      "z": 16,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 14,
+      "z": 16,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 15,
+      "z": 16,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 16,
+      "z": 16,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 17,
+      "z": 16,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 18,
+      "z": 16,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 19,
+      "z": 16,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 20,
+      "z": 16,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 21,
+      "z": 16,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 22,
+      "z": 16,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 23,
+      "z": 16,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 0,
+      "z": 17,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 1,
+      "z": 17,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 2,
+      "z": 17,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 3,
+      "z": 17,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 4,
+      "z": 17,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 5,
+      "z": 17,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 6,
+      "z": 17,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 7,
+      "z": 17,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 8,
+      "z": 17,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 9,
+      "z": 17,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 10,
+      "z": 17,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 11,
+      "z": 17,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 12,
+      "z": 17,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 13,
+      "z": 17,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 14,
+      "z": 17,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 15,
+      "z": 17,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 16,
+      "z": 17,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 17,
+      "z": 17,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 18,
+      "z": 17,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 19,
+      "z": 17,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 20,
+      "z": 17,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 21,
+      "z": 17,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 22,
+      "z": 17,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 23,
+      "z": 17,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 0,
+      "z": 18,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 1,
+      "z": 18,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 2,
+      "z": 18,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 3,
+      "z": 18,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 4,
+      "z": 18,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 5,
+      "z": 18,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 6,
+      "z": 18,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 7,
+      "z": 18,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 8,
+      "z": 18,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 9,
+      "z": 18,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 10,
+      "z": 18,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 11,
+      "z": 18,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 12,
+      "z": 18,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 13,
+      "z": 18,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 14,
+      "z": 18,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 15,
+      "z": 18,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 16,
+      "z": 18,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 17,
+      "z": 18,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 18,
+      "z": 18,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 19,
+      "z": 18,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 20,
+      "z": 18,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 21,
+      "z": 18,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 22,
+      "z": 18,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 23,
+      "z": 18,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 0,
+      "z": 19,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 1,
+      "z": 19,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 2,
+      "z": 19,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 3,
+      "z": 19,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 4,
+      "z": 19,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 5,
+      "z": 19,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 6,
+      "z": 19,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 7,
+      "z": 19,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 8,
+      "z": 19,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 9,
+      "z": 19,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 10,
+      "z": 19,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 11,
+      "z": 19,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 12,
+      "z": 19,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 13,
+      "z": 19,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 14,
+      "z": 19,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 15,
+      "z": 19,
+      "h": 0,
+      "terrain": "grass",
+      "blocked": false
+    },
+    {
+      "x": 16,
+      "z": 19,
+      "h": 0,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 17,
+      "z": 19,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 18,
+      "z": 19,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 19,
+      "z": 19,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 20,
+      "z": 19,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 21,
+      "z": 19,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 22,
+      "z": 19,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    },
+    {
+      "x": 23,
+      "z": 19,
+      "h": 1,
+      "terrain": "stone",
+      "blocked": false
+    }
+  ],
+  "placements": [
+    {
+      "id": "sera",
+      "x": 6,
+      "z": 9
+    },
+    {
+      "id": "ilya",
+      "x": 5,
+      "z": 10
+    },
+    {
+      "id": "corin",
+      "x": 6,
+      "z": 11
+    },
+    {
+      "id": "mae",
+      "x": 5,
+      "z": 8
+    },
+    {
+      "id": "enemy-kiln-warden-ashen-weir",
+      "x": 13,
+      "z": 9
+    },
+    {
+      "id": "enemy-ash-sentry-ashen-weir",
+      "x": 13,
+      "z": 11
+    },
+    {
+      "id": "enemy-ember-scholar-ashen-weir",
+      "x": 16,
+      "z": 8
+    },
+    {
+      "id": "enemy-coal-runner-ashen-weir",
+      "x": 14,
+      "z": 13
+    },
+    {
+      "id": "enemy-lantern-mender-ashen-weir",
+      "x": 18,
+      "z": 10
+    },
+    {
+      "id": "enemy-cinder-clock-ashen-weir",
+      "x": 17,
+      "z": 12
+    }
+  ],
+  "encounter": "redoubt",
+  "dimensions": {
+    "width": 24,
+    "height": 20
+  },
+  "rules": {
+    "version": 1,
+    "jobs": {
+      "vanguard": {
+        "id": "vanguard",
+        "name": "Vanguard",
+        "role": "Protection · heavy blade",
+        "color": "#d7ad5e",
+        "move": 3,
+        "speed": 10,
+        "attack": 9,
+        "armor": 9,
+        "magic": 0,
+        "skills": [
+          "cleave"
+        ],
+        "requires": {}
+      },
+      "dancer": {
+        "id": "dancer",
+        "name": "Blade Dancer",
+        "role": "Mobility · duelist",
+        "color": "#80c5ba",
+        "move": 5,
+        "speed": 14,
+        "attack": 7,
+        "armor": 3,
+        "magic": 0,
+        "skills": [
+          "veil"
+        ],
+        "requires": {}
+      },
+      "arcanist": {
+        "id": "arcanist",
+        "name": "Arcanist",
+        "role": "Elemental area control",
+        "color": "#df927c",
+        "move": 3,
+        "speed": 10,
+        "attack": 1,
+        "armor": 2,
+        "magic": 10,
+        "skills": [
+          "ember",
+          "frost"
+        ],
+        "requires": {}
+      },
+      "lifebinder": {
+        "id": "lifebinder",
+        "name": "Lifebinder",
+        "role": "Restoration · spirit",
+        "color": "#b6c58f",
+        "move": 4,
+        "speed": 11,
+        "attack": 0,
+        "armor": 4,
+        "magic": 8,
+        "skills": [
+          "mend"
+        ],
+        "requires": {}
+      },
+      "shadowrunner": {
+        "id": "shadowrunner",
+        "name": "Shadowrunner",
+        "role": "Exposure · ranged blades",
+        "color": "#a9accb",
+        "move": 5,
+        "speed": 15,
+        "attack": 8,
+        "armor": 2,
+        "magic": 0,
+        "skills": [
+          "veil",
+          "gloam"
+        ],
+        "requires": {
+          "dancer": 3
+        }
+      },
+      "runewarden": {
+        "id": "runewarden",
+        "name": "Runewarden",
+        "role": "Armored elemental hybrid",
+        "color": "#c3ba84",
+        "move": 3,
+        "speed": 9,
+        "attack": 5,
+        "armor": 11,
+        "magic": 6,
+        "skills": [
+          "frost",
+          "aegis"
+        ],
+        "requires": {
+          "vanguard": 3,
+          "arcanist": 2
+        }
+      },
+      "stormherald": {
+        "id": "stormherald",
+        "name": "Storm Herald",
+        "role": "Lightning · water synergy",
+        "color": "#a7c7d0",
+        "move": 4,
+        "speed": 12,
+        "attack": 2,
+        "armor": 3,
+        "magic": 11,
+        "skills": [
+          "surge",
+          "frost",
+          "raincall"
+        ],
+        "requires": {
+          "arcanist": 3
+        }
+      },
+      "chronoweaver": {
+        "id": "chronoweaver",
+        "name": "Chronoweaver",
+        "role": "Timeline · support",
+        "color": "#d2bbd8",
+        "move": 4,
+        "speed": 13,
+        "attack": 0,
+        "armor": 3,
+        "magic": 9,
+        "skills": [
+          "haste",
+          "mend",
+          "delay"
+        ],
+        "requires": {
+          "arcanist": 2,
+          "lifebinder": 3
+        }
+      },
+      "custom-emberwarden": {
+        "id": "custom-emberwarden",
+        "name": "Emberwarden",
+        "role": "Close support / controlled fire",
+        "color": "#b5603c",
+        "move": 4,
+        "speed": 11,
+        "attack": 7,
+        "armor": 7,
+        "magic": 7,
+        "skills": [
+          "custom-ashfall",
+          "custom-hearthguard",
+          "custom-cinderstep",
+          "custom-kindlethread"
+        ],
+        "requires": {},
+        "baseJob": "runewarden"
+      },
+      "custom-glass-ranger": {
+        "id": "custom-glass-ranger",
+        "name": "Glass Ranger",
+        "role": "Ranged physical pressure / exposure",
+        "color": "#397b80",
+        "move": 5,
+        "speed": 13,
+        "attack": 7,
+        "armor": 3,
+        "magic": 3,
+        "skills": [
+          "custom-glass-shot",
+          "custom-shard-volley",
+          "custom-facet-mark"
+        ],
+        "requires": {},
+        "baseJob": "shadowrunner"
+      },
+      "custom-ash-cantor": {
+        "id": "custom-ash-cantor",
+        "name": "Ash Cantor",
+        "role": "Fire rites / guard / timeline pressure",
+        "color": "#a55a45",
+        "move": 4,
+        "speed": 10,
+        "attack": 2,
+        "armor": 4,
+        "magic": 9,
+        "skills": [
+          "custom-cinder-hymn",
+          "custom-ashen-shelter",
+          "custom-mourning-bell"
+        ],
+        "requires": {},
+        "baseJob": "lifebinder"
+      },
+      "custom-frost-sentinel": {
+        "id": "custom-frost-sentinel",
+        "name": "Frost Sentinel",
+        "role": "Guard / ice crossing / close recovery",
+        "color": "#658eac",
+        "move": 4,
+        "speed": 10,
+        "attack": 6,
+        "armor": 9,
+        "magic": 6,
+        "skills": [
+          "custom-rimeward",
+          "custom-frostline",
+          "custom-winters-mercy"
+        ],
+        "requires": {},
+        "baseJob": "runewarden"
+      },
+      "custom-dawn-duelist": {
+        "id": "custom-dawn-duelist",
+        "name": "Dawn Duelist",
+        "role": "Mobile exposure / pursuit",
+        "color": "#c0974e",
+        "move": 5,
+        "speed": 14,
+        "attack": 9,
+        "armor": 4,
+        "magic": 2,
+        "skills": [
+          "custom-sunlit-pursuit",
+          "custom-dawn-cut",
+          "custom-daybreak-feint"
+        ],
+        "requires": {},
+        "baseJob": "dancer"
+      },
+      "custom-thorn-warden": {
+        "id": "custom-thorn-warden",
+        "name": "Thorn Warden",
+        "role": "Guard / recovery / soaking setup",
+        "color": "#58714a",
+        "move": 4,
+        "speed": 11,
+        "attack": 4,
+        "armor": 6,
+        "magic": 8,
+        "skills": [
+          "custom-briar-shelter",
+          "custom-dewfall",
+          "custom-green-mending"
+        ],
+        "requires": {},
+        "baseJob": "lifebinder"
+      },
+      "custom-resonant-smith": {
+        "id": "custom-resonant-smith",
+        "name": "Resonant Smith",
+        "role": "Lightning payoff / timeline support",
+        "color": "#957042",
+        "move": 4,
+        "speed": 10,
+        "attack": 6,
+        "armor": 5,
+        "magic": 9,
+        "skills": [
+          "custom-anvil-peal",
+          "custom-dissonant-strike",
+          "custom-tempered-tempo"
+        ],
+        "requires": {},
+        "baseJob": "stormherald"
+      }
+    },
+    "skills": {
+      "gloam": {
+        "id": "gloam",
+        "name": "Gloam pursuit",
+        "cost": 9,
+        "range": 2,
+        "power": 30,
+        "radius": 0,
+        "element": "physical",
+        "kind": "damage",
+        "effect": "consumeExposure",
+        "description": "A precise pursuit. An exposed target takes 12 extra damage in addition to the normal exposure bonus; a successful hit consumes exposure."
+      },
+      "aegis": {
+        "id": "aegis",
+        "name": "Oathguard",
+        "cost": 8,
+        "range": 3,
+        "power": 0,
+        "radius": 0,
+        "element": "spirit",
+        "kind": "buff",
+        "effect": "aegis",
+        "description": "Grant a living ally guard: 45% incoming damage reduction until their next activation. Also cleanse burn. Can target the caster."
+      },
+      "raincall": {
+        "id": "raincall",
+        "name": "Rain of glass",
+        "cost": 8,
+        "range": 4,
+        "power": 12,
+        "radius": 1,
+        "element": "spirit",
+        "kind": "damage",
+        "effect": "soak",
+        "description": "A cross-shaped magical shower. Successful hits soak enemies for three activations, preparing lightning synergy. Allies and terrain are unchanged."
+      },
+      "delay": {
+        "id": "delay",
+        "name": "Stolen hour",
+        "cost": 9,
+        "range": 4,
+        "power": 14,
+        "radius": 0,
+        "element": "spirit",
+        "kind": "damage",
+        "effect": "delay",
+        "description": "Deal spirit damage and delay a surviving enemy by 30 timeline ticks on a successful hit. Does not apply the slow status."
+      },
+      "strike": {
+        "id": "strike",
+        "name": "Weapon strike",
+        "cost": 0,
+        "range": 1,
+        "power": 24,
+        "radius": 0,
+        "element": "physical",
+        "kind": "damage",
+        "description": "A precise weapon attack. Height and flanking increase damage."
+      },
+      "cleave": {
+        "id": "cleave",
+        "name": "Sundering arc",
+        "cost": 7,
+        "range": 1,
+        "power": 29,
+        "radius": 1,
+        "element": "physical",
+        "kind": "damage",
+        "description": "Strike a cross of tiles. Allies in the arc are spared."
+      },
+      "ember": {
+        "id": "ember",
+        "name": "Cinder bloom",
+        "cost": 9,
+        "range": 4,
+        "power": 31,
+        "radius": 1,
+        "element": "fire",
+        "kind": "damage",
+        "description": "An explosive cross of flame. Burns targets for two turns and ignites grass."
+      },
+      "mend": {
+        "id": "mend",
+        "name": "Thread of life",
+        "cost": 8,
+        "range": 4,
+        "power": 36,
+        "radius": 0,
+        "element": "spirit",
+        "kind": "heal",
+        "description": "Restore 36 health to an ally, or revive a fallen ally with 24 health."
+      },
+      "surge": {
+        "id": "surge",
+        "name": "Glasslight bolt",
+        "cost": 10,
+        "range": 5,
+        "power": 32,
+        "radius": 0,
+        "element": "lightning",
+        "kind": "damage",
+        "description": "A lightning bolt. Deals 50% more damage to soaked targets."
+      },
+      "frost": {
+        "id": "frost",
+        "name": "Stillwater",
+        "cost": 6,
+        "range": 4,
+        "power": 20,
+        "radius": 1,
+        "element": "ice",
+        "kind": "damage",
+        "description": "Chill enemies and freeze water into traversable ice. Slows for two turns."
+      },
+      "veil": {
+        "id": "veil",
+        "name": "Dusk needle",
+        "cost": 6,
+        "range": 3,
+        "power": 28,
+        "radius": 0,
+        "element": "physical",
+        "kind": "damage",
+        "description": "A ranged blade that exposes the target to follow-up attacks."
+      },
+      "haste": {
+        "id": "haste",
+        "name": "Borrowed dawn",
+        "cost": 8,
+        "range": 3,
+        "power": 0,
+        "radius": 0,
+        "element": "spirit",
+        "kind": "buff",
+        "description": "Advance an ally’s next turn by 35 timeline ticks."
+      },
+      "rally": {
+        "id": "rally",
+        "name": "Lantern concord",
+        "cost": 0,
+        "range": 4,
+        "power": 42,
+        "radius": 1,
+        "element": "spirit",
+        "kind": "damage",
+        "description": "Spend 3 momentum for a coordinated burst. Allies are spared."
+      },
+      "custom-ashfall": {
+        "id": "custom-ashfall",
+        "name": "Ashfall",
+        "cost": 8,
+        "range": 4,
+        "power": 24,
+        "radius": 1,
+        "element": "fire",
+        "kind": "damage",
+        "description": "A lighter cross of fire. Burns enemies and ignites grass; water remains a safer approach. Trades damage for a lower energy cost.",
+        "baseSkill": "ember"
+      },
+      "custom-hearthguard": {
+        "id": "custom-hearthguard",
+        "name": "Hearthguard",
+        "cost": 6,
+        "range": 2,
+        "power": 0,
+        "radius": 0,
+        "element": "spirit",
+        "kind": "buff",
+        "effect": "aegis",
+        "description": "Guard one nearby ally and cleanse burn until their next activation. Cheaper than Oathguard, with shorter reach.",
+        "baseSkill": "aegis"
+      },
+      "custom-cinderstep": {
+        "id": "custom-cinderstep",
+        "name": "Cinderstep",
+        "cost": 7,
+        "range": 3,
+        "power": 0,
+        "radius": 0,
+        "element": "spirit",
+        "kind": "buff",
+        "description": "Advance one ally by 35 timeline ticks. Costs one less energy than Borrowed dawn; does not grant a lasting speed status.",
+        "baseSkill": "haste"
+      },
+      "custom-kindlethread": {
+        "id": "custom-kindlethread",
+        "name": "Kindlethread",
+        "cost": 6,
+        "range": 3,
+        "power": 26,
+        "radius": 0,
+        "element": "spirit",
+        "kind": "heal",
+        "description": "Restore an ally or revive a fallen companion using the existing healing rule. Lower cost, power and reach than Thread of life.",
+        "baseSkill": "mend"
+      },
+      "custom-glass-shot": {
+        "id": "custom-glass-shot",
+        "name": "Glass shot",
+        "cost": 4,
+        "range": 4,
+        "power": 19,
+        "radius": 0,
+        "element": "physical",
+        "kind": "damage",
+        "description": "A physical bow shot. Trades energy and lower power for four-tile reach; does not add a new projectile collision rule.",
+        "baseSkill": "strike"
+      },
+      "custom-shard-volley": {
+        "id": "custom-shard-volley",
+        "name": "Shard volley",
+        "cost": 8,
+        "range": 4,
+        "power": 17,
+        "radius": 1,
+        "element": "physical",
+        "kind": "damage",
+        "description": "A cross-shaped physical volley. Spares allies, with lower power than a close Sundering arc.",
+        "baseSkill": "cleave"
+      },
+      "custom-facet-mark": {
+        "id": "custom-facet-mark",
+        "name": "Facet mark",
+        "cost": 6,
+        "range": 4,
+        "power": 14,
+        "radius": 0,
+        "element": "physical",
+        "kind": "damage",
+        "description": "A spirit shot that exposes an enemy for two activations on a successful hit. Uses Dusk needle's existing exposure rule.",
+        "baseSkill": "veil"
+      },
+      "custom-cinder-hymn": {
+        "id": "custom-cinder-hymn",
+        "name": "Cinder hymn",
+        "cost": 8,
+        "range": 4,
+        "power": 22,
+        "radius": 1,
+        "element": "fire",
+        "kind": "damage",
+        "description": "A cross of flame. Burns enemies and ignites grass; lower power and cost than Cinder bloom.",
+        "baseSkill": "ember"
+      },
+      "custom-ashen-shelter": {
+        "id": "custom-ashen-shelter",
+        "name": "Ashen shelter",
+        "cost": 8,
+        "range": 3,
+        "power": 0,
+        "radius": 0,
+        "element": "spirit",
+        "kind": "buff",
+        "effect": "aegis",
+        "description": "Protect one living ally with guard and cleanse burn. This is an immediate rite, not a sustained chant.",
+        "baseSkill": "aegis"
+      },
+      "custom-mourning-bell": {
+        "id": "custom-mourning-bell",
+        "name": "Mourning bell",
+        "cost": 9,
+        "range": 4,
+        "power": 15,
+        "radius": 0,
+        "element": "spirit",
+        "kind": "damage",
+        "effect": "delay",
+        "description": "Spirit damage and a 30-tick delay to a surviving enemy on a successful hit. Does not silence or interrupt.",
+        "baseSkill": "delay"
+      },
+      "custom-rimeward": {
+        "id": "custom-rimeward",
+        "name": "Rimeward",
+        "cost": 7,
+        "range": 2,
+        "power": 0,
+        "radius": 0,
+        "element": "spirit",
+        "kind": "buff",
+        "effect": "aegis",
+        "description": "Shield one living ally with guard and cleanse burn. Short-range protection, not ice immunity.",
+        "baseSkill": "aegis"
+      },
+      "custom-frostline": {
+        "id": "custom-frostline",
+        "name": "Frostline",
+        "cost": 7,
+        "range": 3,
+        "power": 18,
+        "radius": 1,
+        "element": "ice",
+        "kind": "damage",
+        "description": "Freeze a cross of water into traversable ice and slow enemies for two activations. Lower reach than Stillwater.",
+        "baseSkill": "frost"
+      },
+      "custom-winters-mercy": {
+        "id": "custom-winters-mercy",
+        "name": "Winter's mercy",
+        "cost": 7,
+        "range": 2,
+        "power": 28,
+        "radius": 0,
+        "element": "spirit",
+        "kind": "heal",
+        "description": "Heal a nearby ally and cleanse burn, or revive at the existing fixed 24 health. Close support rather than long-range recovery.",
+        "baseSkill": "mend"
+      },
+      "custom-sunlit-pursuit": {
+        "id": "custom-sunlit-pursuit",
+        "name": "Sunlit pursuit",
+        "cost": 8,
+        "range": 2,
+        "power": 28,
+        "radius": 0,
+        "element": "physical",
+        "kind": "damage",
+        "effect": "consumeExposure",
+        "description": "Physical pursuit that consumes exposure on a successful hit. An exposed target takes the existing twelve-point pursuit bonus.",
+        "baseSkill": "gloam"
+      },
+      "custom-dawn-cut": {
+        "id": "custom-dawn-cut",
+        "name": "Dawn cut",
+        "cost": 7,
+        "range": 1,
+        "power": 26,
+        "radius": 1,
+        "element": "physical",
+        "kind": "damage",
+        "description": "A close cross-shaped saber attack. Allies are spared; costs the same energy as Sundering arc with lower power.",
+        "baseSkill": "cleave"
+      },
+      "custom-daybreak-feint": {
+        "id": "custom-daybreak-feint",
+        "name": "Daybreak feint",
+        "cost": 5,
+        "range": 3,
+        "power": 12,
+        "radius": 0,
+        "element": "physical",
+        "kind": "damage",
+        "description": "Spirit damage that exposes an enemy for two activations on a hit. Shorter reach and lower cost than Dusk needle.",
+        "baseSkill": "veil"
+      },
+      "custom-briar-shelter": {
+        "id": "custom-briar-shelter",
+        "name": "Briar shelter",
+        "cost": 6,
+        "range": 2,
+        "power": 0,
+        "radius": 0,
+        "element": "spirit",
+        "kind": "buff",
+        "effect": "aegis",
+        "description": "Guard one nearby living ally and cleanse burn until their next activation. The thorns do not retaliate or root enemies.",
+        "baseSkill": "aegis"
+      },
+      "custom-dewfall": {
+        "id": "custom-dewfall",
+        "name": "Dewfall",
+        "cost": 7,
+        "range": 3,
+        "power": 10,
+        "radius": 1,
+        "element": "spirit",
+        "kind": "damage",
+        "effect": "soak",
+        "description": "A cross of spirit rain. Successful hits soak enemies for three activations, preparing lightning; allies and terrain remain unchanged.",
+        "baseSkill": "raincall"
+      },
+      "custom-green-mending": {
+        "id": "custom-green-mending",
+        "name": "Green mending",
+        "cost": 7,
+        "range": 3,
+        "power": 26,
+        "radius": 0,
+        "element": "spirit",
+        "kind": "heal",
+        "description": "Restore health and cleanse burn, or revive a fallen ally at the existing fixed 24 health. No regeneration status is added.",
+        "baseSkill": "mend"
+      },
+      "custom-anvil-peal": {
+        "id": "custom-anvil-peal",
+        "name": "Anvil peal",
+        "cost": 8,
+        "range": 3,
+        "power": 25,
+        "radius": 0,
+        "element": "lightning",
+        "kind": "damage",
+        "description": "A single-target lightning strike. A soaked enemy takes the existing 1.5 damage multiplier; there is no stun or chain lightning.",
+        "baseSkill": "surge"
+      },
+      "custom-dissonant-strike": {
+        "id": "custom-dissonant-strike",
+        "name": "Dissonant strike",
+        "cost": 7,
+        "range": 2,
+        "power": 13,
+        "radius": 0,
+        "element": "spirit",
+        "kind": "damage",
+        "effect": "delay",
+        "description": "Spirit damage that delays a surviving enemy by 30 timeline ticks on a successful hit. Does not silence or interrupt.",
+        "baseSkill": "delay"
+      },
+      "custom-tempered-tempo": {
+        "id": "custom-tempered-tempo",
+        "name": "Tempered tempo",
+        "cost": 7,
+        "range": 2,
+        "power": 0,
+        "radius": 0,
+        "element": "spirit",
+        "kind": "buff",
+        "description": "Advance one nearby ally by 35 timeline ticks. This is immediate timeline support, not a lasting speed bonus.",
+        "baseSkill": "haste"
+      }
+    },
+    "gear": {
+      "crownseal": {
+        "id": "crownseal",
+        "name": "Bellkeeper’s seal",
+        "slot": "relic",
+        "price": 0,
+        "rewardOnly": true,
+        "description": "Awarded once for clearing The silent belfry. A broken oath still carries power.",
+        "bonuses": {
+          "armor": 2,
+          "magic": 3
+        }
+      },
+      "ironblade": {
+        "id": "ironblade",
+        "name": "Oathsteel blade",
+        "slot": "weapon",
+        "price": 60,
+        "description": "A reliable edge for the company's front line.",
+        "jobs": [
+          "vanguard",
+          "dancer",
+          "shadowrunner",
+          "runewarden"
+        ],
+        "bonuses": {
+          "attack": 4
+        }
+      },
+      "twinsteel": {
+        "id": "twinsteel",
+        "name": "Ashen twinblades",
+        "slot": "weapon",
+        "price": 75,
+        "description": "Light paired blades reward quick footwork.",
+        "jobs": [
+          "vanguard",
+          "dancer",
+          "shadowrunner",
+          "runewarden"
+        ],
+        "bonuses": {
+          "attack": 3,
+          "speed": 1
+        }
+      },
+      "cedarrod": {
+        "id": "cedarrod",
+        "name": "Glass-tipped rod",
+        "slot": "weapon",
+        "price": 65,
+        "description": "A shard of river glass focuses elemental spells.",
+        "jobs": [
+          "arcanist",
+          "lifebinder",
+          "stormherald",
+          "chronoweaver",
+          "runewarden"
+        ],
+        "bonuses": {
+          "magic": 4
+        }
+      },
+      "willowstaff": {
+        "id": "willowstaff",
+        "name": "Living willow staff",
+        "slot": "weapon",
+        "price": 65,
+        "description": "A living branch lends resilience to its bearer.",
+        "jobs": [
+          "arcanist",
+          "lifebinder",
+          "stormherald",
+          "chronoweaver",
+          "runewarden"
+        ],
+        "bonuses": {
+          "magic": 2,
+          "hp": 8
+        }
+      },
+      "leather": {
+        "id": "leather",
+        "name": "Company leathers",
+        "slot": "armor",
+        "price": 35,
+        "description": "Flexible protection without a movement penalty.",
+        "bonuses": {
+          "armor": 1,
+          "hp": 4
+        }
+      },
+      "lamellar": {
+        "id": "lamellar",
+        "name": "Bronze lamellar",
+        "slot": "armor",
+        "price": 95,
+        "description": "Strong protection at the cost of one movement.",
+        "jobs": [
+          "vanguard",
+          "runewarden"
+        ],
+        "bonuses": {
+          "armor": 4,
+          "hp": 15,
+          "move": -1
+        }
+      },
+      "wayboots": {
+        "id": "wayboots",
+        "name": "Wayfarer's boots",
+        "slot": "relic",
+        "price": 80,
+        "description": "Reach one tile farther on every activation.",
+        "bonuses": {
+          "move": 1
+        }
+      },
+      "copperfocus": {
+        "id": "copperfocus",
+        "name": "Copper focus",
+        "slot": "relic",
+        "price": 80,
+        "description": "A modest rune amplifies damaging magic.",
+        "bonuses": {
+          "magic": 3
+        }
+      },
+      "watchcharm": {
+        "id": "watchcharm",
+        "name": "Dawnwatch charm",
+        "slot": "relic",
+        "price": 90,
+        "description": "An old watch charm grants quicker activations.",
+        "bonuses": {
+          "speed": 2
+        }
+      },
+      "custom-coalbrand": {
+        "id": "custom-coalbrand",
+        "name": "Coalbrand",
+        "slot": "weapon",
+        "price": 95,
+        "description": "A furnace-tempered blade for an Emberwarden or Runewarden. Balanced physical and magical pressure.",
+        "bonuses": {
+          "attack": 4,
+          "magic": 3
+        },
+        "jobs": [
+          "custom-emberwarden",
+          "runewarden"
+        ]
+      },
+      "custom-kilncoat": {
+        "id": "custom-kilncoat",
+        "name": "Kilncoat",
+        "slot": "armor",
+        "price": 85,
+        "description": "A padded workshop coat. Adds health and armor; grants no fire immunity.",
+        "bonuses": {
+          "armor": 3,
+          "hp": 14
+        }
+      },
+      "custom-emberglass": {
+        "id": "custom-emberglass",
+        "name": "Emberglass lens",
+        "slot": "relic",
+        "price": 90,
+        "description": "A soot-dark lens that focuses magic without slowing the bearer.",
+        "bonuses": {
+          "magic": 3,
+          "speed": 1
+        }
+      },
+      "custom-ashrunner-blades": {
+        "id": "custom-ashrunner-blades",
+        "name": "Ashrunner blades",
+        "slot": "weapon",
+        "price": 90,
+        "description": "Light blades for the company's flanker.",
+        "bonuses": {
+          "attack": 4,
+          "speed": 1
+        }
+      },
+      "custom-weir-token": {
+        "id": "custom-weir-token",
+        "name": "Weirkeeper's token",
+        "slot": "relic",
+        "price": 0,
+        "description": "First-clear keepsake from the Ashen Weir. A defensive relic, with no scripted interaction.",
+        "bonuses": {
+          "armor": 2,
+          "hp": 12
+        },
+        "rewardOnly": true
+      },
+      "custom-archive-lantern": {
+        "id": "custom-archive-lantern",
+        "name": "Archive lantern",
+        "slot": "relic",
+        "price": 0,
+        "description": "First-clear keepsake from the Cinder Archive. Its light carries no new targeting rule.",
+        "bonuses": {
+          "magic": 4,
+          "hp": 8
+        },
+        "rewardOnly": true
+      },
+      "custom-glass-bow": {
+        "id": "custom-glass-bow",
+        "name": "Wayfarer's glass bow",
+        "slot": "weapon",
+        "price": 90,
+        "description": "Lantern envoys equipment. Editable class proficiency and bonuses; no additional weapon mechanic.",
+        "jobs": [
+          "custom-glass-ranger"
+        ],
+        "bonuses": {
+          "attack": 5
+        }
+      },
+      "custom-cantor-lantern": {
+        "id": "custom-cantor-lantern",
+        "name": "Ashwood lantern staff",
+        "slot": "weapon",
+        "price": 90,
+        "description": "Lantern envoys equipment. Editable class proficiency and bonuses; no additional weapon mechanic.",
+        "jobs": [
+          "custom-ash-cantor"
+        ],
+        "bonuses": {
+          "magic": 4
+        }
+      },
+      "custom-rime-spear": {
+        "id": "custom-rime-spear",
+        "name": "Rimeglass spear",
+        "slot": "weapon",
+        "price": 95,
+        "description": "A short spear for Frost Sentinels. Its name grants no additional attack range.",
+        "bonuses": {
+          "attack": 4,
+          "magic": 2
+        },
+        "jobs": [
+          "custom-frost-sentinel"
+        ]
+      },
+      "custom-dawn-saber": {
+        "id": "custom-dawn-saber",
+        "name": "Dawnsteel saber",
+        "slot": "weapon",
+        "price": 100,
+        "description": "A balanced saber for Dawn Duelists. Existing class and exposure rules determine its strikes.",
+        "bonuses": {
+          "attack": 5,
+          "speed": 1
+        },
+        "jobs": [
+          "custom-dawn-duelist"
+        ]
+      },
+      "custom-vigil-compass": {
+        "id": "custom-vigil-compass",
+        "name": "Vigil compass",
+        "slot": "relic",
+        "price": 0,
+        "description": "First-clear relic of the Frostglass Vigil. Keeps the company moving through winter roads.",
+        "bonuses": {
+          "armor": 1,
+          "move": 1
+        },
+        "rewardOnly": true
+      },
+      "custom-rimeplate": {
+        "id": "custom-rimeplate",
+        "name": "Rimeplate",
+        "slot": "armor",
+        "price": 105,
+        "description": "Frost Sentinel plate. More protection at the cost of one movement; grants no ice immunity.",
+        "jobs": [
+          "custom-frost-sentinel"
+        ],
+        "bonuses": {
+          "armor": 4,
+          "hp": 16,
+          "move": -1
+        }
+      },
+      "custom-thornwood-staff": {
+        "id": "custom-thornwood-staff",
+        "name": "Thornwood staff-spear",
+        "slot": "weapon",
+        "price": 90,
+        "description": "A Thorn Warden focus and walking spear. Weapon strikes retain their normal one-tile reach.",
+        "bonuses": {
+          "attack": 2,
+          "magic": 3
+        },
+        "jobs": [
+          "custom-thorn-warden"
+        ]
+      },
+      "custom-resonant-hammer": {
+        "id": "custom-resonant-hammer",
+        "name": "Resonant forgehammer",
+        "slot": "weapon",
+        "price": 105,
+        "description": "A Resonant Smith focus. Its visual ringing adds no extra damage or area to an ability.",
+        "bonuses": {
+          "attack": 3,
+          "magic": 4
+        },
+        "jobs": [
+          "custom-resonant-smith"
+        ]
+      },
+      "custom-briarcoat": {
+        "id": "custom-briarcoat",
+        "name": "Briarcoat",
+        "slot": "armor",
+        "price": 85,
+        "description": "Leather and bronze scales. Adds protection; grants no nature resistance or retaliation.",
+        "bonuses": {
+          "armor": 3,
+          "hp": 12
+        }
+      },
+      "custom-forge-apron": {
+        "id": "custom-forge-apron",
+        "name": "Forge apron",
+        "slot": "armor",
+        "price": 80,
+        "description": "A reinforced leather apron. Grants no fire immunity or crafting capability.",
+        "bonuses": {
+          "armor": 3,
+          "hp": 8
+        }
+      },
+      "custom-resonance-seal": {
+        "id": "custom-resonance-seal",
+        "name": "Resonance seal",
+        "slot": "relic",
+        "price": 0,
+        "description": "First-clear relic of the Briar Resonance. Existing equipment bonuses only.",
+        "bonuses": {
+          "magic": 2,
+          "hp": 8
+        },
+        "rewardOnly": true
+      }
+    }
+  },
+  "content": {
+    "version": 1,
+    "contracts": {
+      "shrine": {
+        "id": "shrine",
+        "name": "The shrine of Veyr",
+        "subtitle": "Contract I · The broken promise",
+        "description": "Secure the first shard from an Oathless patrol. The causeway offers the safest crossing; ice can open another route.",
+        "reward": 60,
+        "requires": null,
+        "objective": "Defeat the four Oathless"
+      },
+      "causeway": {
+        "id": "causeway",
+        "name": "The drowned causeway",
+        "subtitle": "Contract II · A road beneath water",
+        "description": "The retreating patrol has flooded the lower crossing. Two mobile outriders screen an elemental caster and a healer across the stream.",
+        "reward": 85,
+        "requires": "shrine",
+        "objective": "Break the river blockade"
+      },
+      "redoubt": {
+        "id": "redoubt",
+        "name": "The Briar Resonance",
+        "subtitle": "The living road / The silent forge",
+        "description": "Rowan and Edrin join Nera and Joren at a foundry claimed by the watch. Defeat all six defenders. Soaking prepares lightning, while guards and healing protect either formation.",
+        "reward": 175,
+        "requires": "causeway",
+        "objective": "Defeat Senna, Garron and all four watch defenders",
+        "firstClearRelic": "custom-resonance-seal"
+      },
+      "bellkeeper": {
+        "id": "bellkeeper",
+        "name": "The silent belfry",
+        "subtitle": "Contract IV · The last bell",
+        "description": "Orren, the Bellkeeper, guards the crown seal in a raised courtyard. At half health he breaks his oath: cleansing burn and slow, restoring energy, gaining speed and advancing his next turn. Defeat him and his three retainers.",
+        "reward": 140,
+        "requires": "redoubt",
+        "objective": "Defeat Orren and his retainers",
+        "firstClearRelic": "crownseal"
+      }
+    },
+    "actors": [
+      {
+        "id": "sera",
+        "name": "Rowan Briar",
+        "job": "custom-thorn-warden",
+        "secondary": "vanguard",
+        "baseHp": 104,
+        "maxMp": 42,
+        "learned": [
+          "cleave"
+        ],
+        "jp": {
+          "custom-thorn-warden": 0
+        },
+        "equipment": {
+          "weapon": "custom-thornwood-staff",
+          "armor": "custom-briarcoat",
+          "relic": "watchcharm"
+        }
+      },
+      {
+        "id": "ilya",
+        "name": "Edrin Bellforge",
+        "job": "custom-resonant-smith",
+        "secondary": "arcanist",
+        "baseHp": 94,
+        "maxMp": 42,
+        "learned": [
+          "frost"
+        ],
+        "jp": {
+          "custom-resonant-smith": 0
+        },
+        "equipment": {
+          "weapon": "custom-resonant-hammer",
+          "armor": "custom-forge-apron",
+          "relic": "copperfocus"
+        }
+      },
+      {
+        "id": "corin",
+        "name": "Joren Ashbrook",
+        "job": "custom-dawn-duelist",
+        "secondary": "shadowrunner",
+        "baseHp": 102,
+        "maxMp": 32,
+        "learned": [
+          "gloam"
+        ],
+        "jp": {
+          "custom-dawn-duelist": 0
+        },
+        "equipment": {
+          "weapon": "custom-dawn-saber",
+          "armor": "leather",
+          "relic": "wayboots"
+        }
+      },
+      {
+        "id": "mae",
+        "name": "Nera Coldmere",
+        "job": "custom-frost-sentinel",
+        "secondary": "vanguard",
+        "baseHp": 118,
+        "maxMp": 36,
+        "learned": [
+          "cleave"
+        ],
+        "jp": {
+          "custom-frost-sentinel": 0
+        },
+        "equipment": {
+          "weapon": "custom-rime-spear",
+          "armor": "custom-rimeplate",
+          "relic": "watchcharm"
+        }
+      },
+      {
+        "id": "enemy-kiln-warden-ashen-weir",
+        "name": "Captain Ysra",
+        "job": "custom-frost-sentinel",
+        "secondary": "vanguard",
+        "baseHp": 71,
+        "maxMp": 30,
+        "learned": [
+          "cleave"
+        ],
+        "jp": {
+          "custom-frost-sentinel": 0
+        },
+        "team": "enemy",
+        "equipment": {
+          "weapon": null,
+          "armor": null,
+          "relic": null
+        }
+      },
+      {
+        "id": "enemy-ash-sentry-ashen-weir",
+        "name": "Ash Sentry",
+        "job": "vanguard",
+        "secondary": "custom-emberwarden",
+        "baseHp": 48,
+        "maxMp": 24,
+        "learned": [
+          "custom-hearthguard"
+        ],
+        "jp": {
+          "vanguard": 0
+        },
+        "team": "enemy",
+        "equipment": {
+          "weapon": null,
+          "armor": null,
+          "relic": null
+        }
+      },
+      {
+        "id": "enemy-ember-scholar-ashen-weir",
+        "name": "Warden Senna Moss",
+        "job": "custom-thorn-warden",
+        "secondary": "vanguard",
+        "baseHp": 53,
+        "maxMp": 32,
+        "learned": [],
+        "jp": {
+          "custom-thorn-warden": 0
+        },
+        "team": "enemy",
+        "equipment": {
+          "weapon": "custom-thornwood-staff",
+          "armor": "custom-briarcoat",
+          "relic": null
+        }
+      },
+      {
+        "id": "enemy-coal-runner-ashen-weir",
+        "name": "Darian Sunscar",
+        "job": "custom-dawn-duelist",
+        "secondary": "shadowrunner",
+        "baseHp": 59,
+        "maxMp": 30,
+        "learned": [
+          "gloam"
+        ],
+        "jp": {
+          "custom-dawn-duelist": 0
+        },
+        "team": "enemy",
+        "equipment": {
+          "weapon": null,
+          "armor": null,
+          "relic": null
+        }
+      },
+      {
+        "id": "enemy-lantern-mender-ashen-weir",
+        "name": "Lantern Mender",
+        "job": "lifebinder",
+        "secondary": "custom-emberwarden",
+        "baseHp": 41,
+        "maxMp": 32,
+        "learned": [
+          "custom-hearthguard"
+        ],
+        "jp": {
+          "lifebinder": 0
+        },
+        "team": "enemy",
+        "equipment": {
+          "weapon": null,
+          "armor": null,
+          "relic": null
+        }
+      },
+      {
+        "id": "enemy-cinder-clock-ashen-weir",
+        "name": "Foreman Garron Rusk",
+        "job": "custom-resonant-smith",
+        "secondary": "arcanist",
+        "baseHp": 57,
+        "maxMp": 36,
+        "learned": [],
+        "jp": {
+          "custom-resonant-smith": 0
+        },
+        "team": "enemy",
+        "equipment": {
+          "weapon": "custom-resonant-hammer",
+          "armor": "custom-forge-apron",
+          "relic": null
+        }
+      }
+    ],
+    "dialogue": {
+      "shrine": [
+        {
+          "id": "briefing",
+          "speaker": "narrator",
+          "text": "Secure the first shard from an Oathless patrol. The causeway offers the safest crossing; ice can open another route."
+        },
+        {
+          "id": "opening",
+          "speaker": "sera",
+          "text": "A crown is only a promise. Let’s see who it was made to."
+        }
+      ],
+      "causeway": [
+        {
+          "id": "briefing",
+          "speaker": "narrator",
+          "text": "The retreating patrol has flooded the lower crossing. Two mobile outriders screen an elemental caster and a healer across the stream."
+        },
+        {
+          "id": "opening",
+          "speaker": "sera",
+          "text": "A crown is only a promise. Let’s see who it was made to."
+        }
+      ],
+      "redoubt": [
+        {
+          "id": "briar-arrival",
+          "speaker": "narrator",
+          "text": "Briar roots have split the old foundry road. Across the dew pools, the watch rings a stolen forge bell."
+        },
+        {
+          "id": "briar-rowan",
+          "speaker": "sera",
+          "text": "I am Rowan Briar. Dewfall can soak their formation; Edrin, let your lightning follow. I can shelter our lead fighter."
+        },
+        {
+          "id": "briar-edrin",
+          "speaker": "ilya",
+          "text": "That bell was my teacher's. Anvil peal strikes harder against soaked armor. Keep me close enough to answer."
+        },
+        {
+          "id": "briar-senna",
+          "speaker": "enemy-ember-scholar-ashen-weir",
+          "text": "Roads need wardens, Rowan. I will shelter this watch as firmly as you shelter your friends."
+        },
+        {
+          "id": "briar-garron",
+          "speaker": "enemy-cinder-clock-ashen-weir",
+          "text": "The forge belongs to whoever keeps it ringing. Your rain will conduct my answer just as well."
+        },
+        {
+          "id": "briar-nera",
+          "speaker": "mae",
+          "text": "The central stone road is open. We can cross the pools with Frostline, but we still have to defeat every defender."
+        },
+        {
+          "id": "briar-joren",
+          "speaker": "corin",
+          "text": "Then we move together. Guard the approach, turn their timing, and leave an opening for my saber."
+        }
+      ],
+      "bellkeeper": [
+        {
+          "id": "briefing",
+          "speaker": "narrator",
+          "text": "Orren, the Bellkeeper, guards the crown seal in a raised courtyard. At half health he breaks his oath: cleansing burn and slow, restoring energy, gaining speed and advancing his next turn. Defeat him and his three retainers."
+        },
+        {
+          "id": "opening",
+          "speaker": "sera",
+          "text": "A crown is only a promise. Let’s see who it was made to."
+        }
+      ]
+    },
+    "victoryJP": 85,
+    "enemyTemplates": [
+      {
+        "id": "enemy-kiln-warden",
+        "name": "Captain Ysra",
+        "job": "custom-frost-sentinel",
+        "secondary": "vanguard",
+        "baseHp": 71,
+        "maxMp": 30,
+        "learned": [
+          "cleave"
+        ],
+        "jp": {
+          "custom-frost-sentinel": 0
+        },
+        "team": "enemy",
+        "equipment": {
+          "weapon": null,
+          "armor": null,
+          "relic": null
+        }
+      },
+      {
+        "id": "enemy-ash-sentry",
+        "name": "Ash Sentry",
+        "job": "vanguard",
+        "secondary": "custom-emberwarden",
+        "baseHp": 48,
+        "maxMp": 24,
+        "learned": [
+          "custom-hearthguard"
+        ],
+        "jp": {
+          "vanguard": 0
+        },
+        "team": "enemy",
+        "equipment": {
+          "weapon": null,
+          "armor": null,
+          "relic": null
+        }
+      },
+      {
+        "id": "enemy-ember-scholar",
+        "name": "Warden Senna Moss",
+        "job": "custom-thorn-warden",
+        "secondary": "vanguard",
+        "baseHp": 53,
+        "maxMp": 32,
+        "learned": [],
+        "jp": {
+          "custom-thorn-warden": 0
+        },
+        "team": "enemy",
+        "equipment": {
+          "weapon": "custom-thornwood-staff",
+          "armor": "custom-briarcoat",
+          "relic": null
+        }
+      },
+      {
+        "id": "enemy-coal-runner",
+        "name": "Darian Sunscar",
+        "job": "custom-dawn-duelist",
+        "secondary": "shadowrunner",
+        "baseHp": 59,
+        "maxMp": 30,
+        "learned": [
+          "gloam"
+        ],
+        "jp": {
+          "custom-dawn-duelist": 0
+        },
+        "team": "enemy",
+        "equipment": {
+          "weapon": null,
+          "armor": null,
+          "relic": null
+        }
+      },
+      {
+        "id": "enemy-lantern-mender",
+        "name": "Lantern Mender",
+        "job": "lifebinder",
+        "secondary": "custom-emberwarden",
+        "baseHp": 41,
+        "maxMp": 32,
+        "learned": [
+          "custom-hearthguard"
+        ],
+        "jp": {
+          "lifebinder": 0
+        },
+        "team": "enemy",
+        "equipment": {
+          "weapon": null,
+          "armor": null,
+          "relic": null
+        }
+      },
+      {
+        "id": "enemy-cinder-clock",
+        "name": "Foreman Garron Rusk",
+        "job": "custom-resonant-smith",
+        "secondary": "arcanist",
+        "baseHp": 57,
+        "maxMp": 36,
+        "learned": [],
+        "jp": {
+          "custom-resonant-smith": 0
+        },
+        "team": "enemy",
+        "equipment": {
+          "weapon": "custom-resonant-hammer",
+          "armor": "custom-forge-apron",
+          "relic": null
+        }
+      }
+    ]
+  },
+  "abilityCues": {
+    "custom-briar-shelter": {
+      "effect": "aegis",
+      "sound": "buff"
+    },
+    "custom-dewfall": {
+      "effect": "raincall",
+      "sound": "hit"
+    },
+    "custom-green-mending": {
+      "effect": "mend",
+      "sound": "heal"
+    },
+    "custom-anvil-peal": {
+      "effect": "surge",
+      "sound": "hit"
+    },
+    "custom-dissonant-strike": {
+      "effect": "delay",
+      "sound": "hit"
+    },
+    "custom-tempered-tempo": {
+      "effect": "haste",
+      "sound": "buff"
+    }
+  }
+}

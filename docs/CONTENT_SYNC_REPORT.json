@@ -1,9 +1,9 @@
 {
   "version": 1,
   "scope": "Canonical studio projects; isolated playtests do not modify main-campaign saves",
-  "missionCount": 9,
-  "sheetCount": 12,
-  "frameCount": 384,
+  "missionCount": 10,
+  "sheetCount": 14,
+  "frameCount": 448,
   "editorDomains": [
     "terrain and collision",
     "actor placement and loadouts",
@@ -750,6 +750,95 @@
           "name": "Brother Caldrin",
           "job": "custom-ash-cantor",
           "sheet": "custom-ash-cantor",
+          "editable": true
+        }
+      ],
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "id": "briar-resonance",
+      "name": "The Briar Resonance",
+      "dimensions": {
+        "width": 24,
+        "height": 20
+      },
+      "tiles": 480,
+      "actors": 10,
+      "enemyTemplates": 6,
+      "jobs": 15,
+      "abilities": 35,
+      "gear": 27,
+      "briefingLines": 7,
+      "actorArtwork": [
+        {
+          "actor": "sera",
+          "name": "Rowan Briar",
+          "job": "custom-thorn-warden",
+          "sheet": "custom-thorn-warden",
+          "editable": true
+        },
+        {
+          "actor": "ilya",
+          "name": "Edrin Bellforge",
+          "job": "custom-resonant-smith",
+          "sheet": "custom-resonant-smith",
+          "editable": true
+        },
+        {
+          "actor": "corin",
+          "name": "Joren Ashbrook",
+          "job": "custom-dawn-duelist",
+          "sheet": "custom-dawn-duelist",
+          "editable": true
+        },
+        {
+          "actor": "mae",
+          "name": "Nera Coldmere",
+          "job": "custom-frost-sentinel",
+          "sheet": "custom-frost-sentinel",
+          "editable": true
+        },
+        {
+          "actor": "enemy-kiln-warden-ashen-weir",
+          "name": "Captain Ysra",
+          "job": "custom-frost-sentinel",
+          "sheet": "custom-frost-sentinel",
+          "editable": true
+        },
+        {
+          "actor": "enemy-ash-sentry-ashen-weir",
+          "name": "Ash Sentry",
+          "job": "vanguard",
+          "sheet": "vanguard",
+          "editable": true
+        },
+        {
+          "actor": "enemy-ember-scholar-ashen-weir",
+          "name": "Warden Senna Moss",
+          "job": "custom-thorn-warden",
+          "sheet": "custom-thorn-warden",
+          "editable": true
+        },
+        {
+          "actor": "enemy-coal-runner-ashen-weir",
+          "name": "Darian Sunscar",
+          "job": "custom-dawn-duelist",
+          "sheet": "custom-dawn-duelist",
+          "editable": true
+        },
+        {
+          "actor": "enemy-lantern-mender-ashen-weir",
+          "name": "Lantern Mender",
+          "job": "lifebinder",
+          "sheet": "lifebinder",
+          "editable": true
+        },
+        {
+          "actor": "enemy-cinder-clock-ashen-weir",
+          "name": "Foreman Garron Rusk",
+          "job": "custom-resonant-smith",
+          "sheet": "custom-resonant-smith",
           "editable": true
         }
       ],
