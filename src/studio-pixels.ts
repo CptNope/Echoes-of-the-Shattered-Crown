@@ -117,7 +117,8 @@ export function validatePixelClip(raw: unknown): PixelClip {
   );
   check(
     typeof raw.actorId === "string" &&
-      PIXEL_ACTORS.includes(raw.actorId as (typeof PIXEL_ACTORS)[number]) &&
+      (PIXEL_ACTORS.includes(raw.actorId as (typeof PIXEL_ACTORS)[number]) ||
+        /^enemy-[a-z][a-z0-9-]{0,55}$/.test(raw.actorId)) &&
       typeof raw.enabled === "boolean",
     "Invalid actor binding.",
   );

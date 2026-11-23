@@ -46,11 +46,13 @@ export function PixelEditor({
   apply,
   onDirty,
   active,
+  actors,
 }: {
   clip: PixelClip | undefined;
   apply: (p: PixelClip) => boolean;
   onDirty: (dirty: boolean) => void;
   active: boolean;
+  actors?: { id: string; name: string }[];
 }) {
   const source = JSON.stringify(clip ?? defaultPixelClip()),
     [draft, setDraft] = useState<PixelClip>(() => JSON.parse(source));
@@ -762,9 +764,18 @@ export function PixelEditor({
               })
             }
           >
-            {PIXEL_ACTORS.map((id) => (
-              <option key={id}>{id}</option>
-            ))}
+            {(actors ?? PIXEL_ACTORS.map((id) => ({ id, name: id }))).map(
+              ({ id, name }) => (
+                <option key={id} value={id}>
+                  {name} / {id}
+                </option>
+              ),
+            )}
+            {actors && !actors.some((a) => a.id === draft.actorId) && (
+              <option value={draft.actorId}>
+                {draft.actorId} / not placed
+              </option>
+            )}
           </select>
         </label>
         <label>

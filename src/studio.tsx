@@ -1,3 +1,4 @@
+import { projectArtwork, resolveActorArtwork } from "./artwork-sync";
 import { AssetLibrary } from "./AssetLibrary";
 import {
   nativeSources,
@@ -46,7 +47,7 @@ import {
   canTarget,
   type Battle,
 } from "./engine";
-import { jobs, skills } from "./data";
+import { jobs, skills, type JobId } from "./data";
 import { Battlefield, type Mode } from "./scene";
 import { SoundEditor } from "./SoundEditor";
 import { MusicEditor } from "./MusicEditor";
@@ -338,11 +339,7 @@ function Preview({
         compileLevelProject(project),
         (x, z) => click.current(x, z),
         () => {},
-        nativeSources(project).some(
-          (s) => s.enabled && s.actorId === project.pixels?.actorId,
-        )
-          ? undefined
-          : project.pixels,
+        project.pixels,
         (state) => {
           setCustomAnimation(state);
           if (["walk", "attack", "cast"].includes(state))
@@ -773,6 +770,11 @@ function Studio() {
   const [rulesDirty, setRulesDirty] = useState(false);
   const [enemyDirty, setEnemyDirty] = useState(false);
   const [assetDirty, setAssetDirty] = useState(false);
+  const [spriteTarget, setSpriteTarget] = useState<{
+    id: string;
+    job: JobId;
+  }>();
+  const [editorEpoch, setEditorEpoch] = useState(0);
   const [nativeSelection, setNativeSelection] = useState<string>(
     () => nativeSources(opened.project)[0]?.actorId ?? "",
   );
@@ -887,7 +889,8 @@ function Studio() {
       setPanel("map");
       setTool("inspect");
       setCell({ x: target.x, z: target.z });
-    } else if (target.area === "content" || target.area === "rules")
+    } else if (target.area === "assets") setPanel("assets");
+    else if (target.area === "content" || target.area === "rules")
       setPanel(target.area);
     else {
       const details = document.getElementById(
@@ -1316,11 +1319,28 @@ function Studio() {
             )}
             <div hidden={panel !== "assets"}>
               <AssetLibrary
+                key={"AssetLibrary-" + editorEpoch}
+                focusRequest={focusRequest}
                 project={project}
                 apply={edit}
                 onDirty={setAssetDirty}
                 blocked={hasDraft}
+                openEditor={(area) => setPanel(area)}
+                openActor={(id) => {
+                  const row = projectArtwork(project).find(
+                    (r) => r.actor.id === id,
+                  );
+                  if (!row) return;
+                  if (row.art.kind === "indexed") setPixelMode("indexed");
+                  else {
+                    setNativeSelection(row.art.kind === "native" ? id : "");
+                    setSpriteTarget({ id, job: row.art.artId });
+                    setPixelMode("native");
+                  }
+                  setPanel("pixels");
+                }}
                 editSprite={(id) => {
+                  setSpriteTarget(undefined);
                   setNativeSelection(id);
                   setPixelMode("native");
                   setPanel("pixels");
@@ -1329,6 +1349,7 @@ function Studio() {
             </div>
             <div hidden={panel !== "enemies"}>
               <EnemyTemplates
+                key={"EnemyTemplates-" + editorEpoch}
                 project={project}
                 apply={edit}
                 onDirty={setEnemyDirty}
@@ -1337,6 +1358,7 @@ function Studio() {
             </div>
             <div hidden={panel !== "rules"}>
               <RulesEditor
+                key={"RulesEditor-" + editorEpoch}
                 source={project.rules}
                 content={project.content}
                 focusRequest={focusRequest}
@@ -1346,6 +1368,7 @@ function Studio() {
             </div>
             <div hidden={panel !== "terrain"}>
               <TerrainEditor
+                key={"TerrainEditor-" + editorEpoch}
                 source={project.materials}
                 apply={(materials) => edit([{ type: "materials", materials }])}
                 onDirty={setTerrainDirty}
@@ -1354,6 +1377,7 @@ function Studio() {
             </div>
             <div hidden={panel !== "content"}>
               <ContentEditor
+                key={"ContentEditor-" + editorEpoch}
                 source={project.content}
                 focusRequest={focusRequest}
                 rules={project.rules}
@@ -1364,6 +1388,7 @@ function Studio() {
             </div>
             <div hidden={panel !== "game-audio"}>
               <GameAudioEditor
+                key={"GameAudioEditor-" + editorEpoch}
                 source={project.gameAudio}
                 apply={(audio) => edit([{ type: "game-audio", audio }])}
                 onDirty={setGameAudioDirty}
@@ -1372,6 +1397,7 @@ function Studio() {
             </div>
             <div hidden={panel !== "sounds"}>
               <SoundEditor
+                key={"SoundEditor-" + editorEpoch}
                 active={panel === "sounds"}
                 bank={bank}
                 apply={(bank) => edit([{ type: "sounds", bank }])}
@@ -1380,6 +1406,7 @@ function Studio() {
             </div>
             <div hidden={panel !== "music"}>
               <MusicEditor
+                key={"MusicEditor-" + editorEpoch}
                 pattern={project.music}
                 apply={(pattern) => edit([{ type: "music", pattern }])}
                 onDirty={setMusicDraftDirty}
@@ -1433,6 +1460,8 @@ function Studio() {
                   Total project export limit: 32 MiB for the library.
                 </p>
                 <NativeSpriteEditor
+                  key={"NativeSpriteEditor-" + editorEpoch}
+                  target={spriteTarget}
                   source={nativeSources(project).find(
                     (s) => s.actorId === nativeSelection,
                   )}
@@ -1453,6 +1482,8 @@ function Studio() {
               </div>
               <div hidden={pixelMode !== "indexed"}>
                 <PixelEditor
+                  key={"PixelEditor-" + editorEpoch}
+                  actors={actors.map((a) => ({ id: a.id, name: a.name }))}
                   clip={project.pixels}
                   apply={(clip) => edit([{ type: "pixels", clip }])}
                   onDirty={setPixelDraftDirty}
@@ -1759,6 +1790,11 @@ function Studio() {
             onClick={() => {
               if (!staged || stagedValidation?.errors) return;
               setHistory({ project: staged, past: [], future: [] });
+              setNativeSelection(nativeSources(staged)[0]?.actorId ?? "");
+              setSpriteTarget(undefined);
+              setEditorEpoch((n) => n + 1);
+              setPixelDraftDirty(false);
+              setNativeDraftDirty(false);
               setSaved(null);
               setMessage(
                 "Imported project opened. Local checkpoint is unchanged until you save.",

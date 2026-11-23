@@ -64,3 +64,5 @@ The [character pack](CHARACTER_CLASS_PACK.md) adds dedicated Glass Ranger and As
 The [Frostglass pack](FROSTGLASS_CONTENT.md) adds Frost Sentinel and Dawn Duelist artwork through the shared character-source registry.
 
 Local checkpoint saves reclaim orphaned native-image cache entries when the storage adapter supports enumeration/removal. Incoming images, the current valid checkpoint and its valid backup remain protected. Cleanup never touches unrelated keys or unrecognized cache-key formats; stale save tokens and unreadable recovery sources do not trigger eviction. A project larger than the browser quota still requires JSON export.
+
+[Artwork consistency](ARTWORK_SYNC.md) adds live source thumbnails, per-actor edit routing, reversible class-art resets and linked warnings for low-resolution or different-class overrides.

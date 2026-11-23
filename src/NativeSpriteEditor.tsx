@@ -27,12 +27,14 @@ export function NativeSpriteEditor({
   onDirty,
   active,
   actors,
+  target,
 }: {
   source: NativeSprite | undefined;
   apply: (s: NativeSprite) => boolean;
   onDirty: (d: boolean) => void;
   active: boolean;
   actors?: { id: string; name: string }[];
+  target?: { id: string; job: JobId };
 }) {
   const [draft, setDraft] = useState(source),
     [base, setBase] = useState<Uint8ClampedArray | null>(null);
@@ -69,12 +71,15 @@ export function NativeSpriteEditor({
     if (source) {
       setJob(source.job);
       setActor(source.actorId);
+    } else if (target) {
+      setJob(target.job);
+      setActor(target.id);
     }
     setPast([]);
     setFuture([]);
     setPlaying(false);
     generation.current++;
-  }, [sourceKey]);
+  }, [sourceKey, target?.id, target?.job]);
   useEffect(() => {
     onDirty(changed || busy);
   }, [changed, busy, onDirty]);

@@ -1475,3 +1475,12 @@ dialog::backdrop {
   border-bottom: 1px solid var(--line, #d8dcd3);
   overflow-wrap: anywhere;
 }
+
+/* Artwork inspection shares the editor's existing sheet edges and wrapping actions. */
+.artwork-cast {list-style:none;padding:0;max-width:880px;}
+.artwork-cast > li {display:grid;grid-template-columns:72px minmax(0,1fr);gap:16px;padding:16px 0;border-bottom:1px solid var(--line,#e2e5dc);}
+.artwork-cast p {margin:4px 0;overflow-wrap:anywhere;}
+.artwork-thumbnail canvas {display:block;width:72px;height:80px;background:#eef0e5;}
+.artwork-thumbnail small {display:block;overflow-wrap:anywhere;}
+.artwork-note {font-size:13px;}
+@media(max-width:640px){.artwork-cast > li {gap:12px;}.artwork-cast .actions {align-items:flex-start;}}

@@ -1,4 +1,5 @@
 import type { AbilityCues } from "./studio-assets";
+import { cachedClassArtwork, resolveActorArtwork } from "./artwork-sync";
 import { animationArtId } from "./character-art";
 import { baseJobId } from "./data";
 import { mapDimensions, mapFrame } from "./map-layout";
@@ -441,10 +442,16 @@ export class Battlefield {
   }
   private buildActors() {
     for (const u of this.state.units) {
-      const custom =
-        this.pixelClip?.enabled && this.pixelClip.actorId === u.id
-          ? this.pixelClip
-          : null;
+      const artwork = resolveActorArtwork(u, {
+        pixels: this.pixelClip,
+        nativeSprites: Array.isArray(this.nativeSprite)
+          ? this.nativeSprite
+          : this.nativeSprite
+            ? [this.nativeSprite]
+            : [],
+        rules: this.state.rules,
+      });
+      const custom = artwork.kind === "indexed" ? artwork.source : null;
       const t = texture(
         custom
           ? pixelCanvas(custom)
@@ -503,13 +510,7 @@ export class Battlefield {
         attackUntil: 0,
         sheet: null,
         custom,
-        native:
-          (Array.isArray(this.nativeSprite)
-            ? this.nativeSprite
-            : this.nativeSprite
-              ? [this.nativeSprite]
-              : []
-          ).find((s) => s.enabled && s.actorId === u.id) ?? null,
+        native: artwork.kind === "native" ? artwork.source : null,
         customState: null,
         artJob: u.job,
         artFrame: -1,
@@ -566,23 +567,22 @@ export class Battlefield {
         actor.custom
       )
         return;
-      let source = native
-        ? undefined
-        : this.animationSources.get(
-            animationArtId(u.job, this.state.rules?.jobs),
-          );
-      if (!source) {
-        source = new THREE.Texture(sheet.image);
+      const createSource = () => {
+        const source = new THREE.Texture(sheet.image);
         source.colorSpace = THREE.SRGBColorSpace;
         source.minFilter = source.magFilter = THREE.LinearFilter;
         source.generateMipmaps = false;
-        if (!native)
-          this.animationSources.set(
-            baseJobId(u.job, this.state.rules?.jobs),
-            source,
-          );
         this.resources.push(source);
-      }
+        return source;
+      };
+      const source = native
+        ? createSource()
+        : cachedClassArtwork(
+            this.animationSources,
+            u.job,
+            this.state.rules?.jobs,
+            createSource,
+          );
       const map = source.clone();
       map.needsUpdate = true;
       actor.sprite.material.map?.dispose();

@@ -1,3 +1,4 @@
+import { projectArtwork } from "./artwork-sync";
 import {
   connectivityFindings,
   type ConnectivityOverlay,
@@ -22,6 +23,7 @@ export type ValidationTarget =
       line?: string;
     }
   | { area: "rules"; section: "skills" | "jobs" | "gear"; id: string }
+  | { area: "assets"; id: string }
   | { area: "project" };
 export interface ValidationFocusRequest {
   serial: number;
@@ -306,6 +308,29 @@ export function analyzeProject(raw: unknown): ProjectValidation {
     );
   else checks.push("compiled-battle");
   findings.push(...connectivityFindings(battle));
+  for (const { actor, art } of projectArtwork(project)) {
+    if (art.kind === "indexed")
+      add(
+        "indexed-art:" + actor.id,
+        "warning",
+        actor.name + " uses low-resolution artwork",
+        "An enabled 16 by 24 indexed override replaces this actor's painted class sheet.",
+        "Inspect the actual source or use class art in Assets & ability feedback. The clip remains editable.",
+        "pixels",
+        { area: "assets", id: actor.id },
+      );
+    else if (art.kind === "native" && art.source.job !== art.artId)
+      add(
+        "class-art:" + actor.id,
+        "warning",
+        actor.name + " uses another class's artwork",
+        "The active native override differs from the actor's current class sheet. This may be an intentional skin.",
+        "Inspect or disable the override in Assets & ability feedback. All source pixels are retained.",
+        "nativeSprites",
+        { area: "assets", id: actor.id },
+      );
+  }
+  checks.push("artwork-source-consistency");
   for (const u of battle.units) {
     const list = availableSkills(u, battle.rules);
     const noDamage = !list.some(

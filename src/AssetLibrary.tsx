@@ -1,3 +1,5 @@
+import type { ValidationFocusRequest } from "./studio-validation";
+import { ArtworkInspector } from "./ArtworkInspector";
 import React, { useEffect, useState } from "react";
 import { skills, baseSkillId, type SkillId, type BuiltinSkillId } from "./data";
 import { SOUND_EVENTS, type SoundEvent } from "./studio-sfx";
@@ -13,12 +15,27 @@ export function AssetLibrary({
   onDirty,
   editSprite,
   blocked,
+  openActor,
+  openEditor,
+  focusRequest,
 }: {
   project: LevelProject;
+  focusRequest?: ValidationFocusRequest;
   apply: (edits: ProjectEdit[]) => boolean;
   onDirty: (dirty: boolean) => void;
   editSprite: (id: string) => void;
   blocked: boolean;
+  openActor: (id: string) => void;
+  openEditor: (
+    area:
+      | "rules"
+      | "content"
+      | "terrain"
+      | "game-audio"
+      | "sounds"
+      | "music"
+      | "map",
+  ) => void;
 }) {
   const [draft, setDraft] = useState<AbilityCues>(project.abilityCues ?? {}),
     [selected, setSelected] = useState<SkillId>("strike");
@@ -48,6 +65,14 @@ export function AssetLibrary({
   const sheets = nativeSources(project);
   return (
     <section aria-label="Asset library">
+      <ArtworkInspector
+        focusRequest={focusRequest}
+        project={project}
+        apply={apply}
+        blocked={blocked}
+        openActor={openActor}
+        openEditor={openEditor}
+      />
       <h2>Character sheet assignments</h2>
       <p>
         Keep up to 24 native sheet assignments. Each actor keeps independent

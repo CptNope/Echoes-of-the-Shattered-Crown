@@ -1,0 +1,760 @@
+{
+  "version": 1,
+  "scope": "Canonical studio projects; isolated playtests do not modify main-campaign saves",
+  "missionCount": 9,
+  "sheetCount": 12,
+  "frameCount": 384,
+  "editorDomains": [
+    "terrain and collision",
+    "actor placement and loadouts",
+    "classes abilities and gear",
+    "enemy templates",
+    "linear briefing and contract rewards",
+    "native sprite pixels and timing",
+    "indexed sprite pixels and timing",
+    "terrain palettes and top textures",
+    "original procedural game score",
+    "layered sound cues",
+    "music pattern",
+    "ability VFX family and sound bindings"
+  ],
+  "notVisualEditors": [
+    "scenery geometry",
+    "VFX bitmap atlases",
+    "sampled audio",
+    "full campaign packaging"
+  ],
+  "missions": [
+    {
+      "id": "shrine",
+      "name": "The shrine of Veyr",
+      "dimensions": {
+        "width": 9,
+        "height": 9
+      },
+      "tiles": 81,
+      "actors": 8,
+      "enemyTemplates": 4,
+      "jobs": 8,
+      "abilities": 13,
+      "gear": 10,
+      "briefingLines": 4,
+      "actorArtwork": [
+        {
+          "actor": "sera",
+          "name": "Sera Vale",
+          "job": "vanguard",
+          "sheet": "vanguard",
+          "editable": true
+        },
+        {
+          "actor": "ilya",
+          "name": "Ilya Wren",
+          "job": "arcanist",
+          "sheet": "arcanist",
+          "editable": true
+        },
+        {
+          "actor": "corin",
+          "name": "Corin Ash",
+          "job": "dancer",
+          "sheet": "dancer",
+          "editable": true
+        },
+        {
+          "actor": "mae",
+          "name": "Maelis Reed",
+          "job": "lifebinder",
+          "sheet": "lifebinder",
+          "editable": true
+        },
+        {
+          "actor": "sentinel",
+          "name": "Oathless captain",
+          "job": "vanguard",
+          "sheet": "vanguard",
+          "editable": true
+        },
+        {
+          "actor": "cinder",
+          "name": "Cinder acolyte",
+          "job": "arcanist",
+          "sheet": "arcanist",
+          "editable": true
+        },
+        {
+          "actor": "wraith",
+          "name": "Hollow outrider",
+          "job": "dancer",
+          "sheet": "dancer",
+          "editable": true
+        },
+        {
+          "actor": "cantor",
+          "name": "Ash cantor",
+          "job": "lifebinder",
+          "sheet": "lifebinder",
+          "editable": true
+        }
+      ],
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "id": "causeway",
+      "name": "The drowned causeway",
+      "dimensions": {
+        "width": 9,
+        "height": 9
+      },
+      "tiles": 81,
+      "actors": 8,
+      "enemyTemplates": 4,
+      "jobs": 8,
+      "abilities": 13,
+      "gear": 10,
+      "briefingLines": 4,
+      "actorArtwork": [
+        {
+          "actor": "sera",
+          "name": "Sera Vale",
+          "job": "vanguard",
+          "sheet": "vanguard",
+          "editable": true
+        },
+        {
+          "actor": "ilya",
+          "name": "Ilya Wren",
+          "job": "arcanist",
+          "sheet": "arcanist",
+          "editable": true
+        },
+        {
+          "actor": "corin",
+          "name": "Corin Ash",
+          "job": "dancer",
+          "sheet": "dancer",
+          "editable": true
+        },
+        {
+          "actor": "mae",
+          "name": "Maelis Reed",
+          "job": "lifebinder",
+          "sheet": "lifebinder",
+          "editable": true
+        },
+        {
+          "actor": "sentinel",
+          "name": "River outrider",
+          "job": "dancer",
+          "sheet": "dancer",
+          "editable": true
+        },
+        {
+          "actor": "cinder",
+          "name": "Cinder acolyte",
+          "job": "arcanist",
+          "sheet": "arcanist",
+          "editable": true
+        },
+        {
+          "actor": "wraith",
+          "name": "Hollow outrider",
+          "job": "dancer",
+          "sheet": "dancer",
+          "editable": true
+        },
+        {
+          "actor": "cantor",
+          "name": "Ash cantor",
+          "job": "lifebinder",
+          "sheet": "lifebinder",
+          "editable": true
+        }
+      ],
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "id": "redoubt",
+      "name": "The Oathless redoubt",
+      "dimensions": {
+        "width": 9,
+        "height": 9
+      },
+      "tiles": 81,
+      "actors": 8,
+      "enemyTemplates": 4,
+      "jobs": 8,
+      "abilities": 13,
+      "gear": 10,
+      "briefingLines": 4,
+      "actorArtwork": [
+        {
+          "actor": "sera",
+          "name": "Sera Vale",
+          "job": "vanguard",
+          "sheet": "vanguard",
+          "editable": true
+        },
+        {
+          "actor": "ilya",
+          "name": "Ilya Wren",
+          "job": "arcanist",
+          "sheet": "arcanist",
+          "editable": true
+        },
+        {
+          "actor": "corin",
+          "name": "Corin Ash",
+          "job": "dancer",
+          "sheet": "dancer",
+          "editable": true
+        },
+        {
+          "actor": "mae",
+          "name": "Maelis Reed",
+          "job": "lifebinder",
+          "sheet": "lifebinder",
+          "editable": true
+        },
+        {
+          "actor": "sentinel",
+          "name": "Warden of the broken oath",
+          "job": "runewarden",
+          "sheet": "runewarden",
+          "editable": true
+        },
+        {
+          "actor": "cinder",
+          "name": "Cinder acolyte",
+          "job": "stormherald",
+          "sheet": "stormherald",
+          "editable": true
+        },
+        {
+          "actor": "wraith",
+          "name": "Hollow outrider",
+          "job": "shadowrunner",
+          "sheet": "shadowrunner",
+          "editable": true
+        },
+        {
+          "actor": "cantor",
+          "name": "Ash cantor",
+          "job": "chronoweaver",
+          "sheet": "chronoweaver",
+          "editable": true
+        }
+      ],
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "id": "bellkeeper",
+      "name": "The silent belfry",
+      "dimensions": {
+        "width": 9,
+        "height": 9
+      },
+      "tiles": 81,
+      "actors": 8,
+      "enemyTemplates": 4,
+      "jobs": 8,
+      "abilities": 13,
+      "gear": 10,
+      "briefingLines": 4,
+      "actorArtwork": [
+        {
+          "actor": "sera",
+          "name": "Sera Vale",
+          "job": "vanguard",
+          "sheet": "vanguard",
+          "editable": true
+        },
+        {
+          "actor": "ilya",
+          "name": "Ilya Wren",
+          "job": "arcanist",
+          "sheet": "arcanist",
+          "editable": true
+        },
+        {
+          "actor": "corin",
+          "name": "Corin Ash",
+          "job": "dancer",
+          "sheet": "dancer",
+          "editable": true
+        },
+        {
+          "actor": "mae",
+          "name": "Maelis Reed",
+          "job": "lifebinder",
+          "sheet": "lifebinder",
+          "editable": true
+        },
+        {
+          "actor": "sentinel",
+          "name": "Orren, Bellkeeper",
+          "job": "runewarden",
+          "sheet": "runewarden",
+          "editable": true
+        },
+        {
+          "actor": "cinder",
+          "name": "Bellstorm adept",
+          "job": "stormherald",
+          "sheet": "stormherald",
+          "editable": true
+        },
+        {
+          "actor": "wraith",
+          "name": "Silent blade",
+          "job": "shadowrunner",
+          "sheet": "shadowrunner",
+          "editable": true
+        },
+        {
+          "actor": "cantor",
+          "name": "Keeper of hours",
+          "job": "chronoweaver",
+          "sheet": "chronoweaver",
+          "editable": true
+        }
+      ],
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "id": "greybank",
+      "name": "The Sluice at Greybank",
+      "dimensions": {
+        "width": 18,
+        "height": 14
+      },
+      "tiles": 252,
+      "actors": 8,
+      "enemyTemplates": 4,
+      "jobs": 9,
+      "abilities": 17,
+      "gear": 16,
+      "briefingLines": 4,
+      "actorArtwork": [
+        {
+          "actor": "sera",
+          "name": "Sera Vale",
+          "job": "custom-tidewarden",
+          "sheet": "runewarden",
+          "editable": true
+        },
+        {
+          "actor": "ilya",
+          "name": "Ilya Wren",
+          "job": "arcanist",
+          "sheet": "arcanist",
+          "editable": true
+        },
+        {
+          "actor": "corin",
+          "name": "Corin Ash",
+          "job": "dancer",
+          "sheet": "dancer",
+          "editable": true
+        },
+        {
+          "actor": "mae",
+          "name": "Maelis Reed",
+          "job": "lifebinder",
+          "sheet": "lifebinder",
+          "editable": true
+        },
+        {
+          "actor": "enemy-brineguard-greybank",
+          "name": "Sluicekeeper Venn",
+          "job": "custom-tidewarden",
+          "sheet": "runewarden",
+          "editable": true
+        },
+        {
+          "actor": "enemy-rimeweaver-greybank",
+          "name": "North-bank Rimeweaver",
+          "job": "arcanist",
+          "sheet": "arcanist",
+          "editable": true
+        },
+        {
+          "actor": "enemy-tide-cantor-greybank",
+          "name": "Reed Cantor",
+          "job": "chronoweaver",
+          "sheet": "chronoweaver",
+          "editable": true
+        },
+        {
+          "actor": "enemy-sluice-outrider-greybank",
+          "name": "South-bank Outrider",
+          "job": "dancer",
+          "sheet": "dancer",
+          "editable": true
+        }
+      ],
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "id": "ashen-weir",
+      "name": "The Ashen Weir",
+      "dimensions": {
+        "width": 20,
+        "height": 16
+      },
+      "tiles": 320,
+      "actors": 10,
+      "enemyTemplates": 6,
+      "jobs": 9,
+      "abilities": 17,
+      "gear": 16,
+      "briefingLines": 5,
+      "actorArtwork": [
+        {
+          "actor": "sera",
+          "name": "Sera Vale",
+          "job": "custom-emberwarden",
+          "sheet": "runewarden",
+          "editable": true
+        },
+        {
+          "actor": "ilya",
+          "name": "Ilya Wren",
+          "job": "arcanist",
+          "sheet": "arcanist",
+          "editable": true
+        },
+        {
+          "actor": "corin",
+          "name": "Corin Ash",
+          "job": "dancer",
+          "sheet": "dancer",
+          "editable": true
+        },
+        {
+          "actor": "mae",
+          "name": "Maelis Reed",
+          "job": "lifebinder",
+          "sheet": "lifebinder",
+          "editable": true
+        },
+        {
+          "actor": "enemy-kiln-warden-ashen-weir",
+          "name": "Kiln Warden",
+          "job": "runewarden",
+          "sheet": "runewarden",
+          "editable": true
+        },
+        {
+          "actor": "enemy-ash-sentry-ashen-weir",
+          "name": "Ash Sentry",
+          "job": "vanguard",
+          "sheet": "vanguard",
+          "editable": true
+        },
+        {
+          "actor": "enemy-ember-scholar-ashen-weir",
+          "name": "Ember Scholar",
+          "job": "arcanist",
+          "sheet": "arcanist",
+          "editable": true
+        },
+        {
+          "actor": "enemy-coal-runner-ashen-weir",
+          "name": "Coal Runner",
+          "job": "dancer",
+          "sheet": "dancer",
+          "editable": true
+        },
+        {
+          "actor": "enemy-lantern-mender-ashen-weir",
+          "name": "Lantern Mender",
+          "job": "lifebinder",
+          "sheet": "lifebinder",
+          "editable": true
+        },
+        {
+          "actor": "enemy-cinder-clock-ashen-weir",
+          "name": "Cinder Clockkeeper",
+          "job": "chronoweaver",
+          "sheet": "chronoweaver",
+          "editable": true
+        }
+      ],
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "id": "cinder-archive",
+      "name": "The Cinder Archive",
+      "dimensions": {
+        "width": 24,
+        "height": 18
+      },
+      "tiles": 432,
+      "actors": 10,
+      "enemyTemplates": 6,
+      "jobs": 9,
+      "abilities": 17,
+      "gear": 16,
+      "briefingLines": 5,
+      "actorArtwork": [
+        {
+          "actor": "sera",
+          "name": "Sera Vale",
+          "job": "custom-emberwarden",
+          "sheet": "runewarden",
+          "editable": true
+        },
+        {
+          "actor": "ilya",
+          "name": "Ilya Wren",
+          "job": "arcanist",
+          "sheet": "arcanist",
+          "editable": true
+        },
+        {
+          "actor": "corin",
+          "name": "Corin Ash",
+          "job": "dancer",
+          "sheet": "dancer",
+          "editable": true
+        },
+        {
+          "actor": "mae",
+          "name": "Maelis Reed",
+          "job": "lifebinder",
+          "sheet": "lifebinder",
+          "editable": true
+        },
+        {
+          "actor": "enemy-kiln-warden-cinder-archive",
+          "name": "Kiln Warden",
+          "job": "runewarden",
+          "sheet": "runewarden",
+          "editable": true
+        },
+        {
+          "actor": "enemy-ash-sentry-cinder-archive",
+          "name": "Ash Sentry",
+          "job": "vanguard",
+          "sheet": "vanguard",
+          "editable": true
+        },
+        {
+          "actor": "enemy-ember-scholar-cinder-archive",
+          "name": "Ember Scholar",
+          "job": "arcanist",
+          "sheet": "arcanist",
+          "editable": true
+        },
+        {
+          "actor": "enemy-coal-runner-cinder-archive",
+          "name": "Coal Runner",
+          "job": "dancer",
+          "sheet": "dancer",
+          "editable": true
+        },
+        {
+          "actor": "enemy-lantern-mender-cinder-archive",
+          "name": "Lantern Mender",
+          "job": "lifebinder",
+          "sheet": "lifebinder",
+          "editable": true
+        },
+        {
+          "actor": "enemy-cinder-clock-cinder-archive",
+          "name": "Cinder Clockkeeper",
+          "job": "chronoweaver",
+          "sheet": "chronoweaver",
+          "editable": true
+        }
+      ],
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "id": "lantern-parley",
+      "name": "The Lantern Parley",
+      "dimensions": {
+        "width": 20,
+        "height": 16
+      },
+      "tiles": 320,
+      "actors": 10,
+      "enemyTemplates": 6,
+      "jobs": 11,
+      "abilities": 23,
+      "gear": 18,
+      "briefingLines": 6,
+      "actorArtwork": [
+        {
+          "actor": "sera",
+          "name": "Tamsin Valehart",
+          "job": "custom-glass-ranger",
+          "sheet": "custom-glass-ranger",
+          "editable": true
+        },
+        {
+          "actor": "ilya",
+          "name": "Orris Fen",
+          "job": "custom-ash-cantor",
+          "sheet": "custom-ash-cantor",
+          "editable": true
+        },
+        {
+          "actor": "corin",
+          "name": "Corin Ash",
+          "job": "dancer",
+          "sheet": "dancer",
+          "editable": true
+        },
+        {
+          "actor": "mae",
+          "name": "Maelis Reed",
+          "job": "lifebinder",
+          "sheet": "lifebinder",
+          "editable": true
+        },
+        {
+          "actor": "enemy-kiln-warden-ashen-weir",
+          "name": "Kiln Warden",
+          "job": "runewarden",
+          "sheet": "runewarden",
+          "editable": true
+        },
+        {
+          "actor": "enemy-ash-sentry-ashen-weir",
+          "name": "Ash Sentry",
+          "job": "vanguard",
+          "sheet": "vanguard",
+          "editable": true
+        },
+        {
+          "actor": "enemy-ember-scholar-ashen-weir",
+          "name": "Vessa Flintglass",
+          "job": "custom-glass-ranger",
+          "sheet": "custom-glass-ranger",
+          "editable": true
+        },
+        {
+          "actor": "enemy-coal-runner-ashen-weir",
+          "name": "Coal Runner",
+          "job": "dancer",
+          "sheet": "dancer",
+          "editable": true
+        },
+        {
+          "actor": "enemy-lantern-mender-ashen-weir",
+          "name": "Lantern Mender",
+          "job": "lifebinder",
+          "sheet": "lifebinder",
+          "editable": true
+        },
+        {
+          "actor": "enemy-cinder-clock-ashen-weir",
+          "name": "Brother Caldrin",
+          "job": "custom-ash-cantor",
+          "sheet": "custom-ash-cantor",
+          "editable": true
+        }
+      ],
+      "errors": 0,
+      "warnings": 0
+    },
+    {
+      "id": "frostglass-vigil",
+      "name": "The Frostglass Vigil",
+      "dimensions": {
+        "width": 22,
+        "height": 18
+      },
+      "tiles": 396,
+      "actors": 10,
+      "enemyTemplates": 6,
+      "jobs": 13,
+      "abilities": 29,
+      "gear": 22,
+      "briefingLines": 6,
+      "actorArtwork": [
+        {
+          "actor": "sera",
+          "name": "Tamsin Valehart",
+          "job": "custom-glass-ranger",
+          "sheet": "custom-glass-ranger",
+          "editable": true
+        },
+        {
+          "actor": "ilya",
+          "name": "Orris Fen",
+          "job": "custom-ash-cantor",
+          "sheet": "custom-ash-cantor",
+          "editable": true
+        },
+        {
+          "actor": "corin",
+          "name": "Joren Ashbrook",
+          "job": "custom-dawn-duelist",
+          "sheet": "custom-dawn-duelist",
+          "editable": true
+        },
+        {
+          "actor": "mae",
+          "name": "Nera Coldmere",
+          "job": "custom-frost-sentinel",
+          "sheet": "custom-frost-sentinel",
+          "editable": true
+        },
+        {
+          "actor": "enemy-kiln-warden-ashen-weir",
+          "name": "Captain Ysra",
+          "job": "custom-frost-sentinel",
+          "sheet": "custom-frost-sentinel",
+          "editable": true
+        },
+        {
+          "actor": "enemy-ash-sentry-ashen-weir",
+          "name": "Ash Sentry",
+          "job": "vanguard",
+          "sheet": "vanguard",
+          "editable": true
+        },
+        {
+          "actor": "enemy-ember-scholar-ashen-weir",
+          "name": "Vessa Flintglass",
+          "job": "custom-glass-ranger",
+          "sheet": "custom-glass-ranger",
+          "editable": true
+        },
+        {
+          "actor": "enemy-coal-runner-ashen-weir",
+          "name": "Darian Sunscar",
+          "job": "custom-dawn-duelist",
+          "sheet": "custom-dawn-duelist",
+          "editable": true
+        },
+        {
+          "actor": "enemy-lantern-mender-ashen-weir",
+          "name": "Lantern Mender",
+          "job": "lifebinder",
+          "sheet": "lifebinder",
+          "editable": true
+        },
+        {
+          "actor": "enemy-cinder-clock-ashen-weir",
+          "name": "Brother Caldrin",
+          "job": "custom-ash-cantor",
+          "sheet": "custom-ash-cantor",
+          "editable": true
+        }
+      ],
+      "errors": 0,
+      "warnings": 0
+    }
+  ]
+}

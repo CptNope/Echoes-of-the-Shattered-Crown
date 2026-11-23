@@ -1,5 +1,14 @@
 # Changelog
 
+## Studio artwork synchronization - 2026-11-22
+
+- Fixed dedicated class textures being cached under base-class IDs, which could mix artwork when several related classes shared a scene.
+- Unified native/indexed/class precedence across rendering, actual-source thumbnails, validation and editor routing. Added reversible per-actor and current-cast resets that retain all authored artwork.
+- Connected the indexed editor to the current roster, including custom enemies, and reset editor draft instances when importing another project.
+- Added a generated audit for all nine mission sources and twelve editable class sheets, with explicit visual-editor coverage and limits.
+- Added ten regressions; all 254 tests pass.
+
+
 ## Frostglass Vigil content pack - 2026-11-22
 
 - Added Nera Coldmere / Frost Sentinel and Joren Ashbrook / Dawn Duelist as playable profiles, with named enemy counterparts Captain Ysra and Darian Sunscar.

@@ -164,3 +164,5 @@ The [advanced authoring contracts](studio/specs/advanced-blueprints.json) deepen
 [Glass and ash character pack](CHARACTER_CLASS_PACK.md): Tamsin the Glass Ranger, Orris the Ash Cantor, two named rivals, six abilities, dedicated editable 32-frame sheets and The Lantern Parley showcase mission.
 
 [Frostglass Vigil content pack](FROSTGLASS_CONTENT.md): Nera the Frost Sentinel and Joren the Dawn Duelist join Tamsin and Orris in a 22 by 18 mission, with six more abilities, four gear pieces and two editable 32-frame sheets.
+
+[Artwork consistency and editable sources](ARTWORK_SYNC.md): inspect each actor's actual sprite, repair mixed-resolution overrides reversibly, open the matching editor and audit all nine mission sources against compiled content.
