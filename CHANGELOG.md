@@ -6,6 +6,7 @@
 - Added six abilities, two weapons, two armor pieces and a first-clear Resonance seal. Existing mechanics provide soaking/lightning synergy, guard, healing and timeline support.
 - Added a 24 by 20 standalone mission with six defenders and seven briefing lines; ten canonical mission sources now share generation and audit checks.
 - Added two original PNG masters and 64 animation cells; fourteen registered sheets now provide 448 editable frames. Committed generation prompts and regenerated bounds/hash metadata.
+- Replaced the fixed artwork cache revision with manifest/image content digests and verified the release digest in local and live Pages checks.
 - Added nine regressions; all 263 tests pass. Three seeded simulations terminate with valid saves; two victories and one defeat are difficulty signals, not human balance certification.
 
 ## Studio artwork synchronization - 2026-11-22

@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { readFile, stat } from "node:fs/promises";
 import { resolve, sep } from "node:path";
 import { verifyAnimationArt } from "./verify-animation-art.mjs";
@@ -18,6 +19,15 @@ const missionIds = [
   "briar-resonance",
 ];
 const artPath = "art/company-atlas.png";
+const manifestPath = "art/animations/manifest.json";
+function verifyArtworkRevision(scripts, manifest) {
+  const digest = createHash("sha256").update(manifest).digest("hex");
+  assert(
+    scripts.some((s) => s.includes(digest)),
+    "Built artwork loader must use the current manifest digest as its cache key",
+  );
+  return digest;
+}
 function verifyAtlas(bytes) {
   const b = Buffer.from(bytes);
   assert(
@@ -67,11 +77,15 @@ async function checkLocal() {
     ]),
   ];
   const root = resolve("dist");
+  const scripts = [];
   for (const path of paths) {
     const file = resolve(root, path.slice(base.length));
     assert(file.startsWith(root + sep), "Asset escapes build directory");
     assert((await stat(file)).size > 0, `Empty asset: ${path}`);
+    if (path.endsWith(".js")) scripts.push(await readFile(file, "utf8"));
   }
+  verifyArtworkRevision(scripts, await readFile(resolve(root, manifestPath)));
+  console.log("Verified artwork cache revision matches built manifest");
   for (const id of missionIds) {
     const mission = JSON.parse(
       await readFile(resolve(root, `missions/${id}.json`), "utf8"),
@@ -124,6 +138,7 @@ async function checkLive() {
       ...assets(await studioResponse.text()),
     ]),
   ];
+  const scripts = [];
   for (const path of paths) {
     const response = await fetch(new URL(path, site), {
       signal: AbortSignal.timeout(20000),
@@ -133,11 +148,30 @@ async function checkLive() {
       !response.headers.get("content-type")?.includes("text/html"),
       `Asset returned an HTML fallback: ${path}`,
     );
-    assert(
-      (await response.arrayBuffer()).byteLength > 0,
-      `Empty deployed asset: ${path}`,
-    );
+    const bytes = Buffer.from(await response.arrayBuffer());
+    assert(bytes.byteLength > 0, `Empty deployed asset: ${path}`);
+    if (path.endsWith(".js")) scripts.push(bytes.toString("utf8"));
   }
+  const digest = verifyArtworkRevision(
+    scripts,
+    await readFile("public/" + manifestPath),
+  );
+  const manifestResponse = await fetch(
+    new URL(`${manifestPath}?v=${digest}`, site),
+    {
+      signal: AbortSignal.timeout(20000),
+      cache: "no-store",
+    },
+  );
+  assert(manifestResponse.ok, "Versioned artwork manifest unavailable");
+  assert.equal(
+    createHash("sha256")
+      .update(Buffer.from(await manifestResponse.arrayBuffer()))
+      .digest("hex"),
+    digest,
+    "Versioned published manifest must match this release",
+  );
+  console.log("Verified live artwork cache revision and manifest agree");
   console.log(`Verified live game and ${paths.length} assets at ${site}`);
   const artResponse = await fetch(new URL(artPath, site), {
     signal: AbortSignal.timeout(20000),

@@ -1,6 +1,6 @@
 import type { JobId } from "./data";
 import type { AnimationManifest, AnimationSheet } from "./animation";
-const revision = "characters-2";
+const revision = import.meta.env.VITE_CHARACTER_ART_REVISION;
 let manifestPromise: Promise<AnimationManifest | null> | null = null;
 export interface LoadedAnimationSheet {
   image: HTMLImageElement;
@@ -67,7 +67,8 @@ export function loadAnimationSheet(
           sheets.delete(job);
           resolve(null);
         };
-        image.src = import.meta.env.BASE_URL + metadata.file + "?v=" + revision;
+        image.src =
+          import.meta.env.BASE_URL + metadata.file + "?v=" + metadata.sha256;
       }),
   );
   sheets.set(job, pending);
