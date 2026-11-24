@@ -44,6 +44,10 @@ export function GearArtEditor({
     change(next);
   }
   function paint(x: number, y: number) {
+    if (!erase && !/^#[\da-f]{6}$/i.test(color)) {
+      setMessage("Enter a six-digit hex color such as #47c5b4.");
+      return;
+    }
     setCursor({ x, y });
     edit(paintGearPixel(art, y * 64 + x, erase ? null : color + "ff"));
   }
@@ -148,7 +152,17 @@ export function GearArtEditor({
             Pixel color
             <input
               type="color"
+              value={/^#[\da-f]{6}$/i.test(color) ? color : "#dcad54"}
+              onChange={(e) => setColor(e.target.value)}
+            />
+          </label>
+          <label>
+            Pixel hex color
+            <input
+              type="text"
               value={color}
+              maxLength={7}
+              spellCheck={false}
               onChange={(e) => setColor(e.target.value)}
             />
           </label>
