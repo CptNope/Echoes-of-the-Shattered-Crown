@@ -1246,3 +1246,4 @@
 [aria-label="Company shop"] .outfitter-list article {grid-template-columns:minmax(0,1fr) 105px minmax(175px,190px);}
 [aria-label="Company shop"] .shop-trade-actions button {font-size:14px;min-height:44px;}
 @media(max-width:1000px){[aria-label="Company shop"] .outfitter-list article {grid-template-columns:minmax(0,1fr) 105px;}[aria-label="Company shop"] .shop-trade-actions {grid-column:1/-1;grid-template-columns:repeat(2,minmax(0,1fr));min-width:0;}}
+[aria-label="Company shop"] .camp-title > span {display:block;}
