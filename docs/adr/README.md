@@ -43,6 +43,8 @@ The initial accepted baseline records are **retrospective** except ADR-0001's ne
 
 | [ADR-0022](0022-bounded-ability-appearance.md) | Accepted | New implementation decision | Keep bounded ability appearance outside authoritative combat state |
 
+| [ADR-0023](0023-supply-ledgers-and-camp-trades.md) | Accepted | New implementation decision | Separate equipment reservations, trading and consumable battle ledgers |
+
 ## When to create an ADR
 
 | Create a record for | Usually use another document for |

@@ -2019,3 +2019,9 @@ cite {
     gap: 7px;
   }
 }
+
+.battle-supplies {margin:12px 0;flex-basis:100%;min-width:0;}
+.battle-supplies summary {cursor:pointer;font-weight:600;padding:10px 0;}
+.battle-supplies p {font-size:13px;line-height:1.5;}
+.supply-actions {display:grid;gap:8px;}
+.supply-actions button {min-height:44px;text-align:left;white-space:normal;}

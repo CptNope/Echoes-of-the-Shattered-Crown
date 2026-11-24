@@ -1,5 +1,11 @@
 import { baseJobId, baseSkillId } from "./data";
 import {
+  items,
+  validateSupplies,
+  type ItemId,
+  type SupplyInventory,
+} from "./items";
+import {
   mapDimensions,
   validMapDimensions,
   type MapDimensions,
@@ -79,15 +85,18 @@ export interface Battle {
   rules?: RuleCatalog;
   dimensions?: MapDimensions;
   bossAwakened?: boolean;
+  supplies?: SupplyInventory;
   lastAction?: {
     unit: string;
     skill: SkillId;
+    item?: ItemId;
     turn: number;
     target?: { x: number; z: number };
     outcomes?: { unit: string; result: "hit" | "miss" | "heal" | "buff" }[];
   };
 }
 export type Command =
+  | { type: "item"; item: ItemId; x: number; z: number }
   | { type: "move"; x: number; z: number }
   | { type: "skill"; skill: SkillId; x: number; z: number }
   | { type: "end" };
@@ -495,12 +504,79 @@ function result(s: Battle) {
     );
   }
 }
+export function canUseItem(
+  s: Battle,
+  u: Unit,
+  id: ItemId,
+  x: number,
+  z: number,
+): boolean {
+  const item = (s.rules?.items ?? items)[id],
+    target = s.units.find((v) => v.x === x && v.z === z),
+    tile = tileAt(s, x, z);
+  if (
+    !item ||
+    s.result !== "playing" ||
+    s.active !== u.id ||
+    u.team !== "ally" ||
+    u.hp <= 0 ||
+    u.acted ||
+    (s.supplies?.[id] ?? 0) < 1 ||
+    !target ||
+    target.team !== "ally" ||
+    !tile ||
+    tile.blocked ||
+    distance(u, target) > item.range ||
+    !lineOfSight(s, u, target)
+  )
+    return false;
+  if (item.effect === "revive") return target.hp === 0;
+  if (target.hp <= 0) return false;
+  return item.effect === "heal"
+    ? target.hp < target.maxHp
+    : item.effect === "energy"
+      ? target.mp < target.maxMp
+      : Object.values(target.status).some((n) => n > 0);
+}
 export function command(state: Battle, c: Command): Battle {
   if (state.result !== "playing") return state;
   const s = structuredClone(state),
     u = activeUnit(s);
   if (u.hp <= 0 && c.type !== "end") return state;
-  if (c.type === "move") {
+  if (c.type === "item") {
+    if (!canUseItem(s, u, c.item, c.x, c.z)) return state;
+    const item = (s.rules?.items ?? items)[c.item],
+      target = s.units.find((v) => v.x === c.x && v.z === c.z)!;
+    if (item.effect === "heal")
+      target.hp = Math.min(target.maxHp, target.hp + item.power);
+    else if (item.effect === "energy")
+      target.mp = Math.min(target.maxMp, target.mp + item.power);
+    else if (item.effect === "revive")
+      target.hp = Math.min(target.maxHp, item.power);
+    else target.status = { burn: 0, slow: 0, exposed: 0, soaked: 0 };
+    s.supplies![c.item]!--;
+    u.acted = true;
+    s.lastAction = {
+      unit: u.id,
+      skill: item.effect === "cleanse" ? "aegis" : "mend",
+      item: c.item,
+      turn: s.turn,
+      target: { x: c.x, z: c.z },
+      outcomes: [
+        {
+          unit: target.id,
+          result:
+            item.effect === "heal" || item.effect === "revive"
+              ? "heal"
+              : "buff",
+        },
+      ],
+    };
+    note(
+      s,
+      `${u.name} uses ${item.name} on ${target.name}. One supply and the action are spent.`,
+    );
+  } else if (c.type === "move") {
     if (
       u.moved ||
       !reachable(s, u).has(key(c.x, c.z)) ||
@@ -830,6 +906,13 @@ function validBattle(raw: unknown): raw is Battle {
     return false;
   const dimensions = mapDimensions(s);
   if (s.rules !== undefined) validateRules(s.rules);
+  if (s.supplies !== undefined)
+    validateSupplies(s.supplies, s.rules?.items ?? items);
+  if (
+    s.lastAction?.item !== undefined &&
+    !Object.hasOwn(s.rules?.items ?? items, s.lastAction.item)
+  )
+    return false;
   if (
     s.victoryJP !== undefined &&
     (!Number.isInteger(s.victoryJP) || s.victoryJP < 0 || s.victoryJP > 999)

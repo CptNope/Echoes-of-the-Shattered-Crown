@@ -1,3 +1,4 @@
+import { Shop } from "./Shop";
 import {
   supports,
   mastered,
@@ -746,62 +747,7 @@ export function Camp({
               </div>
             </section>
           )}
-          {tab === "outfitter" && (
-            <section className="camp-section">
-              <div className="camp-title">
-                <div>
-                  <p className="camp-eyebrow">The travelling outfitter</p>
-                  <h2>Provision the company</h2>
-                </div>
-                <span>{c.gold} gold available</span>
-              </div>
-              <p className="camp-lead">
-                Purchase shared copies, then equip them in Company. Armor can
-                trade mobility for protection; relics can change a role without
-                changing a job.
-              </p>
-              <div className="outfitter-list">
-                {Object.values(equipment).map((item) => (
-                  <article key={item.id}>
-                    <div>
-                      <h3>
-                        {item.name}
-                        <small>{item.slot}</small>
-                      </h3>
-                      <p>{item.description}</p>
-                      <span>{gearDescription(item.id, equipment)}</span>
-                      {item.jobs && (
-                        <small className="gear-proficiency">
-                          {item.jobs.map((id) => jobs[id].name).join(" · ")}
-                        </small>
-                      )}
-                    </div>
-                    <div className="gear-stock">
-                      <span>{c.inventory[item.id] ?? 0} owned</span>
-                      <small>{allocated(c, item.id)} equipped</small>
-                    </div>
-                    <button
-                      disabled={
-                        item.rewardOnly ||
-                        c.gold < item.price ||
-                        (c.inventory[item.id] ?? 0) >= 99
-                      }
-                      onClick={() => {
-                        setGame((g) => purchase(g, item.id));
-                        setMessage(`${item.name} added to shared inventory.`);
-                      }}
-                    >
-                      {item.rewardOnly
-                        ? c.inventory[item.id]
-                          ? "Reward claimed"
-                          : "Belfry first clear"
-                        : `Buy · ${item.price} gold`}
-                    </button>
-                  </article>
-                ))}
-              </div>
-            </section>
-          )}
+          {tab === "outfitter" && <Shop game={game} setGame={setGame} />}
         </main>
       </div>
       <footer className="camp-footer">

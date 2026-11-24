@@ -79,3 +79,7 @@ A job change automatically unequips incompatible weapon/armor copies; ownership 
 The `Expedition` owns a `Company` profile and a battle snapshot. Camp edits the profile. Deployment projects it into combat units, retaining the pre-deployment profile for retries. Terminal settlement copies the final units' progression and loadouts back to the profile. This avoids awarding the same battle JP again during camp settlement.
 
 Progress carries between contracts **within the expedition**. Automatic recovery follows company and battle changes; Save company/Save battle keeps a separate explicit checkpoint. Portable JSON export/import is available through Backups. There is no cloud account. Manual save includes the current stage, treasury, inventory, learned skills, spending, completed contracts and active battle. See [data and saves](DATA_AND_SAVES.md) for migration and recovery.
+
+## Expanded outfitter and consumable supplies
+
+The [shop guide](SHOP_AND_ITEMS.md) extends this baseline with twelve additional equipment records, six consumables and camp-only quantity buying/selling. Equipped copies and reward relics are protected. Supply use spends one copy and one battle action; remaining stock survives defeat and retry. The original starter loadouts and 140 gold remain unchanged. New companies receive a small explicit pouch; old saves without supplies keep empty stock. Equipment appearance models, crafting and rarity upgrades remain future work.

@@ -1,4 +1,5 @@
 import { skills, type SkillId, type JobId } from "./data";
+import type { ItemId } from "./items";
 export const animationStates = [
   "idle",
   "walk",
@@ -86,6 +87,7 @@ export interface AnimationManifest {
 export interface ActionCue {
   unit: string;
   skill: SkillId;
+  item?: ItemId;
   turn: number;
   target?: { x: number; z: number };
   outcomes?: { unit: string; result: "hit" | "miss" | "heal" | "buff" }[];
@@ -99,6 +101,7 @@ export function actionCueChanged(
     (!before ||
       before.turn !== after.turn ||
       before.unit !== after.unit ||
-      before.skill !== after.skill)
+      before.skill !== after.skill ||
+      before.item !== after.item)
   );
 }

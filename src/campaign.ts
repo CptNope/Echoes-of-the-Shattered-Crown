@@ -1,5 +1,13 @@
 import type { RuleCatalog } from "./studio-rules";
 import {
+  items,
+  starterSupplies,
+  validateSupplies,
+  sellValue,
+  type ItemId,
+  type SupplyInventory,
+} from "./items";
+import {
   supports,
   mastered,
   supportCost,
@@ -43,6 +51,7 @@ export interface Company {
   members: Member[];
   gold: number;
   inventory: Partial<Record<GearId, number>>;
+  supplies?: SupplyInventory;
   completed: EncounterId[];
   victories: number;
   deployments: number;
@@ -118,6 +127,7 @@ export function createExpedition(): Expedition {
     company: {
       members,
       gold: 140,
+      supplies: starterSupplies(),
       inventory: {
         ironblade: 1,
         cedarrod: 1,
@@ -138,6 +148,7 @@ export function depart(game: Expedition, id: EncounterId): Expedition {
   const next = structuredClone(game),
     battle = createBattle(74319 + game.company.deployments * 97, id);
   if (game.battle.rules) battle.rules = structuredClone(game.battle.rules);
+  battle.supplies = structuredClone(game.company.supplies ?? {});
   battle.units = battle.units.map((u) => {
     if (u.team !== "ally") return u;
     const m = next.company.members.find((m) => m.id === u.id)!;
@@ -160,6 +171,9 @@ export function returnToCamp(
 ): Expedition {
   if (game.stage !== "battle" || game.battle.result === "playing") return game;
   const next = structuredClone(game);
+  next.company.supplies = structuredClone(
+    game.battle.supplies ?? game.company.supplies ?? {},
+  );
   next.company.members = next.battle.units
     .filter((u) => u.team === "ally")
     .map(toMember);
@@ -182,10 +196,11 @@ export function returnToCamp(
 export function retryContract(game: Expedition): Expedition {
   if (game.stage !== "battle") return game;
   // A retry restores the pre-deployment company, so it cannot duplicate earned JP.
-  return depart(
-    { ...structuredClone(game), stage: "camp" },
-    game.battle.encounter,
+  const retry = structuredClone(game);
+  retry.company.supplies = structuredClone(
+    game.battle.supplies ?? game.company.supplies ?? {},
   );
+  return depart({ ...retry, stage: "camp" }, game.battle.encounter);
 }
 export function train(
   game: Expedition,
@@ -245,7 +260,8 @@ export function equip(
   if (game.stage !== "camp" || !m || m.equipment[slot] === item) return game;
   if (
     item &&
-    ((game.battle.rules?.gear ?? equipment)[item].slot !== slot ||
+    (!(game.battle.rules?.gear ?? equipment)[item] ||
+      (game.battle.rules?.gear ?? equipment)[item].slot !== slot ||
       !canEquip(m.job, item, game.battle.rules?.gear) ||
       allocated(game.company, item) >= (game.company.inventory[item] ?? 0))
   )
@@ -254,17 +270,84 @@ export function equip(
   next.company.members.find((m) => m.id === memberId)!.equipment[slot] = item;
   return next;
 }
-export function purchase(game: Expedition, item: GearId): Expedition {
+export function purchase(
+  game: Expedition,
+  item: GearId,
+  quantity = 1,
+): Expedition {
+  const gear = (game.battle.rules?.gear ?? equipment)[item];
   if (
     game.stage !== "camp" ||
-    (game.battle.rules?.gear ?? equipment)[item].rewardOnly ||
-    game.company.gold < (game.battle.rules?.gear ?? equipment)[item].price ||
-    (game.company.inventory[item] ?? 0) >= 99
+    !gear ||
+    !Number.isInteger(quantity) ||
+    quantity < 1 ||
+    quantity > 99 ||
+    gear.rewardOnly ||
+    game.company.gold < gear.price * quantity ||
+    (game.company.inventory[item] ?? 0) + quantity > 99
   )
     return game;
   const next = structuredClone(game);
-  next.company.gold -= (game.battle.rules?.gear ?? equipment)[item].price;
-  next.company.inventory[item] = (next.company.inventory[item] ?? 0) + 1;
+  next.company.gold -= gear.price * quantity;
+  next.company.inventory[item] = (next.company.inventory[item] ?? 0) + quantity;
+  return next;
+}
+export function sellGear(
+  game: Expedition,
+  id: GearId,
+  quantity = 1,
+): Expedition {
+  const gear = (game.battle.rules?.gear ?? equipment)[id],
+    value = gear && sellValue(gear);
+  if (
+    game.stage !== "camp" ||
+    !gear ||
+    !value ||
+    !Number.isInteger(quantity) ||
+    quantity < 1 ||
+    quantity > 99 ||
+    (game.company.inventory[id] ?? 0) - allocated(game.company, id) <
+      quantity ||
+    !Number.isSafeInteger(game.company.gold + value * quantity)
+  )
+    return game;
+  const next = structuredClone(game);
+  next.company.inventory[id] = (next.company.inventory[id] ?? 0) - quantity;
+  next.company.gold += value * quantity;
+  return next;
+}
+export function tradeSupply(
+  game: Expedition,
+  id: ItemId,
+  direction: "buy" | "sell",
+  quantity = 1,
+): Expedition {
+  const item = (game.battle.rules?.items ?? items)[id],
+    owned = game.company.supplies?.[id] ?? 0;
+  if (
+    game.stage !== "camp" ||
+    !item ||
+    !["buy", "sell"].includes(direction) ||
+    !Number.isInteger(quantity) ||
+    quantity < 1 ||
+    quantity > 99
+  )
+    return game;
+  const delta =
+    direction === "buy" ? -item.price * quantity : sellValue(item) * quantity;
+  if (
+    direction === "buy"
+      ? owned + quantity > 99 || game.company.gold + delta < 0
+      : owned < quantity || sellValue(item) <= 0
+  )
+    return game;
+  if (!Number.isSafeInteger(game.company.gold + delta)) return game;
+  const next = structuredClone(game);
+  next.company.gold += delta;
+  next.company.supplies = {
+    ...next.company.supplies,
+    [id]: owned + (direction === "buy" ? quantity : -quantity),
+  };
   return next;
 }
 
@@ -281,7 +364,7 @@ export function validateExpedition(raw: unknown): raw is Expedition {
     const c = g.company;
     if (
       !c ||
-      !Number.isInteger(c.gold) ||
+      !Number.isSafeInteger(c.gold) ||
       c.gold < 0 ||
       !Number.isInteger(c.victories) ||
       c.victories < 0 ||
@@ -297,6 +380,15 @@ export function validateExpedition(raw: unknown): raw is Expedition {
           Number.isInteger(n) &&
           n! >= 0 &&
           n! <= 99,
+      )
+    )
+      return false;
+    if (c.supplies !== undefined)
+      validateSupplies(c.supplies, g.battle.rules?.items ?? items);
+    if (
+      g.stage === "battle" &&
+      Object.entries(g.battle.supplies ?? {}).some(
+        ([id, n]) => n! > (c.supplies?.[id as ItemId] ?? 0),
       )
     )
       return false;
@@ -334,6 +426,7 @@ export function validateExpedition(raw: unknown): raw is Expedition {
       g.battle.rules?.gear ?? equipment,
     ) as GearId[])
       if (
+        g.stage === "battle" &&
         fieldMembers.filter((u) => Object.values(u.equipment).includes(item))
           .length > (c.inventory[item] ?? 0)
       )
@@ -363,6 +456,7 @@ export function migrateLegacyBattle(raw: unknown): Expedition | null {
     if (!validateSave(battle)) return null;
     const g = createExpedition();
     g.stage = "battle";
+    g.company.supplies = {};
     g.battle = battle;
     g.company.members = battle.units
       .filter((u) => u.team === "ally")

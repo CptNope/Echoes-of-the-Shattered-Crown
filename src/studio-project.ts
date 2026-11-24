@@ -5,6 +5,12 @@ import {
   upsertNative,
   type AbilityCues,
 } from "./studio-assets";
+import {
+  items,
+  starterSupplies,
+  validateSupplies,
+  type SupplyInventory,
+} from "./items";
 import { loadMissionPreset, type MissionPresetId } from "./mission-presets";
 import { buildExpansion } from "./studio-authoring";
 import {
@@ -52,6 +58,7 @@ export interface LevelProject {
   gameAudio?: GameAudio;
   rules?: RuleCatalog;
   dimensions?: MapDimensions;
+  supplies?: SupplyInventory;
 }
 export const PROJECT_LIMIT = 128 * 1024;
 export const LARGE_PROJECT_LIMIT = 512 * 1024;
@@ -66,6 +73,7 @@ export function createLevelProject(
   return {
     format: "echoes-level-project",
     version: 1,
+    supplies: starterSupplies(),
     id: crypto.randomUUID(),
     revision: 0,
     name:
@@ -118,6 +126,7 @@ export function validateLevelProject(raw: unknown): LevelProject {
     "gameAudio",
     "rules",
     "dimensions",
+    "supplies",
   ]);
   if (raw.format !== "echoes-level-project" || raw.version !== 1)
     fail(
@@ -130,6 +139,8 @@ export function validateLevelProject(raw: unknown): LevelProject {
   )
     fail("Unknown source encounter.");
   const rules = raw.rules === undefined ? undefined : validateRules(raw.rules);
+  if (raw.supplies !== undefined)
+    validateSupplies(raw.supplies, rules?.items ?? items);
   if (raw.content !== undefined) validateGameContent(raw.content, rules);
   if (raw.materials !== undefined) validateMaterials(raw.materials);
   if (raw.gameAudio !== undefined) validateGameAudio(raw.gameAudio);
@@ -277,6 +288,7 @@ export type ProjectEdit =
   | { type: "materials"; materials: TerrainMaterials }
   | { type: "game-audio"; audio: GameAudio }
   | { type: "rules"; rules: RuleCatalog | null }
+  | { type: "supplies"; supplies: SupplyInventory }
   | {
       type: "roster";
       content: GameContent;
@@ -342,6 +354,8 @@ export function editProject(
         ...(existing ?? sourceContent),
         actors: sourceContent.actors,
       };
+    } else if (e.type === "supplies") {
+      next.supplies = structuredClone(e.supplies);
     } else if (e.type === "rules") {
       if (e.rules === null) delete next.rules;
       else next.rules = validateRules(e.rules);
@@ -428,6 +442,7 @@ export function compileLevelProject(project: LevelProject): Battle {
     battle = createBattle(p.seed, p.encounter ?? "shrine");
   if (p.dimensions) battle.dimensions = structuredClone(p.dimensions);
   if (p.rules) battle.rules = structuredClone(p.rules);
+  if (p.supplies !== undefined) battle.supplies = structuredClone(p.supplies);
   battle.tiles = p.tiles.map((t) => ({ ...t, burn: 0 }));
   if (p.content) {
     battle.victoryJP = p.content.victoryJP;

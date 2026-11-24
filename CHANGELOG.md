@@ -1,5 +1,13 @@
 # Changelog
 
+## Equipment, shop trading and battle supplies - 2026-11-23
+
+- Added twelve gear choices and six consumables. Default gear stock is now 22 definitions, with the Bellkeeper seal remaining a protected reward. Starter equipment and gold are unchanged.
+- Added category/search filters, quantity purchases, spare-copy selling and editable bounded buybacks. Equipped copies, reward-only relics, caps and invalid quantities are protected by atomic camp-only transactions.
+- Added real heal, energy, cleansing and revival item commands to main combat and Studio targeting. Item use spends one copy and an action, not energy, RNG or skill JP. Remaining stock survives defeat and retry.
+- Added editable item definitions/starting quantities and a shared isolated Studio shop trial; legacy explicit catalogs and saves without supplies remain valid.
+- Added fourteen regressions; all 285 tests pass. The generated audit now covers sixty item cases across ten missions, alongside 190 ability cases and thirty terminal simulations.
+
 ## Content readiness and editable ability effects - 2026-11-22
 
 - Audited all ten canonical missions, thirty complete AI simulations and 190 isolated catalog ability commands, including effect/sound resolution and idempotent reward settlement. Added a generated report checked in CI.

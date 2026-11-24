@@ -139,7 +139,7 @@ test("guided expansion creates the complete editable content slice with no diagn
     b = compileLevelProject(p);
   assert.equal(Object.keys(p.rules!.jobs).length, 9);
   assert.equal(Object.keys(p.rules!.skills).length, 17);
-  assert.equal(Object.keys(p.rules!.gear).length, 16);
+  assert.equal(Object.keys(p.rules!.gear).length, 28);
   assert.equal(p.content!.enemyTemplates!.length, 3);
   assert.equal(b.units.length, 7);
   assert.equal(p.tiles.length, 192);

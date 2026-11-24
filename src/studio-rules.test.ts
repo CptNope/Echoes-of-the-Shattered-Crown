@@ -38,7 +38,7 @@ test("shipped rules import exact catalogs with independent source arrays and lea
   const r = gameRules();
   assert.equal(Object.keys(r.jobs).length, 8);
   assert.equal(Object.keys(r.skills).length, 13);
-  assert.equal(Object.keys(r.gear).length, 10);
+  assert.equal(Object.keys(r.gear).length, 22);
   assert.deepEqual(r.jobs, jobs);
   assert.deepEqual(r.skills, skills);
   assert.deepEqual(r.gear, equipment);

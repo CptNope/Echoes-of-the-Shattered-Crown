@@ -1,3 +1,6 @@
+import { ItemCommands } from "./ItemCommands";
+import { isItemMode, modeItem } from "./items";
+import { canUseItem } from "./engine";
 import { projectArtwork, resolveActorArtwork } from "./artwork-sync";
 import { AssetLibrary } from "./AssetLibrary";
 import {
@@ -314,7 +317,9 @@ function Preview({
       current.battle,
       current.mode === "move"
         ? { type: "move", x, z }
-        : { type: "skill", skill: current.mode, x, z },
+        : isItemMode(current.mode)
+          ? { type: "item", item: modeItem(current.mode), x, z }
+          : { type: "skill", skill: current.mode, x, z },
     );
     if (next === current.battle)
       setNotice(
@@ -391,13 +396,15 @@ function Preview({
         mode === "move"
           ? reachable(battle, active).has(t.x + "," + t.z)
           : mode !== "inspect" &&
-            canTarget(
-              battle,
-              active,
-              (battle.rules?.skills ?? skills)[mode],
-              t.x,
-              t.z,
-            ),
+            (isItemMode(mode)
+              ? canUseItem(battle, active, modeItem(mode), t.x, t.z)
+              : canTarget(
+                  battle,
+                  active,
+                  (battle.rules?.skills ?? skills)[mode],
+                  t.x,
+                  t.z,
+                )),
       )
       .map((t) => t.x + "," + t.z),
   );
@@ -618,6 +625,12 @@ function Preview({
                 <span>{skillCatalog[id].cost} energy</span>
               </button>
             ))}
+            <ItemCommands
+              battle={battle}
+              enabled={enabled && !active.acted}
+              mode={mode}
+              choose={setMode}
+            />
             <button
               disabled={!enabled}
               onClick={() => {
@@ -1360,9 +1373,17 @@ function Studio() {
               <RulesEditor
                 key={"RulesEditor-" + editorEpoch}
                 source={project.rules}
+                supplies={project.supplies}
                 content={project.content}
                 focusRequest={focusRequest}
-                apply={(rules) => edit([{ type: "rules", rules }])}
+                apply={(rules, stock) =>
+                  edit([
+                    { type: "rules", rules },
+                    ...(stock
+                      ? [{ type: "supplies" as const, supplies: stock }]
+                      : []),
+                  ])
+                }
                 onDirty={setRulesDirty}
               />
             </div>

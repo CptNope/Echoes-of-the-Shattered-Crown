@@ -81,7 +81,7 @@ Loading a preset preserves existing artwork and audio overrides. An old override
 
 ## Verification
 
-Nine new regressions cover connected roster/template parity, both editable native sheets, a real soaking/lightning command sequence, guard and revival, exact timeline changes, Undo/Redo and export preservation, first-clear settlement, fixture equality and deterministic simulations. The complete suite has 271 tests. All ten canonical sources pass the content audit without validation errors or warnings.
+Nine new regressions cover connected roster/template parity, both editable native sheets, a real soaking/lightning command sequence, guard and revival, exact timeline changes, Undo/Redo and export preservation, first-clear settlement, fixture equality and deterministic simulations. The complete suite has 285 tests. All ten canonical sources pass the content audit without validation errors or warnings.
 
 | Seed | AI-for-both-teams result | Activations | Surviving allies |
 | --- | --- | --- | --- |

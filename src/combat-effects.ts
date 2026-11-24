@@ -143,7 +143,9 @@ export function planCombatEffect(
   if (!sk) return null;
   const tiles = battle.tiles
     .filter(
-      (t) => Math.abs(t.x - target.x) + Math.abs(t.z - target.z) <= sk.radius,
+      (t) =>
+        Math.abs(t.x - target.x) + Math.abs(t.z - target.z) <=
+        (cue.item ? 0 : sk.radius),
     )
     .map((t) => ({ x: t.x, z: t.z }));
   const hits = (cue.outcomes ?? [])

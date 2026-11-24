@@ -8,6 +8,8 @@
     "terrain and collision",
     "actor placement and loadouts",
     "classes abilities and gear",
+    "consumable definitions, prices and starting supplies",
+    "isolated project buy and sell trials",
     "enemy templates",
     "linear briefing and contract rewards",
     "native sprite pixels and timing",
@@ -37,7 +39,13 @@
       "enemyTemplates": 4,
       "jobs": 8,
       "abilities": 13,
-      "gear": 10,
+      "gear": 22,
+      "items": 6,
+      "startingSupplies": {
+        "field-tonic": 3,
+        "ether-draught": 1,
+        "cleansing-salts": 1
+      },
       "briefingLines": 4,
       "abilityFeedback": [
         {
@@ -218,7 +226,13 @@
       "enemyTemplates": 4,
       "jobs": 8,
       "abilities": 13,
-      "gear": 10,
+      "gear": 22,
+      "items": 6,
+      "startingSupplies": {
+        "field-tonic": 3,
+        "ether-draught": 1,
+        "cleansing-salts": 1
+      },
       "briefingLines": 4,
       "abilityFeedback": [
         {
@@ -399,7 +413,13 @@
       "enemyTemplates": 4,
       "jobs": 8,
       "abilities": 13,
-      "gear": 10,
+      "gear": 22,
+      "items": 6,
+      "startingSupplies": {
+        "field-tonic": 3,
+        "ether-draught": 1,
+        "cleansing-salts": 1
+      },
       "briefingLines": 4,
       "abilityFeedback": [
         {
@@ -580,7 +600,13 @@
       "enemyTemplates": 4,
       "jobs": 8,
       "abilities": 13,
-      "gear": 10,
+      "gear": 22,
+      "items": 6,
+      "startingSupplies": {
+        "field-tonic": 3,
+        "ether-draught": 1,
+        "cleansing-salts": 1
+      },
       "briefingLines": 4,
       "abilityFeedback": [
         {
@@ -761,7 +787,13 @@
       "enemyTemplates": 4,
       "jobs": 9,
       "abilities": 17,
-      "gear": 16,
+      "gear": 28,
+      "items": 6,
+      "startingSupplies": {
+        "field-tonic": 3,
+        "ether-draught": 1,
+        "cleansing-salts": 1
+      },
       "briefingLines": 4,
       "abilityFeedback": [
         {
@@ -974,7 +1006,13 @@
       "enemyTemplates": 6,
       "jobs": 9,
       "abilities": 17,
-      "gear": 16,
+      "gear": 28,
+      "items": 6,
+      "startingSupplies": {
+        "field-tonic": 3,
+        "ether-draught": 1,
+        "cleansing-salts": 1
+      },
       "briefingLines": 5,
       "abilityFeedback": [
         {
@@ -1201,7 +1239,13 @@
       "enemyTemplates": 6,
       "jobs": 9,
       "abilities": 17,
-      "gear": 16,
+      "gear": 28,
+      "items": 6,
+      "startingSupplies": {
+        "field-tonic": 3,
+        "ether-draught": 1,
+        "cleansing-salts": 1
+      },
       "briefingLines": 5,
       "abilityFeedback": [
         {
@@ -1428,7 +1472,13 @@
       "enemyTemplates": 6,
       "jobs": 11,
       "abilities": 23,
-      "gear": 18,
+      "gear": 30,
+      "items": 6,
+      "startingSupplies": {
+        "field-tonic": 3,
+        "ether-draught": 1,
+        "cleansing-salts": 1
+      },
       "briefingLines": 6,
       "abilityFeedback": [
         {
@@ -1703,7 +1753,13 @@
       "enemyTemplates": 6,
       "jobs": 13,
       "abilities": 29,
-      "gear": 22,
+      "gear": 34,
+      "items": 6,
+      "startingSupplies": {
+        "field-tonic": 3,
+        "ether-draught": 1,
+        "cleansing-salts": 1
+      },
       "briefingLines": 6,
       "abilityFeedback": [
         {
@@ -2026,7 +2082,13 @@
       "enemyTemplates": 6,
       "jobs": 15,
       "abilities": 35,
-      "gear": 27,
+      "gear": 39,
+      "items": 6,
+      "startingSupplies": {
+        "field-tonic": 3,
+        "ether-draught": 1,
+        "cleansing-salts": 1
+      },
       "briefingLines": 7,
       "abilityFeedback": [
         {

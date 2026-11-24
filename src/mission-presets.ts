@@ -1,4 +1,5 @@
 import { skills } from "./data";
+import { starterSupplies } from "./items";
 import { createBattle } from "./engine";
 import { encounters, type EncounterId } from "./encounters";
 import { gameContent, validateGameContent } from "./studio-content";
@@ -149,6 +150,7 @@ export function loadMissionPreset(
             : id === "lantern-parley"
               ? buildEnvoyMission(project)
               : buildEmberMission(project, id);
+    next.supplies = starterSupplies();
     if (next.abilityCues)
       next.abilityCues = Object.fromEntries(
         Object.entries(next.abilityCues).filter(([id]) =>
@@ -172,6 +174,7 @@ export function loadMissionPreset(
   return {
     ...structuredClone(project),
     name: encounters[id].name,
+    supplies: starterSupplies(),
     encounter: id,
     dimensions: { width: 9, height: 9 },
     tiles: battle.tiles.map(({ x, z, h, terrain, blocked }) => ({

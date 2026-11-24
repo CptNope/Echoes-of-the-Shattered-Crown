@@ -10,7 +10,7 @@ All ten canonical Studio missions compile, validate, roundtrip and reach a termi
 | --- | --- | --- |
 | All ten encounter boards | Enemy templates / Playable mission presets, then Battlefield | Dimensions, terrain, elevation, collision and actor placement |
 | Characters and monsters | NPCs, dialogue & progression; Enemy templates | Current roster names, resources, classes, learning and loadouts; reusable hostile snapshots |
-| Classes, abilities and gear | Gear, abilities & jobs | Project catalogs retain stable IDs and supported mechanic bindings |
+| Classes, abilities, gear and consumables | Gear, abilities & jobs | Project catalogs retain stable IDs and supported mechanic bindings; item stock and resale values are editable |
 | Fourteen character sheets / 448 cells | Assets & ability feedback / Current cast artwork / Edit sprite | Native RGBA pixels, alpha, actor assignment and all eight states' frame timings |
 | Indexed character source | Pixels / Small indexed sprite | Palette, layers, cels, timing and current actor bindings |
 | Level surface appearance | Terrain textures | Terrain palettes and top-face textures |
@@ -77,4 +77,6 @@ Result cells show outcome / activations. The controlled policy is intentionally 
 
 AI now resolves custom caster bases and ranged primary abilities before choosing movement distance. Soaking setup recognizes affordable custom lightning skills with their own reach and line of sight. Target pruning preserves source tile order and all useful legal aims, including empty centers for area attacks and fallen allies for healing. The last column counts candidate aim tiles on each initial roster; it is not a measured FPS improvement. Particle buffers no longer upload every idle frame, and empty point clouds are hidden; sprite/particle pool limits remain unchanged. Character and effect manifests/images use content digests to avoid stale artwork after deployment.
 
-Eight additional regressions protect candidate completeness/order, area and revival edges, custom-class range, custom lightning support, strict appearance validation, legacy defaults, export/history and presentation/gameplay isolation. All 271 tests pass. Human full-clear balance review, sampled audio and complete campaign packaging remain follow-up work.
+Eight additional regressions protect candidate completeness/order, area and revival edges, custom-class range, custom lightning support, strict appearance validation, legacy defaults, export/history and presentation/gameplay isolation. All 285 tests pass. Human full-clear balance review, sampled audio and complete campaign packaging remain follow-up work.
+
+The [shop and supplies guide](SHOP_AND_ITEMS.md) adds quantity commerce and six consumable definitions. The same audit now executes sixty item commands alongside the 190 ability cases. All ten canonical sources carry explicit editable starter quantities.

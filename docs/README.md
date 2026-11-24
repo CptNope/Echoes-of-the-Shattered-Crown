@@ -170,3 +170,5 @@ The [advanced authoring contracts](studio/specs/advanced-blueprints.json) deepen
 [Briar Resonance content pack](BRIAR_CONTENT.md): Rowan the Thorn Warden and Edrin the Resonant Smith, two named rivals, six abilities, five gear pieces, two editable 32-frame sheets and a 24 by 20 standalone mission.
 
 [Content playability and editor audit](CONTENT_READINESS.md): ten validated missions, thirty terminal simulations, 190 executable ability cases, editable effect appearance and particle settings, and measured AI target pruning. The guide lists the remaining visual-editor gaps explicitly.
+
+[Equipment, supplies and trading](SHOP_AND_ITEMS.md): twelve new gear choices, six consumables, quantity buying/selling, protected equipment/rewards, persistent battle stock and a shared Studio shop trial.

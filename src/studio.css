@@ -1500,3 +1500,9 @@ dialog::backdrop {
 .artwork-thumbnail small {display:block;overflow-wrap:anywhere;}
 .artwork-note {font-size:13px;}
 @media(max-width:640px){.artwork-cast > li {gap:12px;}.artwork-cast .actions {align-items:flex-start;}}
+
+.battle-supplies {margin:12px 0;flex-basis:100%;min-width:0;}
+.battle-supplies summary {cursor:pointer;font-weight:600;padding:10px 0;}
+.battle-supplies p {font-size:13px;line-height:1.5;}
+.supply-actions {display:grid;gap:8px;}
+.supply-actions button {min-height:44px;text-align:left;white-space:normal;}

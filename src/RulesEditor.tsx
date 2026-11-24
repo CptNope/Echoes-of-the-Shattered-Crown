@@ -1,3 +1,12 @@
+import { ItemsEditor } from "./ItemsEditor";
+import { ShopTrial } from "./ShopTrial";
+import {
+  items,
+  sellValue,
+  validateSupplies,
+  type SupplyInventory,
+} from "./items";
+import { equipment as marketEquipment } from "./equipment";
 import {
   createCatalogRecord,
   deleteCatalogRecord,
@@ -14,21 +23,29 @@ import { canEquip, type Gear, GearId } from "./equipment";
 import { createExpedition, purchase } from "./campaign";
 export function RulesEditor({
   source,
+  supplies,
   apply,
   onDirty,
   focusRequest,
   content,
 }: {
   source: RuleCatalog | undefined;
+  supplies?: SupplyInventory;
   content?: GameContent;
   focusRequest?: ValidationFocusRequest;
-  apply: (s: RuleCatalog | null) => boolean;
+  apply: (s: RuleCatalog | null, stock?: SupplyInventory) => boolean;
   onDirty: (d: boolean) => void;
 }) {
+  const baselineSupplies = useMemo(() => supplies ?? {}, [supplies]);
+  const [supplyDraft, setSupplyDraft] = useState(baselineSupplies);
+  useEffect(() => setSupplyDraft(baselineSupplies), [baselineSupplies]);
   const [recordId, setRecordId] = useState("custom-new-record");
   const sectionRef = useRef<HTMLElement>(null);
-  const baseline = useMemo(() => source ?? gameRules(), [source]),
-    [draft, setDraft] = useState(baseline),
+  const baseline = useMemo(
+      () => ({ ...(source ?? gameRules()), items: source?.items ?? items }),
+      [source],
+    ),
+    [draft, setDraft] = useState<RuleCatalog>(baseline),
     [tab, setTab] = useState("skills"),
     [skillId, setSkillId] = useState<SkillId>("strike"),
     [jobId, setJobId] = useState<JobId>("vanguard"),
@@ -56,16 +73,19 @@ export function RulesEditor({
     if (focusRequest?.target.area === "rules")
       sectionRef.current?.querySelector<HTMLSelectElement>("select")?.focus();
   }, [focusRequest, tab, skillId, jobId, gearId]);
-  const changed = JSON.stringify(draft) !== JSON.stringify(baseline);
+  const changed =
+    JSON.stringify(draft) !== JSON.stringify(baseline) ||
+    JSON.stringify(supplyDraft) !== JSON.stringify(baselineSupplies);
   useEffect(() => onDirty(changed), [changed, onDirty]);
   const error = useMemo(() => {
     try {
       validateRules(draft);
+      validateSupplies(supplyDraft, draft.items);
       return "";
     } catch (e) {
       return e instanceof Error ? e.message : "Invalid catalog.";
     }
-  }, [draft]);
+  }, [draft, supplyDraft]);
   const skill = draft.skills[skillId] ?? draft.skills.strike,
     job = draft.jobs[jobId] ?? draft.jobs.vanguard,
     gear = draft.gear[gearId] ?? draft.gear.ironblade;
@@ -126,21 +146,40 @@ export function RulesEditor({
       <p className="source-caption">
         {Object.keys(draft.jobs).length} classes ·{" "}
         {Object.keys(draft.skills).length} abilities ·{" "}
-        {Object.keys(draft.gear).length} gear records. Custom records use stable
-        IDs and shipped mechanics/art archetypes.
+        {Object.keys(draft.gear).length} gear records ·{" "}
+        {Object.keys(draft.items ?? items).length} item records. Custom records
+        use stable IDs and shipped mechanics/art archetypes.
       </p>
+      <button
+        onClick={() => {
+          setDraft({
+            ...draft,
+            gear: { ...structuredClone(marketEquipment), ...draft.gear },
+          });
+          setMessage(
+            "Current shop stock added to the draft; existing overrides are kept.",
+          );
+        }}
+      >
+        Add current shop stock
+      </button>
       <div className="pixel-tools" role="group" aria-label="Catalog sections">
         {[
           ["skills", "Abilities"],
           ["gear", "Gear"],
           ["jobs", "Jobs"],
+          ["items", "Items & supplies"],
         ].map(([id, label]) => (
           <button key={id} aria-pressed={tab === id} onClick={() => setTab(id)}>
             {label}
           </button>
         ))}
       </div>
-      <div className="record-authoring" aria-label="Record creation">
+      <div
+        hidden={tab === "items"}
+        className="record-authoring"
+        aria-label="Record creation"
+      >
         <label>
           New record ID
           <input
@@ -155,7 +194,11 @@ export function RulesEditor({
             Duplicate selected record
           </button>
           <button
-            disabled={!selected.startsWith("custom-") || references.length > 0}
+            disabled={
+              !selected.startsWith("custom-") ||
+              references.length > 0 ||
+              (tab === "gear" && Object.hasOwn(marketEquipment, selected))
+            }
             onClick={() => {
               try {
                 setDraft(
@@ -202,7 +245,14 @@ export function RulesEditor({
           )}
         </details>
       </div>
-      {tab === "skills" ? (
+      {tab === "items" ? (
+        <ItemsEditor
+          catalog={draft.items ?? items}
+          change={(table) => setDraft({ ...draft, items: table })}
+          supplies={supplyDraft}
+          changeSupplies={setSupplyDraft}
+        />
+      ) : tab === "skills" ? (
         <>
           <label className="contract-selector">
             Existing ability
@@ -373,6 +423,31 @@ export function RulesEditor({
                 onChange={(e) => editGear({ price: Number(e.target.value) })}
               />
             </label>
+            <label>
+              Gear sell price
+              <input
+                type="number"
+                min="0"
+                max={gear.price}
+                value={sellValue(gear)}
+                disabled={!!gear.rewardOnly}
+                onChange={(e) =>
+                  editGear({ sellPrice: Number(e.target.value) })
+                }
+              />
+            </label>
+            <button
+              disabled={gear.sellPrice === undefined}
+              onClick={() =>
+                setDraft((p) => {
+                  const next = structuredClone(p);
+                  delete next.gear[gearId].sellPrice;
+                  return next;
+                })
+              }
+            >
+              Use automatic gear resale
+            </button>
             <label className="check-row">
               <input
                 type="checkbox"
@@ -623,11 +698,17 @@ export function RulesEditor({
           {error}
         </p>
       )}
+      <ShopTrial rules={draft} supplies={supplyDraft} valid={!error} />
       <div className="actions">
         <button
           disabled={!!error || (!!source && !changed)}
           onClick={() => {
-            if (apply(validateRules(draft)))
+            if (
+              apply(
+                validateRules(draft),
+                validateSupplies(supplyDraft, draft.items),
+              )
+            )
               setMessage(
                 "Catalog overrides applied. Playtest the same project revision to use them.",
               );
@@ -639,6 +720,7 @@ export function RulesEditor({
           disabled={!changed}
           onClick={() => {
             setDraft(baseline);
+            setSupplyDraft(baselineSupplies);
             setMessage("Catalog draft discarded.");
           }}
         >
@@ -647,7 +729,16 @@ export function RulesEditor({
         <button
           disabled={!source || changed}
           onClick={() => {
-            if (apply(null))
+            if (
+              apply(
+                null,
+                Object.fromEntries(
+                  Object.entries(supplyDraft).filter(([id]) =>
+                    Object.hasOwn(items, id),
+                  ),
+                ),
+              )
+            )
               setMessage(
                 "Catalog overrides removed. Game defaults are active.",
               );

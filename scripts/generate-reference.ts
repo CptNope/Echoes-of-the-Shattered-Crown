@@ -1,6 +1,7 @@
 import { readFile, writeFile } from "node:fs/promises";
 import assert from "node:assert/strict";
 import { jobs, skills } from "../src/data";
+import { items, sellValue } from "../src/items";
 import { equipment } from "../src/equipment";
 import { supports, masteryJP, supportCost } from "../src/supports";
 import { encounters } from "../src/encounters";
@@ -42,6 +43,7 @@ out +=
       ["Active skills", Object.keys(skills).length],
       ["Support lessons", Object.keys(supports).length],
       ["Equipment", Object.keys(equipment).length],
+      ["Consumable items", Object.keys(items).length],
       [
         "Purchasable equipment",
         Object.values(equipment).filter((g) => !g.rewardOnly).length,
@@ -110,6 +112,18 @@ out +=
       s.radius,
       s.power,
       s.description,
+    ]),
+  );
+out +=
+  "\n## Consumable items\n\nOne use consumes one copy and the active ally's action. Selling uses the displayed buyback, with half buy price as the default.\n\n" +
+  table(
+    ["ID / name", "Effect", "Power", "Reach", "Buy / sell gold"],
+    Object.values(items).map((i) => [
+      i.id + " / " + i.name,
+      i.effect,
+      i.power,
+      i.range,
+      i.price + " / " + sellValue(i),
     ]),
   );
 out +=

@@ -55,6 +55,8 @@ const missions = MISSION_PRESETS.map((preset) => {
     jobs: Object.keys(p.rules!.jobs).length,
     abilities: Object.keys(p.rules!.skills).length,
     gear: Object.keys(p.rules!.gear).length,
+    items: Object.keys(p.rules!.items ?? {}).length,
+    startingSupplies: p.supplies ?? {},
     briefingLines: p.content!.dialogue[p.encounter!].length,
     abilityFeedback: Object.values(p.rules!.skills).map((skill) => {
       const cue = p.abilityCues?.[skill.id],
@@ -91,6 +93,8 @@ const report = {
     "terrain and collision",
     "actor placement and loadouts",
     "classes abilities and gear",
+    "consumable definitions, prices and starting supplies",
+    "isolated project buy and sell trials",
     "enemy templates",
     "linear briefing and contract rewards",
     "native sprite pixels and timing",

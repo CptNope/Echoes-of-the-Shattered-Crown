@@ -40,7 +40,7 @@ for (const id of ids) {
     );
     assert.equal(
       Object.keys(p.rules!.gear).filter((k) => k.startsWith("custom-")).length,
-      6,
+      18,
     );
     assert.equal(p.tiles.length, id === "ashen-weir" ? 320 : 432);
     assert(validateSave(b));

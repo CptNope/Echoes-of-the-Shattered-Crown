@@ -7,11 +7,18 @@ import {
   type SkillId,
 } from "./data";
 import { equipment, type Gear, type GearId } from "./equipment";
+import {
+  items,
+  validateItemCatalog,
+  type ItemId,
+  type SupplyItem,
+} from "./items";
 export interface RuleCatalog {
   version: 1;
   jobs: Record<JobId, Job>;
   skills: Record<SkillId, Skill>;
   gear: Record<GearId, Gear>;
+  items?: Record<ItemId, SupplyItem>;
 }
 export function gameRules(): RuleCatalog {
   return {
@@ -19,6 +26,7 @@ export function gameRules(): RuleCatalog {
     jobs: structuredClone(jobs),
     skills: structuredClone(skills),
     gear: structuredClone(equipment),
+    items: structuredClone(items),
   };
 }
 function check(v: unknown, m: string): asserts v {
@@ -44,7 +52,9 @@ function identities(
   check(
     object(raw) &&
       Object.keys(raw).length <= (name === "job" ? 48 : 128) &&
-      Object.keys(base).every((k) => Object.hasOwn(raw, k)) &&
+      Object.keys(base)
+        .filter((k) => !k.startsWith("custom-"))
+        .every((k) => Object.hasOwn(raw, k)) &&
       Object.keys(raw).every(
         (k) =>
           (Object.hasOwn(base, k) || /^custom-[a-z][a-z0-9-]{0,39}$/.test(k)) &&
@@ -57,7 +67,8 @@ function identities(
 }
 export function validateRules(raw: unknown): RuleCatalog {
   check(object(raw), "Expected a rule catalog.");
-  fields(raw, ["version", "jobs", "skills", "gear"]);
+  fields(raw, ["version", "jobs", "skills", "gear", "items"]);
+  if (raw.items !== undefined) validateItemCatalog(raw.items);
   check(raw.version === 1, "Unsupported rule catalog version.");
   identities(raw.jobs, jobs, "job");
   identities(raw.skills, skills, "ability");
@@ -186,6 +197,7 @@ export function validateRules(raw: unknown): RuleCatalog {
       "description",
       "slot",
       "price",
+      "sellPrice",
       "rewardOnly",
       "jobs",
       "bonuses",
@@ -197,7 +209,8 @@ export function validateRules(raw: unknown): RuleCatalog {
         typeof g.slot === "string" &&
         ["weapon", "armor", "relic"].includes(g.slot) &&
         integer(g.price, 0, 9999) &&
-        (g.rewardOnly === undefined || typeof g.rewardOnly === "boolean"),
+        (g.rewardOnly === undefined || typeof g.rewardOnly === "boolean") &&
+        (g.sellPrice === undefined || integer(g.sellPrice, 0, Number(g.price))),
       "Invalid gear fields.",
     );
     check(

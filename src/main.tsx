@@ -1,3 +1,6 @@
+import { ItemCommands } from "./ItemCommands";
+import { items, isItemMode, modeItem } from "./items";
+import { canUseItem } from "./engine";
 import { mapDimensions } from "./map-layout";
 import React, { useState, useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
@@ -193,7 +196,13 @@ function App() {
       ? battle.units.find((u) => u.x === selected.x && u.z === selected.z)
       : undefined;
   const inspected = target ?? actor;
-  const chosen = mode !== "inspect" && mode !== "move" ? skills[mode] : null;
+  const chosen =
+    mode !== "inspect" && mode !== "move" && !isItemMode(mode)
+      ? skills[mode]
+      : null;
+  const chosenItem = isItemMode(mode)
+    ? (battle.rules?.items ?? items)[modeItem(mode)]
+    : null;
   const send = (c: Parameters<typeof command>[1]) => {
     if (!isPlayer || modal || backupOpen || !recoveryReady) return;
     const next = command(battle, c);
@@ -206,7 +215,9 @@ function App() {
     setBattle(next);
     setSelected(null);
     setMode("inspect");
-    score.current?.feedback(c.type === "skill" ? "skill" : "move");
+    score.current?.feedback(
+      c.type === "skill" || c.type === "item" ? "skill" : "move",
+    );
   };
   selectRef.current = (x, z) => {
     setSelected({ x, z });
@@ -430,6 +441,8 @@ function App() {
   function confirmAction() {
     if (!selected || !isPlayer) return;
     if (mode === "move") send({ type: "move", ...selected });
+    else if (isItemMode(mode))
+      send({ type: "item", item: modeItem(mode), ...selected });
     else if (chosen) send({ type: "skill", skill: chosen.id, ...selected });
   }
   function choose(m: Mode) {
@@ -440,7 +453,9 @@ function App() {
         ? "Choose a highlighted tile, then confirm movement."
         : m === "inspect"
           ? "Select a unit to inspect it."
-          : skills[m].description,
+          : isItemMode(m)
+            ? (battle.rules?.items ?? items)[modeItem(m)].description
+            : skills[m].description,
     );
   }
   const canConfirm =
@@ -450,9 +465,11 @@ function App() {
       ? !actor.moved &&
         reachable(battle, actor).has(key(selected.x, selected.z)) &&
         distance(actor, selected) > 0
-      : chosen
-        ? canTarget(battle, actor, chosen, selected.x, selected.z)
-        : false);
+      : isItemMode(mode)
+        ? canUseItem(battle, actor, modeItem(mode), selected.x, selected.z)
+        : chosen
+          ? canTarget(battle, actor, chosen, selected.x, selected.z)
+          : false);
   const tile = tileAt(battle, hover.x, hover.z)!;
   const timeline = living(battle).sort(
     (a, b) => a.next - b.next || a.id.localeCompare(b.id),
@@ -756,6 +773,12 @@ function App() {
                 </button>
               ))}
           </div>
+          <ItemCommands
+            battle={battle}
+            enabled={isPlayer && !actor.acted}
+            mode={mode}
+            choose={choose}
+          />
           <button
             className="concord"
             disabled={!isPlayer || actor.acted || battle.momentum < 3}
@@ -928,13 +951,15 @@ function App() {
                   </button>
                 </div>
                 <p>
-                  {chosen
-                    ? chosen.description
-                    : mode === "move"
-                      ? `Movement cost: ${reachable(battle, actor).get(key(selected.x, selected.z)) ?? "unreachable"}`
-                      : target
-                        ? `${jobs[target.job].name} · ${target.hp}/${target.maxHp} HP · ${target.mp} energy`
-                        : "Choose Move or a skill to act on this tile."}
+                  {chosenItem
+                    ? chosenItem.description
+                    : chosen
+                      ? chosen.description
+                      : mode === "move"
+                        ? `Movement cost: ${reachable(battle, actor).get(key(selected.x, selected.z)) ?? "unreachable"}`
+                        : target
+                          ? `${jobs[target.job].name} · ${target.hp}/${target.maxHp} HP · ${target.mp} energy`
+                          : "Choose Move or a skill to act on this tile."}
                 </p>
                 {target && (
                   <div className="target-effects">
@@ -992,7 +1017,7 @@ function App() {
                     {canConfirm
                       ? mode === "move"
                         ? "Confirm movement"
-                        : `Use ${chosen?.name}`
+                        : `Use ${chosenItem?.name ?? chosen?.name}`
                       : "Out of range or unavailable"}
                   </button>
                 )}

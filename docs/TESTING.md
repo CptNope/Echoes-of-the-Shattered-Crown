@@ -4,7 +4,7 @@
 
 ## Automated rules coverage
 
-Run `npm test`. The script uses the explicit test-file list in `package.json` and Node's built-in test runner. The current suite has 271 tests; this count is an inventory, not a coverage percentage or balance certification.
+Run `npm test`. The script uses the explicit test-file list in `package.json` and Node's built-in test runner. The current suite has 285 tests; this count is an inventory, not a coverage percentage or balance certification.
 
 | Area             | Assertions represented                                                                                        |
 | ---------------- | ------------------------------------------------------------------------------------------------------------- |
@@ -187,4 +187,8 @@ Ten cases in [studio-assets.test.ts](../src/studio-assets.test.ts) cover legacy-
 
 ## Content readiness and editable presentation
 
-The [readiness guide](CONTENT_READINESS.md) records current editor coverage and limits. `npm run content:playtest` verifies ten sources, thirty terminal simulations, 190 isolated ability commands, effect/sound mappings and idempotent settlement. `npm run docs:verify` checks the generated report against source. Eight new regressions cover optimized AI candidate completeness, custom-class reach, scoped lightning setup, style validation, legacy pairs, source history, eight-frame timing and gameplay/RNG isolation. The complete suite has 271 tests. Browser checks are recorded separately from these engine checks.
+The [readiness guide](CONTENT_READINESS.md) records current editor coverage and limits. `npm run content:playtest` verifies ten sources, thirty terminal simulations, 190 isolated ability commands, effect/sound mappings and idempotent settlement. `npm run docs:verify` checks the generated report against source. Eight new regressions cover optimized AI candidate completeness, custom-class reach, scoped lightning setup, style validation, legacy pairs, source history, eight-frame timing and gameplay/RNG isolation. The complete suite has 285 tests. Browser checks are recorded separately from these engine checks.
+
+## Shop and supply persistence
+
+Fourteen new regressions cover quantity trade accounting, equipped/reward protection, malformed requests, caps and no-profit pricing, legacy catalogs without current stock, six item effects and targeting, no-JP/RNG use, retry/defeat ledgers, save roundtrip and project history. The complete suite has 285 tests; the generated audit additionally executes sixty item cases. See [commerce and item rules](SHOP_AND_ITEMS.md).

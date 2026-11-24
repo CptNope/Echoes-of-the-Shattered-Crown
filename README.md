@@ -49,7 +49,7 @@ Read [combat effects and particles](docs/COMBAT_EFFECTS.md), explore the [animat
 | Expedition   | Company camp, four gated contracts, repeatable rewards                                     | A Veyr contract route, not a world-map story campaign                     |
 | Company      | Persistent roster, lifetime/spent JP, permanent learned skills                             | No character level separate from jobs; no respecialization/refunds        |
 | Loadouts     | Eight jobs, native primary skills, learned secondary skills                                | Advanced jobs initially locked; some skill definitions are shared         |
-| Equipment    | Ten items (nine purchasable), three slots, proficiencies, shared inventory, gold purchases | No crafting, selling, upgrades, rarity rolls or gear appearance models    |
+| Equipment    | 22 gear records, six supplies, three slots, proficiencies, quantity purchases and spare-copy selling | No crafting, upgrades, rarity rolls or gear appearance models    |
 | Tactics      | Elevation, facing, range, LOS, guard, critical hits, riposte, status and momentum          | Grid-sampled LOS and no facing-selection command                          |
 | Environments | Four 9×9 Veyr maps; studio resizes to 32×32; ice and grass ignition                                         | Shared regional art; no new biomes, weather or destructible scenery       |
 | Presentation | 256 character frames, 96 effect frames, bounded combat particles, lit 3D ruins and procedural score               | Directional art, longer cycles and orchestral music remain planned            |
@@ -235,7 +235,7 @@ Start with the [current systems guide](docs/SYSTEMS_GUIDE.md) for end-to-end flo
 | Read this                                                  | To understand                                                  |
 | ---------------------------------------------------------- | -------------------------------------------------------------- |
 | [Documentation index](docs/README.md)                      | Reading paths and source-of-truth map                          |
-| [Company and progression](docs/COMPANY_AND_PROGRESSION.md) | Contract loop, JP spending, shared inventory and all ten items |
+| [Company and progression](docs/COMPANY_AND_PROGRESSION.md) | Contract loop, JP spending, shared inventory and equipment progression |
 | [Player guide](docs/PLAYER_GUIDE.md)                       | Roster, first battle, menus, controls and tactics              |
 | [Combat rules](docs/COMBAT.md)                             | Exact movement, damage, initiative, statuses and AI            |
 | [Jobs and abilities](docs/JOBS_AND_ABILITIES.md)           | Eight jobs, thirteen abilities, unlocks and loadouts           |
@@ -262,7 +262,7 @@ Use the [open decision register](docs/roadmap/DECISION_REGISTER.md) for roadmap 
 
 Version 0.8 extends the company-management milestone: four linked contracts, permanent secondary-skill learning, equipment and carried progression. Phase 2 now includes mastery and three support slots for the existing eight jobs; each advanced job now has an additional distinct active ability; the remaining job roster and further skill-board depth are still planned. Phase 3's world map, branching story, recruitment and town systems remain planned.
 
-The suite has **271 tests**, including full deterministic simulations of all four maps, economic and equipment invariants, rewards and v1 migration. Browser checks cover file export/import, closed-tab recovery, all eight job sprites, boss awakening, first-clear relic settlement, buying/equipping, manual save/load, migrated resource preservation, learning across a job change, result settlement and second-contract deployment. Result/learning checks use isolated local fixtures, not a claim of a full manual campaign playthrough. Physical mobile devices, Safari, gamepad hardware and 60 FPS remain uncertified. See [testing](docs/TESTING.md).
+The suite has **285 tests**, including full deterministic simulations of all four maps, economic and equipment invariants, rewards and v1 migration. Browser checks cover file export/import, closed-tab recovery, all eight job sprites, boss awakening, first-clear relic settlement, buying/equipping, manual save/load, migrated resource preservation, learning across a job change, result settlement and second-contract deployment. Result/learning checks use isolated local fixtures, not a claim of a full manual campaign playthrough. Physical mobile devices, Safari, gamepad hardware and 60 FPS remain uncertified. See [testing](docs/TESTING.md).
 
 ## Expansion plan
 
@@ -338,3 +338,5 @@ The [advanced authoring contracts](docs/studio/specs/advanced-blueprints.json) a
 [Briar Resonance content pack](docs/BRIAR_CONTENT.md): Rowan the Thorn Warden and Edrin the Resonant Smith, two named rivals, six abilities, five gear pieces, two editable 32-frame sheets and a 24 by 20 standalone mission.
 
 [Content playability and editor audit](docs/CONTENT_READINESS.md): ten validated missions, thirty terminal simulations, 190 executable ability cases, editable effect appearance and particle settings, and measured AI target pruning. The guide lists the remaining visual-editor gaps explicitly.
+
+[Equipment, supplies and trading](docs/SHOP_AND_ITEMS.md): twelve new gear choices, six consumables, quantity buying/selling, protected equipment/rewards, persistent battle stock and a shared Studio shop trial.

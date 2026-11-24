@@ -22,6 +22,7 @@ import { abilitySoundEvents } from "../src/studio-assets";
 import { previewExpedition } from "../src/studio-authoring";
 import { returnToCamp, validateExpedition } from "../src/campaign";
 import { emptyLoadout } from "../src/equipment";
+import { items as shippedItems } from "../src/items";
 import { baseSkillId } from "../src/data";
 const effects = JSON.parse(
   readFileSync("public/art/effects/manifest.json", "utf8"),
@@ -117,6 +118,49 @@ const missions = MISSION_PRESETS.map((preset) => {
       exhaustiveAimTiles += initial.tiles.length;
       candidateAimTiles += aiCandidateTiles(initial, u, sk).length;
     }
+  const itemCases = Object.values(p.rules!.items ?? shippedItems).map(
+    (item) => {
+      const b = structuredClone(initial),
+        actor = b.units[0],
+        ally = b.units[1];
+      b.tiles.forEach((t) =>
+        Object.assign(t, { terrain: "stone", h: 0, blocked: false, burn: 0 }),
+      );
+      b.units.forEach((u, i) => {
+        u.x = i;
+        u.z = 0;
+      });
+      actor.x = 4;
+      actor.z = 4;
+      ally.x = 5;
+      ally.z = 4;
+      b.active = actor.id;
+      const target = item.range === 0 ? actor : ally;
+      if (item.effect === "heal") target.hp = Math.max(1, target.maxHp - 20);
+      if (item.effect === "energy") target.mp = 0;
+      if (item.effect === "cleanse") target.status.burn = 2;
+      if (item.effect === "revive") target.hp = 0;
+      b.supplies = { [item.id]: 1 };
+      const n = command(b, {
+        type: "item",
+        item: item.id,
+        x: target.x,
+        z: target.z,
+      });
+      assert.equal(n.lastAction?.item, item.id);
+      assert.equal(n.supplies![item.id], 0);
+      assert(n.units.find((u) => u.id === actor.id)!.acted);
+      assert.equal(n.seed, b.seed);
+      assert(validateSave(n));
+      assert.equal(planCombatEffect(n.lastAction!, n)!.tiles.length, 1);
+      return {
+        id: item.id,
+        effect: item.effect,
+        executable: true,
+        consumesCopyAndAction: true,
+      };
+    },
+  );
   const simulations = [74319, 9001, 42].map((seed) => {
     let b = compileLevelProject({ ...p, seed }),
       activations = 0;
@@ -168,6 +212,7 @@ const missions = MISSION_PRESETS.map((preset) => {
     id: preset.id,
     name: p.name,
     abilities,
+    itemCases,
     simulations,
     aimChecks: {
       exhaustiveAimTiles,
@@ -186,6 +231,7 @@ const report = {
   missions: missions.length,
   simulations: missions.length * 3,
   executableAbilityCases: missions.reduce((n, m) => n + m.abilities.length, 0),
+  executableItemCases: missions.reduce((n, m) => n + m.itemCases.length, 0),
   effectAtlases: Object.keys(effects.sheets).length,
   effectFrames: 96,
   results: missions,
@@ -200,5 +246,5 @@ if (process.argv.includes("--check"))
   );
 else writeFileSync(path, output);
 console.log(
-  `Verified ${report.missions} missions / ${report.simulations} terminal simulations / ${report.executableAbilityCases} ability commands and editable feedback bindings`,
+  `Verified ${report.missions} missions / ${report.simulations} terminal simulations / ${report.executableAbilityCases} ability commands / ${report.executableItemCases} item commands and editable sources`,
 );

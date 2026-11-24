@@ -1,4 +1,6 @@
 import type { AbilityCues } from "./studio-assets";
+import { isItemMode, modeItem, type ItemMode } from "./items";
+import { canUseItem } from "./engine";
 import { cachedClassArtwork, resolveActorArtwork } from "./artwork-sync";
 import { animationArtId } from "./character-art";
 import { baseJobId } from "./data";
@@ -55,7 +57,7 @@ function pixelCanvas(clip: PixelClip): HTMLCanvasElement {
     .putImageData(new ImageData(sheet.pixels, sheet.width, sheet.height), 0, 0);
   return canvas;
 }
-export type Mode = "inspect" | "move" | SkillId;
+export type Mode = "inspect" | "move" | SkillId | ItemMode;
 function texture(c: HTMLCanvasElement) {
   const t = new THREE.CanvasTexture(c);
   t.magFilter = THREE.NearestFilter;
@@ -617,9 +619,18 @@ export class Battlefield {
       else if (
         mode !== "inspect" &&
         mode !== "move" &&
-        canTarget(state, u, (state.rules?.skills ?? skills)[mode], t.x, t.z)
+        (isItemMode(mode)
+          ? canUseItem(state, u, modeItem(mode), t.x, t.z)
+          : canTarget(
+              state,
+              u,
+              (state.rules?.skills ?? skills)[mode],
+              t.x,
+              t.z,
+            ))
       )
         color =
+          !isItemMode(mode) &&
           (state.rules?.skills ?? skills)[mode].kind === "damage"
             ? 0xe4ae76
             : 0x8dc7ac;

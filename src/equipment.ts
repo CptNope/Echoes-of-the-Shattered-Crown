@@ -27,6 +27,7 @@ export interface Gear {
   name: string;
   slot: GearSlot;
   price: number;
+  sellPrice?: number;
   rewardOnly?: boolean;
   description: string;
   jobs?: JobId[];
@@ -41,6 +42,117 @@ const casters: JobId[] = [
   "runewarden",
 ];
 export const equipment: Record<GearId, Gear> = {
+  "custom-watch-spear": {
+    id: "custom-watch-spear",
+    name: "Watchman's spear",
+    slot: "weapon",
+    price: 85,
+    jobs: blades,
+    bonuses: { attack: 5, armor: 1 },
+    description:
+      "A braced infantry weapon. Standard strikes remain adjacent; no extra reach is granted.",
+  },
+  "custom-duelist-rapier": {
+    id: "custom-duelist-rapier",
+    name: "Silverleaf rapier",
+    slot: "weapon",
+    price: 110,
+    jobs: blades,
+    bonuses: { attack: 4, speed: 2 },
+    description:
+      "A fast blade for physical fighters. Trades raw power for initiative.",
+  },
+  "custom-runic-maul": {
+    id: "custom-runic-maul",
+    name: "Runic maul",
+    slot: "weapon",
+    price: 130,
+    jobs: ["vanguard", "runewarden"],
+    bonuses: { attack: 8, speed: -1 },
+    description:
+      "A heavy hammer with greater attack and slower activations. Adds no stun or armor-breaking mechanic.",
+  },
+  "custom-storm-focus": {
+    id: "custom-storm-focus",
+    name: "Stormglass focus",
+    slot: "weapon",
+    price: 125,
+    jobs: casters,
+    bonuses: { magic: 6, armor: -1 },
+    description:
+      "A potent focus with less protection. Spell damage still uses the equipped class and ability.",
+  },
+  "custom-healers-crook": {
+    id: "custom-healers-crook",
+    name: "Pilgrim's crook",
+    slot: "weapon",
+    price: 95,
+    jobs: casters,
+    bonuses: { magic: 3, hp: 14 },
+    description:
+      "A resilient walking staff. Its magic bonus does not raise fixed-power healing amounts.",
+  },
+  "custom-scout-coat": {
+    id: "custom-scout-coat",
+    name: "Scout coat",
+    slot: "armor",
+    price: 70,
+    bonuses: { armor: 2, speed: 1 },
+    description:
+      "Light protection for any class with a modest initiative bonus.",
+  },
+  "custom-channeler-robes": {
+    id: "custom-channeler-robes",
+    name: "Channeler's robes",
+    slot: "armor",
+    price: 100,
+    bonuses: { armor: 1, magic: 2, hp: 8 },
+    description:
+      "Woven runes reinforce a spellcaster without a movement penalty. Any class may wear them.",
+  },
+  "custom-bastion-plate": {
+    id: "custom-bastion-plate",
+    name: "Bastion plate",
+    slot: "armor",
+    price: 155,
+    jobs: ["vanguard", "runewarden"],
+    bonuses: { armor: 6, hp: 22, move: -1, speed: -1 },
+    description:
+      "Heavy protection paid for in movement and initiative. No damage immunity.",
+  },
+  "custom-trail-vest": {
+    id: "custom-trail-vest",
+    name: "Trailwarden vest",
+    slot: "armor",
+    price: 110,
+    bonuses: { armor: 2, hp: 18 },
+    description: "Reinforced field gear suited to any company member.",
+  },
+  "custom-iron-signet": {
+    id: "custom-iron-signet",
+    name: "Iron signet",
+    slot: "relic",
+    price: 90,
+    bonuses: { armor: 2 },
+    description: "A defensive keepsake. Uses the normal armor calculation.",
+  },
+  "custom-ember-pendant": {
+    id: "custom-ember-pendant",
+    name: "Ember pendant",
+    slot: "relic",
+    price: 115,
+    bonuses: { attack: 2, magic: 2 },
+    description:
+      "Balances physical and magical pressure. Grants no fire resistance.",
+  },
+  "custom-heartwood-token": {
+    id: "custom-heartwood-token",
+    name: "Heartwood token",
+    slot: "relic",
+    price: 95,
+    bonuses: { hp: 20 },
+    description: "Adds health without changing the bearer's movement or class.",
+  },
   crownseal: {
     id: "crownseal",
     name: "Bellkeeper’s seal",

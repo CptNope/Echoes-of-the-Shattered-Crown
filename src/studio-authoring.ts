@@ -93,7 +93,11 @@ export function deleteCatalogRecord(
   id: string,
   content?: GameContent,
 ) {
-  if (!id.startsWith("custom-") || !Object.hasOwn(source[section], id))
+  if (
+    !id.startsWith("custom-") ||
+    !Object.hasOwn(source[section], id) ||
+    (section === "gear" && Object.hasOwn(equipment, id))
+  )
     throw Error("Only custom records can be deleted.");
   const refs = recordReferences(source, section, id, content);
   if (refs.length) throw Error("Record is in use: " + refs.join("; "));
@@ -439,6 +443,7 @@ export function previewExpedition(battle: Battle): Expedition {
   game.stage = "battle";
   game.company.deployments = 1;
   game.battle = structuredClone(battle);
+  game.company.supplies = structuredClone(battle.supplies ?? {});
   const counts: Record<string, number> = {};
   for (const u of battle.units.filter((u) => u.team === "ally"))
     for (const id of Object.values(u.equipment))

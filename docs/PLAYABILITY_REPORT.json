@@ -4,6 +4,7 @@
   "missions": 10,
   "simulations": 30,
   "executableAbilityCases": 190,
+  "executableItemCases": 60,
   "effectAtlases": 3,
   "effectFrames": 96,
   "results": [
@@ -153,6 +154,44 @@
           "executable": true,
           "feedbackEditable": true,
           "appearanceOverride": false
+        }
+      ],
+      "itemCases": [
+        {
+          "id": "field-tonic",
+          "effect": "heal",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "vital-tonic",
+          "effect": "heal",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "ether-draught",
+          "effect": "energy",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "deep-ether",
+          "effect": "energy",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "cleansing-salts",
+          "effect": "cleanse",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "phoenix-seed",
+          "effect": "revive",
+          "executable": true,
+          "consumesCopyAndAction": true
         }
       ],
       "simulations": [
@@ -331,6 +370,44 @@
           "appearanceOverride": false
         }
       ],
+      "itemCases": [
+        {
+          "id": "field-tonic",
+          "effect": "heal",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "vital-tonic",
+          "effect": "heal",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "ether-draught",
+          "effect": "energy",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "deep-ether",
+          "effect": "energy",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "cleansing-salts",
+          "effect": "cleanse",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "phoenix-seed",
+          "effect": "revive",
+          "executable": true,
+          "consumesCopyAndAction": true
+        }
+      ],
       "simulations": [
         {
           "seed": 74319,
@@ -507,6 +584,44 @@
           "appearanceOverride": false
         }
       ],
+      "itemCases": [
+        {
+          "id": "field-tonic",
+          "effect": "heal",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "vital-tonic",
+          "effect": "heal",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "ether-draught",
+          "effect": "energy",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "deep-ether",
+          "effect": "energy",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "cleansing-salts",
+          "effect": "cleanse",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "phoenix-seed",
+          "effect": "revive",
+          "executable": true,
+          "consumesCopyAndAction": true
+        }
+      ],
       "simulations": [
         {
           "seed": 74319,
@@ -681,6 +796,44 @@
           "executable": true,
           "feedbackEditable": true,
           "appearanceOverride": false
+        }
+      ],
+      "itemCases": [
+        {
+          "id": "field-tonic",
+          "effect": "heal",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "vital-tonic",
+          "effect": "heal",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "ether-draught",
+          "effect": "energy",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "deep-ether",
+          "effect": "energy",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "cleansing-salts",
+          "effect": "cleanse",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "phoenix-seed",
+          "effect": "revive",
+          "executable": true,
+          "consumesCopyAndAction": true
         }
       ],
       "simulations": [
@@ -903,6 +1056,44 @@
           "appearanceOverride": false
         }
       ],
+      "itemCases": [
+        {
+          "id": "field-tonic",
+          "effect": "heal",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "vital-tonic",
+          "effect": "heal",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "ether-draught",
+          "effect": "energy",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "deep-ether",
+          "effect": "energy",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "cleansing-salts",
+          "effect": "cleanse",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "phoenix-seed",
+          "effect": "revive",
+          "executable": true,
+          "consumesCopyAndAction": true
+        }
+      ],
       "simulations": [
         {
           "seed": 74319,
@@ -1123,6 +1314,44 @@
           "appearanceOverride": false
         }
       ],
+      "itemCases": [
+        {
+          "id": "field-tonic",
+          "effect": "heal",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "vital-tonic",
+          "effect": "heal",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "ether-draught",
+          "effect": "energy",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "deep-ether",
+          "effect": "energy",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "cleansing-salts",
+          "effect": "cleanse",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "phoenix-seed",
+          "effect": "revive",
+          "executable": true,
+          "consumesCopyAndAction": true
+        }
+      ],
       "simulations": [
         {
           "seed": 74319,
@@ -1341,6 +1570,44 @@
           "executable": true,
           "feedbackEditable": true,
           "appearanceOverride": false
+        }
+      ],
+      "itemCases": [
+        {
+          "id": "field-tonic",
+          "effect": "heal",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "vital-tonic",
+          "effect": "heal",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "ether-draught",
+          "effect": "energy",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "deep-ether",
+          "effect": "energy",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "cleansing-salts",
+          "effect": "cleanse",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "phoenix-seed",
+          "effect": "revive",
+          "executable": true,
+          "consumesCopyAndAction": true
         }
       ],
       "simulations": [
@@ -1627,6 +1894,44 @@
           "executable": true,
           "feedbackEditable": true,
           "appearanceOverride": false
+        }
+      ],
+      "itemCases": [
+        {
+          "id": "field-tonic",
+          "effect": "heal",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "vital-tonic",
+          "effect": "heal",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "ether-draught",
+          "effect": "energy",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "deep-ether",
+          "effect": "energy",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "cleansing-salts",
+          "effect": "cleanse",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "phoenix-seed",
+          "effect": "revive",
+          "executable": true,
+          "consumesCopyAndAction": true
         }
       ],
       "simulations": [
@@ -1979,6 +2284,44 @@
           "executable": true,
           "feedbackEditable": true,
           "appearanceOverride": false
+        }
+      ],
+      "itemCases": [
+        {
+          "id": "field-tonic",
+          "effect": "heal",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "vital-tonic",
+          "effect": "heal",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "ether-draught",
+          "effect": "energy",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "deep-ether",
+          "effect": "energy",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "cleansing-salts",
+          "effect": "cleanse",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "phoenix-seed",
+          "effect": "revive",
+          "executable": true,
+          "consumesCopyAndAction": true
         }
       ],
       "simulations": [
@@ -2397,6 +2740,44 @@
           "executable": true,
           "feedbackEditable": true,
           "appearanceOverride": true
+        }
+      ],
+      "itemCases": [
+        {
+          "id": "field-tonic",
+          "effect": "heal",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "vital-tonic",
+          "effect": "heal",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "ether-draught",
+          "effect": "energy",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "deep-ether",
+          "effect": "energy",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "cleansing-salts",
+          "effect": "cleanse",
+          "executable": true,
+          "consumesCopyAndAction": true
+        },
+        {
+          "id": "phoenix-seed",
+          "effect": "revive",
+          "executable": true,
+          "consumesCopyAndAction": true
         }
       ],
       "simulations": [
