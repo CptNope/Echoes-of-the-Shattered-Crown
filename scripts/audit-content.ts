@@ -95,6 +95,7 @@ const report = {
     "classes abilities and gear",
     "consumable definitions, prices and starting supplies",
     "isolated project buy and sell trials",
+    "gear and supply artwork sources, RGBA pixels and PNG import/export",
     "enemy templates",
     "linear briefing and contract rewards",
     "native sprite pixels and timing",

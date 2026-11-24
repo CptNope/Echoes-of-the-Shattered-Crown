@@ -1,3 +1,4 @@
+import { GearArtEditor } from "./GearArtEditor";
 import React, { useState } from "react";
 import {
   items,
@@ -45,6 +46,16 @@ export function ItemsEditor({
           ))}
         </select>
       </label>
+      <GearArtEditor
+        key={id}
+        item={item}
+        change={(icon) => {
+          const next = { ...item };
+          if (icon) next.icon = icon;
+          else delete next.icon;
+          change({ ...catalog, [id]: next });
+        }}
+      />
       <div className="content-fields">
         <label>
           Item name

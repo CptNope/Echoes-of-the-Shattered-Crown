@@ -1,3 +1,4 @@
+import { GearIcon } from "./GearIcon";
 import React from "react";
 import type { Battle } from "./engine";
 import { items, type ItemMode } from "./items";
@@ -35,7 +36,8 @@ export function ItemCommands({
             onClick={() => choose(`item:${i.id}`)}
             title={i.description}
           >
-            {i.name} · {battle.supplies?.[i.id]} left · reach {i.range}
+            <GearIcon item={i} size={32} /> {i.name} · {battle.supplies?.[i.id]}{" "}
+            left · reach {i.range}
           </button>
         ))}
       </div>

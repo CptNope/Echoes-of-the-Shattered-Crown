@@ -1,3 +1,4 @@
+import { validateGearArtwork } from "./gear-art";
 import {
   jobs,
   skills,
@@ -198,6 +199,7 @@ export function validateRules(raw: unknown): RuleCatalog {
       "slot",
       "price",
       "sellPrice",
+      "icon",
       "rewardOnly",
       "jobs",
       "bonuses",
@@ -213,6 +215,7 @@ export function validateRules(raw: unknown): RuleCatalog {
         (g.sellPrice === undefined || integer(g.sellPrice, 0, Number(g.price))),
       "Invalid gear fields.",
     );
+    if (g.icon !== undefined) validateGearArtwork(g.icon);
     check(
       g.jobs === undefined ||
         (Array.isArray(g.jobs) &&

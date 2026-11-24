@@ -1,3 +1,4 @@
+import type { GearArtwork } from "./gear-art";
 import type { JobId } from "./data";
 
 export type BuiltinGearId =
@@ -23,6 +24,7 @@ export interface Bonuses {
   hp: number;
 }
 export interface Gear {
+  icon?: GearArtwork;
   id: GearId;
   name: string;
   slot: GearSlot;

@@ -1,3 +1,4 @@
+import { GearIcon } from "./GearIcon";
 import { Shop } from "./Shop";
 import {
   supports,
@@ -558,7 +559,13 @@ export function Camp({
                       </select>
                       {m.equipment[slot] && (
                         <small>
-                          {gearDescription(m.equipment[slot]!, equipment)}
+                          <span className="gear-equipped">
+                            <GearIcon
+                              item={equipment[m.equipment[slot]!]}
+                              size={48}
+                            />
+                            {gearDescription(m.equipment[slot]!, equipment)}
+                          </span>
                         </small>
                       )}
                     </label>

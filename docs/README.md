@@ -172,3 +172,5 @@ The [advanced authoring contracts](studio/specs/advanced-blueprints.json) deepen
 [Content playability and editor audit](CONTENT_READINESS.md): ten validated missions, thirty terminal simulations, 190 executable ability cases, editable effect appearance and particle settings, and measured AI target pruning. The guide lists the remaining visual-editor gaps explicitly.
 
 [Equipment, supplies and trading](SHOP_AND_ITEMS.md): twelve new gear choices, six consumables, quantity buying/selling, protected equipment/rewards, persistent battle stock and a shared Studio shop trial.
+
+[Editable gear artwork](GEAR_ARTWORK.md): 28 gear/supply icons, source selection, pixel painting, PNG import/export and shared shop/loadout/battle rendering.

@@ -69,7 +69,46 @@ function assets(html, review = false) {
   return paths;
 }
 
+async function verifyGear(site) {
+  const local = await readFile("public/art/gear/manifest.json"),
+    manifest = JSON.parse(local);
+  assert.equal(manifest.ids.length, 28);
+  assert.equal(manifest.cellSize, 64);
+  if (site) {
+    const response = await fetch(
+      new URL("art/gear/manifest.json?v=" + manifest.atlasSha256, site),
+      { cache: "no-store", signal: AbortSignal.timeout(20000) },
+    );
+    assert(response.ok, "Gear manifest unavailable");
+    assert.deepEqual(
+      Buffer.from(await response.arrayBuffer()),
+      local,
+      "Published gear manifest differs",
+    );
+  }
+  for (const [name, digest] of [
+    ["gear-master-v1.png", manifest.masterSha256],
+    ["gear-icons-v1.png", manifest.atlasSha256],
+  ]) {
+    let bytes;
+    if (site) {
+      const response = await fetch(
+        new URL("art/gear/" + name + "?v=" + digest, site),
+        { signal: AbortSignal.timeout(20000) },
+      );
+      assert(response.ok, "Gear artwork unavailable: " + name);
+      bytes = Buffer.from(await response.arrayBuffer());
+    } else bytes = await readFile("dist/art/gear/" + name);
+    assert.equal(
+      createHash("sha256").update(bytes).digest("hex"),
+      digest,
+      "Gear artwork fingerprint differs: " + name,
+    );
+  }
+  console.log("Verified 28 gear/supply icons, master and atlas fingerprints");
+}
 async function checkLocal() {
+  await verifyGear();
   const paths = [
     ...new Set([
       ...assets(await readFile("dist/index.html", "utf8")),
@@ -112,6 +151,12 @@ async function checkLocal() {
 }
 
 async function checkLive() {
+  await verifyGear(
+    new URL(
+      process.env.PAGES_URL ||
+        "https://cptnope.github.io/Echoes-of-the-Shattered-Crown/",
+    ),
+  );
   assert(process.env.PAGES_URL, "PAGES_URL is required for live verification");
   const site = new URL(process.env.PAGES_URL);
   assert.equal(site.pathname, base, "Published URL does not match BASE_PATH");

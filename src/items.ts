@@ -1,3 +1,4 @@
+import { validateGearArtwork, type GearArtwork } from "./gear-art";
 export type ItemId =
   | "field-tonic"
   | "vital-tonic"
@@ -8,6 +9,7 @@ export type ItemId =
   | `custom-${string}`;
 export type SupplyInventory = Partial<Record<ItemId, number>>;
 export interface SupplyItem {
+  icon?: GearArtwork;
   id: ItemId;
   name: string;
   description: string;
@@ -112,6 +114,7 @@ export function validateItemCatalog(raw: unknown): Record<ItemId, SupplyItem> {
             "description",
             "price",
             "sellPrice",
+            "icon",
             "effect",
             "power",
             "range",
@@ -139,9 +142,11 @@ export function validateItemCatalog(raw: unknown): Record<ItemId, SupplyItem> {
       (item.effect === "cleanse" && item.power !== 0) ||
       !Number.isInteger(item.range) ||
       item.range < 0 ||
-      item.range > 3 || (item.effect === "revive" && item.range === 0)
+      item.range > 3 ||
+      (item.effect === "revive" && item.range === 0)
     )
       throw Error("Invalid item definition: " + id);
+    if (item.icon !== undefined) validateGearArtwork(item.icon);
   }
   return structuredClone(table) as Record<ItemId, SupplyItem>;
 }

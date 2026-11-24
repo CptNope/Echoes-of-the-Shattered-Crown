@@ -1,3 +1,4 @@
+import { GearIcon } from "./GearIcon";
 import React, { useState, type Dispatch, type SetStateAction } from "react";
 import { equipment as shippedGear, type GearSlot } from "./equipment";
 import { items as shippedItems, sellValue } from "./items";
@@ -113,7 +114,8 @@ export function Shop({
           return (
             <article key={kind + id}>
               <div>
-                <h3>
+                <h3 className="gear-item-heading">
+                  <GearIcon item={item} />
                   {item.name}
                   <small>{kind}</small>
                 </h3>

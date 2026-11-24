@@ -22,28 +22,18 @@ The initial accepted baseline records are **retrospective** except ADR-0001's ne
 | [ADR-0010](0010-proposed-variable-board-and-roster-contract.md) | Proposed | Roadmap proposal | Propose shared variable-board and roster contracts |
 | [ADR-0011](0011-proposed-editable-game-project-and-build-artifacts.md) | Proposed | Studio planning proposal | Propose canonical editable projects and complete-game exports |
 | [ADR-0012](0012-proposed-shared-music-and-sfx-graphs.md) | Proposed | Studio planning proposal | Propose shared editable music, SFX and audio runtime contracts |
-
 | [ADR-0013](0013-native-sprite-sources-and-overrides.md) | Accepted | New implementation decision | Preserve native sprite originals with sparse RGBA overrides |
-
 | [ADR-0014](0014-existing-game-source-adapters.md) | Accepted | New implementation decision | Adapt existing game sources into editable project previews |
-
 | [ADR-0015](0015-scoped-rule-catalogs.md) | Accepted | New implementation decision | Resolve editable catalogs through explicit runtime context |
-
 | [ADR-0016](0016-bounded-rectangular-maps.md) | Accepted | New implementation decision | Support bounded rectangular maps through optional dimensions |
-
 | [ADR-0017](0017-authoring-validation-and-navigation.md) | Accepted | New implementation decision | Separate blocking source validation from advisory authoring checks |
-
 | [ADR-0018](0018-derived-connectivity-overlays.md) | Accepted | New implementation decision | Derive grouped connectivity overlays from the current report |
-
 | [ADR-0019](0019-bounded-custom-records-and-enemy-templates.md) | Accepted | New implementation decision | Bind custom records to shipped mechanics and spawn template snapshots |
-
 | [ADR-0020](0020-shared-balanced-mission-presets.md) | Accepted | New implementation decision | Load canonical balanced missions through one preset factory |
-
 | [ADR-0021](0021-multiple-native-assets-and-cosmetic-cues.md) | Accepted | New implementation decision | Store multiple native assignments and cosmetic ability cue pairs |
-
 | [ADR-0022](0022-bounded-ability-appearance.md) | Accepted | New implementation decision | Keep bounded ability appearance outside authoritative combat state |
-
 | [ADR-0023](0023-supply-ledgers-and-camp-trades.md) | Accepted | New implementation decision | Separate equipment reservations, trading and consumable battle ledgers |
+| [ADR-0024](0024-editable-inventory-artwork.md) | Accepted | New implementation decision | Share bounded editable gear and supply artwork across inventory views |
 
 ## When to create an ADR
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-11-23 — Editable gear and supply artwork
+
+- Added distinct artwork for 22 equipment records and six supplies in shops, selected loadouts and battle item commands.
+- Added artwork source selection, RGBA pixel painting, local undo/redo and exact-size PNG import/export in catalog editors.
+- Retained generated master/prompt, deterministic runtime sources and hash manifest. Legacy sources use defaults without mutation; animated actor gear replacement remains separate.
+- Seven new regressions; 292 tests pass.
+
 ## Equipment, shop trading and battle supplies - 2026-11-23
 
 - Added twelve gear choices and six consumables. Default gear stock is now 22 definitions, with the Bellkeeper seal remaining a protected reward. Starter equipment and gold are unchanged.

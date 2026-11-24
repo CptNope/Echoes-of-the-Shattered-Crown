@@ -1,0 +1,63 @@
+.gear-icon {
+  image-rendering: pixelated;
+  object-fit: contain;
+  flex: none;
+  vertical-align: middle;
+}
+.gear-item-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.gear-art-workspace {
+  display: grid;
+  grid-template-columns: minmax(180px, 320px) minmax(0, 1fr);
+  gap: 24px;
+  margin: 18px 0;
+}
+.gear-art-workspace canvas[role="application"] {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 320px;
+  image-rendering: pixelated;
+  background: #eeeae0;
+  touch-action: manipulation;
+  border: 1px solid #7a8470;
+}
+.gear-art-workspace canvas:focus-visible {
+  outline: 3px solid #496d42;
+  outline-offset: 3px;
+}
+.gear-art-workspace label {
+  display: block;
+  margin: 12px 0;
+}
+.gear-art-workspace select,
+.gear-art-workspace input[type="file"] {
+  max-width: 100%;
+  width: 100%;
+}
+.gear-art-workspace button {
+  min-height: 44px;
+}
+.gear-equipped {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+@media (max-width: 700px) {
+  .gear-art-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .gear-art-workspace canvas[role="application"] {
+    max-width: 256px;
+  }
+  .gear-item-heading {
+    gap: 8px;
+  }
+  .gear-item-heading .gear-icon {
+    width: 48px !important;
+    height: 48px !important;
+  }
+}

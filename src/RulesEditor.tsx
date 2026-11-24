@@ -1,3 +1,4 @@
+import { GearArtEditor } from "./GearArtEditor";
 import { ItemsEditor } from "./ItemsEditor";
 import { ShopTrial } from "./ShopTrial";
 import {
@@ -391,6 +392,16 @@ export function RulesEditor({
               ))}
             </select>
           </label>
+          <GearArtEditor
+            key={gear.id}
+            item={gear}
+            change={(icon) => {
+              const next = { ...gear };
+              if (icon) next.icon = icon;
+              else delete next.icon;
+              setDraft((p) => ({ ...p, gear: { ...p.gear, [gear.id]: next } }));
+            }}
+          />
           <div className="content-fields">
             <label>
               Gear name

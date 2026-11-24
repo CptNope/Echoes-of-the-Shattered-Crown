@@ -215,6 +215,12 @@ export function validateLevelProject(raw: unknown): LevelProject {
   }
   return structuredClone(raw) as unknown as LevelProject;
 }
+export function hasGearArtwork(p: LevelProject): boolean {
+  return (
+    Object.values(p.rules?.gear ?? {}).some((g) => g.icon !== undefined) ||
+    Object.values(p.rules?.items ?? {}).some((i) => i.icon !== undefined)
+  );
+}
 export function parseLevelProject(text: string): LevelProject {
   if (new TextEncoder().encode(text).length > NATIVE_LIBRARY_LIMIT)
     fail(
@@ -239,6 +245,7 @@ export function parseLevelProject(text: string): LevelProject {
   if (
     !project.nativeSprite &&
     !project.nativeSprites &&
+    !hasGearArtwork(project) &&
     new TextEncoder().encode(text).length >
       (project.dimensions ? LARGE_PROJECT_LIMIT : LEGACY_PROJECT_LIMIT)
   )
@@ -252,7 +259,7 @@ export function exportLevelProject(project: LevelProject): string {
     pretty = JSON.stringify(p, null, 2) + "\n";
   const limit = p.nativeSprites
     ? NATIVE_LIBRARY_LIMIT
-    : p.nativeSprite
+    : p.nativeSprite || hasGearArtwork(p)
       ? NATIVE_PROJECT_LIMIT
       : p.dimensions
         ? LARGE_PROJECT_LIMIT
