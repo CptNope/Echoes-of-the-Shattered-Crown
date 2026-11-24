@@ -53,7 +53,7 @@ const cell = meta.width / 7,
   > = {},
   tiles: sharp.OverlayOptions[] = [];
 for (const [i, id] of ids.entries()) {
-  const png = await sharp(bytes)
+  const cellPixels = await sharp(bytes)
     .extract({
       left: (i % 7) * cell,
       top: Math.floor(i / 7) * cell,
@@ -68,6 +68,54 @@ for (const [i, id] of ids.entries()) {
       right: 4,
       background: { r: 0, g: 0, b: 0, alpha: 0 },
     })
+    .ensureAlpha()
+    .raw()
+    .toBuffer();
+  // The robe hem touches this cell's top edge; exclude its two-row bleed while
+  // preserving the sword pommel at the upper right.
+  if (id === "ironblade")
+    for (let y = 4; y < 6; y++)
+      for (let x = 4; x < 49; x++)
+        cellPixels.fill(0, (y * 64 + x) * 4, (y * 64 + x) * 4 + 4);
+  // Generated atlas silhouettes can cross a cell edge. Drop tiny disconnected
+  // fragments after extraction; retain large separate parts such as both boots.
+  const visited = new Uint8Array(4096),
+    components: number[][] = [];
+  for (let n = 0; n < 4096; n++) {
+    if (visited[n] || !cellPixels[n * 4 + 3]) continue;
+    const component = [n];
+    visited[n] = 1;
+    for (let q = 0; q < component.length; q++) {
+      const at = component[q],
+        x = at % 64,
+        y = Math.floor(at / 64);
+      for (let dz = -1; dz <= 1; dz++)
+        for (let dx = -1; dx <= 1; dx++) {
+          const xx = x + dx,
+            yy = y + dz,
+            next = yy * 64 + xx;
+          if (
+            xx < 0 ||
+            xx >= 64 ||
+            yy < 0 ||
+            yy >= 64 ||
+            visited[next] ||
+            !cellPixels[next * 4 + 3]
+          )
+            continue;
+          visited[next] = 1;
+          component.push(next);
+        }
+    }
+    components.push(component);
+  }
+  const largest = Math.max(...components.map((c) => c.length));
+  for (const component of components)
+    if (component.length < largest * 0.08)
+      for (const n of component) cellPixels.fill(0, n * 4, n * 4 + 4);
+  const png = await sharp(cellPixels, {
+    raw: { width: 64, height: 64, channels: 4 },
+  })
     .png({ palette: true, colours: 64, dither: 0 })
     .toBuffer();
   const raw = await sharp(png).ensureAlpha().raw().toBuffer(),

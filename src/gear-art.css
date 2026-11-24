@@ -33,6 +33,17 @@
   display: block;
   margin: 12px 0;
 }
+.gear-art-workspace label:has(input[type="checkbox"]) {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.gear-art-workspace input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  min-height: 18px;
+  flex: none;
+}
 .gear-art-workspace select,
 .gear-art-workspace input[type="file"] {
   max-width: 100%;
